@@ -1,0 +1,41 @@
+h2 {
+  margin-left: 10px;
+  margin-top: 50px;
+  font-size: 24px;
+  color: #333;
+}
+
+.inventory-actions {
+  display: flex;
+  gap: 20px;
+  margin-top: 200px;
+  margin-left: 10px;
+  align-items: center;
+}
+
+.search-bar,
+.filter-dropdown,
+.register-button {
+  padding: 10px;  
+  border: 1px solid #ddd;
+}
+
+.search-bar {
+  width: 400px;
+}
+
+.filter-dropdown {
+  width: 250px;
+}
+
+.register-button {
+  width: 200px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border: none;  
+}
+
+.register-button:hover {
+  background-color: #0056b3;
+}
