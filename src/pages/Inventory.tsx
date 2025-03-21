@@ -1,3 +1,4 @@
+import InventoryTable from "../components/layout/InventoryTable";
 import './Inventory.css';
 
 const Inventario = () => {
@@ -10,8 +11,9 @@ const Inventario = () => {
           <option value="">Filtrar por nombre</option>
           <option value="A-Z">A - Z</option>          
         </select>
-        <button className="register-button">Registrar pedido</button>
+        <button className="register-button">Registrar pedido</button>        
       </div>
+      <InventoryTable />
     </div>
   );
 };

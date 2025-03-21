@@ -1,0 +1,44 @@
+[
+    {
+      "id": 1,
+      "descripcion": "Paracetamol 500mg",
+      "stock": "Disponible",
+      "inventario": "10 en stock",
+      "distribuidor": "Distribuidor A",
+      "vencimiento": "12/2025"
+    },
+    {
+      "id": 2,
+      "descripcion": "Paracetamol 500mg",
+      "stock": "No Disponible",
+      "inventario": "10 en stock",
+      "distribuidor": "Distribuidor A",
+      "vencimiento": "12/2025"
+    },
+    {
+      "id": 3,
+      "descripcion": "Paracetamol 500mg",
+      "stock": "No Disponible",
+      "inventario": "10 en stock",
+      "distribuidor": "Distribuidor A",
+      "vencimiento": "12/2025"
+    },
+    {
+      "id": 4,
+      "descripcion": "Paracetamol 500mg",
+      "stock": "No Disponible",
+      "inventario": "10 en stock",
+      "distribuidor": "Distribuidor A",
+      "vencimiento": "12/2025"
+    },
+    {
+      "id": 5,
+      "descripcion": "Paracetamol 500mg",
+      "stock": "No Disponible",
+      "inventario": "10 en stock",
+      "distribuidor": "Distribuidor A",
+      "vencimiento": "12/2025"
+    }
+  ]
+
+  
