@@ -1,4 +1,3 @@
-/* Diseño de Table */
 .inventory-container {
     /* width: 90%; */
     margin-left: 50px;
@@ -8,7 +7,6 @@
   .inventory-table {
     width: 102%;
     border-collapse: collapse;
-    /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); */
   }
   
   .inventory-table th,
@@ -20,7 +18,6 @@
   }
   
   .inventory-table th {
-    /* background-color: #f4f4f4; */
     color: #333;
   }
     
