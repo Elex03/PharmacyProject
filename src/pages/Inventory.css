@@ -1,3 +1,4 @@
+/*  Esto es lo que habia hecho luis
 h2 {
   margin-left: 70px;
   margin-top: 50px;
@@ -38,4 +39,39 @@ h2 {
 
 .register-button:hover {
   background-color: #0056b3;
+} */
+
+/* Esto es lo nuevo xd */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+h2 {
+  margin-left: 70px;
+  margin-top: 50px;
+  font-size: 24px;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filters input,
+.filters select,
+.filters button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
 }

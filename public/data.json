@@ -1,0 +1,368 @@
+[
+  {
+    "descripcion": "Paracetamol 500mg",
+    "stock": 80,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-08-20"
+  },
+  {
+    "descripcion": "Ibuprofeno 200mg",
+    "stock": 60,
+    "distribuidor": "Distribuidor B",
+    "fechaVencimiento": "2026-03-15"
+  },
+  {
+    "descripcion": "Amoxicilina 250mg",
+    "stock": 40,
+    "distribuidor": "Distribuidor C",
+    "fechaVencimiento": "2025-12-30"
+  },
+  {
+    "descripcion": "Loratadina 10mg",
+    "stock": 90,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2027-01-05"
+  },
+  {
+    "descripcion": "Clonazepam 2mg",
+    "stock": 30,
+    "distribuidor": "Distribuidor D",
+    "fechaVencimiento": "2025-05-10"
+  },
+  {
+    "descripcion": "Omeprazol 20mg",
+    "stock": 100,
+    "distribuidor": "Distribuidor B",
+    "fechaVencimiento": "2026-11-25"
+  },
+  {
+    "descripcion": "Cetirizina 10mg",
+    "stock": 55,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2026-02-17"
+  },
+  {
+    "descripcion": "Metformina 500mg",
+    "stock": 75,
+    "distribuidor": "Distribuidor C",
+    "fechaVencimiento": "2025-09-12"
+  },
+  {
+    "descripcion": "Dipirona 500mg",
+    "stock": 50,
+    "distribuidor": "Distribuidor D",
+    "fechaVencimiento": "2027-06-30"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  },
+  {
+    "descripcion": "Salbutamol 100mcg",
+    "stock": 65,
+    "distribuidor": "Distribuidor A",
+    "fechaVencimiento": "2025-07-15"
+  }
+]
