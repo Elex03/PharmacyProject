@@ -1,0 +1,29 @@
+[33mcommit c8bd9b628727b37a5d79383a93878cb9febb85e6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/Inventario[m[33m)[m
+Author: Enghell27 <99208654+Enghell27@users.noreply.github.com>
+Date:   Fri Mar 21 23:20:54 2025 -0600
+
+    ✨ Add table structure for inventory
+
+[33mcommit 8c20d7a97c5edc6dbbcda6a867b0aa865698f229[m[33m ([m[1;31morigin/feature/Inventario[m[33m)[m
+Author: JaenR18 <luisjaen2021@gmail.com>
+Date:   Thu Mar 20 22:41:05 2025 -0600
+
+    Inventory: V.1
+
+[33mcommit cca302e2fad7b34cb26d6043d48dae147c51ac87[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: JaenR18 <luisjaen2021@gmail.com>
+Date:   Thu Mar 20 09:58:55 2025 -0600
+
+    Inventory: V.0
+
+[33mcommit db5b9622b42e2c907567b34443af07e8e1cac822[m[33m ([m[1;31morigin/feature/Registro[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mfeature/Registro[m[33m)[m
+Author: JaenR18 <luisjaen2021@gmail.com>
+Date:   Tue Mar 18 20:57:10 2025 -0600
+
+    add: Sidebar V.0
+
+[33mcommit 4a97cc2cc6082fdf111afdffcf7e32b1bd2441f4[m
+Author: Eliezer <eacuna042@gmail.com>
+Date:   Sun Mar 16 23:37:26 2025 -0600
+
+    firts commit
