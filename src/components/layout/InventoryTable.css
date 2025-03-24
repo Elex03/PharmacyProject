@@ -12,7 +12,7 @@
   .inventory-table th,
   .inventory-table td {
     padding: 10px;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     text-align: left;
     font-size: 14px;
   }
@@ -20,4 +20,34 @@
   .inventory-table th {
     color: #333;
   }
-    
+   
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .pagination button {
+    padding: 5px 10px;
+    border: 1px solid #007bff;
+    background: #ffffff;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .pagination button.active {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+  }
+  
+  .pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+/*   .pagination button:hover:not(:disabled) {
+    background: #ddd;
+  } */

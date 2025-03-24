@@ -8,7 +8,7 @@ h2 {
 .inventory-actions {
   display: flex;
   gap: 20px;
-  margin-top: 200px;
+  margin-top: 180px;
   margin-left: 70px;
   align-items: center;
 }

@@ -28,8 +28,8 @@ const AppRouter = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
+      </Routes>                
+    </BrowserRouter>    
   );
 };
 
