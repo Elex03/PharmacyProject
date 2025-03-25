@@ -2,6 +2,7 @@ import { useState } from "react";
 import InventoryTable from "../components/layout/InventoryTable";
 import "./Inventory.css";
 import data from "../data/data.json";
+import Example from "../components/charts/Chart";
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +33,7 @@ const Inventario = () => {
   return (
     <div className="inventory-page">
       <h2>Inventario</h2>
+      <Example />
       <div className="inventory-actions">
         <input
           type="text"
@@ -46,7 +48,7 @@ const Inventario = () => {
         </select>
         <button className="register-button">Registrar pedido</button>
       </div>
-      <InventoryTable data={filteredData} />
+      <InventoryTable data={filteredData} />      
     </div>
   );
 };

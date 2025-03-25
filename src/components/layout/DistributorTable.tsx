@@ -1,22 +1,20 @@
 import { useState } from "react";
+import { Link } from "react-router-dom"; 
 import "./Table.css";
 
-interface InventoryItem {
+interface DistributorItem {
   id: number;
-  descripcion: string;
-  stock: string;
-  inventario: string;
-  distribuidor: string;
-  vencimiento: string;
+  nombre: string;
+  empresa: string;
+  telefono: string;
+  ultimoPedido: string;
 }
 
-const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
+const DistributorsTable = ({ data }: { data: DistributorItem[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  // Calcular el índice inicial y final de los elementos visibles en la página actual
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = data.slice(startIndex, endIndex);
@@ -32,22 +30,27 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
       <table className="inventory-table">
         <thead>
           <tr>
-            <th>Descripción</th>
-            <th>Estado de stock</th>
-            <th>Inventario</th>
-            <th>Distribuidor</th>
-            <th>Fecha de vencimiento</th>
+            <th>Nombre del distribuidor</th>
+            <th>Empresa</th>
+            <th>Teléfono</th>
+            <th>Último pedido realizado</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {currentData.length > 0 ? (
             currentData.map((item) => (
               <tr key={item.id}>
-                <td>{item.descripcion}</td>
-                <td>{item.stock}</td>
-                <td>{item.inventario}</td>
-                <td>{item.distribuidor}</td>
-                <td>{item.vencimiento}</td>
+                <td>{item.nombre}</td>
+                <td>{item.empresa}</td>
+                <td>{item.telefono}</td>
+                <td>{item.ultimoPedido}</td>
+                <td>
+                  {/* Cambiar botones a enlaces */}
+                  <Link to={`/historial/${item.id}`} className="action-link">
+                    Ver historial
+                  </Link>                  
+                </td>
               </tr>
             ))
           ) : (
@@ -58,7 +61,7 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
             </tr>
           )}
         </tbody>
-      </table>      
+      </table>
       <div className="pagination">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -86,4 +89,4 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
   );
 };
 
-export default InventoryTable;
+export default DistributorsTable;

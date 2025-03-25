@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/DashBoard";
 import Inventario from "./pages/Inventory";
+import Distributors from "./pages/Distributors";
 import Sidebar from "./components/layout/sideBar";
 
 const AppRouter = () => {
@@ -23,6 +24,15 @@ const AppRouter = () => {
             <div style={{ display: "flex" }}>
               <Sidebar />
               <Inventario />
+            </div>
+          }
+        />
+        <Route
+          path="/distribuidores"
+          element={
+            <div style={{ display: "flex" }}>
+              <Sidebar />
+              <Distributors />
             </div>
           }
         />
