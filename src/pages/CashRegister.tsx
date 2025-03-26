@@ -22,9 +22,10 @@ const CashRegister: React.FC = () => {
     Producto[]
   >([]);
   const [mostrarResultados, setMostrarResultados] = useState<boolean>(false);
+  const [nombreCliente, setNombreCliente] = useState<string>("");
 
   useEffect(() => {
-    fetch("/data.json")
+    fetch("http://localhost:3000/apiFarmaNova/inventory/medicine")
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.error("Error cargando datos:", error));
@@ -101,16 +102,22 @@ const CashRegister: React.FC = () => {
   };
 
   const handleGuardarVenta = () => {
-    const ventaData = productosSeleccionados.map((producto) => ({
-      id: producto.id,
-      descripcion: producto.descripcion,
-      distribuidor: producto.distribuidor,
-      cantidad: producto.cantidad,
-      precio: producto.precio,
-      subtotal: producto.subtotal,
-    }));
+    if (totalCompra == 0) {
+      alert("No has registrado ningun medicamento");
+    } else {
+      const ventaData = productosSeleccionados.map((producto) => ({
+        id: producto.id,
+        descripcion: producto.descripcion,
+        distribuidor: producto.distribuidor,
+        cantidad: producto.cantidad,
+        precio: producto.precio,
+        subtotal: producto.subtotal,
+      }));
 
-    console.log(ventaData);
+      // Aquí podrías enviar el nombre del cliente si es necesario
+      console.log("Nombre del Cliente:", nombreCliente);
+      console.log(ventaData);
+    }
   };
 
   const columns: TableColumn<Producto>[] = [
@@ -167,8 +174,23 @@ const CashRegister: React.FC = () => {
   ];
 
   return (
-    <div>
-      <h2>Registro de ventas</h2>
+    <div className="container-main">
+      <h2>Realizar venta</h2>
+
+      {/* Input para el nombre del cliente */}
+      <div className="customer-name-container">
+        <label htmlFor="customerName" className="customer-name-label">
+          Nombre del cliente (opcional):
+        </label>
+        <input
+          type="text"
+          id="customerName"
+          value={nombreCliente}
+          onChange={(e) => setNombreCliente(e.target.value)}
+          placeholder="Ingresa el nombre del cliente"
+          className="customer-name-input"
+        />
+      </div>
 
       <div className="search-container">
         <input
@@ -203,7 +225,6 @@ const CashRegister: React.FC = () => {
             title="Lista de Productos"
             columns={columns}
             data={productosSeleccionados}
-            pagination
             highlightOnHover
             striped
             responsive

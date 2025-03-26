@@ -1,38 +1,56 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useMemo } from "react";
+import * as d3 from "d3";
 
-// Define the type for our data
-type ChartData = {
-  name: string;
-  value: number;
+const BUCKET_PADDING = 4;
+
+type HistogramProps = {
+  width: number;
+  height: number;
+  data: number[];
 };
 
-// Sample data for the chart
-const data: ChartData[] = [
-  { name: 'Page A', value: 400 },
-  { name: 'Page B', value: 300 },
-  { name: 'Page C', value: 200 },
-  { name: 'Page D', value: 278 },
-  { name: 'Page E', value: 189 },
-  { name: 'Page E', value: 189 },
-  { name: 'Page E', value: 189 },
-  { name: 'Page E', value: 189 },
-];
+export const Histogram = ({ width, height, data }: HistogramProps) => {
+  const xScale = useMemo(() => {
+    return d3
+      .scaleLinear()
+      .domain([0, 10])
+      .range([10, width - 10]);
+  }, [data, width]);
 
-const BarChartComponent: React.FC = () => {
+  const buckets = useMemo(() => {
+    const bucketGenerator = d3
+      .bin()
+      .value((d) => d)
+      .domain([0, 10])
+      .thresholds([0, 2, 4, 6, 8, 10]);
+    return bucketGenerator(data);
+  }, [xScale]);
+
+  const yScale = useMemo(() => {
+    const max = Math.max(...buckets.map((bucket) => bucket?.length));
+    return d3.scaleLinear().range([height, 0]).domain([0, max]);
+  }, [data, height]);
+
+  const allRects = buckets.map((bucket, i) => {
+    if (bucket.x0 == undefined || bucket.x1 == undefined) {
+      return null;
+    }
+    return (
+      <rect
+        key={i}
+        fill="#69b3a2"
+        stroke="black"
+        x={xScale(bucket.x0) + BUCKET_PADDING / 2}
+        width={xScale(bucket.x1) - xScale(bucket.x0) - BUCKET_PADDING}
+        y={yScale(bucket.length)}
+        height={height - yScale(bucket.length)}
+      />
+    );
+  });
+
   return (
-    <ResponsiveContainer width="100%" height={200}>
-      <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="value" fill="#8884d8" />
-      </BarChart>
-      
-    </ResponsiveContainer>
+    <svg width={width} height={height}>
+      {allRects}
+    </svg>
   );
 };
-
-export default BarChartComponent;

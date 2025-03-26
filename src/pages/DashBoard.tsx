@@ -1,7 +1,9 @@
 const DashBoard = () => {
-  return (
-    <div></div>
-  )
-}
+  
 
-export default DashBoard
+  return (
+    <div>Muerte a chavez</div>
+  );
+};
+
+export default DashBoard;
