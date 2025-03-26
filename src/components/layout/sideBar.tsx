@@ -28,7 +28,7 @@ const Sidebar = () => {
         </Link>
         <Link to="/ventas" className="menu-item">
           <FaFileSignature />
-          <span>Registro de venta</span>
+          <span>Ventas</span>
         </Link>
 
         <p className="menu-title">Gestión de clientes y reportes</p>

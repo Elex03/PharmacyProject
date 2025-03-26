@@ -1,0 +1,19 @@
+h2 {
+  margin-left: 70px;
+  margin-top: 50px;
+  font-size: 24px;
+  color: #333;
+}
+.fullscreen-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 80vw;
+  padding: 1rem;
+  background-color: white;
+}
+
+.table-container {
+  flex: 1;
+  overflow: auto;
+}
