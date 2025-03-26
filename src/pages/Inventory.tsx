@@ -2,7 +2,7 @@ import { useState } from "react";
 import InventoryTable from "../components/layout/InventoryTable";
 import "./Inventory.css";
 import data from "../data/data.json";
-import Example from "../components/charts/Chart";
+import PieAnimation from "../components/charts/piChart";
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,7 +33,8 @@ const Inventario = () => {
   return (
     <div className="inventory-page">
       <h2>Inventario</h2>
-      <Example />
+      <PieAnimation/>
+
       <div className="inventory-actions">
         <input
           type="text"

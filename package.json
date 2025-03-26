@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.8",
+    "@mui/x-charts": "^7.28.0",
     "chart.js": "^4.4.8",
     "d3": "^7.9.0",
     "framer-motion": "^12.6.0",
