@@ -5,7 +5,7 @@
   }
   
   .inventory-table {
-    width: 102%;
+    width: 100%;
     border-collapse: collapse;
   }
   
@@ -49,4 +49,4 @@
 
   .action-link{
     color: #333;
-  }
+  }  

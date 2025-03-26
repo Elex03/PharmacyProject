@@ -13,21 +13,25 @@ h2 {
   align-items: center;
 }
 
-.search-bar,
-.filter-dropdown,
+.buscar-bar,
+.filter-dropdown-nombre,
+.filter-dropdown-stock,
 .register-button {
   padding: 10px;  
   border: 1px solid #ddd;
 }
 
-.search-bar {
-  width: 500px;
+.buscar-bar {
+  width: 300px;
 }
 
-.filter-dropdown {
-  width: 250px;
+.filter-dropdown-nombre {
+  width: 200px;
 }
 
+.filter-dropdown-stock{
+  width: 230px;
+}
 .register-button {
   width: 200px;
   background-color: #007bff;

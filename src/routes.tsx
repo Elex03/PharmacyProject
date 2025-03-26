@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/DashBoard";
 import Inventario from "./pages/Inventory";
 import Distributors from "./pages/Distributors";
+import Historial from "./pages/Historial";
 import Sidebar from "./components/layout/sideBar";
 
 const AppRouter = () => {
@@ -36,6 +37,7 @@ const AppRouter = () => {
             </div>
           }
         />
+        <Route path="/historial/:id" element={<Historial />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Login />} />
       </Routes>                
