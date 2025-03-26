@@ -1,30 +1,119 @@
 [
-    {
-      "id": 1,
-      "descripcion": "Producto A",
-      "distribuidor": "Distribuidor A",
-      "cantidad": 1,
-      "precio": 20,
-      "subtotal": 20,
-      "maxCantidad": 5
-    },
-    {
-      "id": 2,
-      "descripcion": "Producto B",
-      "distribuidor": "Distribuidor B",
-      "cantidad": 2,
-      "precio": 15,
-      "subtotal": 30,
-      "maxCantidad": 10
-    },
-    {
-      "id": 3,
-      "descripcion": "Producto C",
-      "distribuidor": "Distribuidor C",
-      "cantidad": 3,
-      "precio": 30,
-      "subtotal": 90,
-      "maxCantidad": 8
-    }
-  ]
-  
+  {
+    "id": 1,
+    "descripcion": "Producto A",
+    "distribuidor": "Distribuidor A",
+    "cantidad": 1,
+    "precio": 20,
+    "subtotal": 20,
+    "maxCantidad": 5
+  },
+  {
+    "id": 2,
+    "descripcion": "Producto B",
+    "distribuidor": "Distribuidor B",
+    "cantidad": 2,
+    "precio": 15,
+    "subtotal": 30,
+    "maxCantidad": 10
+  },
+  {
+    "id": 3,
+    "descripcion": "Producto C",
+    "distribuidor": "Distribuidor C",
+    "cantidad": 3,
+    "precio": 30,
+    "subtotal": 90,
+    "maxCantidad": 8
+  }, 
+  {
+    "id": 4,
+    "descripcion": "Producto D",
+    "distribuidor": "Distribuidor D",
+    "cantidad": 4,
+    "precio": 25,
+    "subtotal": 100,
+    "maxCantidad": 6
+  },
+  {
+    "id": 5,
+    "descripcion": "Producto E",
+    "distribuidor": "Distribuidor E",
+    "cantidad": 5,
+    "precio": 50,
+    "subtotal": 250,
+    "maxCantidad": 12
+  },
+  {
+    "id": 6,
+    "descripcion": "Producto F",
+    "distribuidor": "Distribuidor F",
+    "cantidad": 2,
+    "precio": 40,
+    "subtotal": 80,
+    "maxCantidad": 7
+  },
+  {
+    "id": 7,
+    "descripcion": "Producto G",
+    "distribuidor": "Distribuidor G",
+    "cantidad": 6,
+    "precio": 35,
+    "subtotal": 210,
+    "maxCantidad": 10
+  },
+  {
+    "id": 8,
+    "descripcion": "Producto H",
+    "distribuidor": "Distribuidor H",
+    "cantidad": 3,
+    "precio": 60,
+    "subtotal": 180,
+    "maxCantidad": 9
+  },
+  {
+    "id": 9,
+    "descripcion": "Producto I",
+    "distribuidor": "Distribuidor I",
+    "cantidad": 4,
+    "precio": 45,
+    "subtotal": 180,
+    "maxCantidad": 15
+  },
+  {
+    "id": 10,
+    "descripcion": "Producto J",
+    "distribuidor": "Distribuidor J",
+    "cantidad": 1,
+    "precio": 70,
+    "subtotal": 70,
+    "maxCantidad": 5
+  },
+  {
+    "id": 11,
+    "descripcion": "Producto K",
+    "distribuidor": "Distribuidor K",
+    "cantidad": 5,
+    "precio": 20,
+    "subtotal": 100,
+    "maxCantidad": 10
+  },
+  {
+    "id": 12,
+    "descripcion": "Producto L",
+    "distribuidor": "Distribuidor L",
+    "cantidad": 7,
+    "precio": 80,
+    "subtotal": 560,
+    "maxCantidad": 15
+  },
+  {
+    "id": 13,
+    "descripcion": "Producto M",
+    "distribuidor": "Distribuidor M",
+    "cantidad": 6,
+    "precio": 55,
+    "subtotal": 330,
+    "maxCantidad": 11
+  }
+]
