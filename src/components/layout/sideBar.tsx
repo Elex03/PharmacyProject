@@ -26,7 +26,7 @@ const Sidebar = () => {
           <FaTruck />
           <span>Distribuidores</span>
         </Link>
-        <Link to="/registro" className="menu-item">
+        <Link to="/ventas" className="menu-item">
           <FaFileSignature />
           <span>Registro de venta</span>
         </Link>

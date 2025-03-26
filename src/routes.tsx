@@ -4,6 +4,7 @@ import Dashboard from "./pages/DashBoard";
 import Inventario from "./pages/Inventory";
 import Distributors from "./pages/Distributors";
 import Sidebar from "./components/layout/sideBar";
+import CashRegister from "./pages/CashRegister";
 
 const AppRouter = () => {
   return (
@@ -36,10 +37,20 @@ const AppRouter = () => {
             </div>
           }
         />
+
+        <Route
+          path="/ventas"
+          element={
+            <div style={{ display: "flex" }}>
+              <Sidebar />
+              <CashRegister />
+            </div>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Login />} />
-      </Routes>                
-    </BrowserRouter>    
+      </Routes>
+    </BrowserRouter>
   );
 };
 
