@@ -5,6 +5,7 @@ import Inventario from "./pages/Inventory";
 import Distributors from "./pages/Distributors";
 import Sidebar from "./components/layout/sideBar";
 import CashRegister from "./pages/CashRegister";
+import SalesHistory from "./pages/salesHistory";
 
 const AppRouter = () => {
   return (
@@ -44,6 +45,16 @@ const AppRouter = () => {
             <div style={{ display: "flex" }}>
               <Sidebar />
               <CashRegister />
+            </div>
+          }
+        />
+
+        <Route
+          path="/ventasHisto"
+          element={
+            <div style={{ display: "flex" }}>
+              <Sidebar />
+              <SalesHistory />
             </div>
           }
         />

@@ -1,0 +1,43 @@
+h2 {
+    margin-left: 70px;
+    margin-top: 50px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .SalesHistory-actions {
+    display: flex;    
+    gap: 20px;
+    margin-top: 10px;
+    align-items: center;
+    margin-left: 190px;
+  }
+  
+  .search-SalesHistory,
+  .filter-SalesHistory,
+  .button-SalesHistory {
+    padding: 10px;  
+    border: 1px solid #ddd;
+  }
+  
+  .search-SalesHistory {
+    width: 400px;
+  }
+  
+  .filter-SalesHistory {
+    width: 250px;
+  }
+  
+  .button-SalesHistory {
+    width: 200px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border: none;  
+    font-size: 13px;  
+  }
+  
+  .button-SalesHistory:hover {
+    background-color: #0056b3;
+  }
+  

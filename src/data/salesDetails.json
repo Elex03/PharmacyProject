@@ -1,0 +1,31 @@
+[
+    {
+      "saleId": 1,
+      "productos": [
+        {
+          "nombre": "Paracetamol",
+          "precio": 10,
+          "cantidad": 2,
+          "total": 20
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        }
+      ]
+    },
+    {
+      "saleId": 2,
+      "productos": [
+        {
+          "nombre": "Aspirina",
+          "precio": 8,
+          "cantidad": 3,
+          "total": 24
+        }
+      ]
+    }
+  ]
+  
