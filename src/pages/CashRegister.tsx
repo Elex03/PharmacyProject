@@ -25,7 +25,7 @@ const CashRegister: React.FC = () => {
   const [nombreCliente, setNombreCliente] = useState<string>("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/medicine")
+    fetch("/data.json")
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.error("Error cargando datos:", error));
