@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../layout/Table.css";
-import salesData from "../../data/salesDetails.json"
+import salesData from "../../data/salesDetails.json";
 
 interface SalesHistoItem {
   id: number;
@@ -33,12 +33,14 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
   const endIndex = startIndex + itemsPerPage;
   const currentData = data.slice(startIndex, endIndex);
 
+  // Paginación
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
 
+  // Mostrar detalles de la venta seleccionada
   const handleShowDetails = (item: SalesHistoItem) => {
     setSelectedSale(item);
     const details = salesData.find((sale: SaleDetail) => sale.saleId === item.id);
@@ -49,6 +51,10 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
     setSelectedSale(null);
     setSaleDetails([]);
   };
+
+  // Calcular totales
+  const totalVenta = saleDetails.reduce((acc, producto) => acc + producto.total, 0);
+  const totalGanancias = saleDetails.reduce((acc, producto) => acc + producto.total * 0.3, 0); // Ganancia del 30%
 
   return (
     <div className="inventory-container">
@@ -67,7 +73,7 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
               <tr key={item.id}>
                 <td>{item.nombre}</td>
                 <td>{item.fechacompra}</td>
-                <td>{item.total}</td>
+                <td>${item.total.toFixed(2)}</td>
                 <td>
                   <a className="action-link" href="#" onClick={() => handleShowDetails(item)}>
                     Ver detalles
@@ -109,6 +115,7 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
         </button>
       </div>
 
+      {/* Popup del recibo */}
       {selectedSale && (
         <div className="receipt-popup">
           <h3>Recibo de compra</h3>
@@ -125,13 +132,22 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
               {saleDetails.map((producto, index) => (
                 <tr key={index}>
                   <td>{producto.nombre}</td>
-                  <td>${producto.precio}</td>
+                  <td>C${producto.precio.toFixed(2)}</td>
                   <td>{producto.cantidad}</td>
-                  <td>${producto.total}</td>
+                  <td>C${producto.total.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table>          
+          <div className="summary">
+            <p>
+              <strong>Total de ventas:</strong> C${totalVenta.toFixed(2)}
+            </p>
+            <p>
+              <strong>Total de ganancias:</strong> C${totalGanancias.toFixed(2)}
+            </p>
+          </div>
+
           <button className="bottom-out" onClick={handleCloseDetails}>
             Cerrar
           </button>
