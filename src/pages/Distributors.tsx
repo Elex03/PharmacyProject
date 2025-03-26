@@ -2,6 +2,7 @@ import { useState } from "react";
 import DistributorsTable from "../components/layout/DistributorTable";
 import "./Distributors.css";
 import data from "../data/distributorsData.json"; 
+import CompanyPieChart from "../components/charts/CompanyPieChart";
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,6 +30,7 @@ const Distributors = () => {
     return (
       <div className="distributors-page">
         <h2>Distribuidores</h2>
+        <CompanyPieChart />
         <div className="distributors-actions">
           <input
             type="text"

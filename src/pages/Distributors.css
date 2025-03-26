@@ -8,7 +8,7 @@ h2 {
 .distributors-actions {
   display: flex;
   gap: 20px;
-  margin-top: 170px;
+  margin-top: -250px;
   margin-left: 70px;
   align-items: center;
 }

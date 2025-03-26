@@ -2,8 +2,8 @@ import { useState } from "react";
 import InventoryTable from "../components/layout/InventoryTable";
 import "../pages/Inventory.css";
 import data from "../data/data.json";
-import Example from "../components/charts/Chart";
 import { FaCheckCircle, FaExclamationTriangle, FaTimesCircle } from "react-icons/fa";
+import BarChartComponent from "../components/charts/Chart";
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -57,7 +57,7 @@ const Inventario = () => {
   return (
     <div className="inventory-page">
       <h2>Inventario</h2>
-      <Example />
+      <BarChartComponent />
       <div className="inventory-actions">
         <input
           type="text"
