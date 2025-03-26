@@ -1,0 +1,9 @@
+[
+    { "distribuidor": "Distribuidor A", "cantidad": 1200 },
+    { "distribuidor": "Distribuidor B", "cantidad": 1100 },
+    { "distribuidor": "Distribuidor C", "cantidad": 1050 },
+    { "distribuidor": "Distribuidor D", "cantidad": 950 },
+    { "distribuidor": "Distribuidor E", "cantidad": 850 },
+    { "distribuidor": "Distribuidor F", "cantidad": 800 }
+  ]
+  

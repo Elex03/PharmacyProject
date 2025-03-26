@@ -1,0 +1,30 @@
+{
+    "presentaciones": [
+      "Tabletas",
+      "Jarabe",
+      "Cápsulas",
+      "Ampolla",
+      "Suspensión"
+    ],
+    "categorias": [
+      "Analgésico",
+      "Antiinflamatorio",
+      "Antibiótico",
+      "Vitamina",
+      "Antiinfeccioso"
+    ],
+    "formasCompra": [
+      "Unidad",
+      "Blister",
+      "Caja",
+      "Pote"
+    ],
+    "tiposMedicamentos": [
+      "Comprimido",
+      "Líquido",
+      "Sólido",
+      "Gel",
+      "Pomada"
+    ]
+  }
+  

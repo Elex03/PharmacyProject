@@ -1,13 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InventoryTable from "../components/layout/InventoryTable";
 import "./Inventory.css";
-import data from "../data/data.json";
 import PieAnimation from "../components/charts/piChart";
+import { Link } from "react-router-dom";
+
+
+interface InventoryItem {
+  id: string;
+  descripcion: string;
+  inventario: number;
+  stock: string;
+  distribuidor: string;
+  vencimientots: string;
+  [key: string]: string | number;
+}
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
+  const [data, setData] = useState<InventoryItem[]>([]);  // Datos del inventario
 
+
+  
+  // Obtener los datos con fetch
+  useEffect(() => {
+    fetch("http://localhost:3000/apiFarmaNova/inventory/getInventory")  // Cambia esta URL por la ubicación de tu archivo JSON o API
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos");
+        }
+        return response.json();
+      })
+      .then((data: InventoryItem[]) => {
+        setData(data);  // Actualizamos el estado con los datos recibidos
+
+      })
+  }, []);
   // Manejo del input de búsqueda
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -47,7 +75,9 @@ const Inventario = () => {
           <option value="">Filtrar por nombre</option>
           <option value="A-Z">A - Z</option>        
         </select>
+        <Link to={'/compras'}>
         <button className="register-button">Registrar pedido</button>
+        </Link>
       </div>
       <InventoryTable data={filteredData} />      
     </div>

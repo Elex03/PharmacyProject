@@ -2,13 +2,15 @@ import { useState } from "react";
 import "./Table.css";
 
 interface InventoryItem {
-  id: number;
+  id: string;
   descripcion: string;
+  inventario: number;
   stock: string;
-  inventario: string;
   distribuidor: string;
-  vencimiento: string;
+  vencimientots: string;
+  [key: string]: string | number;
 }
+
 
 const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
