@@ -1,8 +1,11 @@
 h2 {
-  margin-left: 70px;
   margin-top: 50px;
   font-size: 24px;
   color: #333;
+}
+.p{
+   margin-left: 70px;
+   font-size: 14px;
 }
 
 .inventory-actions {
