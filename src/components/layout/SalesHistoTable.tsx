@@ -1,14 +1,12 @@
 import { useState } from "react";
 import "../layout/Table.css";
-import salesData from "../../data/salesDetails.json";
 
-interface SalesHistoItem {
+interface SalesItem {
   id: number;
-  nombre: string;
-  fechacompra: string;
+  cliente: string;
+  fechaventa: string;
   total: number;
 }
-
 interface Product {
   nombre: string;
   precio: number;
@@ -21,12 +19,12 @@ interface SaleDetail {
   productos: Product[];
 }
 
-const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
+const SalesHistoTable = ({ data }: { data: SalesItem[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  const [selectedSale, setSelectedSale] = useState<SalesHistoItem | null>(null);
+  const [selectedSale, setSelectedSale] = useState<SalesItem | null>(null);
   const [saleDetails, setSaleDetails] = useState<Product[]>([]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -41,12 +39,22 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
   };
 
   // Mostrar detalles de la venta seleccionada
-  const handleShowDetails = (item: SalesHistoItem) => {
+  const handleShowDetails = (item: SalesItem) => {
     setSelectedSale(item);
-    const details = salesData.find((sale: SaleDetail) => sale.saleId === item.id);
-    setSaleDetails(details ? details.productos : []);
+    fetch(`http://localhost:3000/apiFarmaNova/orders/getSales/${item.id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos");
+        }
+        return response.json();
+      })
+      .then((data: SaleDetail) => {
+        setSaleDetails(data.productos);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los detalles de la venta:", error);
+      });
   };
-
   const handleCloseDetails = () => {
     setSelectedSale(null);
     setSaleDetails([]);
@@ -71,8 +79,8 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
           {currentData.length > 0 ? (
             currentData.map((item) => (
               <tr key={item.id}>
-                <td>{item.nombre}</td>
-                <td>{item.fechacompra}</td>
+                <td>{item.cliente}</td>
+                <td>{item.fechaventa}</td>
                 <td>${item.total.toFixed(2)}</td>
                 <td>
                   <a className="action-link" href="#" onClick={() => handleShowDetails(item)}>
