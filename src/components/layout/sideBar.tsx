@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaChartPie, FaBox, FaTruck, FaFileSignature, FaUser, FaFileAlt, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import { FaChartPie, FaBox, FaTruck, FaFileSignature, FaUser, FaFileAlt, FaSignOutAlt, FaUserCircle, FaFileInvoice } from "react-icons/fa";
 import "./Sidebar.css";
 
 const Sidebar = () => {
@@ -29,6 +29,10 @@ const Sidebar = () => {
         <Link to="/ventas" className="menu-item">
           <FaFileSignature />
           <span>Ventas</span>
+        </Link>
+        <Link to="/ventasHisto" className="menu-item">
+          <FaFileInvoice />
+          <span>Historial</span>
         </Link>
 
         <p className="menu-title">Gestión de clientes y reportes</p>

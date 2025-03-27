@@ -48,3 +48,80 @@
   .action-link{
     color: #333;
   }
+
+  /* estilos del recibo */
+.details-link {
+  color: #4b4d50;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.details-link:hover {
+  color: #141518;
+}
+
+.receipt-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  z-index: 10;
+  text-align: center;
+  width: 500px;
+  height: 500px;
+  max-height: 680px;
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.details-table {
+  position: relative;
+  top: 20px;
+  font-size: 13px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table {
+  border-spacing: 15px;
+}
+
+.receipt-popup h3 {
+  font-size: 1.4rem;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.summary {
+  margin-top: 50px;
+  font-weight: bold;
+}
+
+.receipt-popup p {
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #141518;
+}
+
+.receipt-popup button:hover {
+  background: #0056b3;
+}
+
+.bottom-out {
+  margin-top: 15px;
+  padding: 8px 20px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

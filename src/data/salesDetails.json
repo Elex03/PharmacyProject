@@ -1,0 +1,175 @@
+[
+    {
+      "saleId": 1,
+      "productos": [
+        {
+          "nombre": "Paracetamol",
+          "precio": 10,
+          "cantidad": 2,
+          "total": 20
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 1,
+          "total": 12
+        }
+      ]
+    },
+    {
+      "saleId": 2,
+      "productos": [
+        {
+          "nombre": "Aspirina",
+          "precio": 8,
+          "cantidad": 3,
+          "total": 24
+        }
+      ]
+    },
+    {
+      "saleId": 3,
+      "productos": [
+        {
+          "nombre": "Vitamina C",
+          "precio": 15,
+          "cantidad": 2,
+          "total": 30
+        },
+        {
+          "nombre": "Amoxicilina",
+          "precio": 25,
+          "cantidad": 1,
+          "total": 25
+        }
+      ]
+    },
+    {
+      "saleId": 4,
+      "productos": [
+        {
+          "nombre": "Antigripal",
+          "precio": 18,
+          "cantidad": 2,
+          "total": 36
+        },
+        {
+          "nombre": "Jarabe para la tos",
+          "precio": 22,
+          "cantidad": 1,
+          "total": 22
+        }
+      ]
+    },
+    {
+      "saleId": 5,
+      "productos": [
+        {
+          "nombre": "Omeprazol",
+          "precio": 14,
+          "cantidad": 3,
+          "total": 42
+        }
+      ]
+    },
+    {
+      "saleId": 6,
+      "productos": [
+        {
+          "nombre": "Loratadina",
+          "precio": 11,
+          "cantidad": 4,
+          "total": 44
+        },
+        {
+          "nombre": "Bismuto",
+          "precio": 19,
+          "cantidad": 1,
+          "total": 19
+        }
+      ]
+    },
+    {
+      "saleId": 7,
+      "productos": [
+        {
+          "nombre": "Suero oral",
+          "precio": 7,
+          "cantidad": 5,
+          "total": 35
+        }
+      ]
+    },
+    {
+      "saleId": 8,
+      "productos": [
+        {
+          "nombre": "Paracetamol",
+          "precio": 10,
+          "cantidad": 4,
+          "total": 40
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "precio": 12,
+          "cantidad": 2,
+          "total": 24
+        },
+        {
+          "nombre": "Antigripal",
+          "precio": 18,
+          "cantidad": 1,
+          "total": 18
+        }
+      ]
+    }
+  ]
+  
