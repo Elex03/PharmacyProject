@@ -1,86 +1,87 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import InventoryTable from "../components/layout/InventoryTable";
-import "./Inventory.css";
-import PieAnimation from "../components/charts/piChart";
+import "../pages/Inventory.css";
+import data from "../data/data.json";
+import { FaCheckCircle, FaExclamationTriangle, FaTimesCircle } from "react-icons/fa";
+import BarChartComponent from "../components/charts/Chart";
 import { Link } from "react-router-dom";
-
-interface InventoryItem {
-  id: string;
-  descripcion: string;
-  inventario: number;
-  stock: string;
-  distribuidor: string;
-  vencimiento: string;
-  imagen: string; // Campo para la URL de la imagen
-  [key: string]: string | number;
-}
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const [data, setData] = useState<InventoryItem[]>([]); // Datos del inventario
+  const [stockFilter, setStockFilter] = useState("");
 
-  // Obtener los datos con fetch
-  useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getInventory") // Cambia esta URL por la ubicación de tu archivo JSON o API
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al cargar los datos");
-        }
-        return response.json();
-      })
-      .then((data: InventoryItem[]) => {
-        setData(data); // Actualizamos el estado con los datos recibidos
-      });
-  }, []);
-  // Manejo del input de búsqueda
+  // input de búsqueda
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  // Manejo del filtro de ordenamiento
+  // manejo del filtro de ordenamiento
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOrder(e.target.value);
   };
 
+  // manejo del filtro de estado de stock
+  const handleStockFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setStockFilter(e.target.value);
+  };
+
+  // estado de stock
+  const getStockStatus = (cantidad: number) => {
+    if (cantidad === 0)
+      return <span><FaTimesCircle style={{ color: "red" }} /> Agotado</span>;
+    if (cantidad <= 10)
+      return <span><FaExclamationTriangle style={{ color: "orange" }} /> Próximo a agotarse</span>;
+    return <span><FaCheckCircle style={{ color: "green" }} /> Disponible</span>;
+  };
+
   // Filtrado de datos
   const filteredData = data
+    .map((item) => ({ ...item, stock: getStockStatus(Number(item.inventario)) }))
     .filter((item) =>
       Object.values(item).some((value) =>
         String(value).toLowerCase().includes(searchTerm.toLowerCase())
       )
     )
+    .filter((item) => {
+      if (!stockFilter) return true;
+      if (stockFilter === "disponible" && Number(item.inventario) > 10) return true;
+      if (stockFilter === "proximo" && Number(item.inventario) <= 10 && Number(item.inventario) > 0) return true;
+      if (stockFilter === "agotado" && Number(item.inventario) === 0) return true;
+      return false;
+    })
     .sort((a, b) => {
-      if (sortOrder === "A-Z")
-        return a.descripcion.localeCompare(b.descripcion);
+      if (sortOrder === "A-Z") return a.descripcion.localeCompare(b.descripcion);
       return 0;
     });
 
   return (
     <div className="inventory-page">
       <h2>Inventario</h2>
-      <p className="p">
-        Grafica que muestra las categorias de productos mas vendidos
-      </p>
-      <PieAnimation />
+      <BarChartComponent />
       <div className="inventory-actions">
         <input
           type="text"
           placeholder="Buscar"
-          className="search-bar"
+          className="buscar-bar"
           value={searchTerm}
           onChange={handleSearch}
         />
-        <select
-          className="filter-dropdown"
-          value={sortOrder}
-          onChange={handleSort}
-        >
+        <select className="filter-dropdown-nombre" value={sortOrder} onChange={handleSort}>
           <option value="">Filtrar por nombre</option>
           <option value="A-Z">A - Z</option>
         </select>
-        <Link to={"/compras"}>
-          <button className="register-button">Registrar pedido</button>
+
+        {/* Nuevo filtro por estado de stock */}
+        <select className="filter-dropdown-stock" value={stockFilter} onChange={handleStockFilter}>
+          <option value="">Filtrar por estado de stock</option>
+          <option value="disponible">Disponible</option>
+          <option value="proximo">Próximo a agotarse</option>
+          <option value="agotado">Agotado</option>
+        </select>
+
+        <Link to={"/compras"} className="link">
+        <button className="register-button">Registrar pedido</button>
         </Link>
       </div>
       <InventoryTable data={filteredData} />

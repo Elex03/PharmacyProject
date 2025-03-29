@@ -1,15 +1,13 @@
-import { useState } from "react";
+import { JSX, useState } from "react";
 import "./Table.css";
 
 interface InventoryItem {
-  id: string;
+  id: number;
   descripcion: string;
-  inventario: number;
-  stock: string;
+  stock: string | JSX.Element;
+  inventario: string | number;
   distribuidor: string;
   vencimiento: string;
-  imagen: string; // Campo para la URL de la imagen
-  [key: string]: string | number;
 }
 
 const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
@@ -45,14 +43,7 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
           {currentData.length > 0 ? (
             currentData.map((item) => (
               <tr key={item.id}>
-                <td>
-                  <img 
-                    src={"/2.png"} 
-                    alt={item.descripcion} 
-                    style={{ width: "50px", height: "30px", marginRight: "10px", verticalAlign: "middle" }} 
-                  />
-                  {item.descripcion}
-                </td>
+                <td>{item.descripcion}</td>
                 <td>{item.stock}</td>
                 <td>{item.inventario}</td>
                 <td>{item.distribuidor}</td>

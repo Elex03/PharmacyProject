@@ -1,60 +1,34 @@
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import React from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-import { useEffect, useState } from "react";
+// Define the type for our data
+type ChartData = {
+  name: string;
+  value: number;
+};
 
-interface DayInventory {
-  dia: string;
-  esta_semana: number;
-  anterior: number;
-}
-const Example = () => {
-  const [data, setData] = useState<DayInventory[]>([]);
+// Sample data for the chart
+const data: ChartData[] = [
+  { name: 'Page A', value: 400 },
+  { name: 'Page B', value: 300 },
+  { name: 'Page C', value: 200 },
+  { name: 'Page D', value: 278 },
+  { name: 'Page E', value: 189 },
+];
 
-  useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getSalesPerWeek") 
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al cargar los datos");
-        }
-        return response.json();
-      })
-      .then((data: DayInventory[]) => {
-        setData(data); 
-      });
-  }, []);
-
+const BarChartComponent: React.FC = () => {
   return (
-    <div style={{ width: "100%", height: 150 }}>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{ top: 1, right: 1, left: 80, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="dia" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="esta_semana"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-          <Line type="monotone" dataKey="anterior" stroke="#82ca9d" />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+    <ResponsiveContainer width="100%" height={200}>
+      <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="value" fill="#8884d8" />
+      </BarChart>
+    </ResponsiveContainer>
   );
 };
 
-export default Example;
+export default BarChartComponent;
