@@ -2,89 +2,35 @@
   {
     "id": 1,
     "descripcion": "Paracetamol 500mg",
-    "stock": "-",
-    "inventario": "15 en stock",
+    "inventario": 15,
     "distribuidor": "Distribuidor A",
     "vencimiento": "12/2025"
   },
   {
     "id": 2,
     "descripcion": "Vitamina C 1000mg",
-    "stock": "-",
-    "inventario": "30 en stock",
+    "inventario": 30,
     "distribuidor": "Distribuidor B",
     "vencimiento": "05/2026"
   },
   {
     "id": 3,
     "descripcion": "Ibuprofeno 200mg",
-    "stock": "-",
-    "inventario": "0 en stock",
+    "inventario": 0,
     "distribuidor": "Distribuidor C",
     "vencimiento": "08/2024"
   },
   {
     "id": 4,
     "descripcion": "Amoxicilina 500mg",
-    "stock": "-",
-    "inventario": "22 en stock",
+    "inventario": 22,
     "distribuidor": "Distribuidor A",
     "vencimiento": "11/2025"
   },
   {
     "id": 5,
     "descripcion": "Paracetamol 1000mg",
-    "stock": "-",
-    "inventario": "5 en stock",
-    "distribuidor": "Distribuidor B",
-    "vencimiento": "06/2024"
-  }
-  ,
-  {
-    "id": 6,
-    "descripcion": "Paracetamol 1000mg",
-    "stock": "-",
-    "inventario": "5 en stock",
-    "distribuidor": "Distribuidor B",
-    "vencimiento": "06/2024"
-  },
-  {
-    "id": 7,
-    "descripcion": "Paracetamol 1000mg",
-    "stock": "-",
-    "inventario": "5 en stock",
-    "distribuidor": "Distribuidor B",
-    "vencimiento": "06/2024"
-  },
-  {
-    "id": 8,
-    "descripcion": "Paracetamol 1000mg",
-    "stock": "-",
-    "inventario": "5 en stock",
-    "distribuidor": "Distribuidor B",
-    "vencimiento": "06/2024"
-  },
-  {
-    "id": 9,
-    "descripcion": "Paracetamol 1000mg",
-    "stock": "-",
-    "inventario": "5 en stock",
-    "distribuidor": "Distribuidor B",
-    "vencimiento": "06/2024"
-  },
-  {
-    "id": 10,
-    "descripcion": "Paracetamol 1000mg",
-    "stock": "-",
-    "inventario": "5 en stock",
-    "distribuidor": "Distribuidor B",
-    "vencimiento": "06/2024"
-  },
-  {
-    "id": 11,
-    "descripcion": "Paracetamol 1000mg",
-    "stock": "-",
-    "inventario": "5 en stock",
+    "inventario": 5,
     "distribuidor": "Distribuidor B",
     "vencimiento": "06/2024"
   }

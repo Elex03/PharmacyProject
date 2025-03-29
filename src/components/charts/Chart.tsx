@@ -1,34 +1,60 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
-// Define the type for our data
-type ChartData = {
-  name: string;
-  value: number;
-};
+import { useEffect, useState } from "react";
 
-// Sample data for the chart
-const data: ChartData[] = [
-  { name: 'Page A', value: 400 },
-  { name: 'Page B', value: 300 },
-  { name: 'Page C', value: 200 },
-  { name: 'Page D', value: 278 },
-  { name: 'Page E', value: 189 },
-];
+interface DayInventory {
+  dia: string;
+  esta_semana: number;
+  anterior: number;
+}
+const Example = () => {
+  const [data, setData] = useState<DayInventory[]>([]);
 
-const BarChartComponent: React.FC = () => {
+  useEffect(() => {
+    fetch("http://localhost:3000/apiFarmaNova/inventory/getSalesPerWeek") 
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos");
+        }
+        return response.json();
+      })
+      .then((data: DayInventory[]) => {
+        setData(data); 
+      });
+  }, []);
+
   return (
-    <ResponsiveContainer width="100%" height={200}>
-      <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="value" fill="#8884d8" />
-      </BarChart>
-    </ResponsiveContainer>
+    <div style={{ width: "100%", height: 150 }}>
+      <ResponsiveContainer>
+        <LineChart
+          data={data}
+          margin={{ top: 1, right: 1, left: 80, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="dia" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="esta_semana"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
+          />
+          <Line type="monotone" dataKey="anterior" stroke="#82ca9d" />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
-export default BarChartComponent;
+export default Example;

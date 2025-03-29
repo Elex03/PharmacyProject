@@ -3,8 +3,9 @@ import InventoryTable from "../components/layout/InventoryTable";
 import "../pages/Inventory.css";
 import data from "../data/data.json";
 import { FaCheckCircle, FaExclamationTriangle, FaTimesCircle } from "react-icons/fa";
-import BarChartComponent from "../components/charts/Chart";
+
 import { Link } from "react-router-dom";
+import PieChart from "../components/charts/piChart";
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,7 +59,7 @@ const Inventario = () => {
   return (
     <div className="inventory-page">
       <h2>Inventario</h2>
-      <BarChartComponent />
+      <PieChart />
       <div className="inventory-actions">
         <input
           type="text"
