@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion"; // Importar AnimatePresence
 import DistributorsTable from "../components/layout/DistributorTable";
 import "./Distributors.css";
 import ApexChart from "../components/charts/apexChart";
@@ -15,9 +16,7 @@ interface DistributorItem {
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
-  const [distributorsData, setDistributorsData] = useState<DistributorItem[]>(
-    []
-  );
+  const [distributorsData, setDistributorsData] = useState<DistributorItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,14 +79,17 @@ const Distributors = () => {
         {/* Botón para abrir el formulario */}
         <button
           className="register-button"
-          onClick={() => setIsModalOpen(true)} // Al hacer clic, abre el formulario
+          onClick={() => setIsModalOpen(true)}
         >
           Crear un proveedor
         </button>
 
-        {/* Mostrar el formulario solo si isModalOpen es true */}
-        {isModalOpen && <Formulario setIsOpen={setIsModalOpen} />}
+        {/* Agregar AnimatePresence para animación del modal */}
+        <AnimatePresence>
+          {isModalOpen && <Formulario setIsOpen={setIsModalOpen} />}
+        </AnimatePresence>
       </div>
+
       <DistributorsTable data={filteredData} />
     </div>
   );
