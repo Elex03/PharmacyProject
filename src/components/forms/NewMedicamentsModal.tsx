@@ -1,10 +1,7 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Input, message } from "antd";
+import { Input, message, Select } from "antd";
 import MultipleSelector from "./multipleSelector";
-import SelectItem from "./selectItem";
-import compressedForms from "../../data/compressed_forms.json";
-
 interface Option {
   id: number;
   value: string;
@@ -25,14 +22,14 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
   const [nombreGenerico, setNombreGenerico] = useState<string>("");
   const [codigoBarra, setCodigoBarra] = useState<string>("");
   const [concentracion, setConcentracion] = useState<string>("");
+  const [therapeutiAction, setTherapeutiAction] = useState<Option[]>([]);
 
   const [options, setOptions] = useState<Option[]>([]);
   const [selected, setSelected] = useState<Option[]>([]);
-  const [selectedForm, setSelectedForm] = useState<string>("");
+  const [selectedForm, setSelectedForm] = useState<Option[]>([]);
 
   // Estado para la imagen: se guarda el archivo y su preview
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>("");
 
   useEffect(() => {
     fetch("http://localhost:3000/apiFarmaNova/inventory/getCategories")
@@ -51,16 +48,27 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
       .catch((error) => console.error("Error fetching categories:", error));
   }, []);
 
-  const handleSelectItemChange = (value: string) => {
-    setSelectedForm(value);
-    console.log("Valor seleccionado en SelectItem:", value);
-  };
+  useEffect(() => {
+    fetch("http://localhost:3000/apiFarmaNova/inventory/getTherapeutiAction")
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        const opts = data.map((item: { id: number; label: string }) => ({
+          value: item.id.toString(),
+          label: item.label,
+          id: item.id,
+        }));
+        setTherapeutiAction(opts);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -75,7 +83,7 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
     formData.append("concentracion", concentracion);
     // Convertimos el array de opciones seleccionadas a JSON
     formData.append("categories", JSON.stringify(selected));
-    formData.append("form", selectedForm);
+    formData.append("form", JSON.stringify(selectedForm));
     if (imageFile) {
       formData.append("image", imageFile);
     }
@@ -163,14 +171,28 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
                 onChange={(e) => setCodigoBarra(e.target.value)}
                 style={{ marginBottom: "10px" }}
               />
-              <Input
-                type="number"
-                required
-                placeholder="Concentración"
-                value={concentracion}
-                onChange={(e) => setConcentracion(e.target.value)}
-                style={{ marginBottom: "10px" }}
-              />
+              <div style={{ flexDirection: "row", display: "flex" }}>
+                <Input
+                  type="number"
+                  required
+                  placeholder="Concentración"
+                  value={concentracion}
+                  onChange={(e) => setConcentracion(e.target.value)}
+                  style={{ marginBottom: "10px" }}
+                />
+                <Select
+                  options={[
+                    {
+                      value: "mg",
+                      label: "mg",
+                    },
+                    { value: "ml", label: "ml" },
+                    { value: "g", label: "g" },
+                    { value: "gr", label: "gr" },
+                  ]}
+                  style={{ width: "100px", marginLeft: "10px" }}
+                />
+              </div>
 
               <MultipleSelector
                 selected={selected}
@@ -178,22 +200,24 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
                 options={options}
               />
 
-              <SelectItem
-                options={compressedForms}
-                onChange={handleSelectItemChange}
+              <MultipleSelector
+                selected={selectedForm}
+                setSelected={setSelectedForm}
+                options={therapeutiAction}
               />
 
-              <input type="file" accept="image/*" onChange={handleImageChange} />
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  style={{ width: "100px", height: "100px", marginTop: "10px" }}
-                />
-              )}
-
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+             
               <div style={{ marginTop: "20px" }}>
-                <button type="button" onClick={onClose} style={{ marginRight: "10px" }}>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  style={{ marginRight: "10px" }}
+                >
                   Cerrar
                 </button>
                 <button type="submit">Guardar</button>
