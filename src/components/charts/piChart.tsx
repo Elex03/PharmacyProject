@@ -18,8 +18,8 @@ export default function PieAnimation() {
   }, []);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', width: '50%' }}>
-    <Box sx={{ width: "100%", display: "flex", fontSize: 12 }}>
+    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', }}>
+    <Box sx={{ width: "100%", fontSize: 12 }}>
       {categories.length > 0 ? (
         <PieChart
           height={200}
@@ -27,7 +27,7 @@ export default function PieAnimation() {
             {
               data: categories.map((item, index) => ({
                 ...item,
-                color: colors[index % colors.length], // Asignar color cíclicamente
+                color: colors[index % colors.length],
               })),
               innerRadius: 50,
               arcLabel: (params) => params.label ?? "",

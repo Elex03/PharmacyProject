@@ -1,0 +1,19 @@
+[
+    { "id": "1", "value": "tableta", "label": "Tableta" },
+    { "id": "2", "value": "capsula", "label": "Cápsula" },
+    { "id": "3", "value": "jarabe", "label": "Jarabe" },
+    { "id": "4", "value": "suspension", "label": "Suspensión" },
+    { "id": "5", "value": "crema", "label": "Crema" },
+    { "id": "6", "value": "pomada", "label": "Pomada" },
+    { "id": "7", "value": "unguento", "label": "Ungüento" },
+    { "id": "8", "value": "inyeccion", "label": "Inyección" },
+    { "id": "9", "value": "ampolla", "label": "Ampolla" },
+    { "id": "10", "value": "spray", "label": "Spray" },
+    { "id": "11", "value": "supositorio", "label": "Supositorio" },
+    { "id": "12", "value": "gel", "label": "Gel" },
+    { "id": "13", "value": "parches", "label": "Parches" },
+    { "id": "14", "value": "tableta_efervescente", "label": "Tableta efervescente" },
+    { "id": "15", "value": "polvo", "label": "Polvo" },
+    { "id": "16", "value": "laminas", "label": "Láminas" }
+  ]
+  

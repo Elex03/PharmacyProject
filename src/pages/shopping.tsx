@@ -1,263 +1,157 @@
 import React, { useState, useEffect } from "react";
-import DataTable, { TableColumn } from "react-data-table-component";
-import Select from "react-select";
+import MultipleSelector from "../components/forms/multipleSelector";
+import SelectItem from "../components/forms/selectItem";
+import compressedForms from "../data/compressed_forms.json";
+import { DatePicker } from "antd";
+import units from "../data/units.json";
+import dayjs from "dayjs";
+import MedicamentsSelector from "../components/forms/medicamentsSelector";
 
-interface Producto {
+interface Option {
   id: number;
-  descripcion: string;
-  distribuidor: string;
-  cantidad: number;
-  precio: number;
-  precioCompra: number;
-  subtotal: number;
-  maxCantidad: number;
-  presentacion: string;
-  categoria: string;
-  imagen: File | null;
+  label: string;
+  value: string;
 }
 
-
-interface CategoryItem {
-  id: string;
-  value: string;
-  label: string;
-}
-interface DistributorItem {
-  id: string;
-  value: string;
-  label: string;
+interface TableRow {
+  nombreComercial: string;
+  nombreGenerico: string;
+  categories: Option[];
+  distributor: Option | undefined;
+  units: Option | undefined;
+  form: Option | undefined;
+  date: string;
+  image: string; // Almacena la URL de la imagen
 }
 
 const Shopping: React.FC = () => {
-  const [totalCompra, setTotalCompra] = useState<number>(0);
-  const [productosTemporal, setProductosTemporal] = useState<Producto[]>([]); // Productos temporalmente agregados
-  const [productosSeleccionados, setProductosSeleccionados] = useState<Producto[]>([]); // Productos guardados al final
-  const [productoNuevo, setProductoNuevo] = useState({
-    descripcion: "",
-    precioVenta: 0,
-    precioCompra: 0,
-    distribuidor: "",
-    categoria: "",
-    imagen: null as File | null,
-  });
-  const [presentacionSeleccionada, setPresentacionSeleccionada] = useState<string>("");
-  const [cantidadTabletas, setCantidadTabletas] = useState<number>(1);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [categories, setCategories] = useState<CategoryItem[]>([]);
-  const [distributors, setDistributors] = useState<DistributorItem[]>([]);
-  useEffect(() => {
-    const total = productosTemporal.reduce((acc, item) => acc + item.subtotal, 0);
-    setTotalCompra(total);
-  }, [productosTemporal]);
+  const [options, setOptions] = useState<Option[]>([]);
+  const [selected, setSelected] = useState<Option[]>([]);
+  const [distributors, setDistributors] = useState<Option[]>([]);
+  const [nombreComercial, setNombreComercial] = useState<string>("");
+  const [nombreGenerico, setNombreGenerico] = useState<string>("");
+  const [tableData, setTableData] = useState<TableRow[]>([]);
+  const [image, setImage] = useState<string>("");
 
-  const handleImagenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setProductoNuevo({ ...productoNuevo, imagen: e.target.files[0] });
-    }
-  };
   useEffect(() => {
     fetch("http://localhost:3000/apiFarmaNova/inventory/getCategories")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Error al cargar los datos");
-      }
-      return response.json();
-    })
-    .then((data: CategoryItem[]) => {
-      setCategories(data); 
-    });
-  }, [])
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        const options = data.map((item: { id: number; label: string }) => ({
+          value: item.id.toString(),
+          label: item.label,
+        }));
+        setOptions(options);
+      });
+  }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/distributors/List")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Error al cargar los datos");
-      }
-      return response.json();
-    })
-    .then((data: DistributorItem[]) => {
-      setDistributors(data); 
-    });
-  }, [])
-
-
-  const handleAgregarProductoNuevo = () => {
-    if (
-      !productoNuevo.descripcion ||
-      productoNuevo.precioVenta <= 0 ||
-      productoNuevo.precioCompra <= 0 ||
-      !productoNuevo.distribuidor ||
-      !productoNuevo.categoria
-    ) {
-      setErrorMessage("Por favor, completa todos los campos requeridos.");
-      return;
-    }
-
-    setErrorMessage(""); // Limpiar mensaje de error si todos los campos están completos
-
-    const cantidad = presentacionSeleccionada === "Tabletas" ? cantidadTabletas : 1;
-
-    // Validar que la cantidad no sea mayor a la cantidad máxima
-    if (cantidad <= 0 || cantidad > 10) {
-      setErrorMessage("La cantidad debe estar entre 1 y 10.");
-      return;
-    }
-
-    // Crear el objeto Producto temporal
-    const nuevoProducto: Producto = {
-      id: new Date().getTime(), // Usamos el timestamp como ID único
-      descripcion: productoNuevo.descripcion,
-      distribuidor: productoNuevo.distribuidor,
-      cantidad,
-      precio: productoNuevo.precioVenta,
-      precioCompra: productoNuevo.precioCompra,
-      subtotal: productoNuevo.precioVenta * cantidad,
-      maxCantidad: 10, // Definir la cantidad máxima que se puede agregar
-      presentacion: presentacionSeleccionada,
-      categoria: productoNuevo.categoria,
-      imagen: productoNuevo.imagen,
-    };
-
-    // Actualizar la lista de productos temporalmente
-    setProductosTemporal((prevProductos) => [...prevProductos, nuevoProducto]);
-
-    // Limpiar los campos después de agregar el producto
-    setProductoNuevo({ descripcion: "", precioVenta: 0, precioCompra: 0, distribuidor: "", categoria: "", imagen: null });
-    setPresentacionSeleccionada("");
-    setCantidadTabletas(1);
-  };
-
-  const handleCantidadChange = (id: number, newCantidad: number) => {
-    if (newCantidad <= 0 || newCantidad > 10) return; // Evitar que la cantidad sea negativa, cero o mayor a 10
-
-    const updatedProductos = productosTemporal.map((producto) =>
-      producto.id === id
-        ? { ...producto, cantidad: newCantidad, subtotal: producto.precio * newCantidad }
-        : producto
-    );
-    setProductosTemporal(updatedProductos);
-  };
-
-  const handleGuardarVenta = async () => {
-    // Crear el objeto FormData con los productos seleccionados
-    const formData = new FormData();
-    productosTemporal.forEach((producto) => {
-      formData.append("productos[]", JSON.stringify({
-        nombre: producto.descripcion,
-        distribuidor: producto.distribuidor,
-        cantidad: producto.cantidad,
-        precioVenta: producto.precio,
-        precioCompra: producto.precioCompra,
-        subtotal: producto.subtotal,
-        categoria: producto.categoria,
-        presentacion: producto.presentacion,
-      }));
-
-      if (producto.imagen) {
-        formData.append("imagenes[]", producto.imagen);
-      }
-    });
-
-    // Enviar la solicitud a la API para guardar la venta
-    try {
-      const response = await fetch("http://localhost:3000/apiFarmaNova/inventory/medicine", {
-        method: "POST",
-        body: formData,
+    fetch("http://localhost:3000/apiFarmaNova/distributors/")
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        const options = data.map((item: { id: number; nombre: string }) => ({
+          value: item.id.toString(),
+          label: item.nombre,
+        }));
+        setDistributors(options);
       });
+  }, []);
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Venta guardada correctamente:", data);
-
-        // Almacenamos los productos permanentemente en la lista de productos seleccionados
-        setProductosSeleccionados([...productosSeleccionados, ...productosTemporal]);
-
-        // Limpiar la lista temporal después de guardar
-        setProductosTemporal([]);
-        setTotalCompra(0); // Resetear el total después de guardar
-      } else {
-        const errorData = await response.json();
-        console.error("Error al guardar la venta:", errorData);
-        setErrorMessage("Hubo un error al guardar la venta.");
-      }
-    } catch (error) {
-      console.error("Error de red:", error);
-      setErrorMessage("Hubo un error al conectar con el servidor.");
+  // Manejar la selección de una imagen y generar una vista previa
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
     }
   };
 
-  const columns: TableColumn<Producto>[] = [
-    { name: "Descripción", selector: (row) => row.descripcion, sortable: true },
-    { name: "Distribuidor", selector: (row) => row.distribuidor, sortable: true },
-    {
-      name: "Cantidad",
-      selector: (row) => row.cantidad.toString(),
-      cell: (row) => (
-        <input
-          type="number"
-          value={row.cantidad}
-          onChange={(e) => handleCantidadChange(row.id, parseInt(e.target.value, 10))}
-          min="1"
-          max={row.maxCantidad}
-        />
-      ),
-      sortable: true,
-    },
-    { name: "Precio Venta", selector: (row) => `$${row.precio.toFixed(2)}`, sortable: true },
-    { name: "Precio Compra", selector: (row) => `$${row.precioCompra.toFixed(2)}`, sortable: true },
-    { name: "Subtotal", selector: (row) => `$${row.subtotal.toFixed(2)}`, sortable: true },
-    { name: "Categoría", selector: (row) => row.categoria, sortable: true },
-  ];
+  const handleAddToTable = () => {
+    const newItem: TableRow = {
+      nombreComercial,
+      nombreGenerico,
+      image,
+      categories: selected,
+      distributor: distributors.find((d) => d.value === selected[0]?.value),
+      units: units.find((unit) => unit.id.toString() === selected[0]?.value),
+      form: compressedForms
+        .map((form) => ({ ...form, id: Number(form.id) }))
+        .find((form) => form.id.toString() === selected[0]?.value),
+      date: dayjs().format("YYYY-MM-DD"),
+    };
+    setTableData([...tableData, newItem]);
+    setImage("");
+  };
 
   return (
-    <div>
-      <h2>Realizar venta</h2>
-      <Select
-        options={distributors}
-        onChange={(option) => setProductoNuevo({ ...productoNuevo, distribuidor: option?.value || "" })}
-        placeholder="Selecciona Distribuidor"
-      />
-      <Select
-        options={categories}
-        onChange={(option) => setProductoNuevo({ ...productoNuevo, categoria: option?.value || "" })}
-        placeholder="Selecciona Categoría"
-      />
+    <div className="shopping-page">
+      <h2>Compras</h2>
+      <div className="shopping-actions">
+        <input
+          type="text"
+          placeholder="Nombre Comercial"
+          value={nombreComercial}
+          onChange={(e) => setNombreComercial(e.target.value)}
+          className="input-nombre-comercial"
+        />
+        <input
+          type="text"
+          placeholder="Nombre Generico"
+          value={nombreGenerico}
+          onChange={(e) => setNombreGenerico(e.target.value)}
+          className="input-nombre-generico"
+        />
+        <MedicamentsSelector/>
+        <MultipleSelector selected={selected} setSelected={setSelected} options={options} />
+        <label htmlFor="distributor">Distribuidor</label>
+        <SelectItem options={distributors.map((d) => ({ ...d, id: d.id.toString() }))} />
+        <label htmlFor="units">Unidades</label>
+        <SelectItem options={units.map((unit) => ({ ...unit, id: unit.id.toString() }))} />
+        <label htmlFor="form">Forma</label>
+        <SelectItem options={compressedForms} />
 
-      <input
-        type="text"
-        placeholder="Descripción del producto"
-        value={productoNuevo.descripcion}
-        onChange={(e) => setProductoNuevo({ ...productoNuevo, descripcion: e.target.value })}
-      />
-      <input
-        type="number"
-        placeholder="Precio de Compra"
-        value={productoNuevo.precioCompra}
-        onChange={(e) => setProductoNuevo({ ...productoNuevo, precioCompra: parseFloat(e.target.value) })}
-      />
-      <input
-        type="number"
-        placeholder="Precio de Venta"
-        value={productoNuevo.precioVenta}
-        onChange={(e) => setProductoNuevo({ ...productoNuevo, precioVenta: parseFloat(e.target.value) })}
-      />
-      <input
-        type="number"
-        placeholder="Cantidad"
-        value={cantidadTabletas}
-        onChange={(e) => setCantidadTabletas(parseInt(e.target.value, 10))}
-      />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        {image && <img src={image} alt="Preview" style={{ width: "100px", height: "100px", marginTop: "10px" }} />}
 
-      <input type="file" onChange={handleImagenChange} />
-      <button onClick={handleAgregarProductoNuevo}>Agregar Producto</button>
+        <DatePicker defaultValue={dayjs()} />
 
-      {/* Mostrar mensaje de error si hay campos vacíos */}
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {/* Botón para agregar los datos a la tabla */}
+        <button onClick={handleAddToTable}>Agregar</button>
 
-      <DataTable title="Lista de Productos" columns={columns} data={productosTemporal} />
-      <h3>Total: ${totalCompra.toFixed(2)}</h3>
-      <button onClick={handleGuardarVenta}>Guardar Venta</button>
+        {/* Tabla que muestra los datos agregados */}
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre Comercial</th>
+              <th>Nombre Genérico</th>
+              <th>Fecha</th>
+              <th>Imagen</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableData.map((item, index) => (
+              <tr key={index}>
+                <td>{item.nombreComercial}</td>
+                <td>{item.nombreGenerico}</td>
+                <td>{item.date}</td>
+                <td>
+                  {item.image && <img src={item.image} alt="Producto" style={{ width: "50px", height: "50px" }} />}
+                </td>
+                <td>
+                  <button>Eliminar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

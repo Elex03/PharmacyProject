@@ -12,22 +12,18 @@ const Inventario = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
 
-  // input de búsqueda
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  // manejo del filtro de ordenamiento
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOrder(e.target.value);
   };
 
-  // manejo del filtro de estado de stock
   const handleStockFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStockFilter(e.target.value);
   };
 
-  // estado de stock
   const getStockStatus = (cantidad: number) => {
     if (cantidad === 0)
       return <span><FaTimesCircle style={{ color: "red" }} /> Agotado</span>;
@@ -36,7 +32,6 @@ const Inventario = () => {
     return <span><FaCheckCircle style={{ color: "green" }} /> Disponible</span>;
   };
 
-  // Filtrado de datos
   const filteredData = data
     .map((item) => ({ ...item, stock: getStockStatus(Number(item.inventario)) }))
     .filter((item) =>

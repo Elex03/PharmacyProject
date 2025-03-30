@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "value": "g",
+    "label": "Gramo"
+  },
+  {
+    "id": 2,
+    "value": "mg",
+    "label": "Miligramo"
+  },
+  {
+    "id": 3,
+    "value": "ml",
+    "label": "Mililitro"
+  },
+  {
+    "id": 4,
+    "value": "μg",
+    "label": "Microgramo"
+  },
+  {
+    "id": 5,
+    "value": "mcg",
+    "label": "Microgramo (sinónimo de μg)"
+  },
+  {
+    "id": 6,
+    "value": "L",
+    "label": "Litro"
+  },
+  {
+    "id": 7,
+    "value": "UI",
+    "label": "Unidad Internacional"
+  },
+  {
+    "id": 8,
+    "value": "%",
+    "label": "Porcentaje"
+  },
+  {
+    "id": 9,
+    "value": "mEq",
+    "label": "Miliequivalente"
+  },
+  {
+    "id": 10,
+    "value": "M",
+    "label": "Molaridad"
+  },
+  {
+    "id": 11,
+    "value": "mol/L",
+    "label": "Mol por litro"
+  },
+  {
+    "id": 12,
+    "value": "ppm",
+    "label": "Partes por millón"
+  },
+  {
+    "id": 13,
+    "value": "ppb",
+    "label": "Partes por billón"
+  },
+  {
+    "id": 14,
+    "value": "g/mL",
+    "label": "Gramo por mililitro"
+  },
+  {
+    "id": 15,
+    "value": "mg/mL",
+    "label": "Miligramos por mililitro"
+  }
+]
