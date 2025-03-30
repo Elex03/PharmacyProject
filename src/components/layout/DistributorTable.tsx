@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import "./Table.css";
 
 interface DistributorItem {
@@ -49,7 +49,7 @@ const DistributorsTable = ({ data }: { data: DistributorItem[] }) => {
                   {/* Cambiar botones a enlaces */}
                   <Link to={`/historial/${item.id}`} className="action-link">
                     Ver historial
-                  </Link>                  
+                  </Link>
                 </td>
               </tr>
             ))

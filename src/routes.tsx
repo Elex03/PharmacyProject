@@ -5,7 +5,8 @@ import Inventario from "./pages/Inventory";
 import Distributors from "./pages/Distributors";
 import Sidebar from "./components/layout/sideBar";
 import CashRegister from "./pages/CashRegister";
-import SalesHistory from "./pages/salesHistory";
+import SalesHistory from "./pages/SalesHistory";
+import OrderHistory from "./pages/OrderHistory";
 
 const AppRouter = () => {
   return (
@@ -55,6 +56,15 @@ const AppRouter = () => {
             <div style={{ display: "flex" }}>
               <Sidebar />
               <SalesHistory />
+            </div>
+          }
+        />
+        <Route
+          path="/historial/:id"
+          element={
+            <div style={{ display: "flex" }}>
+              {/* <Sidebar /> */}
+              <OrderHistory />
             </div>
           }
         />

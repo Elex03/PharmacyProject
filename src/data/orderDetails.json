@@ -1,0 +1,73 @@
+[
+    {
+      "orderId": 1,
+      "productos": [
+        { "nombre": "Producto A", "precio": 50, "cantidad": 2, "total": 100 },
+        { "nombre": "Producto B", "precio": 30, "cantidad": 1, "total": 30 }
+      ]
+    },
+    {
+      "orderId": 2,
+      "productos": [
+        { "nombre": "Producto C", "precio": 20, "cantidad": 3, "total": 60 },
+        { "nombre": "Producto D", "precio": 40, "cantidad": 1, "total": 40 }
+      ]
+    },
+    {
+      "orderId": 3,
+      "productos": [
+        { "nombre": "Producto E", "precio": 25, "cantidad": 4, "total": 100 },
+        { "nombre": "Producto F", "precio": 15, "cantidad": 2, "total": 30 }
+      ]
+    },
+    {
+      "orderId": 4,
+      "productos": [
+        { "nombre": "Producto G", "precio": 100, "cantidad": 1, "total": 100 },
+        { "nombre": "Producto H", "precio": 35, "cantidad": 3, "total": 105 }
+      ]
+    },
+    {
+      "orderId": 5,
+      "productos": [
+        { "nombre": "Producto I", "precio": 60, "cantidad": 2, "total": 120 },
+        { "nombre": "Producto J", "precio": 45, "cantidad": 1, "total": 45 }
+      ]
+    },
+    {
+      "orderId": 6,
+      "productos": [
+        { "nombre": "Producto K", "precio": 80, "cantidad": 1, "total": 80 },
+        { "nombre": "Producto L", "precio": 55, "cantidad": 2, "total": 110 }
+      ]
+    },
+    {
+      "orderId": 7,
+      "productos": [
+        { "nombre": "Producto M", "precio": 90, "cantidad": 1, "total": 90 },
+        { "nombre": "Producto N", "precio": 20, "cantidad": 5, "total": 100 }
+      ]
+    },
+    {
+      "orderId": 8,
+      "productos": [
+        { "nombre": "Producto O", "precio": 30, "cantidad": 3, "total": 90 },
+        { "nombre": "Producto P", "precio": 25, "cantidad": 4, "total": 100 }
+      ]
+    },
+    {
+      "orderId": 9,
+      "productos": [
+        { "nombre": "Producto Q", "precio": 10, "cantidad": 10, "total": 100 },
+        { "nombre": "Producto R", "precio": 75, "cantidad": 2, "total": 150 }
+      ]
+    },
+    {
+      "orderId": 10,
+      "productos": [
+        { "nombre": "Producto S", "precio": 85, "cantidad": 1, "total": 85 },
+        { "nombre": "Producto T", "precio": 50, "cantidad": 2, "total": 100 }
+      ]
+    }
+  ]
+  

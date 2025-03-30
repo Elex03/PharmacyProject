@@ -1,0 +1,48 @@
+[
+    {
+      "id": 1,
+      "nombre": "Juan Pérez",
+      "empresa": "Distribuidora ABC",
+      "fechaPedido": "2024-03-01",
+      "estado": "Realizado",
+      "total": 250.75,
+      "fechaEntrega": "2024-03-05"
+    },
+    {
+      "id": 2,
+      "nombre": "María Gómez",
+      "empresa": "Distribuidora ABC",
+      "fechaPedido": "2024-03-10",
+      "estado": "Pendiente",
+      "total": 420.50,
+      "fechaEntrega": "2024-03-15"
+    },
+    {
+      "id": 3,
+      "nombre": "Carlos Rodríguez",
+      "empresa": "Suministros LMN",
+      "fechaPedido": "2024-02-20",
+      "estado": "Pendiente",
+      "total": 318.00,
+      "fechaEntrega": "2024-02-25"
+    },
+    {
+      "id": 4,
+      "nombre": "Ana Torres",
+      "empresa": "Distribuidora 123",
+      "fechaPedido": "2024-01-05",
+      "estado": "Cancelado",
+      "total": 199.99,
+      "fechaEntrega": "2024-02-25"
+    },
+    {
+      "id": 5,
+      "nombre": "Luis Méndez",
+      "empresa": "Comercializadora Rápida",
+      "fechaPedido": "2024-03-15",
+      "estado": "Realizado",
+      "total": 500.00,
+      "fechaEntrega": "2024-03-18"
+    }
+  ]
+  
