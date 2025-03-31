@@ -1,39 +1,36 @@
 import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2"; // Importa SweetAlert2
-import "./Distributors.css"; // Importamos los estilos
+import Swal from "sweetalert2";
+import { motion, AnimatePresence } from "framer-motion";
+import "./Distributors.css";
 import NuevaEmpresa from "./Empresa";
 
-const Formulario: React.FC<{
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ setIsOpen }) => {
+interface FormularioProps {
+  setIsOpen: (isOpen: boolean) => void;
+}
+
+const Formulario: React.FC<FormularioProps> = ({ setIsOpen }) => {
   const [distribuidor, setDistribuidor] = useState({
     nombre: "",
     empresa: "",
     telefono: "",
   });
-  const [empresas, setEmpresas] = useState<{ id: number; nombre: string }[]>(
-    []
-  );
-  const [isOpenNuevaEmpresa, setIsOpenNuevaEmpresa] = useState(false); // Estado para mostrar el otro modal
+  const [empresas, setEmpresas] = useState<{ id: number; nombre: string }[]>([]);
+  const [isOpenNuevaEmpresa, setIsOpenNuevaEmpresa] = useState(false);
 
   useEffect(() => {
-    fetch("/empresas.json") // Cargar empresas desde JSON en public
+    fetch("/empresas.json")
       .then((res) => res.json())
       .then((data) => setEmpresas(data))
       .catch((error) => console.error("Error al cargar empresas:", error));
   }, []);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setDistribuidor((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-
-    // Mostrar SweetAlert2 para confirmar si quieren guardar los datos
     Swal.fire({
       title: "¿Estás seguro?",
       text: "¿Quieres guardar los datos del distribuidor?",
@@ -45,10 +42,9 @@ const Formulario: React.FC<{
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Si el usuario confirma, se guardan los datos
         console.log("Datos del formulario:", JSON.stringify(distribuidor));
         setDistribuidor({ nombre: "", empresa: "", telefono: "" });
-        setIsOpen(false); // Cerrar modal después de guardar
+        setIsOpen(false);
         Swal.fire({
           title: "¡Guardado!",
           text: "Los datos del distribuidor se han guardado correctamente.",
@@ -59,10 +55,20 @@ const Formulario: React.FC<{
   };
 
   return (
-    <>
-      {/* Modal de agregar distribuidor */}
-      <div className="modal-overlay">
-        <div className="modal-content">
+    <AnimatePresence>
+      <motion.div
+        className="modal-overlay"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          className="modal-content"
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -50, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <h2>Agregar Distribuidor Nuevo</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-content">
@@ -83,7 +89,7 @@ const Formulario: React.FC<{
                   value={distribuidor.empresa}
                   onChange={(e) => {
                     if (e.target.value === "nueva_empresa") {
-                      setIsOpenNuevaEmpresa(true); // Abrir el modal de Nueva Empresa
+                      setIsOpenNuevaEmpresa(true);
                     } else {
                       handleInputChange(e);
                     }
@@ -117,12 +123,13 @@ const Formulario: React.FC<{
               <input type="submit" value="Guardar" className="button-save" />
             </div>
           </form>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      {/* Modal de Nueva Empresa */}
-      {isOpenNuevaEmpresa && <NuevaEmpresa setIsOpen={setIsOpenNuevaEmpresa} />}
-    </>
+      {isOpenNuevaEmpresa && (
+        <NuevaEmpresa setIsOpen={setIsOpenNuevaEmpresa} />
+      )}
+    </AnimatePresence>
   );
 };
 
