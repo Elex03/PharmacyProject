@@ -35,6 +35,12 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
     }
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
+  };
+
   return (
     <div className="inventory-container">
       <table className="inventory-table">
@@ -56,7 +62,8 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
           {currentData.length > 0 ? (
             currentData.map((item) => (
               <tr key={item.id} className="elements">
-                <td>{item.descripcion}</td>
+                <td>{truncateText(item.descripcion, 20)}</td>{" "}
+                {/* Truncar si es largo */}
                 <td>{item.formaFarmaceutica}</td>
                 <td>{item.presentacion}</td>
                 <td>{item.laboratorio}</td>
