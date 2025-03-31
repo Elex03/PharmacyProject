@@ -1,21 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Select, Input, Button, message, Table } from "antd";
-import selectMedicaments from "../../data/selectMedicaments.json";
 import NewMedicationModal from "./NewMedicamentsModal";
 import distributors from "../../data/distributorsData.json";
-import compressed_forms from "../../data/compressed_forms.json";
 import "./AddMedicamentsForm.css";
 
 export const AddMedicamentsForm = () => {
   const [selectedMedication, setSelectedMedication] = useState<string | null>(
     null
   );
-  const [selectedDistributor, setSelectedDistributor] = useState<string | null>(
-    null
-  );
-  const [selectedCompressedForm, setCompressedForm] = useState<string | null>(
-    null
-  );
+  const [selectedDistributor, setSelectedDistributor] = useState<Option>({
+    id: 0,
+    value: "Selecciona un distribuidor",
+    label: "Selecciona un distribuidor",
+  });
+  const [selectedCompressedForm, setSelectedCompressedForm] = useState<Option>({
+    id: 0,
+    value: "Selecciona una forma comprimida",
+    label: "Selecciona una forma comprimida",
+  });
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [precioVenta, setPrecioVenta] = useState<string>("");
@@ -28,12 +30,13 @@ export const AddMedicamentsForm = () => {
   const [cantidadTabletas, setCantidadTabletas] = useState("");
   const [unidadesPorTableta, setUnidadesPorTableta] = useState("");
 
-  // Estado para almacenar los registros
+  const [compressedForm, setCompressedForm] = useState<Option[]>([]);
+
   interface Medicamento {
     key: string;
     medicamento: string;
-    distribuidor: string;
-    formaComprimida: string | null;
+    distribuidor: number;
+    formaComprimida: number;
     codigoBarra: string;
     precioVenta: string;
     precioCompra: string;
@@ -43,6 +46,7 @@ export const AddMedicamentsForm = () => {
   }
 
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>([]);
+  const [medicamentList, setMedicamentList] = useState<Option[]>([]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -56,11 +60,25 @@ export const AddMedicamentsForm = () => {
   };
 
   const handleSelectChangeCompressedForm = (value: string) => {
-    setCompressedForm(value);
+    const compressed_Form =  compressedForm.find((d) => d.value === value);
+    if (compressed_Form) {
+      setSelectedCompressedForm({
+        id: compressed_Form.id,
+        value: compressed_Form.value,
+        label: compressed_Form.label,
+      });
+    }
   };
 
   const handleSelectChangeDistributor = (value: string) => {
-    setSelectedDistributor(value);
+    const distributor = distributors.find((d) => d.value === value);
+    if (distributor) {
+      setSelectedDistributor({
+        id: distributor.id,
+        value: distributor.value,
+        label: distributor.label,
+      });
+    }
   };
 
   const handleAddClick = () => {
@@ -69,6 +87,22 @@ export const AddMedicamentsForm = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleMedicationAdded = () => {
+    fetch("http://localhost:3000/apiFarmaNova/inventory/getMedicine")
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedOptions = data.map(
+          (item: { id: number; label: string }) => ({
+            value: item.id.toString(),
+            label: item.label,
+            id: item.id,
+          })
+        );
+        setMedicamentList(updatedOptions); // Actualiza el estado del Select
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
   };
 
   const columns = [
@@ -126,6 +160,38 @@ export const AddMedicamentsForm = () => {
     },
   ];
 
+  useEffect(() => {
+    fetch("http://localhost:3000/apiFarmaNova/inventory/getMedicine")
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        const opts = data.map((item: { id: number; label: string }) => ({
+          value: item.id.toString(),
+          label: item.label,
+          id: item.id,
+        }));
+        setMedicamentList(opts);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+
+    fetch("http://localhost:3000/apiFarmaNova/inventory/getCompressedforms")
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        const opts = data.map((item: { id: number; label: string }) => ({
+          value: item.id.toString(),
+          label: item.label,
+          id: item.id,
+        }));
+        setCompressedForm(opts);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
+
   const handleAddToTable = () => {
     if (
       !selectedMedication ||
@@ -133,9 +199,9 @@ export const AddMedicamentsForm = () => {
       !codigoBarra ||
       !precioVenta ||
       !precioCompra ||
-      (selectedCompressedForm === "tableta" &&
+      (selectedCompressedForm.value === "tableta" &&
         (!cantidadTabletas || !unidadesPorTableta)) ||
-      (selectedCompressedForm !== "tableta" && !cantidad)
+      (selectedCompressedForm.value !== "tableta" && !cantidad)
     ) {
       message.error("Por favor, completa todos los campos obligatorios.");
       return;
@@ -144,13 +210,15 @@ export const AddMedicamentsForm = () => {
     const newMedicamento = {
       key: new Date().toISOString(), // Usamos el timestamp como clave única
       medicamento: selectedMedication,
-      distribuidor: selectedDistributor,
-      formaComprimida: selectedCompressedForm,
+      distribuidor: selectedDistributor.id,
+      formaComprimida: selectedCompressedForm.id,
       codigoBarra,
       precioVenta,
       precioCompra,
       cantidad:
-        selectedCompressedForm === "tableta" ? cantidadTabletas : cantidad,
+        selectedCompressedForm.value === "tableta"
+          ? cantidadTabletas
+          : cantidad,
       unidadesPorTableta,
       imageFile: imageFile as File, // Aseguramos que imageFile no sea null
     };
@@ -167,46 +235,29 @@ export const AddMedicamentsForm = () => {
 
     const formData = new FormData();
 
-    // Agregar los medicamentos al FormData
     medicamentos.forEach((medicamento, index) => {
+      formData.append(`idMedicamento[${index}]`, medicamento.medicamento);
       formData.append(
-        `medicamento[${index}][medicamento]`,
-        medicamento.medicamento
+        `idDistribuidor[${index}]`,
+        medicamento.distribuidor.toString()
       );
       formData.append(
-        `medicamento[${index}][distribuidor]`,
-        medicamento.distribuidor
+        `formaComprimida[${index}]`,
+        medicamento.formaComprimida.toString() || ""
       );
-      formData.append(
-        `medicamento[${index}][formaComprimida]`,
-        medicamento.formaComprimida || ""
-      );
-      formData.append(
-        `medicamento[${index}][codigoBarra]`,
-        medicamento.codigoBarra
-      );
-      formData.append(
-        `medicamento[${index}][precioVenta]`,
-        medicamento.precioVenta
-      );
-      formData.append(
-        `medicamento[${index}][precioCompra]`,
-        medicamento.precioCompra
-      );
-      formData.append(`medicamento[${index}][cantidad]`, medicamento.cantidad);
-      formData.append(
-        `medicamento[${index}][unidadesPorTableta]`,
-        medicamento.unidadesPorTableta || ""
-      );
-      formData.append(
-        `medicamento[${index}][unidadesPorTableta]`,
-        medicamento.unidadesPorTableta || ""
-      );
-      formData.append(`image`, medicamento.imageFile); // Nota: 'image[${index}]' es el nombre del campo
+      formData.append(`codigoBarra[${index}]`, medicamento.codigoBarra);
+      formData.append(`precioVenta[${index}]`, medicamento.precioVenta);
+      formData.append(`precioCompra[${index}]`, medicamento.precioCompra);
+      formData.append(`cantidad[${index}]`, medicamento.cantidad);
+      if (medicamento.formaComprimida.toString() === "tableta") {
+        formData.append(
+          `cantidadTabletas[${index}]`,
+          medicamento.unidadesPorTableta || ""
+        );
+      }
+      formData.append(`image[${index}]`, medicamento.imageFile);
     });
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+
     try {
       const response = await fetch(
         "http://localhost:3000/apiFarmaNova/inventory/medicine",
@@ -218,7 +269,7 @@ export const AddMedicamentsForm = () => {
 
       if (!response.ok) throw new Error("Error en el envío");
       message.success("Medicamentos enviados con éxito");
-      setMedicamentos([]); // Limpiar la tabla después de enviar
+      setMedicamentos([]);
     } catch {
       message.error("Error al enviar los datos");
     }
@@ -233,7 +284,7 @@ export const AddMedicamentsForm = () => {
           aria-required
           showSearch
           allowClear
-          options={selectMedicaments}
+          options={medicamentList}
           style={{ width: "100%" }}
           placeholder="Buscar o seleccionar un medicamento"
           onChange={handleSelectChange}
@@ -277,88 +328,86 @@ export const AddMedicamentsForm = () => {
           <Select
             allowClear
             showSearch
-            options={distributors}
+            options={distributors} // Asegúrate de que distributors esté bien estructurado
             style={{ width: "100%", marginBottom: "10px" }}
             onChange={handleSelectChangeDistributor}
             placeholder="Seleccionar distribuidor"
-            value={selectedDistributor || undefined}
-            filterOption={(input, option) =>
-              option?.value.toLowerCase().includes(input.toLowerCase()) || false
-            }
+            value={selectedDistributor.value}
           />
-
-          <Select
-            allowClear
-            showSearch
-            options={compressed_forms}
-            style={{ width: "100%", marginBottom: "10px" }}
-            onChange={handleSelectChangeCompressedForm}
-            placeholder="Seleccionar forma comprimida"
-            value={selectedCompressedForm || undefined}
-            filterOption={(input, option) =>
-              option?.value.toLowerCase().includes(input.toLowerCase()) || false
-            }
-          />
-          {selectedCompressedForm && (
-            <div style={{ marginTop: "10px" }}>
-              {selectedCompressedForm === "tableta" ? (
-                <>
-                  <Input
-                    required
-                    type="number"
-                    placeholder="Cantidad de tabletas"
-                    value={cantidadTabletas}
-                    onChange={(e) => setCantidadTabletas(e.target.value)}
-                    style={{ marginBottom: "10px" }}
-                  />
-                  <Input
-                    required
-                    aria-required
-                    type="number"
-                    placeholder="Unidades por tableta"
-                    value={unidadesPorTableta}
-                    onChange={(e) => setUnidadesPorTableta(e.target.value)}
-                    style={{ marginBottom: "10px" }}
-                  />
-                </>
-              ) : (
-                <Input
-                  required
-                  aria-required
-                  type="number"
-                  placeholder="Cantidad"
-                  value={cantidad}
-                  onChange={(e) => setCantidad(e.target.value)}
-                  style={{ marginBottom: "10px" }}
-                />
-              )}
-            </div>
-          )}
-
           <Input
-            type="number"
             required
-            placeholder="Precio de venta"
+            type="text"
+            placeholder="Precio Venta"
             value={precioVenta}
             onChange={(e) => setPrecioVenta(e.target.value)}
             style={{ marginBottom: "10px" }}
           />
           <Input
-            type="number"
             required
-            placeholder="Precio de compra"
+            type="text"
+            placeholder="Precio Compra"
             value={precioCompra}
             onChange={(e) => setPrecioCompra(e.target.value)}
             style={{ marginBottom: "10px" }}
           />
+
+          <Select
+            allowClear
+            showSearch
+            options={compressedForm}
+            style={{ width: "100%", marginBottom: "10px" }}
+            onChange={handleSelectChangeCompressedForm}
+            value={selectedCompressedForm.value}
+            placeholder="Seleccionar forma comprimida"
+          />
+          {selectedCompressedForm.value === "tableta" ? (
+            <>
+              <Input
+                required
+                type="number"
+                placeholder="Cantidad de tabletas"
+                value={cantidadTabletas}
+                onChange={(e) => setCantidadTabletas(e.target.value)}
+                style={{ marginBottom: "10px" }}
+              />
+              <Input
+                required
+                type="number"
+                placeholder="Unidades por tableta"
+                value={unidadesPorTableta}
+                onChange={(e) => setUnidadesPorTableta(e.target.value)}
+                style={{ marginBottom: "10px" }}
+              />
+            </>
+          ) : (
+            <Input
+              required
+              type="number"
+              placeholder="Cantidad"
+              value={cantidad}
+              onChange={(e) => setCantidad(e.target.value)}
+              style={{ marginBottom: "10px" }}
+            />
+          )}
+
+          <Button onClick={handleAddToTable} type="primary">
+            Agregar a la tabla
+          </Button>
         </div>
       )}
-
-      <Button onClick={handleAddToTable}>Agregar a la Tabla</Button>
-      <Button onClick={handleSubmit}>Enviar a la API</Button>
       <Table columns={columns} dataSource={medicamentos} />
-
-      <NewMedicationModal isOpen={isModalOpen} onClose={closeModal} />
+      <Button
+        style={{ marginTop: "20px" }}
+        type="primary"
+        onClick={handleSubmit}
+      >
+        Enviar medicamentos
+      </Button>
+      <NewMedicationModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onMedicationAdded={handleMedicationAdded}
+      />
     </div>
   );
 };

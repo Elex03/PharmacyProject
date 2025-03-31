@@ -1,7 +1,8 @@
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Input, message, Select } from "antd";
+import { Input, message, Select, Spin } from "antd";
 import MultipleSelector from "./multipleSelector";
+import Units from "../../data/units.json";
 
 interface Option {
   id: number;
@@ -12,11 +13,13 @@ interface Option {
 interface NewMedicationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onMedicationAdded: () => void;
 }
 
 const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
   isOpen,
   onClose,
+  onMedicationAdded
 }) => {
   const [nombreComercial, setNombreComercial] = useState<string>("");
   const [nombreGenerico, setNombreGenerico] = useState<string>("");
@@ -24,29 +27,19 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
   const [concentracion, setConcentracion] = useState<string>("");
   const [therapeutiAction, setTherapeutiAction] = useState<Option[]>([]);
 
-  const [options, setOptions] = useState<Option[]>([]);
   const [selected, setSelected] = useState<Option[]>([]);
 
+  const [selecteUnit, setSelecteUnit] = useState<string>("");
+
+  // Nuevo estado para controlar el estado de carga
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleSelectUnit = (value: string) => {
+    setSelecteUnit(value);
+  };
 
   useEffect(() => {
     fetch("http://localhost:3000/apiFarmaNova/inventory/getCategories")
-      .then((response) => {
-        if (!response.ok) throw new Error("Error al cargar los datos");
-        return response.json();
-      })
-      .then((data) => {
-        const opts = data.map((item: { id: number; label: string }) => ({
-          value: item.id.toString(),
-          label: item.label,
-          id: item.id,
-        }));
-        setOptions(opts);
-      })
-      .catch((error) => console.error("Error fetching categories:", error));
-  }, []);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getTherapeutiAction")
       .then((response) => {
         if (!response.ok) throw new Error("Error al cargar los datos");
         return response.json();
@@ -62,39 +55,44 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
       .catch((error) => console.error("Error fetching categories:", error));
   }, []);
 
-
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Creamos el objeto FormData para incluir la imagen y demás datos
-    const formData = new FormData();
-    formData.append("nombreComercial", nombreComercial);
-    formData.append("nombreGenerico", nombreGenerico);
-    formData.append("concentracion", concentracion);
-    // Convertimos el array de opciones seleccionadas a JSON
-    formData.append("categories", JSON.stringify(selected));
-    formData.append("therapeuticAction", JSON.stringify(therapeutiAction));
+    if (!selected) {
+      message.error("Favor ingresar al menos una categoria");
+    } else {
+      const medicamentoData = {
+        nombreComercial,
+        nombreGenerico,
+        concentracion: concentracion + selecteUnit,
+        categories: selected,
+      };
 
-    // Aquí puedes enviar formData mediante fetch o axios.
-    // Ejemplo:
-    // fetch("http://localhost:3000/api/medicamentos", {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then(response => response.json())
-    //   .then(data => console.log(data))
-    //   .catch(error => console.error(error));
+      setLoading(true); // Activa el estado de carga
 
-    // Para este ejemplo, solo mostramos el contenido en consola.
-    console.log("Formulario enviado con:");
-    message.success("Medicamento guardado correctamente", 2);
-    for (const pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
+      try {
+        const response = await fetch(
+          "http://localhost:3000/apiFarmaNova/inventory/createMedicineCatalog",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(medicamentoData), // Convertimos el objeto a JSON
+          }
+        );
+
+        if (!response.ok) throw new Error("Error en el envío");
+        onMedicationAdded();
+        message.success("Medicamento guardado correctamente", 2);
+        onClose();
+      } catch (error) {
+        message.error("Error al enviar los datos");
+        console.error("Error:", error);
+      } finally {
+        setLoading(false); // Desactiva el estado de carga cuando termina la solicitud
+      }
     }
-
-    // Cerrar el modal después de guardar
-    onClose();
   };
 
   return (
@@ -151,7 +149,7 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
                 onChange={(e) => setNombreGenerico(e.target.value)}
                 style={{ marginBottom: "10px" }}
               />
-             
+
               <div style={{ flexDirection: "row", display: "flex" }}>
                 <Input
                   type="number"
@@ -162,27 +160,18 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
                   style={{ marginBottom: "10px" }}
                 />
                 <Select
-                  options={[
-                    {
-                      value: "mg",
-                      label: "mg",
-                    },
-                    { value: "ml", label: "ml" },
-                    { value: "g", label: "g" },
-                    { value: "gr", label: "gr" },
-                  ]}
+                  options={Units}
                   style={{ width: "100px", marginLeft: "10px" }}
+                  onChange={handleSelectUnit}
+                  value={selecteUnit}
                 />
               </div>
 
               <MultipleSelector
                 selected={selected}
                 setSelected={setSelected}
-                options={options}
+                options={therapeutiAction}
               />
-
-             
-
 
               <div style={{ marginTop: "20px" }}>
                 <button
@@ -192,7 +181,9 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
                 >
                   Cerrar
                 </button>
-                <button type="submit">Guardar</button>
+                <button type="submit">
+                  {loading ? <Spin /> : "Guardar"}
+                </button>
               </div>
             </form>
           </motion.div>

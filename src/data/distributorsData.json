@@ -1,58 +1,12 @@
 [
   {
     "id": 1,
-    "value": "Distribuidor A",
-    "empresa": "Farmacéuticos S.A.",
-    "telefono": "555-1234",
-    "ultimoPedido": "2024-03-20"
+    "value": "distribuidor1",
+    "label": "Distribuidor 1"
   },
   {
     "id": 2,
-    "value": "Distribuidor B",
-    "empresa": "Medicinas del Norte",
-    "telefono": "555-5678",
-    "ultimoPedido": "2024-03-18"
-  },
-  {
-    "id": 3,
-    "value": "Distribuidor C",
-    "empresa": "Salud y Vida S.A.",
-    "telefono": "555-7890",
-    "ultimoPedido": "2024-03-15"
-  },
-  {
-    "id": 4,
-    "value": "Distribuidor D",
-    "empresa": "Farmacias Unidas",
-    "telefono": "555-4567",
-    "ultimoPedido": "2024-03-10"
-  },
-  {
-    "id": 5,
-    "value": "Distribuidor E",
-    "empresa": "Medicamentos Rápidos S.A.",
-    "telefono": "555-2468",
-    "ultimoPedido": "2024-03-08"
-  },
-  {
-    "id": 6,
-    "value": "Distribuidor F",
-    "empresa": "Productos Genéricos",
-    "telefono": "555-1357",
-    "ultimoPedido": "2024-03-05"
-  },
-  {
-    "id": 7,
-    "value": "Distribuidor G",
-    "empresa": "Suplementos y Más",
-    "telefono": "555-9876",
-    "ultimoPedido": "2024-03-03"    
-  },
-  {
-    "id": 8,
-    "value": "Distribuidor H",
-    "empresa": "PharmaExpress",
-    "telefono": "555-6543",
-    "ultimoPedido": "2024-03-01"
+    "value": "distribuidor2",
+    "label": "Distribuidor 2"
   }
 ]
