@@ -255,7 +255,7 @@ export const AddMedicamentsForm = () => {
           medicamento.unidadesPorTableta || ""
         );
       }
-      formData.append(`image[${index}]`, medicamento.imageFile);
+      formData.append(`image`, medicamento.imageFile);
     });
 
     try {
