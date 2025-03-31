@@ -4,7 +4,7 @@ import NewMedicationModal from "./NewMedicamentsModal";
 import distributors from "../../data/distributorsData.json";
 import "./AddMedicamentsForm.css";
 import dayjs from "dayjs";
-import axios from 'axios'
+import axios from "axios";
 
 export const AddMedicamentsForm = () => {
   const [selectedMedication, setSelectedMedication] = useState<string | null>(
@@ -119,9 +119,8 @@ export const AddMedicamentsForm = () => {
     const index = newData.findIndex((item) => key === item.key);
     if (index > -1) {
       if (column in newData[index]) {
-        if (column in newData[index]) {
-          newData[index][column as keyof Medicamento] = value as Medicamento[keyof Medicamento];
-        }
+        const key = column as keyof Medicamento;
+        newData[index][key] = value! as Medicamento[keyof Medicamento]; // Non-null assertion
       }
       setMedicamentos(newData);
     }
@@ -162,22 +161,22 @@ export const AddMedicamentsForm = () => {
       title: "Cantidad",
       dataIndex: "cantidad",
       key: "cantidad",
-       // Marca la columna como editable
-        render: (_: unknown, record: Medicamento) => {
-          return (
-            <Input
-          defaultValue={record.cantidad}
-          onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-            handleEditableCellChange(e.target.value, record.key, "cantidad")
-          }
-            />
-          );
-        },
-          },
-          {
-        title: "Acciones",
-        key: "acciones",
-        render: (_: unknown, record: Medicamento) => (
+      // Marca la columna como editable
+      render: (_: unknown, record: Medicamento) => {
+        return (
+          <Input
+            defaultValue={record.cantidad}
+            onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+              handleEditableCellChange(e.target.value, record.key, "cantidad")
+            }
+          />
+        );
+      },
+    },
+    {
+      title: "Acciones",
+      key: "acciones",
+      render: (_: unknown, record: Medicamento) => (
         <Button
           type="link"
           onClick={() => {
@@ -191,6 +190,11 @@ export const AddMedicamentsForm = () => {
         </Button>
       ),
     },
+    {
+      title:"Fecha de expiracion", 
+      dataIndex: "fechaVencimiento",
+      key: "fechaVencimiento",
+    }
   ];
 
   useEffect(() => {
@@ -312,17 +316,19 @@ export const AddMedicamentsForm = () => {
 
   const [searchText, setSearchText] = useState("");
 
-
   const handleSearch = async () => {
     const loadingMessage = message.loading(`Buscando: ${searchText}`, 0);
-  
-    try { 
-      const response = await axios.get(`http://localhost:3000/apiFarmaNova/inventory/getRegisterPerBarCode/${searchText}`);
-      
+
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/apiFarmaNova/inventory/getRegisterPerBarCode/${searchText}`
+      );
+
       loadingMessage();
       message.success(`Resultados encontrados para: ${searchText}`);
-      console.log(response.data);
-    } catch  {
+      setMedicamentos([...medicamentos, response.data.data]);
+      message.success("Medicamento agregado a la tabla.");
+    } catch {
       loadingMessage();
       message.error(`No se encontraron resultados para: ${searchText}`);
     }
@@ -330,7 +336,7 @@ export const AddMedicamentsForm = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSearch(); 
+      handleSearch();
     }
   };
   return (
