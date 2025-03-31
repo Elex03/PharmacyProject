@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Select, Input, Button, message, Table } from "antd";
+import { Select, Input, Button, message, Table, DatePicker } from "antd";
 import NewMedicationModal from "./NewMedicamentsModal";
 import distributors from "../../data/distributorsData.json";
 import "./AddMedicamentsForm.css";
+import dayjs from "dayjs";
+import axios from 'axios'
 
 export const AddMedicamentsForm = () => {
   const [selectedMedication, setSelectedMedication] = useState<string | null>(
@@ -43,10 +45,14 @@ export const AddMedicamentsForm = () => {
     cantidad: string;
     unidadesPorTableta?: string;
     imageFile: File;
+    fechaVencimiento: string;
   }
 
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>([]);
   const [medicamentList, setMedicamentList] = useState<Option[]>([]);
+  const [purchaseExpiration, setPurchaseExpiration] = useState<string>("");
+  const [showMedicationSelector, setShowMedicationSelector] =
+    useState<boolean>(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -60,7 +66,7 @@ export const AddMedicamentsForm = () => {
   };
 
   const handleSelectChangeCompressedForm = (value: string) => {
-    const compressed_Form =  compressedForm.find((d) => d.value === value);
+    const compressed_Form = compressedForm.find((d) => d.value === value);
     if (compressed_Form) {
       setSelectedCompressedForm({
         id: compressed_Form.id,
@@ -104,6 +110,22 @@ export const AddMedicamentsForm = () => {
       })
       .catch((error) => console.error("Error fetching categories:", error));
   };
+  const handleEditableCellChange = (
+    value: string,
+    key: string,
+    column: string
+  ) => {
+    const newData = [...medicamentos];
+    const index = newData.findIndex((item) => key === item.key);
+    if (index > -1) {
+      if (column in newData[index]) {
+        if (column in newData[index]) {
+          newData[index][column as keyof Medicamento] = value as Medicamento[keyof Medicamento];
+        }
+      }
+      setMedicamentos(newData);
+    }
+  };
 
   const columns = [
     {
@@ -140,11 +162,22 @@ export const AddMedicamentsForm = () => {
       title: "Cantidad",
       dataIndex: "cantidad",
       key: "cantidad",
-    },
-    {
-      title: "Acciones",
-      key: "acciones",
-      render: (_: unknown, record: Medicamento) => (
+       // Marca la columna como editable
+        render: (_: unknown, record: Medicamento) => {
+          return (
+            <Input
+          defaultValue={record.cantidad}
+          onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+            handleEditableCellChange(e.target.value, record.key, "cantidad")
+          }
+            />
+          );
+        },
+          },
+          {
+        title: "Acciones",
+        key: "acciones",
+        render: (_: unknown, record: Medicamento) => (
         <Button
           type="link"
           onClick={() => {
@@ -220,6 +253,7 @@ export const AddMedicamentsForm = () => {
           ? cantidadTabletas
           : cantidad,
       unidadesPorTableta,
+      fechaVencimiento: purchaseExpiration || dayjs().format("YYYY-MM-DD"),
       imageFile: imageFile as File, // Aseguramos que imageFile no sea null
     };
 
@@ -256,6 +290,7 @@ export const AddMedicamentsForm = () => {
         );
       }
       formData.append(`image`, medicamento.imageFile);
+      formData.append("fechaVencimiento", medicamento.fechaVencimiento);
     });
 
     try {
@@ -275,92 +310,137 @@ export const AddMedicamentsForm = () => {
     }
   };
 
+  const [searchText, setSearchText] = useState("");
+
+
+  const handleSearch = async () => {
+    const loadingMessage = message.loading(`Buscando: ${searchText}`, 0);
+  
+    try { 
+      const response = await axios.get(`http://localhost:3000/apiFarmaNova/inventory/getRegisterPerBarCode/${searchText}`);
+      
+      loadingMessage();
+      message.success(`Resultados encontrados para: ${searchText}`);
+      console.log(response.data);
+    } catch  {
+      loadingMessage();
+      message.error(`No se encontraron resultados para: ${searchText}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch(); 
+    }
+  };
   return (
-    <div className="add-medicaments-form">
-      <h2>Agregar Medicamentos</h2>
-      <label>Si ya tienes un medicamento de ese tipo, selecciónalo:</label>
-      <div style={{ flexDirection: "row", display: "flex", gap: "10px" }}>
-        <Select
-          aria-required
-          showSearch
-          allowClear
-          options={medicamentList}
-          style={{ width: "100%" }}
-          placeholder="Buscar o seleccionar un medicamento"
-          onChange={handleSelectChange}
-          value={selectedMedication || undefined}
-          filterOption={(input, option) =>
-            option?.value.toLowerCase().includes(input.toLowerCase()) || false
-          }
-        />
-        <Button>Agregar</Button>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          marginTop: "20px",
-        }}
-      >
-        <label>Si no tienes un medicamento de ese tipo, agrégalo:</label>
-        <Button className="add-medicament-button" onClick={handleAddClick}>
-          Agregar Medicamento
+    <div style={{ padding: 20, maxWidth: 800, margin: "auto" }}>
+      <h2 style={{ textAlign: "center", marginBottom: 20 }}>
+        Agregar Medicamentos
+      </h2>
+
+      <div style={{ marginBottom: 20 }}>
+        <Button
+          type="primary"
+          style={{ marginRight: 10 }}
+          onClick={() => setShowMedicationSelector(true)}
+        >
+          Seleccionar Medicamento Existente
+        </Button>
+        <Button type="default" onClick={() => setShowMedicationSelector(false)}>
+          Agregar Nuevo Medicamento
         </Button>
       </div>
+      {!showMedicationSelector && (
+        <Input
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Escribe algo para buscar"
+        />
+      )}
+      {showMedicationSelector && (
+        <div
+          style={{
+            display: "flex",
+            gap: 10,
+            overflowY: "auto",
+            alignItems: "center",
+          }}
+        >
+          <Select
+            showSearch
+            allowClear
+            options={medicamentList}
+            style={{ flex: 1 }}
+            placeholder="Buscar o seleccionar un medicamento"
+            onChange={handleSelectChange}
+            value={selectedMedication || undefined}
+            filterOption={(input, option) =>
+              option?.value.toLowerCase().includes(input.toLowerCase()) || false
+            }
+          />
+          <Button type="primary" onClick={handleAddClick}>
+            Agregar
+          </Button>
+        </div>
+      )}
 
       {selectedMedication && (
-        <div style={{ marginTop: "20px" }}>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ marginBottom: "10px" }}
-          />
-          <Input
-            type="text"
-            placeholder="Código de Barras"
-            value={codigoBarra}
-            required
-            onChange={(e) => setCodigoBarra(e.target.value)}
-            style={{ marginBottom: "10px" }}
-          />
+        <div
+          style={{
+            marginTop: 20,
+            padding: 10,
+            borderRadius: 8,
+            border: "1px solid #ddd",
+          }}
+        >
+          <div style={{ display: "flex", gap: 10 }}>
+            <Input type="file" accept="image/*" onChange={handleImageChange} />
+            <Input
+              type="text"
+              placeholder="Código de Barras"
+              value={codigoBarra}
+              required
+              onChange={(e) => setCodigoBarra(e.target.value)}
+            />
+          </div>
           <Select
             allowClear
             showSearch
-            options={distributors} // Asegúrate de que distributors esté bien estructurado
-            style={{ width: "100%", marginBottom: "10px" }}
+            options={distributors}
+            style={{ width: "100%", marginTop: 10 }}
             onChange={handleSelectChangeDistributor}
             placeholder="Seleccionar distribuidor"
-            value={selectedDistributor.value}
+            value={selectedDistributor?.value}
           />
-          <Input
-            required
-            type="text"
-            placeholder="Precio Venta"
-            value={precioVenta}
-            onChange={(e) => setPrecioVenta(e.target.value)}
-            style={{ marginBottom: "10px" }}
-          />
-          <Input
-            required
-            type="text"
-            placeholder="Precio Compra"
-            value={precioCompra}
-            onChange={(e) => setPrecioCompra(e.target.value)}
-            style={{ marginBottom: "10px" }}
-          />
+          <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
+            <Input
+              required
+              type="text"
+              placeholder="Precio Venta"
+              value={precioVenta}
+              onChange={(e) => setPrecioVenta(e.target.value)}
+            />
+            <Input
+              required
+              type="text"
+              placeholder="Precio Compra"
+              value={precioCompra}
+              onChange={(e) => setPrecioCompra(e.target.value)}
+            />
+          </div>
 
           <Select
             allowClear
             showSearch
             options={compressedForm}
-            style={{ width: "100%", marginBottom: "10px" }}
+            style={{ width: "100%", marginTop: 10 }}
             onChange={handleSelectChangeCompressedForm}
-            value={selectedCompressedForm.value}
+            value={selectedCompressedForm?.value}
             placeholder="Seleccionar forma comprimida"
           />
-          {selectedCompressedForm.value === "tableta" ? (
+          {selectedCompressedForm?.value === "tableta" ? (
             <>
               <Input
                 required
@@ -368,7 +448,7 @@ export const AddMedicamentsForm = () => {
                 placeholder="Cantidad de tabletas"
                 value={cantidadTabletas}
                 onChange={(e) => setCantidadTabletas(e.target.value)}
-                style={{ marginBottom: "10px" }}
+                style={{ marginTop: 10 }}
               />
               <Input
                 required
@@ -376,7 +456,7 @@ export const AddMedicamentsForm = () => {
                 placeholder="Unidades por tableta"
                 value={unidadesPorTableta}
                 onChange={(e) => setUnidadesPorTableta(e.target.value)}
-                style={{ marginBottom: "10px" }}
+                style={{ marginTop: 10 }}
               />
             </>
           ) : (
@@ -386,23 +466,42 @@ export const AddMedicamentsForm = () => {
               placeholder="Cantidad"
               value={cantidad}
               onChange={(e) => setCantidad(e.target.value)}
-              style={{ marginBottom: "10px" }}
+              style={{ marginTop: 10 }}
             />
           )}
 
-          <Button onClick={handleAddToTable} type="primary">
+          <DatePicker
+            placeholder="Fecha de vencimiento"
+            onChange={(_date, dateString) =>
+              setPurchaseExpiration(
+                typeof dateString === "string" ? dateString : ""
+              )
+            }
+            style={{ width: "100%", marginTop: 10 }}
+          />
+          <Button
+            onClick={handleAddToTable}
+            type="primary"
+            style={{ width: "100%", marginTop: 10 }}
+          >
             Agregar a la tabla
           </Button>
         </div>
       )}
-      <Table columns={columns} dataSource={medicamentos} />
+
+      <Table
+        columns={columns}
+        dataSource={medicamentos}
+        style={{ marginTop: 20 }}
+      />
       <Button
-        style={{ marginTop: "20px" }}
         type="primary"
         onClick={handleSubmit}
+        style={{ width: "100%", marginTop: 20 }}
       >
         Enviar medicamentos
       </Button>
+
       <NewMedicationModal
         isOpen={isModalOpen}
         onClose={closeModal}

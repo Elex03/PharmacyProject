@@ -7,10 +7,7 @@ const Shopping: React.FC = () => {
 
   return (
     <div className="shopping-page">
-      <h2>Compras</h2>
       <AddMedicamentsForm />
-      
-      
     </div>
   );
 };

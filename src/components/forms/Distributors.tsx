@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Distributors.css";
 import NuevaEmpresa from "./Empresa";
+import { Input, Select } from "antd";
 
 interface FormularioProps {
   setIsOpen: (isOpen: boolean) => void;
@@ -14,11 +15,11 @@ const Formulario: React.FC<FormularioProps> = ({ setIsOpen }) => {
     empresa: "",
     telefono: "",
   });
-  const [empresas, setEmpresas] = useState<{ id: number; nombre: string }[]>([]);
+  const [empresas, setEmpresas] = useState<{ id: number; label: string }[]>([]);
   const [isOpenNuevaEmpresa, setIsOpenNuevaEmpresa] = useState(false);
 
   useEffect(() => {
-    fetch("/empresas.json")
+    fetch("http://localhost:3000/apiFarmaNova/distributors/getCompanies")
       .then((res) => res.json())
       .then((data) => setEmpresas(data))
       .catch((error) => console.error("Error al cargar empresas:", error));
@@ -40,9 +41,30 @@ const Formulario: React.FC<FormularioProps> = ({ setIsOpen }) => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, guardar",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then( async (result) => {
       if (result.isConfirmed) {
+
         console.log("Datos del formulario:", JSON.stringify(distribuidor));
+
+        try {
+          const response = await fetch("http://localhost:3000/apiFarmaNova/distributors", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(distribuidor),
+          });
+      
+          const result = await response.json();
+      
+          if (!response.ok) {
+            throw new Error(result.message || "Error en la solicitud");
+          }
+      
+          console.log("Distribuidor registrado:", result);
+        } catch (error) {
+          console.error("Error:", error);
+        }
         setDistribuidor({ nombre: "", empresa: "", telefono: "" });
         setIsOpen(false);
         Swal.fire({
@@ -74,7 +96,7 @@ const Formulario: React.FC<FormularioProps> = ({ setIsOpen }) => {
             <div className="form-content">
               <div className="input-box large">
                 <span className="details">Nombre del distribuidor *</span>
-                <input
+                <Input
                   type="text"
                   name="nombre"
                   value={distribuidor.nombre}
@@ -84,29 +106,32 @@ const Formulario: React.FC<FormularioProps> = ({ setIsOpen }) => {
               </div>
               <div className="input-box large">
                 <span className="details">Empresa a la cual labora *</span>
-                <select
-                  name="empresa"
+                <Select
+                style={{
+                  height: '45px',
+                  border: '1px solid black'
+                }}
                   value={distribuidor.empresa}
-                  onChange={(e) => {
-                    if (e.target.value === "nueva_empresa") {
+                  onChange={(value) => {
+                    if (value === "nueva_empresa") {
                       setIsOpenNuevaEmpresa(true);
                     } else {
-                      handleInputChange(e);
+                      setDistribuidor((prevState) => ({ ...prevState, empresa: value }));
                     }
                   }}
                 >
                   <option value="" hidden></option>
                   <option value="nueva_empresa">➕ Añadir nueva empresa</option>
                   {empresas.map((empresa) => (
-                    <option key={empresa.id} value={empresa.nombre}>
-                      {empresa.nombre}
+                    <option key={empresa.id} value={empresa.label}>
+                      {empresa.label}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div className="input-box large">
                 <span className="details">Teléfono</span>
-                <input
+                <Input
                   type="text"
                   name="telefono"
                   value={distribuidor.telefono}

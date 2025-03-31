@@ -1,0 +1,5 @@
+[
+  { "id": 1, "value": "Empresa A", "label":"Empresa A"  },
+  { "id": 2, "value": "Empresa B", "label":"Empresa B"  },
+  { "id": 3, "value": "Empresa C", "label":"Empresa C"  }
+]
