@@ -2,6 +2,7 @@ import React, { useState, useEffect, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input, message, Select } from "antd";
 import MultipleSelector from "./multipleSelector";
+
 interface Option {
   id: number;
   value: string;
@@ -17,19 +18,15 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  // Estados para inputs de texto
   const [nombreComercial, setNombreComercial] = useState<string>("");
   const [nombreGenerico, setNombreGenerico] = useState<string>("");
-  const [codigoBarra, setCodigoBarra] = useState<string>("");
+
   const [concentracion, setConcentracion] = useState<string>("");
   const [therapeutiAction, setTherapeutiAction] = useState<Option[]>([]);
 
   const [options, setOptions] = useState<Option[]>([]);
   const [selected, setSelected] = useState<Option[]>([]);
-  const [selectedForm, setSelectedForm] = useState<Option[]>([]);
 
-  // Estado para la imagen: se guarda el archivo y su preview
-  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:3000/apiFarmaNova/inventory/getCategories")
@@ -65,12 +62,7 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
       .catch((error) => console.error("Error fetching categories:", error));
   }, []);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setImageFile(file);
-    }
-  };
+
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -79,14 +71,10 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
     const formData = new FormData();
     formData.append("nombreComercial", nombreComercial);
     formData.append("nombreGenerico", nombreGenerico);
-    formData.append("codigoBarra", codigoBarra);
     formData.append("concentracion", concentracion);
     // Convertimos el array de opciones seleccionadas a JSON
     formData.append("categories", JSON.stringify(selected));
-    formData.append("form", JSON.stringify(selectedForm));
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
+    formData.append("therapeuticAction", JSON.stringify(therapeutiAction));
 
     // Aquí puedes enviar formData mediante fetch o axios.
     // Ejemplo:
@@ -163,14 +151,7 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
                 onChange={(e) => setNombreGenerico(e.target.value)}
                 style={{ marginBottom: "10px" }}
               />
-              <Input
-                type="text"
-                placeholder="Código de Barras"
-                value={codigoBarra}
-                required
-                onChange={(e) => setCodigoBarra(e.target.value)}
-                style={{ marginBottom: "10px" }}
-              />
+             
               <div style={{ flexDirection: "row", display: "flex" }}>
                 <Input
                   type="number"
@@ -200,18 +181,9 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
                 options={options}
               />
 
-              <MultipleSelector
-                selected={selectedForm}
-                setSelected={setSelectedForm}
-                options={therapeutiAction}
-              />
-
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
              
+
+
               <div style={{ marginTop: "20px" }}>
                 <button
                   type="button"
