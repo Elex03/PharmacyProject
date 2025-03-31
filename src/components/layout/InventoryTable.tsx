@@ -55,7 +55,7 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
         <tbody>
           {currentData.length > 0 ? (
             currentData.map((item) => (
-              <tr key={item.id}>
+              <tr key={item.id} className="elements">
                 <td>{item.descripcion}</td>
                 <td>{item.formaFarmaceutica}</td>
                 <td>{item.presentacion}</td>
