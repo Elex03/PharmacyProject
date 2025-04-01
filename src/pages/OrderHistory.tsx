@@ -2,11 +2,14 @@ import { useState } from "react";
 import "./OrderHistory.css";
 import OrderHistoryTable from "../components/layout/OrderHistoryTable";
 import data from "../data/orderHistoryData.json";
+import BarChart from '../components/charts/BarChart';
 
 
 const OrderHistory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
+
+  const dataBar = [45, 60, 80, 50, 90, 100, 75, 85, 95, 110, 120, 130];
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -30,6 +33,7 @@ const OrderHistory = () => {
     return (
       <div className="orderhistory-page">
         <h2>Historial de pedidos</h2>
+        <BarChart data={dataBar} />;
         <div className="orderhistory-actions">
           <input
             type="text"
