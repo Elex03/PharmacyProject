@@ -8,6 +8,7 @@ import CashRegister from "./pages/CashRegister";
 import Shopping from "./pages/shopping";
 import SalesHistory from "./pages/SalesHistory";
 import OrderHistory from "./pages/OrderHistory";
+import UnderConstruction from "./pages/Defualt";
 
 const AppRouter = () => {
   return (
@@ -68,7 +69,7 @@ const AppRouter = () => {
             </div>
           }
         />
-          <Route
+        <Route
           path="/historial/:id"
           element={
             <div style={{ display: "flex" }}>
@@ -78,7 +79,15 @@ const AppRouter = () => {
           }
         />
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<Login />} />
+        <Route
+          path="*"
+          element={
+            <div style={{display: 'flex'}}>
+              <Sidebar />
+              <UnderConstruction />
+            </div>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

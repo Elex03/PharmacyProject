@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Select, Input, Button, message, Table, DatePicker } from "antd";
 import NewMedicationModal from "./NewMedicamentsModal";
-import distributors from "../../data/distributorsData.json";
 import "./AddMedicamentsForm.css";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -24,6 +23,7 @@ export const AddMedicamentsForm = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [precioVenta, setPrecioVenta] = useState<string>("");
   const [precioCompra, setPrecioCompra] = useState<string>("");
+  const [distributors, setDistributors] = useState<Option[]>([]);
   const [codigoBarra, setCodigoBarra] = useState<string>("");
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -106,7 +106,7 @@ export const AddMedicamentsForm = () => {
             id: item.id,
           })
         );
-        setMedicamentList(updatedOptions); // Actualiza el estado del Select
+        setMedicamentList(updatedOptions);
       })
       .catch((error) => console.error("Error fetching categories:", error));
   };
@@ -191,10 +191,10 @@ export const AddMedicamentsForm = () => {
       ),
     },
     {
-      title:"Fecha de expiracion", 
+      title: "Fecha de expiracion",
       dataIndex: "fechaVencimiento",
       key: "fechaVencimiento",
-    }
+    },
   ];
 
   useEffect(() => {
@@ -210,6 +210,21 @@ export const AddMedicamentsForm = () => {
           id: item.id,
         }));
         setMedicamentList(opts);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+
+    fetch("http://localhost:3000/apiFarmaNova/distributors/")
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        const opts = data.map((item: { id: number; label: string }) => ({
+          value: item.id.toString(),
+          label: item.label,
+          id: item.id,
+        }));
+        setDistributors(opts);
       })
       .catch((error) => console.error("Error fetching categories:", error));
 

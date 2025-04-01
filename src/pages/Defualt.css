@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px ;
+  min-height: 100vh;
+  gap: 15px;
+  padding-bottom: 80px;
+}
+.container .content {
+  flex: 1 1 300px;
+}
+.container .image {
+  flex: 1 1 300px;
+}
+.container .content img {
+  width: 80%;
+}
+.container .content .tittle {
+  font-size: 45px;
+  text-transform: uppercase;
+  color: #2980b9;
+}
+.container .content p {
+  color: #666;
+  padding: 5px 0;
+  text-align: left;
+}
