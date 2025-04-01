@@ -15,11 +15,11 @@
   gap: 10px;    
 }
 
-.logo-placeholder {
+.logo {
   width: 40px;
-  height: 40px;
-  background-color: #ccc;
-  border-radius: 50%;
+  height: 40px; 
+  object-fit: cover;  /* Asegura que la imagen se ajuste dentro del contenedor */
+  border-radius: 50%;  
 }
 
 .brand-title {

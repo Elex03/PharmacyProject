@@ -2,9 +2,31 @@
     padding: 20px;    
   }
   
-  .inventory-table {
+  /* tabla de inventario */
+  .inventory-table-I {
     width: 102%;
     border-collapse: collapse;
+  }
+
+  .inventory-table-I th,
+  .inventory-table-I td {
+    padding: 10px;    
+    text-align: left;
+    font-size: 11px;
+  }
+
+  /* tabla historial */
+  .inventory-table-H th,
+  .inventory-table-H td {
+    padding: 10px;    
+    text-align: left;
+    font-size: 14px;
+    padding-left: 150px;
+    /* color: #333; */
+  }  
+  .inventory-table {
+    width: 100%;
+    border-collapse: collapse;    
   }
   
   .inventory-table th,
@@ -12,17 +34,18 @@
     padding: 10px;    
     text-align: left;
     font-size: 14px;
-  }
-  
-  .inventory-table th {
-    color: #333;
-  }
-   
+    padding-left: 50px;
+    /* color: #333; */
+  }  
+
+
+   /* paginacion */
   .pagination {
     display: flex;
     justify-content: center;
     gap: 8px;
     margin-top: 10px;
+    padding-left: 140px;
   }
   
   .pagination button {
@@ -30,7 +53,7 @@
     border: 1px solid #007bff;
     background: #ffffff;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.3s ease;    
   }
   
   .pagination button.active {

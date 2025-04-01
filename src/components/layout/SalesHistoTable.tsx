@@ -66,7 +66,7 @@ const SalesHistoTable = ({ data }: { data: SalesItem[] }) => {
 
   return (
     <div className="inventory-container">
-      <table className="inventory-table">
+      <table className="inventory-table-H">
         <thead>
           <tr>
             <th>Nombre del cliente</th>

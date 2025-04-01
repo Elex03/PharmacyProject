@@ -43,7 +43,7 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
 
   return (
     <div className="inventory-container">
-      <table className="inventory-table">
+      <table className="inventory-table-I">
         <thead>
           <tr>
             <th>Descripción</th>
