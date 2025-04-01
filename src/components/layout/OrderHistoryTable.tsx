@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Table.css";
+import { FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa"; // Importa los iconos
 import orderData from "../../data/orderDetails.json";
 
 interface OrderHistoryItem {
@@ -55,6 +56,25 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
 
   const totalVenta = orderDetails.reduce((acc, producto) => acc + producto.total, 0);
 
+  const determinarEstado = (pedido: OrderHistoryItem) => {
+    if (pedido.fechaEntrega) {
+      return "Realizado";
+    }
+    if (pedido.total === 0) {
+      return "Cancelado";
+    }
+    return "Pendiente";
+  };
+
+  // Función para asignar iconos según el estado
+  
+  const getStatusIcon = (estado: string) => {
+    if (estado === "Pendiente") return <FaClock style={{ color: "orange" }} />;
+    if (estado === "Realizado") return <FaCheckCircle style={{ color: "green" }} />;
+    if (estado === "Cancelado") return <FaTimesCircle style={{ color: "red" }} />;
+    return null;
+  };
+
   return (
     <div className="inventory-container">
       <table className="inventory-table">
@@ -76,7 +96,11 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
                 <td>{item.nombre}</td>
                 <td>{item.empresa}</td>
                 <td>{item.fechaPedido}</td>
-                <td>{item.estado}</td>
+                {/* <td>{item.estado}</td> */}
+                <td>
+  {getStatusIcon(determinarEstado(item))} {determinarEstado(item)}
+</td>
+
                 <td>C${item.total.toFixed(2)}</td>
                 <td>{item.fechaEntrega}</td>
                 <td>
