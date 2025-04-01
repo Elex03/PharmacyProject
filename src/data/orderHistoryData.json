@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "nombre": "Juan Pérez",
+    "empresa": "Distribuidora X",
+    "fechaPedido": "2024-03-30",
+    "estado": "Pendiente",
+    "total": 1500.75,
+    "fechaEntrega": ""
+  },
+  {
+    "id": 2,
+    "nombre": "Ana Gómez",
+    "empresa": "Tienda Y",
+    "fechaPedido": "2024-03-25",
+    "estado": "Realizado",
+    "total": 1200.50,
+    "fechaEntrega": "2024-03-28"
+  },
+  {
+    "id": 3,
+    "nombre": "Carlos Mendoza",
+    "empresa": "Supermercado A",
+    "fechaPedido": "2024-03-20",
+    "estado": "Cancelado",
+    "total": 0,
+    "fechaEntrega": ""
+  },
+  {
+    "id": 4,
+    "nombre": "María López",
+    "empresa": "Almacenes B",
+    "fechaPedido": "2024-03-15",
+    "estado": "Realizado",
+    "total": 500.00,
+    "fechaEntrega": "2024-03-18"
+  },
+  {
+    "id": 5,
+    "nombre": "José Ramírez",
+    "empresa": "Tienda C",
+    "fechaPedido": "2024-03-29",
+    "estado": "Pendiente",
+    "total": 800.25,
+    "fechaEntrega": ""
+  },
+  {
+    "id": 6,
+    "nombre": "Gabriela Torres",
+    "empresa": "Distribuidora D",
+    "fechaPedido": "2024-03-10",
+    "estado": "Cancelado",
+    "total": 0,
+    "fechaEntrega": ""
+  },
+  {
+    "id": 7,
+    "nombre": "Fernando Castillo",
+    "empresa": "Tienda E",
+    "fechaPedido": "2024-03-22",
+    "estado": "Realizado",
+    "total": 2100.00,
+    "fechaEntrega": "2024-03-24"
+  },
+  {
+    "id": 8,
+    "nombre": "Lucía Herrera",
+    "empresa": "Mini Market F",
+    "fechaPedido": "2024-03-18",
+    "estado": "Pendiente",
+    "total": 675.00,
+    "fechaEntrega": ""
+  },
+  {
+    "id": 9,
+    "nombre": "Ricardo Núñez",
+    "empresa": "Bodega G",
+    "fechaPedido": "2024-03-05",
+    "estado": "Realizado",
+    "total": 950.75,
+    "fechaEntrega": "2024-03-07"
+  },
+  {
+    "id": 10,
+    "nombre": "Diana Flores",
+    "empresa": "Tienda H",
+    "fechaPedido": "2024-03-31",
+    "estado": "Pendiente",
+    "total": 450.00,
+    "fechaEntrega": ""
+  }
+]
