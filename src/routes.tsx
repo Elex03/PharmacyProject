@@ -67,7 +67,7 @@ const AppRouter = () => {
               <OrderHistory />
             </div>
           }
-        />
+        />      
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Login />} />
       </Routes>

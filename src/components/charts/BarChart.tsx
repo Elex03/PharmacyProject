@@ -82,11 +82,11 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "90vw",
+        width: "95vw",
         padding: "10px",
       }}
     >
-      <div style={{ width: "100%", maxWidth: "1300px", height: "200px" }}>
+      <div style={{ width: "100%", maxWidth: "1050px", height: "110px" }}>
         <canvas
           ref={chartRef}
           style={{ width: "100%", height: "100%" }}

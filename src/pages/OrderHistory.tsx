@@ -3,9 +3,13 @@ import "./OrderHistory.css";
 import OrderHistoryTable from "../components/layout/OrderHistoryTable";
 import data from "../data/orderHistoryData.json";
 import BarChart from '../components/charts/BarChart';
+import { useNavigate } from "react-router-dom";
 
 
 const OrderHistory = () => {
+
+  const navigate = useNavigate();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
 
@@ -32,7 +36,10 @@ const OrderHistory = () => {
 
     return (
       <div className="orderhistory-page">
-        <h2>Historial de pedidos</h2>
+        <div className="arrow-container" onClick={() => navigate("/distribuidores")}>
+        ←
+      </div>
+        <h2 className="title-order">Historial de pedidos</h2>
         <BarChart data={dataBar} />;
         <div className="orderhistory-actions">
           <input

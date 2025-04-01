@@ -1,6 +1,6 @@
-h2 {
+.title-order {
   margin-left: 70px;
-  margin-top: 50px;
+  margin-top: -5px;
   font-size: 24px;
   color: #333;
 }
@@ -30,6 +30,8 @@ h2 {
 
 .register-button-orderhistory {
   width: 200px;
+  position: absolute;
+  right: 40px;
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
@@ -39,4 +41,13 @@ h2 {
 
 .register-button-orderhistory:hover {
   background-color: #0056b3;
+}
+
+.arrow-container {
+  cursor: pointer;
+  font-size: 30px;  
+  width: auto;
+  height: auto;
+  display: inline-block;  /* Esto asegura que el div no se expanda */
+  margin: 10px;  
 }
