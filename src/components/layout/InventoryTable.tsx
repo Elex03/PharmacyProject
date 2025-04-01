@@ -8,6 +8,15 @@ interface InventoryItem {
   inventario: string | number;
   distribuidor: string;
   vencimiento: string;
+  nombreComercial: string;
+  nombreGenerico: string;
+  formaFarmaceutica: string;
+  concentracion: string;
+  presentacion: string;
+  laboratorio: string;
+  precioCompra: number;
+  precioVenta: number;
+  margenUtilidad: number;
 }
 
 const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
@@ -16,7 +25,6 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  // Calcular el índice inicial y final de los elementos visibles en la página actual
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = data.slice(startIndex, endIndex);
@@ -27,38 +35,55 @@ const InventoryTable = ({ data }: { data: InventoryItem[] }) => {
     }
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
+  };
+
   return (
     <div className="inventory-container">
       <table className="inventory-table">
         <thead>
           <tr>
             <th>Descripción</th>
+            <th>Forma Farmacéutica</th>
+            <th>Presentación</th>
+            <th>Laboratorio</th>
             <th>Estado de stock</th>
-            <th>Inventario</th>
-            <th>Distribuidor</th>
+            <th>En inventario</th>
             <th>Fecha de vencimiento</th>
+            <th>Precio Compra</th>
+            <th>Precio Venta</th>
+            <th>Margen de Utilidad</th>
           </tr>
         </thead>
         <tbody>
           {currentData.length > 0 ? (
             currentData.map((item) => (
-              <tr key={item.id}>
-                <td>{item.descripcion}</td>
+              <tr key={item.id} className="elements">
+                <td>{truncateText(item.descripcion, 20)}</td>{" "}
+                {/* Truncar si es largo */}
+                <td>{item.formaFarmaceutica}</td>
+                <td>{item.presentacion}</td>
+                <td>{item.laboratorio}</td>
                 <td>{item.stock}</td>
                 <td>{item.inventario}</td>
-                <td>{item.distribuidor}</td>
                 <td>{item.vencimiento}</td>
+                <td>{item.precioCompra}</td>
+                <td>{item.precioVenta}</td>
+                <td>{item.margenUtilidad}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={5} style={{ textAlign: "center", color: "gray" }}>
+              <td colSpan={14} style={{ textAlign: "center", color: "gray" }}>
                 No se encontraron resultados
               </td>
             </tr>
           )}
         </tbody>
-      </table>      
+      </table>
       <div className="pagination">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
