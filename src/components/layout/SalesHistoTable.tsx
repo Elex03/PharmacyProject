@@ -99,7 +99,7 @@ const SalesHistoTable = ({ data }: { data: SalesItem[] }) => {
         </tbody>
       </table>
 
-      <div className="pagination">
+      <div className="pagination-H">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}

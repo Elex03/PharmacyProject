@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion"; // Importar AnimatePresence
 import DistributorsTable from "../components/layout/DistributorTable";
 import "./Distributors.css";
-import data from "../data/distributorsData.json"; 
+import ApexChart from "../components/charts/apexChart";
+import Formulario from "../components/forms/Distributors";
+
+interface DistributorItem {
+  id: number;
+  nombre: string;
+  empresa: string;
+  telefono: string;
+  ultimoPedido: string;
+}
 
 const Distributors = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<string>("");
+  const [distributorsData, setDistributorsData] = useState<DistributorItem[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -15,7 +27,24 @@ const Distributors = () => {
     setSortOrder(e.target.value);
   };
 
-  const filteredData = data
+  // Fetching data from the API
+  useEffect(() => {
+    fetch("http://localhost:3000/apiFarmaNova/distributors/")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos");
+        }
+        return response.json();
+      })
+      .then((data: DistributorItem[]) => {
+        setDistributorsData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
+
+  const filteredData = distributorsData
     .filter((distributor) =>
       Object.values(distributor).some((value) =>
         String(value).toLowerCase().includes(searchTerm.toLowerCase())
@@ -26,27 +55,44 @@ const Distributors = () => {
       return 0;
     });
 
-    return (
-      <div className="distributors-page">
-        <h2>Distribuidores</h2>
-        <div className="distributors-actions">
-          <input
-            type="text"
-            placeholder="Buscar"
-            className="search-bar"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <select className="filter-dropdown" value={sortOrder} onChange={handleSort}>
-            <option value="">Filtrar por nombre</option>
-            <option value="A-Z">A - Z</option>
-          </select>
-          <button className="register-button">Crear un proveedor</button>
-        </div>
-        <DistributorsTable data={filteredData} />
+  return (
+    <div className="distributors-page">
+      <h2>Distribuidores</h2>
+      <ApexChart />
+      <div className="distributors-actions">
+        <input
+          type="text"
+          placeholder="Buscar"
+          className="search-bar"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        <select
+          className="filter-dropdown"
+          value={sortOrder}
+          onChange={handleSort}
+        >
+          <option value="">Filtrar por nombre</option>
+          <option value="A-Z">A - Z</option>
+        </select>
+
+        {/* Botón para abrir el formulario */}
+        <button
+          className="register-button"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Crear un proveedor
+        </button>
+
+        {/* Agregar AnimatePresence para animación del modal */}
+        <AnimatePresence>
+          {isModalOpen && <Formulario setIsOpen={setIsModalOpen} />}
+        </AnimatePresence>
       </div>
-    );
-  };
-  
-  export default Distributors;
-  
+
+      <DistributorsTable data={filteredData} />
+    </div>
+  );
+};
+
+export default Distributors;
