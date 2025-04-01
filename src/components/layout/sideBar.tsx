@@ -50,11 +50,11 @@ const Sidebar = () => {
       <div className="sidebar-footer">
         <p className="menu-title">Cuenta</p>
         <Link to="/logout" className="menu-item logout">
-          <FaSignOutAlt />
+          <FaSignOutAlt style={{color: " #007bff"}}/>
           <span>Cerrar sesión</span>
         </Link>
         <div className="user-info">
-          <FaUserCircle />
+          <FaUserCircle style={{color: " #007bff"}}/>
           <span>Nombre Usuario</span>
         </div>
       </div>
