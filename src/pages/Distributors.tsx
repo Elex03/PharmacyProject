@@ -16,7 +16,9 @@ interface DistributorItem {
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
-  const [distributorsData, setDistributorsData] = useState<DistributorItem[]>([]);
+  const [distributorsData, setDistributorsData] = useState<DistributorItem[]>(
+    []
+  );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,41 +58,44 @@ const Distributors = () => {
     });
 
   return (
-    <div className="distributors-page" style={{width: '90vw'}}>
-      <h2>Distribuidores</h2>
-      <ApexChart />
-      <div className="distributors-actions">
-        <input
-          type="text"
-          placeholder="Buscar"
-          className="search-bar"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        <select
-          className="filter-dropdown"
-          value={sortOrder}
-          onChange={handleSort}
-        >
-          <option value="">Filtrar por nombre</option>
-          <option value="A-Z">A - Z</option>
-        </select>
+    <div className="distributors-page" style={{ width: "90vw" }}>
+      <div style={{ width: "90%" }}>
+        <h2>Distribuidores</h2>
+        <ApexChart />
+        <div className="distributors-actions">
+          <input
+            type="text"
+            placeholder="Buscar"
+            className="search-bar"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <select
+            className="filter-dropdown"
+            value={sortOrder}
+            onChange={handleSort}
+          >
+            <option value="">Filtrar por nombre</option>
+            <option value="A-Z">A - Z</option>
+          </select>
 
-        {/* Botón para abrir el formulario */}
-        <button
-          className="register-button"
-          onClick={() => setIsModalOpen(true)}
-        >
-          Crear un proveedor
-        </button>
+          {/* Botón para abrir el formulario */}
+          <button
+            className="register-button"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Crear un proveedor
+          </button>
 
-        {/* Agregar AnimatePresence para animación del modal */}
-        <AnimatePresence>
-          {isModalOpen && <Formulario setIsOpen={setIsModalOpen} />}
-        </AnimatePresence>
+          {/* Agregar AnimatePresence para animación del modal */}
+          <AnimatePresence>
+            {isModalOpen && <Formulario setIsOpen={setIsModalOpen} />}
+          </AnimatePresence>
+        </div>
+        <center>
+          <DistributorsTable data={filteredData} />
+        </center>
       </div>
-
-      <DistributorsTable data={filteredData} />
     </div>
   );
 };

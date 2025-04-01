@@ -25,28 +25,35 @@ const DistributorsTable = ({ data }: { data: DistributorItem[] }) => {
     }
   };
 
+  
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
+  };
+
+
   return (
     <div className="inventory-container">
-      <table className="inventory-table">
+      <table className="inventory-table-I">
         <thead>
           <tr>
             <th>Nombre del distribuidor</th>
             <th>Empresa</th>
             <th>Teléfono</th>
             <th>Último pedido realizado</th>
-            <th></th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {currentData.length > 0 ? (
             currentData.map((item) => (
-              <tr key={item.id}>
-                <td>{item.nombre}</td>
-                <td>{item.empresa}</td>
+              <tr key={item.id} className="elements">
+                <td>{truncateText(item.nombre, 20)}</td>
+                <td>{truncateText(item.empresa, 20)}</td>
                 <td>{item.telefono}</td>
                 <td>{item.ultimoPedido}</td>
                 <td>
-                  {/* Cambiar botones a enlaces */}
                   <Link to={`/historial/${item.id}`} className="action-link">
                     Ver historial
                   </Link>
