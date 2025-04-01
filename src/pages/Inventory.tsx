@@ -85,53 +85,50 @@ const Inventario = () => {
     });
 
   return (
-    <div className="inventory-page">
-      <h2>Inventario</h2>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "start",
-          justifyContent: "flex-start",
-        }}
-      >
+    <div className="inventory-page" style={{ width: "90vw" }}>
+      <div style={{ width: "90%" }}>
+        <h2>Inventario</h2>
+
         <PieChart />
+        <div className="inventory-actions">
+          <input
+            type="text"
+            placeholder="Buscar"
+            className="buscar-bar"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <select
+            className="filter-dropdown-nombre"
+            style={{ backgroundColor: "white" }}
+            value={sortOrder}
+            onChange={handleSort}
+          >
+            <option value="">Filtrar por nombre</option>
+            <option value="A-Z">A - Z</option>
+          </select>
+
+          {/* Nuevo filtro por estado de stock */}
+          <select
+            className="filter-dropdown-stock"
+            value={stockFilter}
+            onChange={handleStockFilter}
+          >
+            <option value="">Filtrar por estado de stock</option>
+            <option value="disponible">Disponible</option>
+            <option value="proximo">Próximo a agotarse</option>
+            <option value="agotado">Agotado</option>
+          </select>
+
+          <Link to={"/compras"} className="link">
+            <button className="registro-button">Registrar pedido</button>
+          </Link>
+        </div>
+        <center>
+
+        <InventoryTable data={filteredData} />
+        </center>
       </div>
-      <div className="inventory-actions">
-        <input
-          type="text"
-          placeholder="Buscar"
-          className="buscar-bar"
-          value={searchTerm}
-          onChange={handleSearch}
-
-        />
-        <select
-          className="filter-dropdown-nombre"
-          style={{backgroundColor: 'white'}}
-          value={sortOrder}
-          onChange={handleSort}
-        >
-          <option value="">Filtrar por nombre</option>
-          <option value="A-Z">A - Z</option>
-        </select>
-
-        {/* Nuevo filtro por estado de stock */}
-        <select
-          className="filter-dropdown-stock"
-          value={stockFilter}
-          onChange={handleStockFilter}
-        >
-          <option value="">Filtrar por estado de stock</option>
-          <option value="disponible">Disponible</option>
-          <option value="proximo">Próximo a agotarse</option>
-          <option value="agotado">Agotado</option>
-        </select>
-
-        <Link to={"/compras"} className="link">
-          <button className="registro-button">Registrar pedido</button>
-        </Link>
-      </div>
-      <InventoryTable data={filteredData} />
     </div>
   );
 };

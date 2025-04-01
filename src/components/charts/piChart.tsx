@@ -18,6 +18,7 @@ export default function PieAnimation() {
   }, []);
 
   return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', }}>
     <Box sx={{ width: "100%", fontSize: 12 }}>
       {categories.length > 0 ? (
         <PieChart
@@ -39,5 +40,6 @@ export default function PieAnimation() {
         <Typography>Cargando datos...</Typography>
       )}
     </Box>
+  </div>
   );
 }

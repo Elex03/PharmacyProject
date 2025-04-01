@@ -15,7 +15,6 @@
   flex: 1;
   margin-top: 10px;
   margin-left: 30px;
-  margin-right: 30px;
   align-items: center;
   justify-content: space-between;
 
@@ -39,7 +38,7 @@
 }
 
 .buscar-bar {
-  width: 6000px;
+  width: 500px;
 }
 
 .filter-dropdown {
