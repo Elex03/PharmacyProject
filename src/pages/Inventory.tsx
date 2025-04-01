@@ -87,7 +87,15 @@ const Inventario = () => {
   return (
     <div className="inventory-page">
       <h2>Inventario</h2>
-      <PieChart />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "start",
+          justifyContent: "flex-start",
+        }}
+      >
+        <PieChart />
+      </div>
       <div className="inventory-actions">
         <input
           type="text"
@@ -95,9 +103,11 @@ const Inventario = () => {
           className="buscar-bar"
           value={searchTerm}
           onChange={handleSearch}
+
         />
         <select
           className="filter-dropdown-nombre"
+          style={{backgroundColor: 'white'}}
           value={sortOrder}
           onChange={handleSort}
         >

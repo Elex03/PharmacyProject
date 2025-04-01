@@ -56,7 +56,7 @@ const Distributors = () => {
     });
 
   return (
-    <div className="distributors-page">
+    <div className="distributors-page" style={{width: '90vw'}}>
       <h2>Distribuidores</h2>
       <ApexChart />
       <div className="distributors-actions">

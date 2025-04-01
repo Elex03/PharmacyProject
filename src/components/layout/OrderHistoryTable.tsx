@@ -76,7 +76,7 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
   };
 
   return (
-    <div className="inventory-container">
+    <div className="inventory-container" style={{width: '100vw'}}>
       <table className="inventory-table">
         <thead>
           <tr>

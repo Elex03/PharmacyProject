@@ -12,15 +12,19 @@
   .inventory-table-I td {
     padding: 10px;    
     text-align: left;
-    font-size: 11px;
   }
 
+  .inventory-table-I th{
+    font-size: 14px;
+  }
+  .inventory-table-I tr{
+    font-size: 12px;
+  }
   /* tabla historial */
   .inventory-table-H th,
   .inventory-table-H td {
     padding: 10px;    
     text-align: left;
-    font-size: 14px;
     padding-left: 150px;
     /* color: #333; */
   }  
@@ -33,7 +37,6 @@
   .inventory-table td {
     padding: 10px;    
     text-align: left;
-    font-size: 14px;
     padding-left: 50px;
     /* color: #333; */
   }  

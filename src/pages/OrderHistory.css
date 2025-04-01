@@ -1,9 +1,9 @@
 h2 {
   margin-left: 70px;
-  margin-top: 50px;
   font-size: 24px;
   color: #333;
 }
+
 
 .orderhistory-actions {
   display: flex;
@@ -13,6 +13,13 @@ h2 {
   align-items: center;
 }
 
+.arrow-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  font-size: 30px;  
+}
 .search-bar-orderhistory,
 .filter-dropdown-orderhistory,
 .register-button-orderhistory {
