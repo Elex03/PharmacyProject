@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Table.css";
-import { FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa"; // Importa los iconos
+import { FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa"; 
 import orderData from "../../data/orderDetails.json";
 
 interface OrderHistoryItem {
@@ -65,8 +65,6 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
     }
     return "Pendiente";
   };
-
-  // Función para asignar iconos según el estado
   
   const getStatusIcon = (estado: string) => {
     if (estado === "Pendiente") return <FaClock style={{ color: "orange" }} />;
@@ -136,12 +134,12 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
 
       {/* Popup del recibo */}
       {selectedOrder && (
-        <div className="receipt-popup">
+        <div className="receipt-popup-O">
           <h3>Recibo de Pedido</h3>
           <p><strong>Distribuidor:</strong> {selectedOrder.nombre}</p>
           <p><strong>Empresa:</strong> {selectedOrder.empresa}</p>
           
-          <table className="details-table">
+          <table className="details-table-O">
             <thead>
               <tr>
                 <th>Producto</th>
@@ -162,11 +160,11 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
             </tbody>
           </table>
 
-          <div className="summary">
+          <div className="summary-O">
             <p><strong>Total de la Orden:</strong> C${totalVenta.toFixed(2)}</p>
           </div>
 
-          <button className="bottom-out" onClick={handleCloseDetails}>
+          <button className="bottom-out-O" onClick={handleCloseDetails}>
             Cerrar
           </button>
         </div>
