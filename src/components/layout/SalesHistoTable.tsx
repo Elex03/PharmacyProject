@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import "../layout/Table.css";
-
 
 interface SalesHistoItem {
   id: number;
@@ -28,7 +28,9 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
 
   const [selectedSale, setSelectedSale] = useState<SalesHistoItem | null>(null);
   const [saleDetails, setSaleDetails] = useState<Product[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate(); // Hook para redirigir
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -51,7 +53,7 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
       })
       .then((data: SaleDetail) => {
         setSaleDetails(data.productos);
-        setIsModalOpen(true); 
+        setIsModalOpen(true);
       })
       .catch((error) => {
         console.error("Error al obtener los detalles de la venta:", error);
@@ -61,11 +63,15 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
   const handleCloseDetails = () => {
     setSelectedSale(null);
     setSaleDetails([]);
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
   };
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleAddSale = () => {
+    navigate("/ventas");
   };
 
   const subtotalVenta = saleDetails.reduce((acc, producto) => acc + producto.total, 0);
@@ -80,7 +86,7 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
             <th>Nombre del cliente</th>
             <th>Fecha de la compra</th>
             <th>Total</th>
-            <th></th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -99,7 +105,7 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
             ))
           ) : (
             <tr>
-              <td colSpan={5} style={{ textAlign: "center", color: "gray" }}>
+              <td colSpan={4} style={{ textAlign: "center", color: "gray" }}>
                 No se encontraron resultados
               </td>
             </tr>
@@ -124,7 +130,14 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
           Siguiente →
         </button>
       </div>
-      
+
+      {/* Botón para agregar una nueva venta */}
+      <div className="add-sale-container">
+        <button className="add-sale-button" onClick={handleAddSale}>
+          Agregar Venta
+        </button>
+      </div>
+
       {isModalOpen && selectedSale && (
         <div className="modal-overlay">
           <div className="receipt-popup">
@@ -136,13 +149,13 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
               <hr />
 
               <div className="receipt-header">
-                <p><strong>Número de factura:</strong> {selectedSale.id}</p> 
-                <p><strong>Fecha de emisión:</strong> {new Date().toLocaleDateString()}</p> 
+                <p><strong>Número de factura:</strong> {selectedSale.id}</p>
+                <p><strong>Fecha de emisión:</strong> {new Date().toLocaleDateString()}</p>
               </div>
 
               <p><strong>Cliente:</strong> {selectedSale.cliente}</p>
               <p><strong>Fecha de compra:</strong> {selectedSale.fechaventa}</p>
-              <hr />                              
+              <hr />
 
               <table className="details-table">
                 <thead>

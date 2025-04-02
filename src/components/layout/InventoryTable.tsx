@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReturnProduct from "./ReturnProduct";
 import "./Table.css";
 
 interface InventoryItem {
@@ -141,6 +142,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
 
   return (
     <div className="inventory-container">
+      <ReturnProduct medicines={data.map((item) => ({ id: item.id, nombreComercial: item.nombreComercial }))} />
       <table className="inventory-table-I">
         <thead>
           <tr>
