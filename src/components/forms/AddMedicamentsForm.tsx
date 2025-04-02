@@ -355,7 +355,7 @@ export const AddMedicamentsForm = () => {
     }
   };
   return (
-    <div style={{ padding: 20, maxWidth: 800, margin: "auto" }}>
+    <div style={{ padding: 20, width: "90%", margin: "auto" }}>
       <h2 style={{ textAlign: "center", marginBottom: 20 }}>
         Agregar Medicamentos
       </h2>
@@ -363,17 +363,22 @@ export const AddMedicamentsForm = () => {
       <div style={{ marginBottom: 20 }}>
         <Button
           type="primary"
-          style={{ marginRight: 10 }}
+          style={{ marginRight: 10, height: 40 }}
           onClick={() => setShowMedicationSelector(true)}
         >
           Seleccionar Medicamento Existente
         </Button>
-        <Button type="default" onClick={() => setShowMedicationSelector(false)}>
+        <Button 
+        type="default" 
+        onClick={() => setShowMedicationSelector(false)
+        }
+        style={{height: 40}}>
           Agregar Nuevo Medicamento
         </Button>
       </div>
       {!showMedicationSelector && (
         <Input
+          className="Input"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -406,115 +411,128 @@ export const AddMedicamentsForm = () => {
           </Button>
         </div>
       )}
-
-      {selectedMedication && (
-        <div
-          style={{
-            marginTop: 20,
-            padding: 10,
-            borderRadius: 8,
-            border: "1px solid #ddd",
-          }}
-        >
-          <div style={{ display: "flex", gap: 10 }}>
-            <Input type="file" accept="image/*" onChange={handleImageChange} />
-            <Input
-              type="text"
-              placeholder="Código de Barras"
-              value={codigoBarra}
-              required
-              onChange={(e) => setCodigoBarra(e.target.value)}
-            />
-          </div>
-          <Select
-            allowClear
-            showSearch
-            options={distributors}
-            style={{ width: "100%", marginTop: 10 }}
-            onChange={handleSelectChangeDistributor}
-            placeholder="Seleccionar distribuidor"
-            value={selectedDistributor?.value}
-          />
-          <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
-            <Input
-              required
-              type="text"
-              placeholder="Precio Venta"
-              value={precioVenta}
-              onChange={(e) => setPrecioVenta(e.target.value)}
-            />
-            <Input
-              required
-              type="text"
-              placeholder="Precio Compra"
-              value={precioCompra}
-              onChange={(e) => setPrecioCompra(e.target.value)}
-            />
-          </div>
-
-          <Select
-            allowClear
-            showSearch
-            options={compressedForm}
-            style={{ width: "100%", marginTop: 10 }}
-            onChange={handleSelectChangeCompressedForm}
-            value={selectedCompressedForm?.value}
-            placeholder="Seleccionar forma comprimida"
-          />
-          {selectedCompressedForm?.value === "tableta" ? (
-            <>
-              <Input
-                required
-                type="number"
-                placeholder="Cantidad de tabletas"
-                value={cantidadTabletas}
-                onChange={(e) => setCantidadTabletas(e.target.value)}
-                style={{ marginTop: 10 }}
-              />
-              <Input
-                required
-                type="number"
-                placeholder="Unidades por tableta"
-                value={unidadesPorTableta}
-                onChange={(e) => setUnidadesPorTableta(e.target.value)}
-                style={{ marginTop: 10 }}
-              />
-            </>
-          ) : (
-            <Input
-              required
-              type="number"
-              placeholder="Cantidad"
-              value={cantidad}
-              onChange={(e) => setCantidad(e.target.value)}
-              style={{ marginTop: 10 }}
-            />
-          )}
-
-          <DatePicker
-            placeholder="Fecha de vencimiento"
-            onChange={(_date, dateString) =>
-              setPurchaseExpiration(
-                typeof dateString === "string" ? dateString : ""
-              )
-            }
-            style={{ width: "100%", marginTop: 10 }}
-          />
-          <Button
-            onClick={handleAddToTable}
-            type="primary"
-            style={{ width: "100%", marginTop: 10 }}
+      <div style={{maxHeight: '200px', overflowY: 'auto'}}>
+        {selectedMedication && (
+          <div
+            style={{
+              marginTop: 20,
+              padding: 10,
+              borderRadius: 8,
+              border: "1px solid #ddd",
+            }}
           >
-            Agregar a la tabla
-          </Button>
-        </div>
-      )}
+            <div style={{ display: "flex", gap: 10 }}>
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <Input
+              className="Input"
+                type="text"
+                placeholder="Código de Barras"
+                value={codigoBarra}
+                required
+                onChange={(e) => setCodigoBarra(e.target.value)}
+              />
+            </div>
+            <Select
+              allowClear
+              showSearch
+              options={distributors}
+              style={{ width: "100%", marginTop: 10 }}
+              onChange={handleSelectChangeDistributor}
+              placeholder="Seleccionar distribuidor"
+              value={selectedDistributor?.value}
+            />
+            <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
+              <Input
+                required
+                className="Input"
+                type="text"
+                placeholder="Precio Venta"
+                value={precioVenta}
+                onChange={(e) => setPrecioVenta(e.target.value)}
+              />
+              <Input
+                required
+                className="Input"
+                type="text"
+                placeholder="Precio Compra"
+                value={precioCompra}
+                onChange={(e) => setPrecioCompra(e.target.value)}
+              />
+            </div>
 
-      <Table
-        columns={columns}
-        dataSource={medicamentos}
-        style={{ marginTop: 20 }}
-      />
+            <Select
+              allowClear
+              showSearch
+              options={compressedForm}
+              style={{ width: "100%", marginTop: 10 }}
+              onChange={handleSelectChangeCompressedForm}
+              value={selectedCompressedForm?.value}
+              placeholder="Seleccionar forma comprimida"
+            />
+            {selectedCompressedForm?.value === "tableta" ? (
+              <>
+                <Input
+                  required
+                  className="Input"
+                  type="number"
+                  placeholder="Cantidad de tabletas"
+                  value={cantidadTabletas}
+                  onChange={(e) => setCantidadTabletas(e.target.value)}
+                  style={{ marginTop: 10 }}
+                />
+                <Input
+                  required
+                  className="Input"
+                  type="number"
+                  placeholder="Unidades por tableta"
+                  value={unidadesPorTableta}
+                  onChange={(e) => setUnidadesPorTableta(e.target.value)}
+                  style={{ marginTop: 10 }}
+                />
+              </>
+            ) : (
+              <Input
+                required
+                className="Input"
+                type="number"
+                placeholder="Cantidad"
+                value={cantidad}
+                onChange={(e) => setCantidad(e.target.value)}
+                style={{ marginTop: 10 }}
+              />
+            )}
+
+            <DatePicker
+              placeholder="Fecha de vencimiento"
+              onChange={(_date, dateString) =>
+                setPurchaseExpiration(
+                  typeof dateString === "string" ? dateString : ""
+                )
+              }
+              style={{ width: "100%", marginTop: 10 }}
+            />
+            <Button
+              onClick={handleAddToTable}
+              type="primary"
+              style={{ width: "100%", marginTop: 10 }}
+            >
+              Agregar a la tabla
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <div style={{ maxHeight: "300px" }}>
+        <Table
+          columns={columns}
+          dataSource={medicamentos}
+          style={{ marginTop: 20 }}
+        />
+      </div>
       <Button
         type="primary"
         onClick={handleSubmit}

@@ -6,7 +6,7 @@ const Shopping: React.FC = () => {
 
 
   return (
-    <div className="shopping-page">
+    <div className="shopping-page" style={{width: '90vw'}}>
       <AddMedicamentsForm />
     </div>
   );

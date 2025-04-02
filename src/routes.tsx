@@ -14,7 +14,7 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
+        {/* <Route
           path="/dashboard"
           element={
             <div style={{ display: "flex" }}>
@@ -22,7 +22,7 @@ const AppRouter = () => {
               <Dashboard />
             </div>
           }
-        />
+        /> */}
         <Route
           path="/inventario"
           element={
