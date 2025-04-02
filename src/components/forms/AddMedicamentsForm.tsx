@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import {
   Select,
   Input,
@@ -99,6 +99,17 @@ export const AddMedicamentsForm = () => {
 
   const handleAddClick = () => {
     setIsModalOpen(true);
+  };
+  const handleDateChange = (
+    date: dayjs.Dayjs | null,
+    key: string,
+    dateString: string
+  ) => {
+    setMedicamentos((prevMedicamentos) =>
+      prevMedicamentos.map((med) =>
+        med.key === key ? { ...med, fechaVencimiento: dateString } : med
+      )
+    );
   };
 
   const closeModal = () => {
@@ -201,9 +212,19 @@ export const AddMedicamentsForm = () => {
       ),
     },
     {
-      title: "Fecha de expiracion",
+      title: "Fecha de expiración",
       dataIndex: "fechaVencimiento",
       key: "fechaVencimiento",
+      render: (_: unknown, record: Medicamento) => (
+        <DatePicker
+          value={
+            record.fechaVencimiento ? dayjs(record.fechaVencimiento) : null
+          }
+          onChange={(date, dateString) =>
+            handleDateChange(date, record.key, dateString as string)
+          }
+        />
+      ),
     },
   ];
 
@@ -352,7 +373,20 @@ export const AddMedicamentsForm = () => {
       );
 
       loadingMessage();
+
+      const newMedicine = response.data.data;
+      const exists = medicamentos.some(
+        (med) => med.codigoBarra === newMedicine.codigoBarra
+      );
+
+      if (exists) {
+        message.warning("El medicamento ya está en la tabla.");
+        return;
+      }
+
+      setMedicamentos([...medicamentos, newMedicine]);
       message.success(`Resultados encontrados para: ${searchText}`);
+      setSearchText("");
       setMedicamentos([...medicamentos, response.data.data]);
       message.success("Medicamento agregado a la tabla.");
     } catch {
@@ -370,20 +404,24 @@ export const AddMedicamentsForm = () => {
     <div style={{ width: "90%", margin: "auto" }}>
       <h2 style={{ marginBottom: 20 }}>Agregar Medicamentos</h2>
 
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 20, gap: 50, display: "flex" }}>
         <Button
           type="primary"
           style={{ marginRight: 10, height: 40 }}
           onClick={() => setShowMedicationSelector(true)}
         >
-          Seleccionar Medicamento Existente
+          Seleccionar Medicamento
         </Button>
         <Button
           type="default"
           onClick={() => setShowMedicationSelector(false)}
           style={{ height: 40 }}
         >
-          Agregar Nuevo Medicamento
+          Escanear codigo de barra
+        </Button>
+
+        <Button type="default" style={{ height: 40, borderColor: "white" }}>
+          Agregar producto
         </Button>
       </div>
       {!showMedicationSelector && (
@@ -525,7 +563,10 @@ export const AddMedicamentsForm = () => {
               }
               style={{ width: "100%", marginTop: 10 }}
             />
-            <Checkbox checked={requierePrescripcion} onChange={(e) => setRequierePrescripcion(e.target.checked)}>
+            <Checkbox
+              checked={requierePrescripcion}
+              onChange={(e) => setRequierePrescripcion(e.target.checked)}
+            >
               Requiere prescripción médica?
             </Checkbox>
             <Button

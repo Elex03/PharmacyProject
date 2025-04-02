@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InventoryTable from "../components/layout/InventoryTable";
 import "../pages/Inventory.css";
-import data from "../data/data.json";
 import {
   FaCheckCircle,
   FaExclamationTriangle,
@@ -11,10 +10,28 @@ import {
 import { Link } from "react-router-dom";
 import PieChart from "../components/charts/piChart";
 
+interface InventoryItem {
+  id: number;
+  descripcion: string;
+  stock: string;
+  inventario: number;
+  distribuidor: string;
+  vencimiento: string;
+  nombreComercial: string;
+  nombreGenerico: string;
+  formaFarmaceutica: string;
+  concentracion: string;
+  presentacion: string;
+  laboratorio: string;
+  precioCompra: number;
+  precioVenta: string;
+  margenUtilidad: number;
+}
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
+  const [data, setData] = useState<InventoryItem[]>([]);
 
   // input de búsqueda
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +47,17 @@ const Inventario = () => {
   const handleStockFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStockFilter(e.target.value);
   };
-
+  useEffect(() => {
+    fetch("http://localhost:3000/apiFarmaNova/medicines/")
+    .then((response) => {
+      if (!response.ok) throw new Error("Error al cargar los datos");
+      return response.json();
+    })
+    .then((data) => {
+      setData(data);
+    })
+    .catch((error) => console.error("Error fetching categories:", error));
+  }, [])
   // estado de stock
   const getStockStatus = (cantidad: number) => {
     if (cantidad === 0)
@@ -57,7 +84,12 @@ const Inventario = () => {
   const filteredData = data
     .map((item) => ({
       ...item,
-      stock: getStockStatus(Number(item.inventario)),
+      stock: Number(item.inventario) === 0
+        ? "Agotado"
+        : Number(item.inventario) <= 10
+        ? "Próximo a agotarse"
+        : "Disponible",
+      stockStatusElement: getStockStatus(Number(item.inventario)),
     }))
     .filter((item) =>
       Object.values(item).some((value) =>

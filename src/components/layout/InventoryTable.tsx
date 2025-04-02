@@ -15,7 +15,7 @@ interface InventoryItem {
   presentacion: string;
   laboratorio: string;
   precioCompra: number;
-  precioVenta: number;
+  precioVenta: string;
   margenUtilidad: number;
 }
 
@@ -50,7 +50,6 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
   const columns = [
     { key: "descripcion", header: "Descripción" },
     { key: "formaFarmaceutica", header: "Forma Farmacéutica" },
-    { key: "presentacion", header: "Presentación" },
     { key: "laboratorio", header: "Laboratorio" },
     { key: "stock", header: "Estado de stock" },
     { key: "inventario", header: "En inventario" },
