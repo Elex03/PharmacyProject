@@ -23,7 +23,7 @@ interface SaleDetail {
 
 const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 102;
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const [selectedSale, setSelectedSale] = useState<SalesHistoItem | null>(null);

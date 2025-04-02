@@ -1,5 +1,4 @@
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from "recharts";
-import CascadingDateFilter from "../components/forms/FilterPicker";
 
 const DashBoard = () => {
   const data = [
@@ -15,7 +14,6 @@ const DashBoard = () => {
   return (
     <div>
       <h2>Dashboard</h2>
-      <CascadingDateFilter/>
       <BarChart width={730} height={250} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
