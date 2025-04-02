@@ -86,7 +86,7 @@ const Inventario = () => {
 
   return (
     <div className="inventory-page" style={{ width: "90vw" }}>
-      <div style={{ width: "97%" }}>
+      <div style={{ width: "95%" }}>
         <h2>Inventario</h2>
 
         <PieChart />

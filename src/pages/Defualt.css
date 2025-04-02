@@ -8,13 +8,13 @@
   padding-bottom: 80px;
 }
 .container .content {
-  flex: 1 1 300px;
+  flex: 1 1 200px;
 }
 .container .image {
-  flex: 1 1 300px;
+  flex: 1 1 200px;
 }
 .container .content img {
-  width: 80%;
+  width: 50%;
 }
 .container .content .tittle {
   font-size: 45px;
