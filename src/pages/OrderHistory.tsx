@@ -32,47 +32,48 @@ const OrderHistory = () => {
     });
 
   return (
-    <div className="orderhistory-page">
-      <div className="arrow-container" onClick={() => navigator(-1)}>
-        <svg
-          width="30"
-          height="30"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
+    <div className="orderhistory-page" style={{ width: "90vw" }}>
+      <div style={{ width: "95%" }}>
+        <div className="arrow-container" onClick={() => navigator(-1)}>
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </div>
+        <h2 style={{ marginLeft: 30 }}>Historial de pedidos</h2>
+        <BarChart data={dataBar} />;
+        <div className="orderhistory-actions">
+          <input
+            type="text"
+            placeholder="Buscar"
+            className="search-bar-orderhistory"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <select
+            className="filter-dropdown-orderhistory"
+            value={sortOrder}
+            onChange={handleSort}
+          >
+            <option value="">Filtrar por nombre</option>
+            <option value="A-Z">A - Z</option>
+          </select>
+          <button className="register-button-orderhistory">
+            Levantar pedido
+          </button>
+        </div>
+        <center>
+          <OrderHistoryTable data={filteredData} />
+        </center>
       </div>
-      <h2>Historial de pedidos</h2>
-      <BarChart data={dataBar} />;
-      <div className="orderhistory-actions">
-        <input
-          type="text"
-          placeholder="Buscar"
-          className="search-bar-orderhistory"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        <select
-          className="filter-dropdown-orderhistory"
-          value={sortOrder}
-          onChange={handleSort}
-        >
-          <option value="">Filtrar por nombre</option>
-          <option value="A-Z">A - Z</option>
-        </select>
-        <button className="register-button-orderhistory">
-          Levantar pedido
-        </button>
-      </div>
-      <center>
-
-      <OrderHistoryTable data={filteredData} />
-      </center>
     </div>
   );
 };

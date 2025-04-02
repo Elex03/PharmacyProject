@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Dashboard from "./pages/DashBoard";
+// import Dashboard from "./pages/DashBoard";
 import Inventario from "./pages/Inventory";
 import Distributors from "./pages/Distributors";
 import Sidebar from "./components/layout/sideBar";
@@ -73,7 +73,7 @@ const AppRouter = () => {
           path="/historial/:id"
           element={
             <div style={{ display: "flex" }}>
-              {/* <Sidebar /> */}
+              <Sidebar />
               <OrderHistory />
             </div>
           }

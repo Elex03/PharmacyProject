@@ -88,6 +88,11 @@ const CashRegister: React.FC = () => {
       })),
     };
 
+    const newVentaData = {
+      ...ventaData, nombreCliente
+    }
+    console.log(newVentaData)
+
     try {
       const response = await fetch(
         "http://localhost:3000/apiFarmaNova/medicines/createSales",
@@ -96,7 +101,7 @@ const CashRegister: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(ventaData),
+          body: JSON.stringify(newVentaData),
         }
       );
 
@@ -104,6 +109,7 @@ const CashRegister: React.FC = () => {
         message.success("Venta guardada con éxito");
         setProductosSeleccionados([]);
         setCedulaCliente("");
+
 
         // Recargar los medicamentos disponibles
         fetch("http://localhost:3000/apiFarmaNova/medicines/catalogMedicine")

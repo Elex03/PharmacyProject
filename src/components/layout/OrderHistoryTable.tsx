@@ -76,8 +76,8 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
   };
 
   return (
-    <div className="inventory-container" style={{width: '100vw'}}>
-      <table className="inventory-table">
+    <div className="inventory-container">
+      <table className="inventory-table-I">
         <thead>
           <tr>
             <th>Nombre del distribuidor</th>
@@ -103,7 +103,7 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
 
                 <td>C${item.total.toFixed(2)}</td>
                 <td>{item.fechaEntrega}</td>
-                <td>
+                <td style={{textAlign: 'right'}}>
                   <a className="action-link" href="#" onClick={() => handleShowDetails(item)}>
                     Ver detalles
                   </a>

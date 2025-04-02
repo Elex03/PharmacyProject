@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Select, Input, Button, message, Table, DatePicker } from "antd";
+import {
+  Select,
+  Input,
+  Button,
+  message,
+  Table,
+  DatePicker,
+  Checkbox,
+} from "antd";
 import NewMedicationModal from "./NewMedicamentsModal";
 import "./AddMedicamentsForm.css";
 import dayjs from "dayjs";
@@ -45,6 +53,7 @@ export const AddMedicamentsForm = () => {
     cantidad: string;
     unidadesPorTableta?: string;
     imageFile: File;
+    requiere: boolean;
     fechaVencimiento: string;
   }
 
@@ -53,6 +62,7 @@ export const AddMedicamentsForm = () => {
   const [purchaseExpiration, setPurchaseExpiration] = useState<string>("");
   const [showMedicationSelector, setShowMedicationSelector] =
     useState<boolean>(false);
+  const [requierePrescripcion, setRequierePrescripcion] = useState(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -262,6 +272,7 @@ export const AddMedicamentsForm = () => {
     const newMedicamento = {
       key: new Date().toISOString(), // Usamos el timestamp como clave única
       medicamento: selectedMedication,
+      requiere: requierePrescripcion,
       distribuidor: selectedDistributor.id,
       formaComprimida: selectedCompressedForm.id,
       codigoBarra,
@@ -308,6 +319,7 @@ export const AddMedicamentsForm = () => {
           medicamento.unidadesPorTableta || ""
         );
       }
+      formData.append("requiere", String(medicamento.requiere));
       formData.append(`image`, medicamento.imageFile);
       formData.append("fechaVencimiento", medicamento.fechaVencimiento);
     });
@@ -356,9 +368,7 @@ export const AddMedicamentsForm = () => {
   };
   return (
     <div style={{ width: "90%", margin: "auto" }}>
-      <h2 style={{ marginBottom: 20 }}>
-        Agregar Medicamentos
-      </h2>
+      <h2 style={{ marginBottom: 20 }}>Agregar Medicamentos</h2>
 
       <div style={{ marginBottom: 20 }}>
         <Button
@@ -368,11 +378,11 @@ export const AddMedicamentsForm = () => {
         >
           Seleccionar Medicamento Existente
         </Button>
-        <Button 
-        type="default" 
-        onClick={() => setShowMedicationSelector(false)
-        }
-        style={{height: 40}}>
+        <Button
+          type="default"
+          onClick={() => setShowMedicationSelector(false)}
+          style={{ height: 40 }}
+        >
           Agregar Nuevo Medicamento
         </Button>
       </div>
@@ -411,7 +421,7 @@ export const AddMedicamentsForm = () => {
           </Button>
         </div>
       )}
-      <div style={{maxHeight: '200px', overflowY: 'auto'}}>
+      <div style={{ maxHeight: "200px", overflowY: "auto" }}>
         {selectedMedication && (
           <div
             style={{
@@ -428,7 +438,7 @@ export const AddMedicamentsForm = () => {
                 onChange={handleImageChange}
               />
               <Input
-              className="Input"
+                className="Input"
                 type="text"
                 placeholder="Código de Barras"
                 value={codigoBarra}
@@ -515,6 +525,9 @@ export const AddMedicamentsForm = () => {
               }
               style={{ width: "100%", marginTop: 10 }}
             />
+            <Checkbox checked={requierePrescripcion} onChange={(e) => setRequierePrescripcion(e.target.checked)}>
+              Requiere prescripción médica?
+            </Checkbox>
             <Button
               onClick={handleAddToTable}
               type="primary"
