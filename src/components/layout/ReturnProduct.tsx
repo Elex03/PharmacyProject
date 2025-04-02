@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import '../../pages/Inventory.css'
 
 interface ReturnProductProps {
   medicines: { id: number; nombreComercial: string }[];
@@ -32,7 +33,7 @@ const ReturnProduct: React.FC<ReturnProductProps> = ({ medicines }) => {
 
   return (
     <div>
-      <button onClick={toggleForm} className="return-btn">
+      <button onClick={toggleForm} className="registro-button">
         Devolución de Producto
       </button>
 

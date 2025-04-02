@@ -3,8 +3,10 @@ import "./CashRegister.css";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { Button, Select, Modal, message, Input } from "antd";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 interface Producto {
+  codigoBarra: string;
   id: number;
   descripcion: string;
   empresa: string;
@@ -36,6 +38,35 @@ const CashRegister: React.FC = () => {
 
   const [errorCedula, setErrorCedula] = useState<string | null>(null);
   const [nombreCliente, setNombreCliente] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const handleSearch = async (searchText: string) => {
+    const loadingMessage = message.loading(`Buscando: ${searchText}`, 0);
+
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/apiFarmaNova/inventory/getRegisterPerBarCode/${searchText}`
+      );
+
+      loadingMessage();
+
+      const newMedicine = response.data.data;
+
+      const exists = productosSeleccionados.some(
+        (med) => med.codigoBarra === newMedicine.codigoBarra
+      );
+
+      if (exists) {
+        message.warning("El medicamento ya está en la tabla.");
+        return;
+      }
+
+      setProductosSeleccionados([...productosSeleccionados, newMedicine]);
+      message.success(`Medicamento agregado a la tabla.`);
+    } catch {
+      loadingMessage();
+      message.error(`No se encontraron resultados para: ${searchText}`);
+    }
+  };
 
   const handleCedulaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -77,8 +108,6 @@ const CashRegister: React.FC = () => {
   };
 
   const confirrmSale = async () => {
-
-    
     setModalVentaVisible(false);
     const ventaData = {
       cliente: cedulaCliente || "", // Si no hay cédula, se envía una cadena vacía
@@ -89,9 +118,10 @@ const CashRegister: React.FC = () => {
     };
 
     const newVentaData = {
-      ...ventaData, nombreCliente
-    }
-    console.log(newVentaData)
+      ...ventaData,
+      nombreCliente,
+    };
+    console.log(newVentaData);
 
     try {
       const response = await fetch(
@@ -109,7 +139,7 @@ const CashRegister: React.FC = () => {
         message.success("Venta guardada con éxito");
         setProductosSeleccionados([]);
         setCedulaCliente("");
-
+        console.log(response);
 
         // Recargar los medicamentos disponibles
         fetch("http://localhost:3000/apiFarmaNova/medicines/catalogMedicine")
@@ -221,6 +251,14 @@ const CashRegister: React.FC = () => {
     setSelectedMedication(null);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Validamos si se presiona "Enter"
+    if (e.key === "Enter") {
+      handleSearch(searchText); // Llamamos a la acción (en este caso, buscar)
+      setSearchText(""); // Reseteamos el campo del input
+    }
+  };
+
   const handleConfirmarPrescripcion = () => {
     if (productoPendiente) {
       agregarProductoFinal(productoPendiente);
@@ -270,14 +308,14 @@ const CashRegister: React.FC = () => {
       selector: (row) => row.precio,
       sortable: true,
       right: true,
-      format: (row) => `$${row.precio.toFixed(2)}`,
+      format: (row) => `$${row.precio}`,
     },
     {
       name: "Subtotal",
       selector: (row) => row.subtotal,
       sortable: true,
       right: true,
-      format: (row) => `$${row.subtotal.toFixed(2)}`,
+      format: (row) => `$${row.subtotal}`,
     },
     {
       name: "Acciones",
@@ -366,7 +404,13 @@ const CashRegister: React.FC = () => {
             option?.value.toLowerCase().includes(input.toLowerCase()) || false
           }
         />
-        <Button>Escanear productos</Button>
+        <input
+          type="text"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)} // Actualiza el valor
+          onKeyDown={handleKeyDown} // Detecta el "Enter" al presionar una tecla
+          placeholder="Escanea o ingresa un código"
+        />
       </div>
 
       <div className="fullscreen-table-wrapper">
@@ -416,12 +460,12 @@ const CashRegister: React.FC = () => {
               },
               {
                 name: "Precio",
-                selector: (row) => `$${row.precio.toFixed(2)}`,
+                selector: (row) => `$${row.precio}`,
                 sortable: true,
               },
               {
                 name: "Subtotal",
-                selector: (row) => `$${row.subtotal.toFixed(2)}`,
+                selector: (row) => `$${row.subtotal}`,
                 sortable: true,
               },
             ]}
@@ -450,7 +494,10 @@ const CashRegister: React.FC = () => {
               marginTop: 20,
             }}
           >
-            <Button disabled={Number(montoPagado) < Number(totalCompra)} onClick={confirrmSale}>
+            <Button
+              disabled={Number(montoPagado) < Number(totalCompra)}
+              onClick={confirrmSale}
+            >
               Generar recibo
             </Button>
           </div>

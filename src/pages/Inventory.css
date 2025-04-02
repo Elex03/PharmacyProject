@@ -38,7 +38,7 @@
 }
 
 .buscar-bar {
-  width: 500px;
+  width: 300px;
 }
 
 .filter-dropdown {
@@ -48,7 +48,7 @@
 
 .registro-button {
   padding: 9px;
-  width: 200px;
+  width: 250px;
   background-color: #007bff;
   color: #fff;
   cursor: pointer;

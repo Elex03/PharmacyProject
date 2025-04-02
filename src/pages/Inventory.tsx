@@ -9,7 +9,7 @@ import {
 
 import { Link } from "react-router-dom";
 import PieChart from "../components/charts/piChart";
-
+import ReturnProduct from "../components/layout/ReturnProduct";
 interface InventoryItem {
   id: number;
   descripcion: string;
@@ -49,15 +49,15 @@ const Inventario = () => {
   };
   useEffect(() => {
     fetch("http://localhost:3000/apiFarmaNova/medicines/")
-    .then((response) => {
-      if (!response.ok) throw new Error("Error al cargar los datos");
-      return response.json();
-    })
-    .then((data) => {
-      setData(data);
-    })
-    .catch((error) => console.error("Error fetching categories:", error));
-  }, [])
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
   // estado de stock
   const getStockStatus = (cantidad: number) => {
     if (cantidad === 0)
@@ -84,11 +84,12 @@ const Inventario = () => {
   const filteredData = data
     .map((item) => ({
       ...item,
-      stock: Number(item.inventario) === 0
-        ? "Agotado"
-        : Number(item.inventario) <= 10
-        ? "Próximo a agotarse"
-        : "Disponible",
+      stock:
+        Number(item.inventario) === 0
+          ? "Agotado"
+          : Number(item.inventario) <= 10
+          ? "Próximo a agotarse"
+          : "Disponible",
       stockStatusElement: getStockStatus(Number(item.inventario)),
     }))
     .filter((item) =>
@@ -155,10 +156,17 @@ const Inventario = () => {
           <Link to={"/compras"} className="link">
             <button className="registro-button">Registrar pedido</button>
           </Link>
+
+          <ReturnProduct
+          
+            medicines={data.map((item) => ({
+              id: item.id,
+              nombreComercial: item.nombreComercial,
+            }))}
+          />
         </div>
         <center>
-
-        <InventoryTable data={filteredData} />
+          <InventoryTable data={filteredData} />
         </center>
       </div>
     </div>
