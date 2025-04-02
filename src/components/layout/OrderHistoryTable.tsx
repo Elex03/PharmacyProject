@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./Table.css";
-import { FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa"; // Importa los iconos
-import orderData from "../../data/orderDetails.json";
+import { FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa"; 
 
 interface OrderHistoryItem {
   id: number;
@@ -11,6 +10,7 @@ interface OrderHistoryItem {
   estado: string;
   total: number;
   fechaEntrega: string;
+  productos: Product[]; // Ahora los productos vienen directamente en la data
 }
 
 interface Product {
@@ -20,18 +20,12 @@ interface Product {
   total: number;
 }
 
-interface OrderDetail {
-  orderId: number;
-  productos: Product[];
-}
-
 const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const [selectedOrder, setSelectedOrder] = useState<OrderHistoryItem | null>(null);
-  const [orderDetails, setOrderDetails] = useState<Product[]>([]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -45,29 +39,20 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
 
   const handleShowDetails = (item: OrderHistoryItem) => {
     setSelectedOrder(item);
-    const details = orderData.find((order: OrderDetail) => order.orderId === item.id);
-    setOrderDetails(details ? details.productos : []);
   };
 
   const handleCloseDetails = () => {
     setSelectedOrder(null);
-    setOrderDetails([]);
   };
 
-  const totalVenta = orderDetails.reduce((acc, producto) => acc + producto.total, 0);
+  const totalVenta = selectedOrder?.productos.reduce((acc, producto) => acc + producto.total, 0) ?? 0;
 
   const determinarEstado = (pedido: OrderHistoryItem) => {
-    if (pedido.fechaEntrega) {
-      return "Realizado";
-    }
-    if (pedido.total === 0) {
-      return "Cancelado";
-    }
+    if (pedido.fechaEntrega) return "Realizado";
+    if (pedido.total === 0) return "Cancelado";
     return "Pendiente";
   };
 
-  // Función para asignar iconos según el estado
-  
   const getStatusIcon = (estado: string) => {
     if (estado === "Pendiente") return <FaClock style={{ color: "orange" }} />;
     if (estado === "Realizado") return <FaCheckCircle style={{ color: "green" }} />;
@@ -96,14 +81,12 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
                 <td>{item.nombre}</td>
                 <td>{item.empresa}</td>
                 <td>{item.fechaPedido}</td>
-                {/* <td>{item.estado}</td> */}
                 <td>
-  {getStatusIcon(determinarEstado(item))} {determinarEstado(item)}
-</td>
-
-                <td>C${item.total.toFixed(2)}</td>
+                  {getStatusIcon(determinarEstado(item))} {determinarEstado(item)}
+                </td>
+                <td>C${item.total}</td>
                 <td>{item.fechaEntrega}</td>
-                <td style={{textAlign: 'right'}}>
+                <td style={{ textAlign: "right" }}>
                   <a className="action-link" href="#" onClick={() => handleShowDetails(item)}>
                     Ver detalles
                   </a>
@@ -151,7 +134,7 @@ const OrderHistoryTable = ({ data }: { data: OrderHistoryItem[] }) => {
               </tr>
             </thead>
             <tbody>
-              {orderDetails.map((producto, index) => (
+              {selectedOrder.productos.map((producto, index) => (
                 <tr key={index}>
                   <td>{producto.nombre}</td>
                   <td>C${producto.precio.toFixed(2)}</td>

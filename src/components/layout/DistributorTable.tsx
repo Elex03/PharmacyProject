@@ -25,13 +25,11 @@ const DistributorsTable = ({ data }: { data: DistributorItem[] }) => {
     }
   };
 
-  
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength
       ? text.substring(0, maxLength) + "..."
       : text;
   };
-
 
   return (
     <div className="inventory-container">

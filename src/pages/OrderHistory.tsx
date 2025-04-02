@@ -1,16 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./OrderHistory.css";
 import OrderHistoryTable from "../components/layout/OrderHistoryTable";
-import data from "../data/orderHistoryData.json";
 import BarChart from "../components/charts/BarChart";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const OrderHistory = () => {
   const navigator = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
+  interface OrderHistory {
+    id: number;
+    empresa: string;
+    fechaPedido: string;
+    estado: string;
+    total: number;
+    nombre: string;
+  }
 
+  const [data, setData] = useState<OrderHistory[]>([]); // Estado para almacenar los datos de la API
+  const [loading, setLoading] = useState(true); // Estado para controlar la carga
+  const [error, setError] = useState<string | null>(null); // Estado para manejar errores
+  const { id } = useParams();
   const dataBar = [45, 60, 80, 50, 90, 100, 75, 85, 95, 110, 120, 130];
+
+  // 📌 Petición a la API para obtener datos
+  useEffect(() => {
+    fetch(`http://localhost:3000/apiFarmaNova/orders/details/${id}`)
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching orders:", error);
+        setError("Error al cargar los datos.");
+        setLoading(false);
+      });
+  }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -71,7 +100,14 @@ const OrderHistory = () => {
           </button>
         </div>
         <center>
-          <OrderHistoryTable data={filteredData} />
+          {/* 📌 Mensajes de carga y error */}
+          {loading ? (
+            <p>Cargando datos...</p>
+          ) : error ? (
+            <p style={{ color: "red" }}>{error}</p>
+          ) : (
+            <OrderHistoryTable data={filteredData} />
+          )}
         </center>
       </div>
     </div>
