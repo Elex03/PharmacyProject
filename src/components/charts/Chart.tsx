@@ -37,7 +37,7 @@ const Example = () => {
       <ResponsiveContainer>
         <LineChart
           data={data}
-          margin={{ top: 1, right: 1, left: 80, bottom: 5 }}
+          margin={{ top: 1, right: 1, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="dia" />

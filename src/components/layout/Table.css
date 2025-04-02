@@ -14,10 +14,12 @@
     text-align: left;
   }
 
-  .inventory-table-I th{
+  .inventory-table-I th, 
+  .inventory-table-H th{
     font-size: 14px;
   }
-  .inventory-table-I tr{
+  .inventory-table-I tr, 
+  .inventory-table-H tr{
     font-size: 12px;
   }
   /* tabla historial */
@@ -25,13 +27,16 @@
   .inventory-table-H td {
     padding: 10px;    
     text-align: left;
-    padding-left: 150px;
     /* color: #333; */
   }  
-  .inventory-table {
+
+  .inventory-table, 
+  .inventory-table-H {
     width: 100%;
-    border-collapse: collapse;    
+    border-collapse: collapse;  
+
   }
+  
   
   .inventory-table th,
   .inventory-table td {
@@ -40,6 +45,7 @@
     padding-left: 50px;
     /* color: #333; */
   }  
+
 
   .pagination {
     display: flex;

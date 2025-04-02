@@ -82,7 +82,7 @@ const SalesHistoTable = ({ data }: { data: SalesItem[] }) => {
                 <td>{item.cliente}</td>
                 <td>{item.fechaventa}</td>
                 <td>${item.total.toFixed(2)}</td>
-                <td>
+                <td style={{textAlign: 'right'}}>
                   <a className="action-link" href="#" onClick={() => handleShowDetails(item)}>
                     Ver detalles
                   </a>

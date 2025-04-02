@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./CashRegister.css";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { Button, Select, Modal, message } from "antd";
+import { Button, Select, Modal, message, Input } from "antd";
+import { motion } from "framer-motion";
 
 interface Producto {
   id: number;
@@ -21,6 +22,9 @@ const CashRegister: React.FC = () => {
   const [productosSeleccionados, setProductosSeleccionados] = useState<
     Producto[]
   >([]);
+  const [modalVentaVisible, setModalVentaVisible] = useState(false);
+  const [montoPagado, setMontoPagado] = useState<number | "">("");
+  const [vuelto, setVuelto] = useState<number>(0);
   const [cedulaCliente, setCedulaCliente] = useState<string>("");
   const [selectedMedication, setSelectedMedication] = useState<string | null>(
     null
@@ -31,6 +35,7 @@ const CashRegister: React.FC = () => {
   );
 
   const [errorCedula, setErrorCedula] = useState<string | null>(null);
+  const [nombreCliente, setNombreCliente] = useState("");
 
   const handleCedulaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -51,8 +56,9 @@ const CashRegister: React.FC = () => {
         return result.toUpperCase();
       }
     );
-
-    setCedulaCliente(formattedCedula);
+    if (formattedCedula.length <= 16) {
+      setCedulaCliente(formattedCedula);
+    }
 
     // Validar si el valor tiene el formato correcto
     const validCedula = /^(\d{3})-(\d{6})-(\d{4})([A-Z])$/;
@@ -64,12 +70,16 @@ const CashRegister: React.FC = () => {
     }
   };
 
-  const handleGuardarVenta = async () => {
-    if (totalCompra === 0) {
-      alert("No has registrado ningún medicamento");
-      return;
-    }
-  
+  const handleMontoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value) || 0;
+    setMontoPagado(value);
+    setVuelto(value - totalCompra);
+  };
+
+  const confirrmSale = async () => {
+
+    
+    setModalVentaVisible(false);
     const ventaData = {
       cliente: cedulaCliente || "", // Si no hay cédula, se envía una cadena vacía
       detalles: productosSeleccionados.map((producto) => ({
@@ -77,7 +87,7 @@ const CashRegister: React.FC = () => {
         cantidad: producto.cantidad,
       })),
     };
-  
+
     try {
       const response = await fetch(
         "http://localhost:3000/apiFarmaNova/medicines/createSales",
@@ -89,18 +99,19 @@ const CashRegister: React.FC = () => {
           body: JSON.stringify(ventaData),
         }
       );
-  
+
       if (response.ok) {
         message.success("Venta guardada con éxito");
         setProductosSeleccionados([]);
         setCedulaCliente("");
-  
+
         // Recargar los medicamentos disponibles
         fetch("http://localhost:3000/apiFarmaNova/medicines/catalogMedicine")
           .then((response) => response.json())
           .then((json) => {
             const productosDisponibles = json.filter(
-              (producto: { maxCantidad: number }) => Number(producto.maxCantidad) > 0
+              (producto: { maxCantidad: number }) =>
+                Number(producto.maxCantidad) > 0
             );
             setData(productosDisponibles);
             setProductosFiltrados(productosDisponibles);
@@ -117,7 +128,14 @@ const CashRegister: React.FC = () => {
       message.error("Error al guardar la venta");
     }
   };
-  
+  const handleGuardarVenta = async () => {
+    if (totalCompra === 0) {
+      message.error("No has registrado medicamentos");
+      return;
+    }
+    setModalVentaVisible(true);
+  };
+
   useEffect(() => {
     fetch("http://localhost:3000/apiFarmaNova/medicines/catalogMedicine")
       .then((response) => response.json())
@@ -151,19 +169,25 @@ const CashRegister: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     id: number
   ) => {
-    const newCantidad = parseInt(e.target.value, 10);
-
-    setProductosSeleccionados((prevProductos) =>
-      prevProductos.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              cantidad: newCantidad,
-              subtotal: newCantidad * item.precio,
-            }
-          : item
-      )
+    const newCantidad = parseInt(e.target.value);
+    const producto = productosSeleccionados.find((item) => item.id === id);
+    if (producto && newCantidad > producto.maxCantidad) {
+      message.error(
+        `La cantidad máxima permitida para ${producto.descripcion} es ${producto.maxCantidad}`
+      );
+      return;
+    }
+    if (producto && newCantidad < 1) {
+      return;
+    }
+    const updatedData = productosSeleccionados.map((item) =>
+      item.id === id ? { ...item, cantidad: newCantidad } : item
     );
+    const updatedDataWithSubtotal = updatedData.map((item) => ({
+      ...item,
+      subtotal: item.precio * item.cantidad,
+    }));
+    setProductosSeleccionados(updatedDataWithSubtotal);
   };
   const agregarProductoFinal = (producto: Producto) => {
     const productoExistente = productosSeleccionados.find(
@@ -230,6 +254,12 @@ const CashRegister: React.FC = () => {
       ),
     },
     {
+      name: "Cantidad en stock",
+      selector: (row) => row.maxCantidad,
+      sortable: true,
+      right: true,
+    },
+    {
       name: "Precio",
       selector: (row) => row.precio,
       sortable: true,
@@ -262,21 +292,39 @@ const CashRegister: React.FC = () => {
   return (
     <div className="container-main">
       <h2>Realizar venta</h2>
-      <div className="customer-name-container">
-        <label htmlFor="customerName" className="customer-name-label">
-          Nombre del cliente (opcional):
-        </label>
-        <input
-          type="text"
-          id="customerName"
-          value={cedulaCliente}
-          onChange={handleCedulaChange}
-          placeholder="Ingresa la cédula del cliente"
-          className="customer-name-input"
-        />
-        {errorCedula && (
-          <p style={{ marginLeft: 30, color: "red" }}>{errorCedula}</p>
-        )}
+      <div
+        className="customer-name-container"
+        style={{ display: "flex", flexDirection: "row" }}
+      >
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="customerName" className="customer-name-label">
+            Numero de cedula del cliente (opcional):
+          </label>
+          <input
+            type="text"
+            id="customerName"
+            value={cedulaCliente}
+            onChange={handleCedulaChange}
+            placeholder="Ingresa la cédula del cliente"
+            className="customer-name-input"
+          />
+          {errorCedula && (
+            <p style={{ marginLeft: 30, color: "red" }}>{errorCedula}</p>
+          )}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="customerName" className="customer-name-label">
+            Nombre del cliente (opcional):
+          </label>
+          <input
+            type="text"
+            id="customerName"
+            value={nombreCliente}
+            onChange={(e) => setNombreCliente(e.target.value)}
+            placeholder="Ingresa el nombre del cliente"
+            className="customer-name-input"
+          />
+        </div>
       </div>
       {/* Select para buscar o seleccionar medicamento */}
       <div
@@ -337,6 +385,71 @@ const CashRegister: React.FC = () => {
           </button>
         </div>
       </div>
+      <Modal
+        title="Previsualización de Venta"
+        open={modalVentaVisible}
+        onCancel={() => setModalVentaVisible(false)}
+        footer={null}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <DataTable
+            title="Productos a Comprar"
+            columns={[
+              {
+                name: "Descripción",
+                selector: (row) => row.descripcion,
+                sortable: true,
+              },
+              {
+                name: "Cantidad",
+                selector: (row) => row.cantidad,
+                sortable: true,
+              },
+              {
+                name: "Precio",
+                selector: (row) => `$${row.precio.toFixed(2)}`,
+                sortable: true,
+              },
+              {
+                name: "Subtotal",
+                selector: (row) => `$${row.subtotal.toFixed(2)}`,
+                sortable: true,
+              },
+            ]}
+            data={productosSeleccionados}
+            highlightOnHover
+          />
+          <h3>Total: ${totalCompra.toFixed(2)}</h3>
+          <Input
+            type="number"
+            placeholder="Ingrese el monto pagado"
+            value={montoPagado}
+            onChange={handleMontoChange}
+            style={{ marginTop: 10 }}
+          />
+
+          {montoPagado !== "" && (
+            <motion.h3 initial={{ scale: 0 }} animate={{ scale: 1 }}>
+              Vuelto: ${vuelto.toFixed(2)}
+            </motion.h3>
+          )}
+          <label>Cliente paga con</label>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginTop: 20,
+            }}
+          >
+            <Button disabled={Number(montoPagado) < Number(totalCompra)} onClick={confirrmSale}>
+              Generar recibo
+            </Button>
+          </div>
+        </motion.div>
+      </Modal>
 
       {/* Modal de Advertencia para Medicamentos con Prescripción */}
       <Modal

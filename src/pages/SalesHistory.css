@@ -1,23 +1,26 @@
 h2 {
-    margin-left: 70px;
     margin-top: 50px;
     font-size: 24px;
     color: #333;
   }
   
   .SalesHistory-actions {
-    display: flex;    
-    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
     margin-top: 10px;
+    margin-left: 30px;
     align-items: center;
-    margin-left: 180px;
+    justify-content: space-between;
   }
   
   .search-SalesHistory,
   .filter-SalesHistory,
   .button-SalesHistory {
-    padding: 10px;  
-    border: 1px solid #ddd;
+    padding: 8px;
+    border: 1px solid black;
+    background-color: white;
+    width: 250px;
   }
   
   .search-SalesHistory {

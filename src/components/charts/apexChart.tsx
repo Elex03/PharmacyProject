@@ -87,7 +87,7 @@ const ApexChart: React.FC = () => {
   return (
     <div>
       <div id="chart" style={{ width: "100%", paddingLeft: "30px", marginTop: "-30px"}}>
-        <ReactApexChart options={state.options} series={state.series} type="bar" height={200}/>
+        <ReactApexChart options={state.options} series={state.series} type="bar" height={250}/>
       </div>
     </div>
   );

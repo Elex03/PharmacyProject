@@ -16,7 +16,7 @@ const SalesHistory = () => {
   const [data, setData] = useState<SalesItem[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/orders/getSales") 
+    fetch("http://localhost:3000/apiFarmaNova/orders/getSales")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al cargar los datos");
@@ -24,7 +24,7 @@ const SalesHistory = () => {
         return response.json();
       })
       .then((data: SalesItem[]) => {
-        setData(data); 
+        setData(data);
       });
   }, []);
 
@@ -48,27 +48,32 @@ const SalesHistory = () => {
     });
 
   return (
-    <div className="SalesHistory-page">
-      <h2>Historial de ventas</h2>
-      <Example />
-      <div className="SalesHistory-actions">
-        <input
-          type="text"
-          placeholder="Buscar por nombre"
-          className="search-SalesHistory"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        <select
-          className="filter-SalesHistory"
-          value={sortOrder}
-          onChange={handleSort}
-        >
-          <option value="">Filtrar por nombre</option>
-          <option value="A-Z">A - Z</option>
-        </select>
+    <div className="SalesHistory-page" style={{ width: "90vw" }}>
+      <div style={{ width: "95%" }}>
+        <h2>Historial de ventas</h2>
+        <Example />
+
+        <div className="SalesHistory-actions">
+          <input
+            type="text"
+            placeholder="Buscar por nombre"
+            className="search-SalesHistory"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <select
+            className="filter-SalesHistory"
+            value={sortOrder}
+            onChange={handleSort}
+          >
+            <option value="">Filtrar por nombre</option>
+            <option value="A-Z">A - Z</option>
+          </select>
+        </div>
+        <center>
+          <SalesHistoTable data={filteredData} />
+        </center>
       </div>
-      <SalesHistoTable data={filteredData} />
     </div>
   );
 };

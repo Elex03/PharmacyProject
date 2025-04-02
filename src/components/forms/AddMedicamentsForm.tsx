@@ -355,8 +355,8 @@ export const AddMedicamentsForm = () => {
     }
   };
   return (
-    <div style={{ padding: 20, width: "90%", margin: "auto" }}>
-      <h2 style={{ textAlign: "center", marginBottom: 20 }}>
+    <div style={{ width: "90%", margin: "auto" }}>
+      <h2 style={{ marginBottom: 20 }}>
         Agregar Medicamentos
       </h2>
 

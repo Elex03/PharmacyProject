@@ -19,14 +19,15 @@ interface InventoryItem {
   margenUtilidad: number;
 }
 
+// Estructura de los filtros para cada columna
 interface ColumnFilterState {
-  // sortOrder: true para ascendente, false para descendente o undefined para sin ordenar
+  // Orden ascendente (true), descendente (false) o sin orden (undefined)
   sortOrder?: boolean;
-  // Texto para buscar valores
+  // Texto de búsqueda (para filtrar los valores de la lista)
   searchText: string;
-  // Valores seleccionados (checkboxes)
+  // Lista de valores chequeados (solo esos se mostrarán)
   selectedValues: string[];
-  // Controla si el menú está abierto
+  // Control de apertura/cierre del menú de filtros
   isOpen: boolean;
 }
 
@@ -35,12 +36,17 @@ interface InventoryTableProps {
 }
 
 const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
+  // Guardamos la información de filtros para cada columna en un objeto
+  // donde la key es el nombre de la propiedad (por ej: 'descripcion')
+  // y el value es el estado de filtros para esa columna.
   const [filterState, setFilterState] = useState<{
     [key: string]: ColumnFilterState;
   }>({});
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
+  // Lista de columnas que queremos mostrar y filtrar
   const columns = [
     { key: "descripcion", header: "Descripción" },
     { key: "formaFarmaceutica", header: "Forma Farmacéutica" },
@@ -54,27 +60,29 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
     { key: "margenUtilidad", header: "Margen de Utilidad" },
   ];
 
-  // Inicializamos el estado de filtros para cada columna
+  // Inicializamos los filtros con todos los valores chequeados para cada columna
   useEffect(() => {
     const initialState: { [key: string]: ColumnFilterState } = {};
     columns.forEach((col) => {
       const allValues = data.map((item) => String(item[col.key]));
       const uniqueValues = Array.from(new Set(allValues));
+
       initialState[col.key] = {
-        sortOrder: undefined,
+        sortOrder: undefined, // sin orden
         searchText: "",
-        selectedValues: uniqueValues,
+        selectedValues: uniqueValues, // por defecto, todos seleccionados
         isOpen: false,
       };
     });
     setFilterState(initialState);
   }, [data]);
 
-  // Función que filtra y ordena los datos según los filtros de cada columna
+  // Filtrado y ordenamiento de los datos
   const getFilteredAndSortedData = () => {
+    // Clonamos los datos
     let filteredData = [...data];
 
-    // Filtrado por los valores seleccionados de cada columna
+    // Para cada columna, aplicamos filtros
     columns.forEach((col) => {
       const colKey = col.key;
       const { selectedValues } = filterState[colKey] || {};
@@ -85,34 +93,25 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
       }
     });
 
-    // Ordenamiento: se aplica la primera columna que tenga definido sortOrder
-    for (const col of columns) {
+    // Ordenamiento: solo aplicamos el primer orden que encontremos
+    // (Si quieres soportar orden múltiple, ajusta la lógica)
+    for (let col of columns) {
       const colKey = col.key;
       const { sortOrder } = filterState[colKey] || {};
       if (sortOrder !== undefined) {
         filteredData.sort((a, b) => {
-          const aVal = a[colKey];
-          const bVal = b[colKey];
-
-          // Intentamos convertir a número
-          const aNum = parseFloat(aVal.toString());
-          const bNum = parseFloat(bVal.toString());
-
-          if (!isNaN(aNum) && !isNaN(bNum)) {
-            if (aNum < bNum) return sortOrder ? -1 : 1;
-            if (aNum > bNum) return sortOrder ? 1 : -1;
-          } else {
-            // Comparación alfabética
-            const aStr = aVal.toString().toLowerCase();
-            const bStr = bVal.toString().toLowerCase();
-            if (aStr < bStr) return sortOrder ? -1 : 1;
-            if (aStr > bStr) return sortOrder ? 1 : -1;
-          }
+          const aVal = String(a[colKey]);
+          const bVal = String(b[colKey]);
+          if (aVal < bVal) return sortOrder ? -1 : 1;
+          if (aVal > bVal) return sortOrder ? 1 : -1;
           return 0;
         });
+        // Si quieres que el orden sea sólo para la primera columna que tenga sortOrder definido,
+        // puedes hacer un break aquí. Si no, retira el break para permitir ordenaciones sucesivas.
         break;
       }
     }
+
     return filteredData;
   };
 
@@ -130,11 +129,8 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
     }
   };
 
-  // Actualiza el estado de filtro de una columna
-  const updateFilterState = (
-    colKey: string,
-    newState: Partial<ColumnFilterState>
-  ) => {
+  // Callback para actualizar el estado de filtros de una columna
+  const updateFilterState = (colKey: string, newState: Partial<ColumnFilterState>) => {
     setFilterState((prev) => ({
       ...prev,
       [colKey]: {
@@ -151,15 +147,19 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
           <tr>
             {columns.map((col) => (
               <th key={col.key} style={{ position: "relative" }}>
+                {/* Nombre de la columna (clicable) */}
                 <div
-                  onClick={() =>
+                  onClick={() => {
+                    // Al hacer clic en el nombre de la columna,
+                    // abrimos/cerramos el menú de filtro
                     updateFilterState(col.key, {
                       isOpen: !filterState[col.key]?.isOpen,
-                    })
-                  }
+                    });
+                  }}
                   style={{ cursor: "pointer", userSelect: "none" }}
                 >
-                  {col.header}{" "}
+                  {col.header}
+
                   <div
                     style={{
                       display: "inline-flex",
@@ -184,15 +184,15 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
                     </svg>
                   </div>
                 </div>
+
+                {/* Menú de filtro estilo Excel */}
                 {filterState[col.key]?.isOpen && (
                   <FilterDropdown
                     columnKey={col.key}
                     columnHeader={col.header}
                     allData={data}
-                    filter={filterState[col.key]!}
-                    onChangeFilter={(newState) =>
-                      updateFilterState(col.key, newState)
-                    }
+                    filter={filterState[col.key]}
+                    onChangeFilter={(newState) => updateFilterState(col.key, newState)}
                   />
                 )}
               </th>
@@ -210,21 +210,16 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
             ))
           ) : (
             <tr>
-              <td
-                colSpan={columns.length}
-                style={{ textAlign: "center", color: "gray" }}
-              >
+              <td colSpan={columns.length} style={{ textAlign: "center", color: "gray" }}>
                 No se encontraron resultados
               </td>
             </tr>
           )}
         </tbody>
       </table>
+
       <div className="pagination" style={{ marginTop: "1rem" }}>
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
+        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
           ← Anterior
         </button>
         {Array.from({ length: totalPages }, (_, index) => (
@@ -250,7 +245,12 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ data }) => {
 export default InventoryTable;
 
 /**
- * Componente para el menú de filtro estilo Excel.
+ * Componente que representa el menú de filtros al estilo Excel.
+ * Contiene:
+ * - Orden asc/desc
+ * - Búsqueda de valores
+ * - Checkboxes con valores únicos
+ * - Botón Aplicar y Cancelar
  */
 interface FilterDropdownProps {
   columnKey: string;
@@ -259,7 +259,6 @@ interface FilterDropdownProps {
   filter: ColumnFilterState;
   onChangeFilter: (newState: Partial<ColumnFilterState>) => void;
 }
-
 const FilterDropdown: React.FC<FilterDropdownProps> = ({
   columnKey,
   columnHeader,
@@ -270,12 +269,12 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { searchText, selectedValues, sortOrder } = filter;
 
-  // Obtenemos todos los valores únicos de la columna
+  // Obtenemos todos los valores únicos de la columna (para checkboxes)
   const uniqueValues = Array.from(
     new Set(allData.map((item) => String(item[columnKey])))
   );
 
-  // Filtramos según el searchText
+  // Filtramos esa lista según el searchText
   const filteredValues = uniqueValues.filter((val) =>
     val.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -285,7 +284,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
     selectedValues.includes(val)
   );
 
-  // Cerrar el menú al hacer click afuera
+  // Para cerrar el menú al hacer clic afuera
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -296,7 +295,9 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [onChangeFilter]);
 
   const handleApply = () => {
@@ -313,24 +314,23 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
     });
   };
 
+  // Al cambiar "Seleccionar todo"
   const handleSelectAllChange = () => {
     if (allSelected) {
-      // Deselecciona los valores filtrados
+      // Si ya están todos seleccionados, se deseleccionan los filtrados
       const newSelected = selectedValues.filter(
         (val) => !filteredValues.includes(val)
       );
       onChangeFilter({ selectedValues: newSelected });
     } else {
-      // Agrega los valores filtrados que no están ya seleccionados
-      const newSelected = Array.from(
-        new Set([...selectedValues, ...filteredValues])
-      );
+      // Si no están todos seleccionados, se agregan los que no están
+      const newSelected = Array.from(new Set([...selectedValues, ...filteredValues]));
       onChangeFilter({ selectedValues: newSelected });
     }
   };
 
   const toggleValue = (value: string) => {
-    let newValues = [...selectedValues];
+    let newValues = [...(selectedValues || [])];
     if (newValues.includes(value)) {
       newValues = newValues.filter((v) => v !== value);
     } else {
@@ -354,26 +354,27 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
       }}
     >
-      <div style={{ fontWeight: "bold", marginBottom: "4px" }}>
-        {columnHeader}
-      </div>
-      {/* Opciones de ordenamiento */}
+      <div style={{ fontWeight: "bold", marginBottom: "4px" }}>{columnHeader}</div>
+
+      {/* Opciones de Ordenar */}
       <div style={{ marginBottom: "8px" }}>
         <div
           style={{ cursor: "pointer", marginBottom: "4px" }}
           onClick={() => toggleSortOrder(true)}
         >
-          {sortOrder === true ? "✓ " : ""}Ordenar de Menor a Mayor
+          {sortOrder === true ? "✓ " : ""}Ordenar de A a Z
         </div>
         <div
           style={{ cursor: "pointer", marginBottom: "4px" }}
           onClick={() => toggleSortOrder(false)}
         >
-          {sortOrder === false ? "✓ " : ""}Ordenar de Mayor a Menor
+          {sortOrder === false ? "✓ " : ""}Ordenar de Z a A
         </div>
       </div>
+
       <hr style={{ margin: "4px 0" }} />
-      {/* Buscador */}
+
+      {/* Buscador de texto */}
       <input
         type="text"
         placeholder="Buscar..."
@@ -381,6 +382,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         onChange={(e) => onChangeFilter({ searchText: e.target.value })}
         style={{ width: "100%", marginBottom: "8px" }}
       />
+
       {/* Opción "Seleccionar todo" */}
       <div style={{ marginBottom: "8px" }}>
         <label style={{ cursor: "pointer", fontWeight: "bold" }}>
@@ -392,9 +394,9 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
           Seleccionar todo
         </label>
       </div>
-      <div
-        style={{ maxHeight: "120px", overflowY: "auto", marginBottom: "8px" }}
-      >
+
+      <div style={{ maxHeight: "120px", overflowY: "auto", marginBottom: "8px" }}>
+        {/* Checkboxes de valores */}
         {filteredValues.map((val) => (
           <div key={val}>
             <label style={{ cursor: "pointer" }}>
@@ -408,7 +410,10 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
           </div>
         ))}
       </div>
+
       <hr style={{ margin: "4px 0" }} />
+
+      {/* Botones */}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button onClick={handleApply} style={{ marginRight: "8px" }}>
           Aceptar
