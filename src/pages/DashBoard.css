@@ -1,0 +1,226 @@
+.dashboard {
+  width: 80vw;
+  height: 80vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 18px;
+}
+.dashboard h2 {
+  margin-left: 30px;
+  margin-top: 1px;
+  margin-bottom: 1;
+  font-size: 24px;
+  color: #333;
+}
+
+.top-boxes {
+  display: flex;
+  width: 101%;
+  justify-content: space-between;
+  height: 100px;
+}
+
+.box {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+  margin: 0 10px;
+  border-radius: 10px;
+  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.box-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.big-text {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.big-text2 {
+  position: absolute;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  color: green;
+  z-index: 1;
+}
+
+.small-text {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.icon-container {
+  position: absolute;
+  bottom: 1px;
+  left: 10px;
+  font-size: 26px;
+}
+
+/* Ajustes a las cajas de abajo */
+.bottom-box {
+  width: 100%;
+  flex: 1;
+  background-color: white;
+  border-radius: 10px;
+
+  display: flex;
+  gap: 10px;
+  padding: 1px;
+  box-sizing: border-box; /* Asegura que el padding se incluya dentro del tamaño total */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px; /* Agrega un espacio entre las sub-cajas */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.sub-half {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.sub-half:last-child {
+  border-bottom: none;
+}
+
+.half:first-child {
+  border-right: 2px solid rgba(0, 0, 0, 0.1);
+}
+.sub-half-vertical {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinea el contenido hacia arriba */
+  align-items: center;
+  font-weight: bold;
+  border-right: 2px solid rgba(0, 0, 0, 0.3);
+  height: 100%;
+  overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chart-header {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2px; /* Espacio entre el título y la gráfica */
+  color: black;
+  width: 100%;
+}
+
+.sub-half > .sub-half-vertical {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-right: 2px solid rgba(0, 0, 0, 0.3);
+  height: 100%;
+  overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.sub-half-vertical:last-child {
+  border-right: none;
+}
+
+/* Evitar desbordamientos */
+.sub-half > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px; /* Espacio entre el título y el gráfico */
+  text-align: center;
+}
+
+.sub-half-vertical2 {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: white; /* Un fondo oscuro para resaltar la gráfica */
+}
+
+.background-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3; /* Ajusta la opacidad si es necesario */
+}
+/* 
+.sub-half .inventory-container {
+  padding: 20px;
+} */
+
+.sub-half .inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sub-half .inventory-table th {
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+.sub-half .inventory-table td {
+  padding: 10px;
+  text-align: left;
+  font-size: 12px;
+}
+
+.sub-half .inventory-table th {
+  color: #333;
+}
+
+.sub-half table {
+  border-spacing: 15px;
+}

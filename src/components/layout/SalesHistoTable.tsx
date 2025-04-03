@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import "../layout/Table.css";
 
 interface SalesHistoItem {
@@ -23,15 +22,12 @@ interface SaleDetail {
 
 const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 102;
+  const itemsPerPage = 10;
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const [selectedSale, setSelectedSale] = useState<SalesHistoItem | null>(null);
   const [saleDetails, setSaleDetails] = useState<Product[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const navigate = useNavigate(); // Hook para redirigir
-
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = data.slice(startIndex, endIndex);
@@ -68,10 +64,6 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
 
   const handlePrint = () => {
     window.print();
-  };
-
-  const handleAddSale = () => {
-    navigate("/ventas");
   };
 
   const subtotalVenta = saleDetails.reduce((acc, producto) => acc + producto.total, 0);
@@ -132,11 +124,7 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
       </div>
 
       {/* Botón para agregar una nueva venta */}
-      <div className="add-sale-container">
-        <button className="add-sale-button" onClick={handleAddSale}>
-          Agregar Venta
-        </button>
-      </div>
+     
 
       {isModalOpen && selectedSale && (
         <div className="modal-overlay">
