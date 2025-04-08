@@ -19,7 +19,7 @@ const Formulario: React.FC<FormularioProps> = ({ setIsOpen }) => {
   const [isOpenNuevaEmpresa, setIsOpenNuevaEmpresa] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/distributors/getCompanies")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/distributors/getCompanies")
       .then((res) => res.json())
       .then((data) => setEmpresas(data))
       .catch((error) => console.error("Error al cargar empresas:", error));
@@ -47,7 +47,7 @@ const Formulario: React.FC<FormularioProps> = ({ setIsOpen }) => {
         console.log("Datos del formulario:", JSON.stringify(distribuidor));
 
         try {
-          const response = await fetch("http://localhost:3000/apiFarmaNova/distributors", {
+          const response = await fetch("https://farmanova-api.onrender.com/apiFarmaNova/distributors", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

@@ -2,6 +2,11 @@
     padding: 20px;    
   }
   
+  .export-button{
+    margin-left: 100%;
+    background-color: white;
+    border: 1px solid white;
+  }
   /* tabla de inventario */
   .inventory-table-I {
     width: 102%;

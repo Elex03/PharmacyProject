@@ -48,7 +48,7 @@ const Inventario = () => {
     setStockFilter(e.target.value);
   };
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/medicines/")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/medicines/")
       .then((response) => {
         if (!response.ok) throw new Error("Error al cargar los datos");
         return response.json();

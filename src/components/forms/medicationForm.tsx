@@ -94,7 +94,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({ onAddMedication }) => {
   const medications: Medication[] = [];
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/distributors/")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/distributors/")
       .then((response) => response.json())
       .then((data) => {
         const opts = data.map((item: { id: number; nombre: string }) => ({
@@ -109,7 +109,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({ onAddMedication }) => {
 
   // Cargar catálogo de medicamentos
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/medications")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/medications")
       .then((response) => response.json())
       .then((data) => {
         const catalog = data.map(

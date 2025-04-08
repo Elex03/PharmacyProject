@@ -11,7 +11,7 @@ export default function PieAnimation() {
   const colors = ["#64B5F6", "#A5D6A7", "#EF9A9A", "#FFB74D", "#9575CD"];
 
   React.useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getCategories")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getCategories")
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error("Error cargando las categorías:", error));

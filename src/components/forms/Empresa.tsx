@@ -15,7 +15,7 @@ const NuevaEmpresa: React.FC<{
 
   const guardarEmpresa = async () => {
     try {
-      const response = await fetch("http://localhost:3000/apiFarmaNova/general/createCompany", {
+      const response = await fetch("https://farmanova-api.onrender.com/apiFarmaNova/general/createCompany", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

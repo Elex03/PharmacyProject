@@ -44,7 +44,7 @@ const CashRegister: React.FC = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/apiFarmaNova/inventory/getRegisterPerBarCode/${searchText}`
+        `https://farmanova-api.onrender.com/apiFarmaNova/inventory/getRegisterPerBarCode/${searchText}`
       );
 
       loadingMessage();
@@ -125,7 +125,7 @@ const CashRegister: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/apiFarmaNova/medicines/createSales",
+        "https://farmanova-api.onrender.com/apiFarmaNova/medicines/createSales",
         {
           method: "POST",
           headers: {
@@ -142,7 +142,7 @@ const CashRegister: React.FC = () => {
         console.log(response);
 
         // Recargar los medicamentos disponibles
-        fetch("http://localhost:3000/apiFarmaNova/medicines/catalogMedicine")
+        fetch("https://farmanova-api.onrender.com/apiFarmaNova/medicines/catalogMedicine")
           .then((response) => response.json())
           .then((json) => {
             const productosDisponibles = json.filter(
@@ -173,7 +173,7 @@ const CashRegister: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/medicines/catalogMedicine")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/medicines/catalogMedicine")
       .then((response) => response.json())
       .then((json) => {
         const productosDisponibles = json.filter(

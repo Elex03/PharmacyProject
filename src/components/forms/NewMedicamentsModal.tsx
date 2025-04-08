@@ -39,7 +39,7 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getCategories")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getCategories")
       .then((response) => {
         if (!response.ok) throw new Error("Error al cargar los datos");
         return response.json();
@@ -72,7 +72,7 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
 
       try {
         const response = await fetch(
-          "http://localhost:3000/apiFarmaNova/inventory/createMedicineCatalog",
+          "https://farmanova-api.onrender.com/apiFarmaNova/inventory/createMedicineCatalog",
           {
             method: "POST",
             headers: {

@@ -117,7 +117,7 @@ export const AddMedicamentsForm = () => {
   };
 
   const handleMedicationAdded = () => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getMedicine")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getMedicine")
       .then((response) => response.json())
       .then((data) => {
         const updatedOptions = data.map(
@@ -229,7 +229,7 @@ export const AddMedicamentsForm = () => {
   ];
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getMedicine")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getMedicine")
       .then((response) => {
         if (!response.ok) throw new Error("Error al cargar los datos");
         return response.json();
@@ -244,7 +244,7 @@ export const AddMedicamentsForm = () => {
       })
       .catch((error) => console.error("Error fetching categories:", error));
 
-    fetch("http://localhost:3000/apiFarmaNova/distributors/")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/distributors/")
       .then((response) => {
         if (!response.ok) throw new Error("Error al cargar los datos");
         return response.json();
@@ -259,7 +259,7 @@ export const AddMedicamentsForm = () => {
       })
       .catch((error) => console.error("Error fetching categories:", error));
 
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getCompressedforms")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getCompressedforms")
       .then((response) => {
         if (!response.ok) throw new Error("Error al cargar los datos");
         return response.json();
@@ -347,7 +347,7 @@ export const AddMedicamentsForm = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/apiFarmaNova/inventory/medicine",
+        "https://farmanova-api.onrender.com/apiFarmaNova/inventory/medicine",
         {
           method: "POST",
           body: formData,
@@ -369,7 +369,7 @@ export const AddMedicamentsForm = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/apiFarmaNova/inventory/getRegisterPerBarCode/${searchText}`
+        `https://farmanova-api.onrender.com/apiFarmaNova/inventory/getRegisterPerBarCode/${searchText}`
       );
 
       loadingMessage();

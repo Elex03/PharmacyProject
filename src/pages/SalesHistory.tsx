@@ -16,7 +16,7 @@ const SalesHistory = () => {
   const [data, setData] = useState<SalesItem[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/orders/getSales")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/orders/getSales")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al cargar los datos");

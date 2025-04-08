@@ -25,7 +25,7 @@ const OrderHistory = () => {
 
   // 📌 Petición a la API para obtener datos
   useEffect(() => {
-    fetch(`http://localhost:3000/apiFarmaNova/orders/details/${id}`)
+    fetch(`https://farmanova-api.onrender.com/apiFarmaNova/orders/details/${id}`)
       .then((response) => {
         if (!response.ok) throw new Error("Error al cargar los datos");
         return response.json();

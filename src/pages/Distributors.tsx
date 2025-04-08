@@ -31,7 +31,7 @@ const Distributors = () => {
 
   // Fetching data from the API
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/distributors/")
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/distributors/")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al cargar los datos");

@@ -20,7 +20,7 @@ const Example = () => {
   const [data, setData] = useState<DayInventory[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/inventory/getSalesPerWeek") 
+    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getSalesPerWeek") 
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al cargar los datos");

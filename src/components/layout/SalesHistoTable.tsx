@@ -40,7 +40,7 @@ const SalesHistoTable = ({ data }: { data: SalesHistoItem[] }) => {
 
   const handleShowDetails = (item: SalesHistoItem) => {
     setSelectedSale(item);
-    fetch(`http://localhost:3000/apiFarmaNova/orders/getSales/${item.id}`)
+    fetch(`https://farmanova-api.onrender.com/apiFarmaNova/orders/getSales/${item.id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al cargar los datos");
