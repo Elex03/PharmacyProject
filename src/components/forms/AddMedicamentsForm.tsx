@@ -1,4 +1,4 @@
-import { Key, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import {
   Select,
   Input,
@@ -12,6 +12,11 @@ import NewMedicationModal from "./NewMedicamentsModal";
 import "./AddMedicamentsForm.css";
 import dayjs from "dayjs";
 import axios from "axios";
+import {
+  getCompressedforms,
+  getMedicines,
+} from "../../api/components/Medicine";
+import { getDistributors } from "../../api/components/Distributors";
 
 export const AddMedicamentsForm = () => {
   const [selectedMedication, setSelectedMedication] = useState<string | null>(
@@ -117,8 +122,7 @@ export const AddMedicamentsForm = () => {
   };
 
   const handleMedicationAdded = () => {
-    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getMedicine")
-      .then((response) => response.json())
+    getMedicines()
       .then((data) => {
         const updatedOptions = data.map(
           (item: { id: number; label: string }) => ({
@@ -229,11 +233,7 @@ export const AddMedicamentsForm = () => {
   ];
 
   useEffect(() => {
-    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getMedicine")
-      .then((response) => {
-        if (!response.ok) throw new Error("Error al cargar los datos");
-        return response.json();
-      })
+    getMedicines()
       .then((data) => {
         const opts = data.map((item: { id: number; label: string }) => ({
           value: item.id.toString(),
@@ -243,12 +243,7 @@ export const AddMedicamentsForm = () => {
         setMedicamentList(opts);
       })
       .catch((error) => console.error("Error fetching categories:", error));
-
-    fetch("https://farmanova-api.onrender.com/apiFarmaNova/distributors/")
-      .then((response) => {
-        if (!response.ok) throw new Error("Error al cargar los datos");
-        return response.json();
-      })
+    getDistributors()
       .then((data) => {
         const opts = data.map((item: { id: number; label: string }) => ({
           value: item.id.toString(),
@@ -259,11 +254,7 @@ export const AddMedicamentsForm = () => {
       })
       .catch((error) => console.error("Error fetching categories:", error));
 
-    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getCompressedforms")
-      .then((response) => {
-        if (!response.ok) throw new Error("Error al cargar los datos");
-        return response.json();
-      })
+    getCompressedforms()
       .then((data) => {
         const opts = data.map((item: { id: number; label: string }) => ({
           value: item.id.toString(),
@@ -273,6 +264,8 @@ export const AddMedicamentsForm = () => {
         setCompressedForm(opts);
       })
       .catch((error) => console.error("Error fetching categories:", error));
+    // Fetch compressed forms from the API
+  
   }, []);
 
   const handleAddToTable = () => {

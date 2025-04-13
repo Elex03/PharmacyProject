@@ -10,6 +10,7 @@ import {
 } from "recharts";
 
 import { useEffect, useState } from "react";
+import { getSalesPerWeek } from "../../api/components/Sales";
 
 interface DayInventory {
   dia: string;
@@ -20,25 +21,20 @@ const Example = () => {
   const [data, setData] = useState<DayInventory[]>([]);
 
   useEffect(() => {
-    fetch("https://farmanova-api.onrender.com/apiFarmaNova/inventory/getSalesPerWeek") 
+    getSalesPerWeek()
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al cargar los datos");
-        }
-        return response.json();
+        setData(response); 
+        console.log("Sales data:", response); 
       })
-      .then((data: DayInventory[]) => {
-        setData(data); 
+      .catch((error) => {
+        console.error("Error fetching sales data:", error);
       });
   }, []);
 
   return (
     <div style={{ width: "100%", height: 150 }}>
       <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{ top: 1, right: 1, bottom: 5 }}
-        >
+        <LineChart data={data} margin={{ top: 1, right: 1, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="dia" />
           <YAxis />

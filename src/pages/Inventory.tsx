@@ -121,7 +121,13 @@ const Inventario = () => {
     <div className="inventory-page" style={{ width: "90vw" }}>
       <div style={{ width: "95%" }}>
         <h2>Inventario</h2>
-
+        <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
+          Aquí puedes gestionar el inventario de productos farmacéuticos.
+          <br />
+          Puedes registrar nuevos productos, actualizar la información de los
+          existentes y realizar un seguimiento del stock disponible.
+          <br />
+          </p>
         <PieChart />
         <div className="inventory-actions">
           <input

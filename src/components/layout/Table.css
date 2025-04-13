@@ -1,119 +1,115 @@
 .inventory-container {
-    padding: 20px;    
-  }
-  
-  .export-button{
-    margin-left: 100%;
-    background-color: white;
-    border: 1px solid white;
-  }
-  /* tabla de inventario */
-  .inventory-table-I {
-    width: 102%;
-    border-collapse: collapse;
-  }
+  padding: 20px;
+}
 
-  .inventory-table-I th,
-  .inventory-table-I td {
-    padding: 10px;    
-    text-align: left;
-  }
+.export-button {
+  margin-left: 100%;
+  background-color: white;
+  border: 1px solid white;
+}
+/* tabla de inventario */
+.inventory-table-I {
+  width: 102%;
+  border-collapse: collapse;
+}
 
-  .inventory-table-I th, 
-  .inventory-table-H th{
-    font-size: 14px;
-  }
-  .inventory-table-I tr, 
-  .inventory-table-H tr{
-    font-size: 12px;
-  }
-  /* tabla historial */
-  .inventory-table-H th,
-  .inventory-table-H td {
-    padding: 10px;    
-    text-align: left;
-    /* color: #333; */
-  }  
+.inventory-table-I th,
+.inventory-table-I td {
+  padding: 10px;
+  text-align: left;
+}
 
+.inventory-table-I th,
+.inventory-table-H th {
+  font-size: 14px;
+}
+.inventory-table-I tr,
+.inventory-table-H tr {
+  font-size: 12px;
+}
+/* tabla historial */
+.inventory-table-H th,
+.inventory-table-H td {
+  padding: 10px;
+  text-align: left;
+  /* color: #333; */
+}
 
-  .inventory-table, 
-  .inventory-table-H {
-    width: 100%;
-    border-collapse: collapse;  
+.inventory-table,
+.inventory-table-H {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  }
-  
-  
-  .inventory-table th,
-  .inventory-table td {
-    padding: 10px;    
-    text-align: left;
-    padding-left: 50px;
-    /* color: #333; */
-  }  
+.inventory-table th,
+.inventory-table td {
+  padding: 10px;
+  text-align: left;
+  padding-left: 50px;
+  /* color: #333; */
+}
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-left: 30px;
+  width: 90%;
+}
 
-  .pagination {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 10px;
-    padding-left: 30px;
-    width: 90%;
-  }
-  
-  .pagination button {
-    padding: 5px 10px;
-    border: 1px solid #007bff;
-    background: #ffffff;
-    cursor: pointer;
-    transition: 0.3s ease;    
-  }
-  
-  .pagination button.active {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-  }
-  
-  .pagination button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
+.pagination button {
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  background: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
 
-  .action-link{
-    color: #333;
-  }
+.pagination button.active {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+}
 
-  .pagination-H {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 10px;
-    padding-left: 140px;
-  }
-  .pagination-H button {
-    padding: 5px 10px;
-    border: 1px solid #007bff;
-    background: #ffffff;
-    cursor: pointer;
-    transition: 0.3s ease;    
-  }
-  
-  .pagination-H button.active {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-  }
-  
-  .pagination-H button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
-  /* estilos del recibo */
+.action-link {
+  color: #333;
+}
+
+.pagination-H {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-left: 140px;
+}
+.pagination-H button {
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  background: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.pagination-H button.active {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+}
+
+.pagination-H button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* estilos del recibo */
 .details-link {
   color: #4b4d50;
   cursor: pointer;
@@ -140,7 +136,7 @@
   width: 500px;
   height: 500px;
   max-height: 680px;
-  overflow-y: auto; 
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -189,190 +185,190 @@ table {
   cursor: pointer;
 }
 
+/* estilos del recibo */
+.details-link {
+  color: #4b4d50;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
 
-  /* estilos del recibo */
-  .details-link {
-    color: #4b4d50;
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 1rem;
-    transition: color 0.2s ease;
-  }
-  
-  .details-link:hover {
-    color: #141518;
-  }
-  
-  .receipt-popup-O {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    z-index: 10;
-    text-align: center;
-    width: 500px;
-    height: 500px;
-    max-height: 680px;
-    overflow-y: auto; 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  
-  .details-table-O {
-    position: relative;
-    top: 20px;
-    font-size: 13px;
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  table {
-    border-spacing: 15px;
-  }
-  
-  .receipt-popup-O h3 {
-    font-size: 1.4rem;
-    color: #000;
-    margin-bottom: 10px;
-  }
-  
-  .summary-O {
-    margin-top: 50px;
-    font-weight: bold;
-  }
-  
-  .receipt-popup-O p {
-    font-size: 1rem;
-    margin: 10px 0;
-    color: #141518;
-  }
-  
-  .receipt-popup-O button:hover {
-    background: #0056b3;
-  }
-  
-  .bottom-out-O {
-    margin-top: 15px;
-    padding: 8px 20px;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  
-   .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;  
-  }
-  
-  .receipt-popup {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-height: 90vh; 
-    overflow: hidden;
-    font-size: 12px;
-  }
-  
-  .receipt-content {
-    max-height: 80vh; 
-    overflow-y: auto; 
-  }
-  
-  .receipt-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    padding-right: 70px;
-    margin-top: 10px;
-  }
-  
-  .details-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .details-table th, .details-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    font-size: 12px;
-  }
-  
-  .print-button, .close-button {
-    margin-top: 10px;
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;  
-  }
-  
-  .print-button {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .close-button {
-    background-color: #757474;
-    color: white;
-    margin: 0 10px;  
-  }
-  
-  .receipt-header {
-    display: flex;
-    justify-content: space-between; 
-    margin-bottom: 15px;
-  }
-  
-  .receipt-header p {
-    margin: 0;
-    font-size: 14px;
-  }
-  
-  .receipt-header strong {
-    font-weight: bold;
-  }
-  .add-sale-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-  }
-  
-  .add-sale-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .add-sale-button:hover {
-    background-color: #284c74;
-  }
+.details-link:hover {
+  color: #141518;
+}
 
-  /* return product */
-  /* ---------- Botón de devolución ---------- */
+.receipt-popup-O {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  z-index: 10;
+  text-align: center;
+  width: 500px;
+  height: 500px;
+  max-height: 680px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.details-table-O {
+  position: relative;
+  top: 20px;
+  font-size: 13px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table {
+  border-spacing: 15px;
+}
+
+.receipt-popup-O h3 {
+  font-size: 1.4rem;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.summary-O {
+  margin-top: 50px;
+  font-weight: bold;
+}
+
+.receipt-popup-O p {
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #141518;
+}
+
+.receipt-popup-O button:hover {
+  background: #0056b3;
+}
+
+.bottom-out-O {
+  margin-top: 15px;
+  padding: 8px 20px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.receipt-popup {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-height: 90vh;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.receipt-content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.receipt-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  padding-right: 70px;
+  margin-top: 10px;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.details-table th,
+.details-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  font-size: 12px;
+}
+
+.print-button,
+.close-button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.print-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.close-button {
+  background-color: #757474;
+  color: white;
+  margin: 0 10px;
+}
+
+.receipt-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.receipt-header p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.receipt-header strong {
+  font-weight: bold;
+}
+.add-sale-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.add-sale-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-sale-button:hover {
+  background-color: #284c74;
+}
+
+/* return product */
+/* ---------- Botón de devolución ---------- */
 .return-btn {
   background-color: #007bff;
   color: white;
