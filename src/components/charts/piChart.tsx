@@ -28,6 +28,7 @@ export default function PieAnimation() {
         alignItems: "flex-start",
         justifyContent: "flex-start",
         flexDirection: "column",
+        height: 200
       }}
     >
       <Box sx={{ width: "100%", fontSize: 12 }}>
@@ -36,16 +37,26 @@ export default function PieAnimation() {
             height={200}
             series={[
               {
+                
                 data: categories.map((item, index) => ({
                   ...item,
                   color: colors[index % colors.length],
+                  
                 })),
                 innerRadius: 50,
                 arcLabel: (params) => params.label ?? "",
                 arcLabelMinAngle: 20,
+                
               },
             ]}
             skipAnimation={false}
+            sx={{
+              "& .MuiChartsArcLabel": {
+                fontSize: 8, // Cambia esto al tamaño que desees
+                fill: "#333", // Color opcional del texto
+                fontWeight: 500,
+              },
+            }}
           />
         ) : (
           <Typography>Cargando datos...</Typography>

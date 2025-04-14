@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import InventoryTable from "../components/layout/InventoryTable";
 import "../pages/Inventory.css";
 import {
   FaCheckCircle,
@@ -7,31 +6,28 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 
+
 import { Link } from "react-router-dom";
 import PieChart from "../components/charts/piChart";
-import ReturnProduct from "../components/layout/ReturnProduct";
-interface InventoryItem {
-  id: number;
+import type {ColumnDefinition} from  '../types.d.ts';
+
+import { Table } from "../components/layout/Table/Table";
+import PharmacyApi from "../api/PharmacyApi";
+
+
+type InventoryItem = {
   descripcion: string;
-  stock: string;
-  inventario: number;
+  stock: number;
   distribuidor: string;
-  vencimiento: string;
-  nombreComercial: string;
-  nombreGenerico: string;
-  formaFarmaceutica: string;
-  concentracion: string;
-  presentacion: string;
-  laboratorio: string;
-  precioCompra: number;
-  precioVenta: string;
-  margenUtilidad: number;
-}
+  fechaVencimiento: string;
+};
+
+
+
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
-  const [data, setData] = useState<InventoryItem[]>([]);
 
   // input de búsqueda
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,17 +43,39 @@ const Inventario = () => {
   const handleStockFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStockFilter(e.target.value);
   };
+
+  const [headers, setHeaders] = useState<ColumnDefinition<InventoryItem>[]>([]);
+  const [data, setData] = useState<InventoryItem[]>([]);
+
   useEffect(() => {
-    fetch("https://farmanova-api.onrender.com/apiFarmaNova/medicines/")
-      .then((response) => {
-        if (!response.ok) throw new Error("Error al cargar los datos");
-        return response.json();
-      })
-      .then((data) => {
+    const getData = async () => {
+      try {
+        const dataP = await PharmacyApi.get("/inventory/getInventoryData").then(
+          (response) => {
+            if (!response) throw new Error("Error al cargar los datos");
+            return response.data;
+          }
+        );
+
+        const { headers: hdrs, data } = dataP;
+
+        const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
+          key: h.key as keyof InventoryItem,
+          header: h.header,
+          isNumeric: h.key === "stock",
+        }));
+
+        setHeaders(mappedHeaders);
         setData(data);
-      })
-      .catch((error) => console.error("Error fetching categories:", error));
+        console.log("Headers:", mappedHeaders);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getData();
   }, []);
+
   // estado de stock
   const getStockStatus = (cantidad: number) => {
     if (cantidad === 0)
@@ -85,12 +103,12 @@ const Inventario = () => {
     .map((item) => ({
       ...item,
       stock:
-        Number(item.inventario) === 0
+        Number(item.stock) === 0
           ? "Agotado"
-          : Number(item.inventario) <= 10
+          : Number(item.stock) <= 10
           ? "Próximo a agotarse"
           : "Disponible",
-      stockStatusElement: getStockStatus(Number(item.inventario)),
+      stockStatusElement: getStockStatus(Number(item.stock)),
     }))
     .filter((item) =>
       Object.values(item).some((value) =>
@@ -99,15 +117,15 @@ const Inventario = () => {
     )
     .filter((item) => {
       if (!stockFilter) return true;
-      if (stockFilter === "disponible" && Number(item.inventario) > 10)
+      if (stockFilter === "disponible" && Number(item.stock) > 10)
         return true;
       if (
         stockFilter === "proximo" &&
-        Number(item.inventario) <= 10 &&
-        Number(item.inventario) > 0
+        Number(item.stock) <= 10 &&
+        Number(item.stock) > 0
       )
         return true;
-      if (stockFilter === "agotado" && Number(item.inventario) === 0)
+      if (stockFilter === "agotado" && Number(item.stock) === 0)
         return true;
       return false;
     })
@@ -163,16 +181,10 @@ const Inventario = () => {
             <button className="registro-button">Registrar pedido</button>
           </Link>
 
-          <ReturnProduct
-          
-            medicines={data.map((item) => ({
-              id: item.id,
-              nombreComercial: item.nombreComercial,
-            }))}
-          />
+        
         </div>
         <center>
-          <InventoryTable data={filteredData} />
+        <Table columns={headers} data={filteredData} itemsPerPage={5} />
         </center>
       </div>
     </div>

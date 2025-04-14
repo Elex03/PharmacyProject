@@ -1,50 +1,94 @@
 
-import { Table } from "./components/layout/Table/Table"; // Asegúrate que el path coincida
 
-type InventoryItem = {
-  name: string;
-  category: string;
-  price: number;
-  stock: number;
-  edad: number;
-};
+// const inventoryData: InventoryItem[] = [
+//   { name: "Laptop", category: "Electrónica", price: 1200, stock: 5, edad: 2 },
+//   { name: "Monitor", category: "Electrónica", price: 300, stock: 10, edad: 1 },
+//   { name: "Teclado", category: "Accesorios", price: 50, stock: 15, edad: 3 },
+//   { name: "Mouse", category: "Accesorios", price: 25, stock: 7, edad: 4 },
+//   { name: "Silla", category: "Mobiliario", price: 150, stock: 3, edad: 5 },
+//   { name: "Silla", category: "Mobiliario", price: 150, stock: 3, edad: 5 },
+//   { name: "Silla", category: "Mobiliario", price: 150, stock: 3, edad: 5 },
+//   { name: "Silla", category: "Mobiliario", price: 150, stock: 3, edad: 5 },
+//   { name: "Silla", category: "Mobiliario", price: 150, stock: 3, edad: 5 },
+//   { name: "Silla", category: "Mobiliario", price: 150, stock: 3, edad: 5 },
+// ];
 
-const inventoryData: InventoryItem[] = [
-  { name: "Laptop", category: "Electrónica", price: 1200, stock: 5, edad: 2 },
-  { name: "Monitor", category: "Electrónica", price: 300, stock: 10, edad: 1 },
-  { name: "Teclado", category: "Accesorios", price: 50, stock: 15, edad: 3 },
-  { name: "Mouse", category: "Accesorios", price: 25, stock: 7, edad: 4 },
-  { name: "Silla", category: "Mobiliario", price: 150, stock: 3, edad: 5 },
-];
+// const inventoryColumns: { key: keyof InventoryItem; header: string; isNumeric?: boolean }[] = [
+  //   { key: "name", header: "Producto" },
+//   { key: "category", header: "Categoría" },
+//   { key: "price", header: "Precio", isNumeric: true },
+//   { key: "stock", header: "Stock", isNumeric: true },
+//   { key: "edad", header: "Edad", isNumeric: true },
+// ];
 
-const inventoryColumns: { key: keyof InventoryItem; header: string; isNumeric?: boolean }[] = [
-  { key: "name", header: "Producto" },
-  { key: "category", header: "Categoría" },
-  { key: "price", header: "Precio", isNumeric: true },
-  { key: "stock", header: "Stock", isNumeric: true },
-  { key: "edad", header: "Edad", isNumeric: true },
-];
-
-export default function App() {
-  return (
-    <div style={{ padding: "16px" }}>
-      <h1>Inventario</h1>
-      <Table columns={inventoryColumns} data={inventoryData} />
-    </div>
-  );
-}
+// import { useEffect, useState } from "react";
+// import { Table } from "./components/layout/Table/Table";
+// import PharmacyApi from "./api/PharmacyApi";
+// import type {ColumnDefinition} from './types.d.ts';
 
 
-// import AppRouter from "./routes";
-// import './App.css'
+// type InventoryItem = {
+//   descripcion: string;
+//   stock: number;
+//   distribuidor: string;
+//   fechaVencimiento: string;
+// };
+
+
 // export default function App() {
+//   const [headers, setHeaders] = useState<ColumnDefinition<InventoryItem>[]>([]);
+//   const [data, setData] = useState<InventoryItem[]>([]);
+
+//   useEffect(() => {
+//     const getData = async () => {
+//       try {
+//         const dataP = await PharmacyApi.get("/inventory/getInventoryData").then(
+//           (response) => {
+//             if (!response) throw new Error("Error al cargar los datos");
+//             return response.data;
+//           }
+//         );
+
+//         const { headers: hdrs, data } = dataP;
+
+//         const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
+//           key: h.key as keyof InventoryItem,
+//           header: h.header,
+//           isNumeric: h.key === "stock",
+//         }));
+
+//         setHeaders(mappedHeaders);
+//         setData(data);
+//         console.log("Headers:", mappedHeaders);
+//       } catch (error) {
+//         console.error(error);
+//       }
+//     };
+
+//     getData();
+//   }, []);
+
 //   return (
-//     <div className="App">
-//       <AppRouter />
+//     <div style={{ padding: "16px" }}>
+//       <h1>Inventario</h1>
+//       <Table columns={headers} data={data} itemsPerPage={5} />
 //     </div>
 //   );
 // }
 
+
+import AppRouter from "./routes";
+import "./App.css";
+
+export default function App() {
+
+
+  return (
+    <div className="App">
+      <AppRouter />
+    </div>
+  );
+}
 
 // import { ToastContainer, toast, Bounce } from "react-toastify";
 

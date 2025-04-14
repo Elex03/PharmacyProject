@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FilterDropdown, ColumnFilterState } from "./Filter";
+import "../Table.css";
 
 type ColumnDefinition<T> = {
   key: keyof T;
@@ -10,13 +11,16 @@ type ColumnDefinition<T> = {
 type TableProps<T> = {
   columns: ColumnDefinition<T>[];
   data: T[];
+  itemsPerPage?: number; // Opcional: cantidad de items por página (default 5)
 };
 
 export function Table<T extends Record<string, unknown>>({
   columns,
   data,
+  itemsPerPage = 5,
 }: TableProps<T>) {
   const [filters, setFilters] = useState<Record<string, ColumnFilterState>>({});
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const handleChangeFilter = (
     columnKey: string,
@@ -57,12 +61,10 @@ export function Table<T extends Record<string, unknown>>({
     if (f?.sortOrder !== undefined) {
       sortedData.sort((a, b) => {
         if (col.isNumeric) {
-          // Ordenamiento numérico
           const aNum = Number(a[col.key]);
           const bNum = Number(b[col.key]);
           return f.sortOrder ? aNum - bNum : bNum - aNum;
         } else {
-          // Ordenamiento alfabético
           const valA = String(a[col.key]).toLowerCase();
           const valB = String(b[col.key]).toLowerCase();
           return f.sortOrder
@@ -73,24 +75,32 @@ export function Table<T extends Record<string, unknown>>({
     }
   });
 
+  // Paginación
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const pageData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
+  };
+
   return (
-    <div style={{ position: "relative", overflow: "visible" }}>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          border: "1px solid #ccc",
-        }}
-      >
+    <div className="inventory-container">
+      <table className="inventory-table-I">
         <thead>
-          <tr style={{ backgroundColor: "#f5f5f5" }}>
+          <tr>
             {columns.map((col) => (
               <th
                 key={String(col.key)}
                 style={{
-                  padding: "8px",
-                  borderBottom: "1px solid #ccc",
-                  textAlign: "left",
                   position: "relative",
                 }}
               >
@@ -111,23 +121,36 @@ export function Table<T extends Record<string, unknown>>({
                     style={{
                       marginLeft: "8px",
                       fontSize: "12px",
-                      backgroundColor: "#eee",
+                      backgroundColor: "#fff",
                       padding: "2px 4px",
                       border: "none",
                       borderRadius: "4px",
                       cursor: "pointer",
                     }}
                   >
-                    <svg
-                      width="8"
-                      height="8"
-                      viewBox="0 0 8 8"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <div
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "20px",
+                        height: "20px",
+                        border: "1px solid #ccc", // Borde gris claro
+                        borderRadius: "2px", // Esquinas ligeramente redondeadas (opcional)
+                        backgroundColor: "#fff", // Fondo blanco
+                      }}
                     >
-                      {/* Flecha hacia abajo (triángulo) */}
-                      <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
-                    </svg>
+                      <svg
+                        width="8"
+                        height="8"
+                        viewBox="0 0 8 8"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        {/* Flecha hacia abajo (triángulo) */}
+                        <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
+                      </svg>
+                    </div>
                   </button>
                 </div>
                 {filters[col.key as string]?.isOpen && (
@@ -152,28 +175,58 @@ export function Table<T extends Record<string, unknown>>({
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((row, rowIdx) => (
-            <tr
-              key={rowIdx}
-              style={{
-                backgroundColor: rowIdx % 2 ? "#fafafa" : "white",
-              }}
-            >
-              {columns.map((col) => (
-                <td
-                  key={String(col.key)}
-                  style={{
-                    padding: "8px",
-                    borderBottom: "1px solid #ccc",
-                  }}
-                >
-                  {String(row[col.key])}
-                </td>
-              ))}
+          {pageData.length > 0 ? (
+            pageData.map((row, rowIdx) => (
+              <tr key={rowIdx}>
+                {columns.map((col) => (
+                  <td key={String(col.key)}>
+                    {/* Si deseas truncar textos, puedes utilizar truncateText */}
+                    {truncateText(String(row[col.key]), 50)}
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan={columns.length}
+                style={{ textAlign: "center", color: "gray" }}
+              >
+                No se encontraron resultados
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
+
+      {/* Paginación */}
+      <div className="pagination" style={{ marginTop: "1rem" }}>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          ← Anterior
+        </button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={currentPage === index + 1 ? "active" : ""}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          style={{
+            padding: "8px",
+            cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+          }}
+        >
+          Siguiente →
+        </button>
+      </div>
     </div>
   );
 }

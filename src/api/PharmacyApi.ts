@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const FarmaNovaApi = axios.create({
-  baseURL: "https://farmanova-api.onrender.com/apiFarmaNova/",
+  baseURL: "http://localhost:3000/apiFarmaNova/",
   headers: {
     "Content-Type": "application/json",
   },
