@@ -20,6 +20,11 @@ type InventoryItem = {
   stock: number;
   distribuidor: string;
   fechaVencimiento: string;
+  precioCompra: number;
+  precioVenta: number;
+  empresa: string;
+  EstadoMedicamentoExpirado: string;
+  utilidadBruta: number;
 };
 
 
@@ -62,7 +67,8 @@ const Inventario = () => {
         const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
           key: h.key as keyof InventoryItem,
           header: h.header,
-          isNumeric: h.key === "stock",
+          isNumeric: h.key === ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
+          isDate: h.key === "fechaVencimiento",
         }));
 
         setHeaders(mappedHeaders);

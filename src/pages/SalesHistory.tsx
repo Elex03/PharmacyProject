@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./SalesHistory.css";
 import SalesHistoTable from "../components/layout/SalesHistoTable";
 import Example from "../components/charts/Chart";
+import { Link } from "react-router-dom";
 
 interface SalesItem {
   id: number;
@@ -69,6 +70,10 @@ const SalesHistory = () => {
             <option value="">Filtrar por nombre</option>
             <option value="A-Z">A - Z</option>
           </select>
+
+          <Link to={"/compras"} className="link">
+            <button className="registro-button">Registrar pedido</button>
+          </Link>
         </div>
         <center>
           <SalesHistoTable data={filteredData} />

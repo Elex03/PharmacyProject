@@ -60,7 +60,7 @@ const ApexChart: React.FC = () => {
   // Function to load the distributor data
   const loadDistributorData = async () => {
     try {
-      const response = await fetch("/distribuitors.json");
+      const response = await fetch("http://localhost:3000/apiFarmaNova/distributors/getdistributors");
       const data: Distributor[] = await response.json();
       
       setState({

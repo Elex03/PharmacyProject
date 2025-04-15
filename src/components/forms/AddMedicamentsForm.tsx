@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   Input,
@@ -17,7 +17,7 @@ import {
   getMedicines,
 } from "../../api/components/Medicine";
 import { getDistributors } from "../../api/components/Distributors";
-
+import type {Option} from "../../types.d.ts";
 export const AddMedicamentsForm = () => {
   const [selectedMedication, setSelectedMedication] = useState<string | null>(
     null
@@ -265,7 +265,6 @@ export const AddMedicamentsForm = () => {
       })
       .catch((error) => console.error("Error fetching categories:", error));
     // Fetch compressed forms from the API
-  
   }, []);
 
   const handleAddToTable = () => {
@@ -297,8 +296,8 @@ export const AddMedicamentsForm = () => {
           ? cantidadTabletas
           : cantidad,
       unidadesPorTableta,
-      fechaVencimiento: purchaseExpiration || dayjs().format("YYYY-MM-DD"),
-      imageFile: imageFile as File, // Aseguramos que imageFile no sea null
+      fechaVencimiento: purchaseExpiration,
+      imageFile: imageFile as File,
     };
 
     setMedicamentos([...medicamentos, newMedicamento]);
@@ -333,14 +332,14 @@ export const AddMedicamentsForm = () => {
           medicamento.unidadesPorTableta || ""
         );
       }
-      formData.append("requiere", String(medicamento.requiere));
+      formData.append(`requiere[${index}]`, String(medicamento.requiere));
       formData.append(`image`, medicamento.imageFile);
-      formData.append("fechaVencimiento", medicamento.fechaVencimiento);
+      formData.append(`fechaVencimiento[${index}]`, medicamento.fechaVencimiento);
     });
 
     try {
       const response = await fetch(
-        "https://farmanova-api.onrender.com/apiFarmaNova/inventory/medicine",
+        "http://localhost:3000/apiFarmaNova/inventory/medicine",
         {
           method: "POST",
           body: formData,
@@ -549,12 +548,11 @@ export const AddMedicamentsForm = () => {
 
             <DatePicker
               placeholder="Fecha de vencimiento"
-              onChange={(_date, dateString) =>
-                setPurchaseExpiration(
-                  typeof dateString === "string" ? dateString : ""
-                )
-              }
+              onChange={(_, dateString) => {setPurchaseExpiration(dateString as string); console.log(purchaseExpiration)}}
               style={{ width: "100%", marginTop: 10 }}
+              disabledDate={(current) =>
+                current && current < dayjs().startOf("day")
+              }
             />
             <Checkbox
               checked={requierePrescripcion}

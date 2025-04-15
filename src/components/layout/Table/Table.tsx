@@ -6,12 +6,13 @@ type ColumnDefinition<T> = {
   key: keyof T;
   header: string;
   isNumeric?: boolean;
+  isDate?: boolean;
 };
 
 type TableProps<T> = {
   columns: ColumnDefinition<T>[];
   data: T[];
-  itemsPerPage?: number; // Opcional: cantidad de items por página (default 5)
+  itemsPerPage?: number;
 };
 
 export function Table<T extends Record<string, unknown>>({
@@ -64,6 +65,10 @@ export function Table<T extends Record<string, unknown>>({
           const aNum = Number(a[col.key]);
           const bNum = Number(b[col.key]);
           return f.sortOrder ? aNum - bNum : bNum - aNum;
+        } else if (col.isDate) {
+          const dateA = new Date(a[col.key] as string | number).getTime();
+          const dateB = new Date(b[col.key] as string | number).getTime();
+          return f.sortOrder ? dateB - dateA : dateA - dateB;
         } else {
           const valA = String(a[col.key]).toLowerCase();
           const valB = String(b[col.key]).toLowerCase();
@@ -168,6 +173,7 @@ export function Table<T extends Record<string, unknown>>({
                       handleChangeFilter(col.key as string, newState)
                     }
                     isNumeric={col.isNumeric}
+                    isDate={col.isDate}
                   />
                 )}
               </th>

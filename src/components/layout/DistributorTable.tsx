@@ -142,8 +142,8 @@ const DistributorsTable = ({ data }: { data: DistributorItem[] }) => {
           {currentData.length > 0 ? (
             currentData.map((item) => (
               <tr key={item.id} className="elements">
-                <td>{truncateText(item.nombre, 20)}</td>
-                <td>{truncateText(item.empresa, 20)}</td>
+                <td>{truncateText(item.nombre, 30)}</td>
+                <td>{truncateText(item.empresa, 30)}</td>
                 <td>{item.telefono}</td>
                 <td>{item.ultimoPedido}</td>
                 <td>
