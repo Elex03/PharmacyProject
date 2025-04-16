@@ -16,6 +16,7 @@ import PharmacyApi from "../api/PharmacyApi";
 
 
 type InventoryItem = {
+  id: string;
   descripcion: string;
   stock: number;
   distribuidor: string;
@@ -25,6 +26,7 @@ type InventoryItem = {
   empresa: string;
   EstadoMedicamentoExpirado: string;
   utilidadBruta: number;
+  imagenUrl: string;
 };
 
 
@@ -34,17 +36,14 @@ const Inventario = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
 
-  // input de búsqueda
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  // manejo del filtro de ordenamiento
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOrder(e.target.value);
   };
 
-  // manejo del filtro de estado de stock
   const handleStockFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStockFilter(e.target.value);
   };
@@ -61,7 +60,7 @@ const Inventario = () => {
             return response.data;
           }
         );
-
+        console.log(PharmacyApi.getUri())
         const { headers: hdrs, data } = dataP;
 
         const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
@@ -104,11 +103,10 @@ const Inventario = () => {
     );
   };
 
-  // Filtrado de datos
   const filteredData = data
     .map((item) => ({
       ...item,
-      stock:
+      estadoStock:
         Number(item.stock) === 0
           ? "Agotado"
           : Number(item.stock) <= 10
@@ -190,7 +188,13 @@ const Inventario = () => {
         
         </div>
         <center>
-        <Table columns={headers} data={filteredData} itemsPerPage={5} />
+        <Table columns={headers} data={filteredData} itemsPerPage={5} 
+        //  linkColumn={{
+        //   label: "Ver detalles",
+        //   path: "/producto",
+        //   idKey: "id",
+        // }}
+        />
         </center>
       </div>
     </div>

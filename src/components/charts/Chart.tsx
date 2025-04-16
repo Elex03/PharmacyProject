@@ -9,30 +9,18 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { useEffect, useState } from "react";
-import { getSalesPerWeek } from "../../api/components/Sales";
-
 interface DayInventory {
   dia: string;
   esta_semana: number;
   anterior: number;
 }
-const Example = () => {
-  const [data, setData] = useState<DayInventory[]>([]);
-
-  useEffect(() => {
-    getSalesPerWeek()
-      .then((response) => {
-        setData(response); 
-        console.log("Sales data:", response); 
-      })
-      .catch((error) => {
-        console.error("Error fetching sales data:", error);
-      });
-  }, []);
+interface GraphicProps {
+  data: DayInventory[];
+}
+const Example: React.FC<GraphicProps> = ({ data }) => {
 
   return (
-    <div style={{ width: "100%", height: 150 }}>
+    <div style={{ width: "100%", height: 200 }}>
       <ResponsiveContainer>
         <LineChart data={data} margin={{ top: 1, right: 1, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />

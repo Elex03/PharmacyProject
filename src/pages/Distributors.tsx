@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion"; // Importar AnimatePresence
-import DistributorsTable from "../components/layout/DistributorTable";
+import { AnimatePresence } from "framer-motion";
 import "./Distributors.css";
 import ApexChart from "../components/charts/apexChart";
 import Formulario from "../components/forms/Distributors";
+import { ColumnDefinition } from "../types";
+import { Table } from "../components/layout/Table/Table";
 
 interface DistributorItem {
   id: number;
@@ -11,12 +12,16 @@ interface DistributorItem {
   empresa: string;
   telefono: string;
   ultimoPedido: string;
+  [key: string]: unknown; // <-- añade esta línea
 }
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [distributorsData, setDistributorsData] = useState<DistributorItem[]>(
+    []
+  );
+  const [headers, setHeaders] = useState<ColumnDefinition<DistributorItem>[]>(
     []
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -29,16 +34,29 @@ const Distributors = () => {
     setSortOrder(e.target.value);
   };
 
-  // Fetching data from the API
   useEffect(() => {
-    fetch("https://farmanova-api.onrender.com/apiFarmaNova/distributors/")
+    fetch("http://localhost:3000/apiFarmaNova/distributors/")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al cargar los datos");
         }
         return response.json();
       })
-      .then((data: DistributorItem[]) => {
+      .then((dataP) => {
+        const { headers: hdrs, data } = dataP;
+
+        const mappedHeaders = hdrs.map(
+          (h: { key: string; header: string }) => ({
+            key: h.key as keyof DistributorItem,
+            header: h.header,
+            isNumeric:
+              h.key ===
+              ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
+            isDate: h.key === "fechaVencimiento",
+          })
+        );
+
+        setHeaders(mappedHeaders);
         setDistributorsData(data);
       })
       .catch((error) => {
@@ -93,7 +111,16 @@ const Distributors = () => {
           </AnimatePresence>
         </div>
         <center>
-          <DistributorsTable data={filteredData} />
+          <Table
+            columns={headers}
+            data={filteredData}
+            itemsPerPage={5}
+            linkColumn={{
+              label: "Ver detalles",
+              path: "/historial",
+              idKey: "id",
+            }}
+          />
         </center>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "./OrderHistory.css";
-import OrderHistoryTable from "../components/layout/OrderHistoryTable";
 import BarChart from "../components/charts/BarChart";
 import { useNavigate, useParams } from "react-router-dom";
+import { Table } from "../components/layout/Table/Table";
 
 const OrderHistory = () => {
   const navigator = useNavigate();
@@ -15,23 +15,23 @@ const OrderHistory = () => {
     estado: string;
     total: number;
     nombre: string;
+    [key: string]: unknown;
   }
 
-  const [data, setData] = useState<OrderHistory[]>([]); // Estado para almacenar los datos de la API
-  const [loading, setLoading] = useState(true); // Estado para controlar la carga
-  const [error, setError] = useState<string | null>(null); // Estado para manejar errores
+  const [data, setData] = useState<OrderHistory[]>([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState<string | null>(null);
   const { id } = useParams();
   const dataBar = [45, 60, 80, 50, 90, 100, 75, 85, 95, 110, 120, 130];
 
-  // 📌 Petición a la API para obtener datos
   useEffect(() => {
-    fetch(`https://farmanova-api.onrender.com/apiFarmaNova/orders/details/${id}`)
+    fetch(`http://localhost:3000/apiFarmaNova/orders/details/${id}`)
       .then((response) => {
         if (!response.ok) throw new Error("Error al cargar los datos");
         return response.json();
       })
       .then((data) => {
-        setData(data);
+        setData(data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -39,7 +39,7 @@ const OrderHistory = () => {
         setError("Error al cargar los datos.");
         setLoading(false);
       });
-  }, []);
+  }, [id]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -100,13 +100,26 @@ const OrderHistory = () => {
           </button>
         </div>
         <center>
-          {/* 📌 Mensajes de carga y error */}
           {loading ? (
             <p>Cargando datos...</p>
           ) : error ? (
             <p style={{ color: "red" }}>{error}</p>
           ) : (
-            <OrderHistoryTable data={filteredData} />
+            <Table
+            data={filteredData}
+            columns={[
+              { header: "Empresa", key: "empresa" },
+              { header: "Fecha de pedido", key: "fechaPedido" },
+              { header: "Estado", key: "estado" },
+              { header: "Total", key: "total" },
+            ]}
+            itemsPerPage={5}
+            linkColumn={{
+              label: "Ver detalles",
+              path: "/historial",
+              idKey: "id",
+            }}
+            />
           )}
         </center>
       </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FilterDropdown, ColumnFilterState } from "./Filter";
 import "../Table.css";
 
@@ -13,12 +13,18 @@ type TableProps<T> = {
   columns: ColumnDefinition<T>[];
   data: T[];
   itemsPerPage?: number;
+  linkColumn?: {
+    label: string;
+    path: string;
+    idKey: keyof T;
+  };
 };
 
 export function Table<T extends Record<string, unknown>>({
   columns,
   data,
   itemsPerPage = 5,
+  linkColumn,
 }: TableProps<T>) {
   const [filters, setFilters] = useState<Record<string, ColumnFilterState>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -84,6 +90,17 @@ export function Table<T extends Record<string, unknown>>({
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const pageData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+  const [imagenSeleccionada, setImagenSeleccionada] = useState<string | null>(
+    null
+  );
+
+  const handleImagenClick = (url: string) => {
+    setImagenSeleccionada(url);
+  };
+
+  const cerrarModal = () => {
+    setImagenSeleccionada(null);
+  };
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -96,6 +113,22 @@ export function Table<T extends Record<string, unknown>>({
       ? text.substring(0, maxLength) + "..."
       : text;
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setImagenSeleccionada(null);
+      }
+    };
+
+    if (imagenSeleccionada) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [imagenSeleccionada]);
 
   return (
     <div className="inventory-container">
@@ -186,10 +219,42 @@ export function Table<T extends Record<string, unknown>>({
               <tr key={rowIdx}>
                 {columns.map((col) => (
                   <td key={String(col.key)}>
-                    {/* Si deseas truncar textos, puedes utilizar truncateText */}
-                    {truncateText(String(row[col.key]), 50)}
+                    {col.key === "descripcion" ? (
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={row.imagenUrl as string}
+                          alt="Imagen"
+                          style={{
+                            marginRight: "8px",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                          }}
+                          className="w-8 h-8 rounded-full object-cover"
+                          onClick={() =>
+                            handleImagenClick(row.imagenUrl as string)
+                          }
+                        />
+                        <span>{truncateText(String(row[col.key]), 50)}</span>
+                      </div>
+                    ) : (
+                      truncateText(String(row[col.key]), 50)
+                    )}
                   </td>
                 ))}
+                {linkColumn && (
+                  <td
+                  style={{ textAlign: "right" }}>
+                    <a
+                      href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
+                      style={{ color: "black", textDecoration: "underline" }}
+                    >
+                      Ver detalles
+                    </a>
+                  </td>
+                )}
               </tr>
             ))
           ) : (
@@ -233,6 +298,36 @@ export function Table<T extends Record<string, unknown>>({
           Siguiente →
         </button>
       </div>
+      {imagenSeleccionada && (
+        <div
+          onClick={cerrarModal}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.7)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+            cursor: "zoom-out",
+          }}
+        >
+          <img
+            src={imagenSeleccionada}
+            alt="Vista ampliada"
+            style={{
+              maxWidth: "90%",
+              maxHeight: "90%",
+              objectFit: "contain",
+              transition: "transform 0.3s",
+            }}
+            onClick={(e) => e.stopPropagation()} // Evita cerrar al hacer clic sobre la imagen
+          />
+        </div>
+      )}
     </div>
   );
 }
