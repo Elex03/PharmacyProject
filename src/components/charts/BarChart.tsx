@@ -35,8 +35,6 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
   useEffect(() => {
     if (chartRef.current) {
       const ctx = chartRef.current.getContext("2d");
-
-      // Destruir gráfico anterior si existe
       if (chartInstanceRef.current) {
         chartInstanceRef.current.destroy();
       }

@@ -6,14 +6,12 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 
-
 import { Link } from "react-router-dom";
 import PieChart from "../components/charts/piChart";
-import type {ColumnDefinition} from  '../types.d.ts';
+import type { ColumnDefinition } from "../types.d.ts";
 
 import { Table } from "../components/layout/Table/Table";
 import PharmacyApi from "../api/PharmacyApi";
-
 
 type InventoryItem = {
   id: string;
@@ -28,8 +26,6 @@ type InventoryItem = {
   utilidadBruta: number;
   imagenUrl: string;
 };
-
-
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,15 +56,19 @@ const Inventario = () => {
             return response.data;
           }
         );
-        console.log(PharmacyApi.getUri())
+        console.log(PharmacyApi.getUri());
         const { headers: hdrs, data } = dataP;
 
-        const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
-          key: h.key as keyof InventoryItem,
-          header: h.header,
-          isNumeric: h.key === ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
-          isDate: h.key === "fechaVencimiento",
-        }));
+        const mappedHeaders = hdrs.map(
+          (h: { key: string; header: string }) => ({
+            key: h.key as keyof InventoryItem,
+            header: h.header,
+            isNumeric:
+              h.key ===
+              ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
+            isDate: h.key === "fechaVencimiento",
+          })
+        );
 
         setHeaders(mappedHeaders);
         setData(data);
@@ -121,16 +121,14 @@ const Inventario = () => {
     )
     .filter((item) => {
       if (!stockFilter) return true;
-      if (stockFilter === "disponible" && Number(item.stock) > 10)
-        return true;
+      if (stockFilter === "disponible" && Number(item.stock) > 10) return true;
       if (
         stockFilter === "proximo" &&
         Number(item.stock) <= 10 &&
         Number(item.stock) > 0
       )
         return true;
-      if (stockFilter === "agotado" && Number(item.stock) === 0)
-        return true;
+      if (stockFilter === "agotado" && Number(item.stock) === 0) return true;
       return false;
     })
     .sort((a, b) => {
@@ -149,7 +147,7 @@ const Inventario = () => {
           Puedes registrar nuevos productos, actualizar la información de los
           existentes y realizar un seguimiento del stock disponible.
           <br />
-          </p>
+        </p>
         <PieChart />
         <div className="inventory-actions">
           <input
@@ -184,17 +182,19 @@ const Inventario = () => {
           <Link to={"/compras"} className="link">
             <button className="registro-button">Registrar pedido</button>
           </Link>
-
-        
         </div>
         <center>
-        <Table columns={headers} data={filteredData} itemsPerPage={5} 
-        //  linkColumn={{
-        //   label: "Ver detalles",
-        //   path: "/producto",
-        //   idKey: "id",
-        // }}
-        />
+
+          <Table
+            columns={headers}
+            data={filteredData}
+            itemsPerPage={5}
+            //  linkColumn={{
+            //   label: "Ver detalles",
+            //   path: "/producto",
+            //   idKey: "id",
+            // }}
+          />
         </center>
       </div>
     </div>

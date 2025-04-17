@@ -22,7 +22,7 @@ const Sidebar = () => {
           <h1 className="brand-title">Farma Nova</h1>
         </div>
 
-        <div className="sidebar-menu">
+        <div className="sidebar-menu" >
           <p className="menu-title">Gestión general</p>
           <Link to="/dashboard" className="menu-item">
             <FaChartPie className="icon" />

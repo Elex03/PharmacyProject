@@ -22,7 +22,7 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState<string | null>(null);
   const { id } = useParams();
-  const dataBar = [45, 60, 80, 50, 90, 100, 75, 85, 95, 110, 120, 130];
+  const [dataBar, setDataBar] = useState<number[]>([]); 
 
   useEffect(() => {
     fetch(`http://localhost:3000/apiFarmaNova/orders/details/${id}`)
@@ -39,6 +39,22 @@ const OrderHistory = () => {
         setError("Error al cargar los datos.");
         setLoading(false);
       });
+
+      fetch(`http://localhost:3000/apiFarmaNova/orders/getOrderGraph/${id}`)
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al cargar los datos");
+        return response.json();
+      })
+      .then((data) => {
+        setDataBar(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching orders:", error);
+        setError("Error al cargar los datos.");
+        setLoading(false);
+      });
+
   }, [id]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FilterDropdown, ColumnFilterState } from "./Filter";
 import "../Table.css";
+import { ExportOption } from "../../../feature";
 
 type ColumnDefinition<T> = {
   key: keyof T;
@@ -132,6 +133,21 @@ export function Table<T extends Record<string, unknown>>({
 
   return (
     <div className="inventory-container">
+      <ExportOption
+        filename="Distribuidores.xlsx"
+        headers={columns.map((col) => ({
+          ...col,
+          key: String(col.key),
+        }))}
+        data={filteredData}
+        titleInfo={[
+          ["Farmacia Farmavalue"],
+          ["Cuidamos de ti, cada día."],
+          ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
+          ["Tel: 2255-4524"],
+          [""],
+        ]}
+      />
       <table className="inventory-table-I">
         <thead>
           <tr>
@@ -240,13 +256,23 @@ export function Table<T extends Record<string, unknown>>({
                         <span>{truncateText(String(row[col.key]), 50)}</span>
                       </div>
                     ) : (
+                      col.key === "telefono" ? (
+                        <a
+                          href={`https://wa.me/505${row[col.key]}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "black", textDecoration: "underline" }}
+                        >
+                          {truncateText(String(row[col.key]), 50)}
+                        </a>
+                      ) : (
                       truncateText(String(row[col.key]), 50)
+                      )
                     )}
                   </td>
                 ))}
                 {linkColumn && (
-                  <td
-                  style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: "right" }}>
                     <a
                       href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
                       style={{ color: "black", textDecoration: "underline" }}
