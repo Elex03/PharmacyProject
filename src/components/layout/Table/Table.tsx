@@ -13,7 +13,8 @@ type ColumnDefinition<T> = {
 type TableProps<T> = {
   columns: ColumnDefinition<T>[];
   data: T[];
-  itemsPerPage?: number;
+  totalPages: number;
+  onPageChange?: (page: number) => void;
   linkColumn?: {
     label: string;
     path: string;
@@ -24,11 +25,14 @@ type TableProps<T> = {
 export function Table<T extends Record<string, unknown>>({
   columns,
   data,
-  itemsPerPage = 5,
+  totalPages = 1,
   linkColumn,
+  onPageChange = () => {},
 }: TableProps<T>) {
   const [filters, setFilters] = useState<Record<string, ColumnFilterState>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  console.log(data);
 
   const handleChangeFilter = (
     columnKey: string,
@@ -87,10 +91,7 @@ export function Table<T extends Record<string, unknown>>({
     }
   });
 
-  // Paginación
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const pageData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+  const pageData = data;
   const [imagenSeleccionada, setImagenSeleccionada] = useState<string | null>(
     null
   );
@@ -106,6 +107,7 @@ export function Table<T extends Record<string, unknown>>({
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
+      onPageChange(newPage);
     }
   };
 
