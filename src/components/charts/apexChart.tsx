@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
-// Define the type of the distributor data
 interface Distributor {
   distribuidor: string;
   cantidad: number;
 }
 
-// Define the state interface for the chart configuration
 interface ChartState {
   series: {
     data: number[];
   }[];
   options: {
     chart: {
-      type: "bar"; // Explicitly define the type as "bar"
+      type: "bar"; 
       height: number;
     };
     plotOptions: {
@@ -35,11 +33,11 @@ interface ChartState {
 const ApexChart: React.FC = () => {
   const [state, setState] = useState<ChartState>({
     series: [{
-      data: [], // Data will be filled later
+      data: [],
     }],
     options: {
       chart: {
-        type: "bar", // Explicitly define the type as "bar"
+        type: "bar", 
         height: 350,
       },
       plotOptions: {
@@ -52,12 +50,11 @@ const ApexChart: React.FC = () => {
         enabled: false,
       },
       xaxis: {
-        categories: [], // This will be filled dynamically
+        categories: [], 
       },
     },
   });
 
-  // Function to load the distributor data
   const loadDistributorData = async () => {
     try {
       const response = await fetch("http://localhost:3000/apiFarmaNova/distributors/getdistributors");
@@ -65,12 +62,12 @@ const ApexChart: React.FC = () => {
       
       setState({
         series: [{
-          data: data.map(item => item.cantidad), // Extract quantities
+          data: data.map(item => item.cantidad), 
         }],
         options: {
           ...state.options,
           xaxis: {
-            categories: data.map(item => item.distribuidor), // Extract distributor names
+            categories: data.map(item => item.distribuidor),
           },
         },
       });
@@ -79,7 +76,6 @@ const ApexChart: React.FC = () => {
     }
   };
 
-  // Load data when the component mounts
   useEffect(() => {
     loadDistributorData();
   }, []);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FilterDropdown, ColumnFilterState } from "./Filter";
 import "../Table.css";
-import { ExportOption } from "../../../feature";
+import { ExportOption } from "../../../feature/exports/Option";
 
 type ColumnDefinition<T> = {
   key: keyof T;
@@ -113,6 +113,8 @@ export function Table<T extends Record<string, unknown>>({
       ? text.substring(0, maxLength) + "..."
       : text;
   };
+
+  console.log(itemsPerPage);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

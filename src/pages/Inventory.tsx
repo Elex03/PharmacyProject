@@ -33,6 +33,7 @@ const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -45,6 +46,12 @@ const Inventario = () => {
   const handleStockFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStockFilter(e.target.value);
   };
+
+  const handleFilterPerPage  = () => {
+    setItemsPerPage(() => {
+      return showInfo? 10: 5;
+    });
+  }
 
   const [headers, setHeaders] = useState<ColumnDefinition<InventoryItem>[]>([]);
   const [data, setData] = useState<InventoryItem[]>([]);
@@ -62,18 +69,7 @@ const Inventario = () => {
         console.log(PharmacyApi.getUri());
         const { headers: hdrs, data } = dataP;
 
-        const mappedHeaders = hdrs.map(
-          (h: { key: string; header: string }) => ({
-            key: h.key as keyof InventoryItem,
-            header: h.header,
-            isNumeric:
-              h.key ===
-              ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
-            isDate: h.key === "fechaVencimiento",
-          })
-        );
-
-        setHeaders(mappedHeaders);
+        setHeaders(hdrs);
         setData(data);
       } catch (error) {
         console.error(error);
@@ -144,7 +140,11 @@ const Inventario = () => {
       <div style={{ width: "95%" }}>
         <h2>Inventario</h2>
         <button
-          onClick={() => setShowInfo((prev) => !prev)}
+          onClick={() => setShowInfo((prev) => {
+              handleFilterPerPage();
+              return !prev;
+
+          })}
           style={{
             background: "none",
             border: "none",
@@ -225,12 +225,12 @@ const Inventario = () => {
           <Table
             columns={headers}
             data={filteredData}
-            itemsPerPage={5}
-            //  linkColumn={{
-            //   label: "Ver detalles",
-            //   path: "/producto",
-            //   idKey: "id",
-            // }}
+            itemsPerPage={itemsPerPage}
+             linkColumn={{
+              label: "Ver detalles",
+              path: "/producto",
+              idKey: "id",
+            }}
           />
         </center>
       </div>
