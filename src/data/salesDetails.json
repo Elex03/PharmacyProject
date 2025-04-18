@@ -1,35 +1,109 @@
 [
   {
     "saleId": 1,
+    "montoPagado": 500,
     "productos": [
       {
-        "nombre": "Paracetamol Tableta 500mg",
-        "precio": 20.00,
-        "cantidad": 2,
-        "total": 40.00
+        "nombre": "Paracetamol",
+        "precio": 25,
+        "cantidad": 3,
+        "total": 75
       },
       {
-        "nombre": "Ibuprofeno Cápsula 400mg",
-        "precio": 35.00,
-        "cantidad": 1,
-        "total": 35.00
+        "nombre": "Ibuprofeno",
+        "precio": 35,
+        "cantidad": 2,
+        "total": 70
+      },
+      {
+        "nombre": "Amoxicilina",
+        "precio": 30,
+        "cantidad": 2,
+        "total": 60
+      },
+      {
+        "nombre": "Loratadina",
+        "precio": 20,
+        "cantidad": 3,
+        "total": 60
       }
     ]
   },
   {
     "saleId": 2,
+    "montoPagado": 500,
     "productos": [
       {
-        "nombre": "Amoxicilina Cápsula 500mg",
-        "precio": 50.00,
-        "cantidad": 1,
-        "total": 50.00
+        "nombre": "Omeprazol",
+        "precio": 50,
+        "cantidad": 4,
+        "total": 200
+      }
+    ]
+  },
+  {
+    "saleId": 3,
+    "montoPagado": 150,
+    "productos": [
+      {
+        "nombre": "Amoxicilina",
+        "precio": 30,
+        "cantidad": 2,
+        "total": 60
       },
       {
-        "nombre": "Vitamina C Tableta masticable 500mg ",
-        "precio": 15.00,
+        "nombre": "Loratadina",
+        "precio": 20,
         "cantidad": 3,
-        "total": 45.00
+        "total": 60
+      }
+    ]
+  },
+  {
+    "saleId": 4,
+    "montoPagado": 300,
+    "productos": [
+      {
+        "nombre": "Vitamina C",
+        "precio": 25,
+        "cantidad": 4,
+        "total": 100
+      },
+      {
+        "nombre": "Antigripal",
+        "precio": 40,
+        "cantidad": 2,
+        "total": 80
+      }
+    ]
+  },
+  {
+    "saleId": 5,
+    "montoPagado": 450,
+    "productos": [
+      {
+        "nombre": "Azitromicina",
+        "precio": 90,
+        "cantidad": 3,
+        "total": 270
+      }
+    ]
+  },
+  {
+    "saleId": 6,
+    "montoPagado": 250,
+    "productos": [
+      {
+        "nombre": "Diclofenaco",
+        "precio": 35,
+        "cantidad": 2,
+        "total": 70
+      },
+      {
+        "nombre": "Salbutamol",
+        "precio": 30,
+        "cantidad": 3,
+        "total": 90
       }
     ]
   }

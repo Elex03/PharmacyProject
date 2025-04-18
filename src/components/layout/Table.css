@@ -198,16 +198,7 @@ table {
   margin: 0 10px;  
 }
 
-.receipt-header {
-  display: flex;
-  justify-content: space-between; 
-  margin-bottom: 15px;
-}
 
-.receipt-header p {
-  margin: 0;
-  font-size: 14px;
-}
 
 .receipt-header strong {
   font-weight: bold;
