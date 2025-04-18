@@ -5,6 +5,7 @@ import ApexChart from "../components/charts/apexChart";
 import Formulario from "../components/forms/Distributors";
 import { ColumnDefinition } from "../types";
 import { Table } from "../components/layout/Table/Table";
+import '../css/index.css'
 
 interface DistributorItem {
   id: number;
@@ -80,7 +81,7 @@ const Distributors = () => {
       <div style={{ width: "90%" }}>
         <h2>Distribuidores</h2>
         <ApexChart />
-        <div className="distributors-actions">
+        <div className="actions">
           <input
             type="text"
             placeholder="Buscar"
@@ -97,9 +98,8 @@ const Distributors = () => {
             <option value="A-Z">A - Z</option>
           </select>
 
-          {/* Botón para abrir el formulario */}
           <button
-            className="register-button"
+            className="button-action"
             onClick={() => setIsModalOpen(true)}
           >
             Crear un proveedor

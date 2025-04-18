@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import "./SalesHistory.css";
 import { Table } from "../components/layout/Table/Table";
 import Example from "../components/charts/Chart";
 import { Link } from "react-router-dom";
 import { ColumnDefinition } from "../types";
 import { getSalesPerWeek } from "../api/components/Sales";
+
+import "./SalesHistory.css";
+import '../css/index.css'
 
 interface SalesItem {
   id: number;
@@ -88,16 +90,16 @@ const SalesHistory = () => {
         <h2>Historial de ventas</h2>
         <Example data={dataGraphic} />
 
-        <div className="SalesHistory-actions">
+        <div className="actions">
           <input
             type="text"
             placeholder="Buscar por nombre"
-            className="search-SalesHistory"
+            className="search-bar"
             value={searchTerm}
             onChange={handleSearch}
           />
           <select
-            className="filter-SalesHistory"
+            className="filter-dropdown"
             value={sortOrder}
             onChange={handleSort}
           >
@@ -106,7 +108,7 @@ const SalesHistory = () => {
           </select>
 
           <Link to={"/compras"} className="link">
-            <button className="registro-button">Registrar pedido</button>
+            <button className="button-action">Registrar pedido</button>
           </Link>
         </div>
         <center>

@@ -9,51 +9,6 @@
   font-size: 14px;
 }
 
-.inventory-actions {
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-  margin-top: 10px;
-  margin-left: 30px;
-  align-items: center;
-  justify-content: space-between;
-
-}
-
-.buscar-bar,
-.filter-dropdown-nombre,
-.filter-dropdown-stock {
-  padding: 8px;
-  border: 1px solid black;
-  background-color: white;
-  width: 250px;
-}
-.buscar-bar :active {
-  border: 1px solid black;
-  border-radius: 0px;
-}
-.buscar-bar :focus {
-  border: 1px solid black;
-  border-radius: 0px;
-}
-
-.buscar-bar {
-  width: 300px;
-}
-
-.filter-dropdown {
-  background-color: white;
-  width: 3000px;
-}
-
-.registro-button {
-  padding: 9px;
-  width: 250px;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  border: none;
-}
 
 .register-button:hover {
   background-color: #0056b3;

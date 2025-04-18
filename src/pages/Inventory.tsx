@@ -12,6 +12,8 @@ import type { ColumnDefinition } from "../types.d.ts";
 
 import { Table } from "../components/layout/Table/Table";
 import PharmacyApi from "../api/PharmacyApi";
+import '../css/index.css'
+
 
 type InventoryItem = {
   id: string;
@@ -46,6 +48,7 @@ const Inventario = () => {
 
   const [headers, setHeaders] = useState<ColumnDefinition<InventoryItem>[]>([]);
   const [data, setData] = useState<InventoryItem[]>([]);
+  const [showInfo, setShowInfo] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -140,25 +143,61 @@ const Inventario = () => {
     <div className="inventory-page" style={{ width: "90vw" }}>
       <div style={{ width: "95%" }}>
         <h2>Inventario</h2>
-        <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
-          Aquí puedes gestionar el inventario de productos farmacéuticos.
-          <br />
-          Puedes registrar nuevos productos, actualizar la información de los
-          existentes y realizar un seguimiento del stock disponible.
-          <br />
-        </p>
-        <PieChart />
-        <div className="inventory-actions">
+        <button
+          onClick={() => setShowInfo((prev) => !prev)}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            alignItems: "center",
+            gap: "5px",
+            marginLeft: "24px",
+          }}
+        >
+          {showInfo ? "Ocultar" : "Mostrar"} información
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{
+              transform: showInfo ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
+            }}
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+        <div
+          style={{
+            maxHeight: showInfo ? 300 : 0,
+            overflow: "hidden",
+            transition: "max-height 0.5s ease",
+          }}
+        >
+          <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
+            Aquí puedes gestionar el inventario de productos farmacéuticos.
+            <br />
+            Puedes registrar nuevos productos, actualizar la información de los
+            existentes y realizar un seguimiento del stock disponible.
+            <br />
+          </p>
+          <PieChart />
+        </div>
+        <div className="actions">
           <input
             type="text"
             placeholder="Buscar"
-            className="buscar-bar"
+            className="search-bar"
             value={searchTerm}
             onChange={handleSearch}
           />
           <select
-            className="filter-dropdown-nombre"
-            style={{ backgroundColor: "white" }}
+            className="filter-dropdown"
             value={sortOrder}
             onChange={handleSort}
           >
@@ -168,7 +207,7 @@ const Inventario = () => {
 
           {/* Nuevo filtro por estado de stock */}
           <select
-            className="filter-dropdown-stock"
+            className="filter-dropdown"
             value={stockFilter}
             onChange={handleStockFilter}
           >
@@ -179,11 +218,10 @@ const Inventario = () => {
           </select>
 
           <Link to={"/compras"} className="link">
-            <button className="registro-button">Registrar pedido</button>
+            <button className="button-action">Registrar pedido</button>
           </Link>
         </div>
         <center>
-
           <Table
             columns={headers}
             data={filteredData}
