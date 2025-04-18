@@ -11,9 +11,7 @@ import PieChart from "../components/charts/piChart";
 import type { ColumnDefinition } from "../types.d.ts";
 
 import { Table } from "../components/layout/Table/Table";
-import { getInventoryData } from "../api/components/Iventory.ts";
-
-
+import PharmacyApi from "../api/PharmacyApi";
 
 type InventoryItem = {
   id: string;
@@ -33,8 +31,7 @@ const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
-  const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(1); // Estado para la página
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
@@ -53,10 +50,27 @@ const Inventario = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const dataP = await getInventoryData({page, limit: 5});
-        const { headers: hdrs, data, totalPages } = dataP;
-        setTotalPages(totalPages);
-        setHeaders(hdrs);
+        const dataP = await PharmacyApi.get("/inventory/getInventoryData").then(
+          (response) => {
+            if (!response) throw new Error("Error al cargar los datos");
+            return response.data;
+          }
+        );
+        console.log(PharmacyApi.getUri());
+        const { headers: hdrs, data } = dataP;
+
+        const mappedHeaders = hdrs.map(
+          (h: { key: string; header: string }) => ({
+            key: h.key as keyof InventoryItem,
+            header: h.header,
+            isNumeric:
+              h.key ===
+              ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
+            isDate: h.key === "fechaVencimiento",
+          })
+        );
+
+        setHeaders(mappedHeaders);
         setData(data);
       } catch (error) {
         console.error(error);
@@ -64,8 +78,9 @@ const Inventario = () => {
     };
 
     getData();
-  }, [page]);
+  }, []);
 
+  // estado de stock
   const getStockStatus = (cantidad: number) => {
     if (cantidad === 0)
       return (
@@ -173,8 +188,6 @@ const Inventario = () => {
             columns={headers}
             data={filteredData}
             itemsPerPage={5}
-            totalPages={totalPages}
-            onPageChange={setPage}
             //  linkColumn={{
             //   label: "Ver detalles",
             //   path: "/producto",
