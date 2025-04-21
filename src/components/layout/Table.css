@@ -13,6 +13,17 @@
   border-collapse: collapse;
 }
 
+
+.highlight-bubble {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
 .inventory-table-I th,
 .inventory-table-I td {
   padding: 10px;
@@ -60,6 +71,7 @@
 
 .pagination button {
   padding: 5px 10px;
+  border-radius: 8px;
   border: 1px solid #007bff;
   background: #ffffff;
   cursor: pointer;

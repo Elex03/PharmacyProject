@@ -9,6 +9,7 @@ import Shopping from "./pages/shopping";
 import SalesHistory from "./pages/SalesHistory";
 import OrderHistory from "./pages/OrderHistory";
 import UnderConstruction from "./pages/Defualt";
+import { FacturaPage } from "./components/layout/PageFactura";
 
 const AppRouter = () => {
   return (
@@ -70,6 +71,15 @@ const AppRouter = () => {
           }
         />
         <Route
+          path="/bill/:id"
+          element={
+            <div style={{ display: "flex" }}>
+              <Sidebar />
+              <FacturaPage />
+            </div>
+          }
+        />
+        <Route
           path="/historial/:id"
           element={
             <div style={{ display: "flex" }}>
@@ -82,7 +92,7 @@ const AppRouter = () => {
         <Route
           path="*"
           element={
-            <div style={{display: 'flex'}}>
+            <div style={{ display: "flex" }}>
               <Sidebar />
               <UnderConstruction />
             </div>

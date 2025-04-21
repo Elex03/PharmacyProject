@@ -6,7 +6,8 @@ import { ColumnDefinition } from "../types";
 import { getSalesPerWeek } from "../api/components/Sales";
 
 import "./SalesHistory.css";
-import '../css/index.css'
+import "../css/index.css";
+import { ToggleSection } from "../feature/TongleSelection";
 
 interface SalesItem {
   id: number;
@@ -27,7 +28,7 @@ const SalesHistory = () => {
   const [data, setData] = useState<SalesItem[]>([]);
   const [headers, setHeaders] = useState<ColumnDefinition<SalesItem>[]>([]);
   const [dataGraphic, setDdataGraphic] = useState<DayInventory[]>([]);
-
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   useEffect(() => {
     getSalesPerWeek()
       .then((response) => {
@@ -88,8 +89,19 @@ const SalesHistory = () => {
     <div className="SalesHistory-page" style={{ width: "90vw" }}>
       <div style={{ width: "95%" }}>
         <h2>Historial de ventas</h2>
-        <Example data={dataGraphic} />
+        <ToggleSection
+          title="información"
+          onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
+        >
+          <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
+            Aquí puedes gestionar el inventario de productos farmacéuticos.
+            <br />
+            Puedes registrar nuevos productos, actualizar la información de los
+            existentes y realizar un seguimiento del stock disponible.
+          </p>
 
+          <Example data={dataGraphic} />
+        </ToggleSection>
         <div className="actions">
           <input
             type="text"
@@ -115,10 +127,10 @@ const SalesHistory = () => {
           <Table
             columns={headers}
             data={filteredData}
-            itemsPerPage={5}
+            itemsPerPage={itemsPerPage}
             linkColumn={{
-              label: "Ver detalles",
-              path: "/producto",
+              label: "📄 Ver factura",
+              path: "/bill",
               idKey: "id",
             }}
           />

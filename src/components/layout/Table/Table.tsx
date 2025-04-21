@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { FilterDropdown, ColumnFilterState } from "./Filter";
 import "../Table.css";
 import { ExportOption } from "../../../feature/exports/Option";
-
+import { motion } from "framer-motion";
 type ColumnDefinition<T> = {
   key: keyof T;
   header: string;
   isNumeric?: boolean;
   isDate?: boolean;
+  isHighlight?: true;
 };
 
 type TableProps<T> = {
@@ -19,6 +20,10 @@ type TableProps<T> = {
     path: string;
     idKey: keyof T;
   };
+};
+
+const truncateText = (text: string, maxLength: number) => {
+  return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 };
 
 export function Table<T extends Record<string, unknown>>({
@@ -108,12 +113,6 @@ export function Table<T extends Record<string, unknown>>({
     }
   };
 
-  const truncateText = (text: string, maxLength: number) => {
-    return text.length > maxLength
-      ? text.substring(0, maxLength) + "..."
-      : text;
-  };
-
   console.log(itemsPerPage);
 
   useEffect(() => {
@@ -135,7 +134,7 @@ export function Table<T extends Record<string, unknown>>({
   return (
     <div className="inventory-container">
       <ExportOption
-        filename="Distribuidores.xlsx"
+        filename="Distribuidores"
         headers={columns.map((col) => ({
           ...col,
           key: String(col.key),
@@ -235,7 +234,12 @@ export function Table<T extends Record<string, unknown>>({
             pageData.map((row, rowIdx) => (
               <tr key={rowIdx}>
                 {columns.map((col) => (
-                  <td key={String(col.key)}>
+                  <motion.td
+                    key={String(col.key)}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: rowIdx * 0.1 }} // Añadí delay para una entrada más suave
+                  >
                     {col.key === "descripcion" ? (
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <img
@@ -254,33 +258,48 @@ export function Table<T extends Record<string, unknown>>({
                             handleImagenClick(row.imagenUrl as string)
                           }
                         />
-                        <span>{truncateText(String(row[col.key]), 50)}</span>
+                        <SetLabelTrucate
+                          label={String(row[col.key])}
+                          isHighlight={Boolean(col.isHighlight)}
+                        />
                       </div>
+                    ) : col.key === "telefono" ? (
+                      <a
+                        href={`https://wa.me/505${row[col.key]}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "black",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        <SetLabelTrucate
+                          label={String(row[col.key])}
+                          isHighlight={Boolean(col.isHighlight)}
+                        />
+                      </a>
                     ) : (
-                      col.key === "telefono" ? (
-                        <a
-                          href={`https://wa.me/505${row[col.key]}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: "black", textDecoration: "underline" }}
-                        >
-                          {truncateText(String(row[col.key]), 50)}
-                        </a>
-                      ) : (
-                      truncateText(String(row[col.key]), 50)
-                      )
+                      <SetLabelTrucate
+                        label={String(row[col.key])}
+                        isHighlight={Boolean(col.isHighlight)}
+                      />
                     )}
-                  </td>
+                  </motion.td>
                 ))}
                 {linkColumn && (
-                  <td style={{ textAlign: "right" }}>
+                  <motion.td
+                    style={{ textAlign: "right" }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: pageData.length * 0.05 }} 
+                  >
                     <a
                       href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
                       style={{ color: "black", textDecoration: "underline" }}
                     >
-                      Ver detalles
+                      {linkColumn.label}
                     </a>
-                  </td>
+                  </motion.td>
                 )}
               </tr>
             ))
@@ -358,3 +377,80 @@ export function Table<T extends Record<string, unknown>>({
     </div>
   );
 }
+
+interface propsHighlight {
+  label: string;
+  isHighlight: boolean;
+}
+
+const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
+  const emojiByLabel: Record<string, string> = {
+    Disponible: "✅",
+    "Próximo a agotarse": "⚠️",
+    "No disponible": "❌",
+  };
+
+  const emoji = emojiByLabel[label] || "";
+  const redHighlight = [
+    {
+      states: [
+        {
+          green: {
+            className: "highlight-bubble",
+            labels: ["Disponible"],
+            backgroundColor: "#e0f8e0",
+            color: "#317a3e",
+          },
+          red: {
+            className: "highlight-bubble",
+            labels: ["Agotado", "EXPIRADO"],
+            backgroundColor: "#fdecea",
+            color: "#b91c1c",
+          },
+          yellow: {
+            className: "highlight-bubble",
+            labels: ["Próximo a agotarse"],
+            backgroundColor: "#fff8dc", // amarillo claro
+            color: "#b57f00", // texto mostaza oscuro
+            icon: "",
+          },
+        },
+      ],
+    },
+  ];
+
+  const getHighlightStyle = (
+    label: string
+  ):
+    | { className: string; backgroundColor: string; color: string }
+    | undefined => {
+    for (const group of redHighlight) {
+      for (const state of group.states) {
+        for (const key in state) {
+          const status = state[key as "green" | "red" | "yellow"];
+          if (status.labels.includes(label)) {
+            return {
+              className: status.className,
+              backgroundColor: status.backgroundColor,
+              color: status.color,
+            };
+          }
+        }
+      }
+    }
+    return undefined;
+  };
+  const style = isHighlight ? getHighlightStyle(String(label)) : undefined;
+
+  return (
+    <span
+      className={style?.className}
+      style={{
+        backgroundColor: style?.backgroundColor,
+        color: style?.color,
+      }}
+    >
+      {emoji} {truncateText(String(label), 50)}
+    </span>
+  );
+};

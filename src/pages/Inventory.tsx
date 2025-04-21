@@ -12,8 +12,8 @@ import type { ColumnDefinition } from "../types.d.ts";
 
 import { Table } from "../components/layout/Table/Table";
 import PharmacyApi from "../api/PharmacyApi";
-import '../css/index.css'
-
+import "../css/index.css";
+import { ToggleSection } from "../feature/TongleSelection.tsx";
 
 type InventoryItem = {
   id: string;
@@ -47,15 +47,9 @@ const Inventario = () => {
     setStockFilter(e.target.value);
   };
 
-  const handleFilterPerPage  = () => {
-    setItemsPerPage(() => {
-      return showInfo? 10: 5;
-    });
-  }
-
   const [headers, setHeaders] = useState<ColumnDefinition<InventoryItem>[]>([]);
   const [data, setData] = useState<InventoryItem[]>([]);
-  const [showInfo, setShowInfo] = useState(true);
+  // const [showInfo, setShowInfo] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -139,55 +133,19 @@ const Inventario = () => {
     <div className="inventory-page" style={{ width: "90vw" }}>
       <div style={{ width: "95%" }}>
         <h2>Inventario</h2>
-        <button
-          onClick={() => setShowInfo((prev) => {
-              handleFilterPerPage();
-              return !prev;
-
-          })}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            alignItems: "center",
-            gap: "5px",
-            marginLeft: "24px",
-          }}
-        >
-          {showInfo ? "Ocultar" : "Mostrar"} información
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{
-              transform: showInfo ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform 0.3s ease",
-            }}
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
-        <div
-          style={{
-            maxHeight: showInfo ? 300 : 0,
-            overflow: "hidden",
-            transition: "max-height 0.5s ease",
-          }}
+        <ToggleSection
+          title="información"
+          onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
         >
           <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
             Aquí puedes gestionar el inventario de productos farmacéuticos.
             <br />
             Puedes registrar nuevos productos, actualizar la información de los
             existentes y realizar un seguimiento del stock disponible.
-            <br />
           </p>
           <PieChart />
-        </div>
+        </ToggleSection>
+
         <div className="actions">
           <input
             type="text"
@@ -226,8 +184,8 @@ const Inventario = () => {
             columns={headers}
             data={filteredData}
             itemsPerPage={itemsPerPage}
-             linkColumn={{
-              label: "Ver detalles",
+            linkColumn={{
+              label: "✏️ Editar",
               path: "/producto",
               idKey: "id",
             }}

@@ -5,7 +5,8 @@ import ApexChart from "../components/charts/apexChart";
 import Formulario from "../components/forms/Distributors";
 import { ColumnDefinition } from "../types";
 import { Table } from "../components/layout/Table/Table";
-import '../css/index.css'
+import "../css/index.css";
+import { ToggleSection } from "../feature/TongleSelection";
 
 interface DistributorItem {
   id: number;
@@ -22,6 +23,7 @@ const Distributors = () => {
   const [distributorsData, setDistributorsData] = useState<DistributorItem[]>(
     []
   );
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [headers, setHeaders] = useState<ColumnDefinition<DistributorItem>[]>(
     []
   );
@@ -78,9 +80,20 @@ const Distributors = () => {
 
   return (
     <div className="distributors-page" style={{ width: "90vw" }}>
-      <div style={{ width: "90%" }}>
+      <div style={{ width: "95%" }}>
         <h2>Distribuidores</h2>
-        <ApexChart />
+        <ToggleSection
+          title="información"
+          onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
+        >
+          <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
+            Aquí puedes gestionar el inventario de productos farmacéuticos.
+            <br />
+            Puedes registrar nuevos productos, actualizar la información de los
+            existentes y realizar un seguimiento del stock disponible.
+          </p>
+          <ApexChart />
+        </ToggleSection>
         <div className="actions">
           <input
             type="text"
@@ -114,9 +127,9 @@ const Distributors = () => {
           <Table
             columns={headers}
             data={filteredData}
-            itemsPerPage={5}
+            itemsPerPage={itemsPerPage}
             linkColumn={{
-              label: "Ver detalles",
+              label: "🔍 Ver detalles",
               path: "/historial",
               idKey: "id",
             }}
