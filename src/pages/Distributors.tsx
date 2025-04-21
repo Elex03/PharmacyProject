@@ -132,6 +132,7 @@ const Distributors = () => {
               label: "🔍 Ver detalles",
               path: "/historial",
               idKey: "id",
+              type: "linked"
             }}
           />
         </center>

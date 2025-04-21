@@ -47,11 +47,12 @@ const ApexChart: React.FC = () => {
         },
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
       },
       xaxis: {
         categories: [], 
       },
+      
     },
   });
 

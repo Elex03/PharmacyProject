@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/img/logo1.png";
 import "../layout/factura.css";
+import CircularIndeterminate from "../progress/CircularIndeterminate";
+import { message } from "antd";
 
 interface Product {
   nombre: string;
@@ -40,6 +42,7 @@ const FacturaModal: React.FC<propsBill> = ({
         const response = await fetch(`http://localhost:3000/apiFarmaNova/orders/getSales/${selectedSaleId}`);
         const data = await response.json();
 
+
         setSaleData({
           id: data.id,
           nombre: data.cliente,
@@ -55,8 +58,8 @@ const FacturaModal: React.FC<propsBill> = ({
         }));
 
         setSaleDetails(detallesConvertidos);
-      } catch (error) {
-        console.error("Error al obtener la factura:", error);
+      } catch {
+        message.error("No se ha encontrado la factura");
       } finally {
         setIsLoading(false);
       }
@@ -65,8 +68,14 @@ const FacturaModal: React.FC<propsBill> = ({
     fetchFactura();
   }, [selectedSaleId]);
 
-  if (isLoading) return <p style={{ textAlign: "center" }}>Cargando factura...</p>;
-  if (!saleData) return <p style={{ textAlign: "center" }}>No se encontró la factura.</p>;
+  if (isLoading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+        <CircularIndeterminate />
+      </div>
+    );
+  }
+  
 
   const subtotalVenta = saleDetails.reduce((acc, producto) => acc + producto.total, 0);
   const iva = subtotalVenta * 0.15;
@@ -90,13 +99,13 @@ const FacturaModal: React.FC<propsBill> = ({
           <hr />
 
           <div className="receipt-header">
-            <p><strong>No. Factura:</strong> {saleData.id}</p>
+            <p><strong>No. Factura:</strong> {saleData?.id ?? "N/A"}</p>
             <p><strong>Fecha de emisión:</strong> {new Date().toLocaleDateString()}</p>
           </div>
 
           <div className="Info-Client">
-            <p><strong>Cliente:</strong> {saleData.nombre}</p>
-            <p><strong>Fecha de compra:</strong> {saleData.fechacompra}</p>
+            <p><strong>Cliente:</strong> {saleData?.nombre ?? "N/A"}</p>
+            <p><strong>Fecha de compra:</strong> {saleData?.fechacompra ?? "N/A"}</p>
           </div>
 
           <hr />

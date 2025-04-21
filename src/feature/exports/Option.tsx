@@ -24,13 +24,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div
-      style={{
-        position: "relative",
-        display: "inline-block",
-        marginLeft: "100%",
-      }}
-    >
+    <>
       <button
         className="export-button"
         onClick={() => setShowMenu((prev) => !prev)}
@@ -103,6 +97,6 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
