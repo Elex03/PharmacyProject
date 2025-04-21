@@ -9,7 +9,7 @@ import Shopping from "./pages/shopping";
 import SalesHistory from "./pages/SalesHistory";
 import OrderHistory from "./pages/OrderHistory";
 import UnderConstruction from "./pages/Defualt";
-import { FacturaPage } from "./components/layout/PageFactura";
+import FacturaModal from "./components/layout/factura";
 
 const AppRouter = () => {
   return (
@@ -75,7 +75,7 @@ const AppRouter = () => {
           element={
             <div style={{ display: "flex" }}>
               <Sidebar />
-              <FacturaPage />
+              <FacturaModal />
             </div>
           }
         />

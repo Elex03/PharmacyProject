@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import {exportToExcel} from './exportToExcel'
-import { exportToPDF } from './exportToPdf';
-
+import { useState } from "react";
+import { exportToExcel } from "./exportToExcel";
+import { exportToPDF } from "./exportToPdf";
+import pdfIcon from "../../assets/img/pdf-icon.svg";
+import xlsIcon from "../../assets/img/xls-icon.svg";
 type HeaderItem = {
   key: string;
   header: string;
 };
-
 
 type ExportOptionProps = {
   filename?: string;
@@ -14,7 +14,6 @@ type ExportOptionProps = {
   data: Record<string, unknown>[];
   titleInfo?: string[][];
 };
-
 
 export const ExportOption: React.FC<ExportOptionProps> = ({
   headers,
@@ -25,7 +24,13 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div style={{ position: "relative", display: "inline-block" , marginLeft: '100%'}}>
+    <div
+      style={{
+        position: "relative",
+        display: "inline-block",
+        marginLeft: "100%",
+      }}
+    >
       <button
         className="export-button"
         onClick={() => setShowMenu((prev) => !prev)}
@@ -46,24 +51,38 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
 
       {showMenu && (
         <div
-          style={{
-            position: "absolute",
-            top: "100%",
-            right: 0,
-            backgroundColor: "#fff",
-            border: "1px solid #ccc",
-            borderRadius: "6px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-            zIndex: 10,
-          }}
+        style={{
+          position: "absolute",
+          top: "100%",
+          right: 0,
+          backgroundColor: "#fff",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+          zIndex: 10,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start", 
+          padding: "4px",
+          gap: "8px",
+        }}
         >
           <div
             onClick={() => {
               exportToExcel(headers, data, `${filename}`, titleInfo);
               setShowMenu(false);
             }}
-            style={{ padding: "8px 12px", cursor: "pointer", whiteSpace: "nowrap" }}
+            style={{
+              padding: "8px 12px",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
           >
+            <img
+              src={xlsIcon}
+              alt=""
+              style={{ width: "20px", height: "20px", paddingRight: "10px"}}
+            />
             Exportar a Excel
           </div>
           <div
@@ -71,8 +90,15 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
               exportToPDF(headers, data, `${filename}`, titleInfo);
               setShowMenu(false);
             }}
-            style={{ padding: "8px 12px", cursor: "pointer", whiteSpace: "nowrap" }}
+            style={{
+              padding: "8px 12px",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
           >
+            <img src={pdfIcon} 
+            alt=""
+            style={{ width: "20px", height: "20px", paddingRight: "10px" }} />
             Exportar a PDF
           </div>
         </div>

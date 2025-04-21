@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/img/logo1.png";
 import "../layout/factura.css";
 
@@ -8,6 +9,12 @@ interface Product {
   total: number;
 }
 
+interface ProductoItem {
+  nombre: string;
+  precio: number;
+  cantidad: number;
+}
+
 interface SalesHistoItem {
   id: number;
   nombre: string;
@@ -15,25 +22,53 @@ interface SalesHistoItem {
   total: number;
 }
 
-interface FacturaModalProps {
-  selectedSale: SalesHistoItem;
-  saleDetails: Product[];
-  montoPagado: number | null;
+interface propsBill {
+  selectedSaleId: number
   onClose: () => void;
-  onPrint: () => void;
 }
+const FacturaModal: React.FC<propsBill> = ({
+  selectedSaleId,
+  onClose
+}) => {
+  const [saleData, setSaleData] = useState<SalesHistoItem | null>(null);
+  const [saleDetails, setSaleDetails] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-const FacturaModal = ({
-  selectedSale,
-  saleDetails,
-  montoPagado,
-  onClose,
-  onPrint,
-}: FacturaModalProps) => {
-  const subtotalVenta = saleDetails.reduce(
-    (acc, producto) => acc + producto.total,
-    0
-  );
+  useEffect(() => {
+    const fetchFactura = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/apiFarmaNova/orders/getSales/${selectedSaleId}`);
+        const data = await response.json();
+
+        setSaleData({
+          id: data.id,
+          nombre: data.cliente,
+          fechacompra: data.fecha,
+          total: data.total,
+        });
+
+        const detallesConvertidos = data.productos.map((item: ProductoItem) => ({
+          nombre: item.nombre,
+          precio: item.precio,
+          cantidad: item.cantidad,
+          total: item.precio * item.cantidad,
+        }));
+
+        setSaleDetails(detallesConvertidos);
+      } catch (error) {
+        console.error("Error al obtener la factura:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFactura();
+  }, [selectedSaleId]);
+
+  if (isLoading) return <p style={{ textAlign: "center" }}>Cargando factura...</p>;
+  if (!saleData) return <p style={{ textAlign: "center" }}>No se encontró la factura.</p>;
+
+  const subtotalVenta = saleDetails.reduce((acc, producto) => acc + producto.total, 0);
   const iva = subtotalVenta * 0.15;
   const totalVenta = subtotalVenta + iva;
 
@@ -45,36 +80,25 @@ const FacturaModal = ({
             <img src={logo} alt="Logo de FarmaNova" className="receipt-logo" />
             <h2 className="receipt-title">FarmaNova</h2>
           </div>
+
           <div className="datos-empresa">
-            <p>
-              <strong>RUC:</strong> 001-010101-000A
-            </p>
-            <p>
-              <strong>Dirección:</strong> Calle Central No. 123, Managua
-            </p>
-            <p>
-              <strong>Teléfono:</strong> 2250-0000
-            </p>
+            <p><strong>RUC:</strong> 001-010101-000A</p>
+            <p><strong>Dirección:</strong> Calle Central No. 123, Managua</p>
+            <p><strong>Teléfono:</strong> 2250-0000</p>
           </div>
+
           <hr />
 
           <div className="receipt-header">
-            <p>
-              <strong>No. Factura:</strong> {selectedSale.id}
-            </p>
-            <p>
-              <strong>Fecha de emisión:</strong>{" "}
-              {new Date().toLocaleDateString()}
-            </p>
+            <p><strong>No. Factura:</strong> {saleData.id}</p>
+            <p><strong>Fecha de emisión:</strong> {new Date().toLocaleDateString()}</p>
           </div>
+
           <div className="Info-Client">
-            <p>
-              <strong>Cliente:</strong> {selectedSale.nombre}
-            </p>
-            <p>
-              <strong>Fecha de compra:</strong> {selectedSale.fechacompra}
-            </p>
+            <p><strong>Cliente:</strong> {saleData.nombre}</p>
+            <p><strong>Fecha de compra:</strong> {saleData.fechacompra}</p>
           </div>
+
           <hr />
 
           <table className="details-table">
@@ -99,52 +123,32 @@ const FacturaModal = ({
           </table>
 
           <div className="summary">
-            <p>
-              <strong>- Subtotal:</strong> C${subtotalVenta.toFixed(2)}
-            </p>
-            <p>
-              <strong>- IVA (15%):</strong> C${iva.toFixed(2)}
-            </p>
-            <p>
-              <strong>- Total a pagar:</strong> C${totalVenta.toFixed(2)}
-            </p>
+            <p><strong>- Subtotal:</strong> C${subtotalVenta.toFixed(2)}</p>
+            <p><strong>- IVA (15%):</strong> C${iva.toFixed(2)}</p>
+            <p><strong>- Total a pagar:</strong> C${totalVenta.toFixed(2)}</p>
 
             <div className="inter">
-              {montoPagado !== null && (
-                <>
-                  <p>
-                    <strong>- Monto pagado:</strong> C${montoPagado.toFixed(2)}
-                  </p>
-                  <p>
-                    <strong>- Cambio:</strong> C$
-                    {(montoPagado - totalVenta).toFixed(2)}
-                  </p>
-                </>
-              )}
-              <p>
-                <strong>- Forma de pago:</strong> Efectivo
-              </p>
+              <p><strong>- Forma de pago:</strong> Efectivo</p>
             </div>
           </div>
 
           <hr />
-          {/* <p>________________________</p>
-          <p>Firma y sello</p> */}
+
           <p className="Nota">
-            Precaución: Si el medicamento presenta daños o vencimiento, no lo
-            consuma y repórtelo a la farmacia. No se aceptan devoluciones salvo
-            indicación del MINSA.
+            Precaución: Si el medicamento presenta daños o vencimiento, no lo consuma y repórtelo a la farmacia. No se aceptan devoluciones salvo indicación del MINSA.
           </p>
+
           <hr />
+
           <div className="thank-you">
             <p>¡Gracias por su compra!</p>
             <p>Comprometidos con su salud, hoy y siempre.</p>
           </div>
 
-          <button className="print-button" onClick={onPrint}>
+          <button className="print-button" onClick={() => window.print()}>
             Imprimir Factura
           </button>
-          <button className="close-button" onClick={onClose}>
+          <button className="close-button" onClick={() => onClose()}>
             Cerrar
           </button>
         </div>

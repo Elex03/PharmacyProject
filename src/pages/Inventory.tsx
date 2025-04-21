@@ -188,6 +188,7 @@ const Inventario = () => {
               label: "✏️ Editar",
               path: "/producto",
               idKey: "id",
+              type: "modal"
             }}
           />
         </center>

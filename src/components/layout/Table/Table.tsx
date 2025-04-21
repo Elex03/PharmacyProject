@@ -19,7 +19,9 @@ type TableProps<T> = {
     label: string;
     path: string;
     idKey: keyof T;
+    type: "modal" | "linked";
   };
+  onOpenModal?: (id: number) => void; // Función para abrir el modal
 };
 
 const truncateText = (text: string, maxLength: number) => {
@@ -31,6 +33,7 @@ export function Table<T extends Record<string, unknown>>({
   data,
   itemsPerPage = 5,
   linkColumn,
+  onOpenModal,
 }: TableProps<T>) {
   const [filters, setFilters] = useState<Record<string, ColumnFilterState>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -95,6 +98,7 @@ export function Table<T extends Record<string, unknown>>({
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const pageData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+
   const [imagenSeleccionada, setImagenSeleccionada] = useState<string | null>(
     null
   );
@@ -190,7 +194,7 @@ export function Table<T extends Record<string, unknown>>({
                         width: "20px",
                         height: "20px",
                         border: "1px solid #ccc", // Borde gris claro
-                        borderRadius: "2px", // Esquinas ligeramente redondeadas (opcional)
+                        borderRadius: "4px", // Esquinas ligeramente redondeadas (opcional)
                         backgroundColor: "#fff", // Fondo blanco
                       }}
                     >
@@ -291,14 +295,31 @@ export function Table<T extends Record<string, unknown>>({
                     style={{ textAlign: "right" }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3, delay: pageData.length * 0.05 }} 
+                    transition={{
+                      duration: 0.3,
+                      delay: pageData.length * 0.05,
+                    }}
                   >
+                    {linkColumn.type === "modal" ? (
+                    <button
+                      onClick={() => onOpenModal && onOpenModal(Number(row[linkColumn.idKey]))} // Llamamos la función para abrir el modal
+                      style={{
+                        color: "black",
+                        textDecoration: "underline",
+                        background: "none",
+                        border: "none",
+                      }}
+                    >
+                      {linkColumn.label}
+                    </button>
+                  ) : (
                     <a
                       href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
                       style={{ color: "black", textDecoration: "underline" }}
                     >
                       {linkColumn.label}
                     </a>
+                  )}
                   </motion.td>
                 )}
               </tr>

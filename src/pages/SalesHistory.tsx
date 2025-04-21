@@ -8,6 +8,7 @@ import { getSalesPerWeek } from "../api/components/Sales";
 import "./SalesHistory.css";
 import "../css/index.css";
 import { ToggleSection } from "../feature/TongleSelection";
+import FacturaModal from "../components/layout/factura";
 
 interface SalesItem {
   id: number;
@@ -29,6 +30,19 @@ const SalesHistory = () => {
   const [headers, setHeaders] = useState<ColumnDefinition<SalesItem>[]>([]);
   const [dataGraphic, setDdataGraphic] = useState<DayInventory[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Controla si el modal está abierto o cerrado
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null); // Guarda el ID de la venta seleccionada
+
+  // Función para abrir el modal, pasando el ID del item seleccionado
+  const onOpenModal = (id: number) => {
+    setSelectedItemId(id); // Establece el ID de la venta seleccionada
+    setIsModalOpen(true); // Abre el modal
+  };
+
+  // Función para cerrar el modal
+  const closeModal = () => {
+    setIsModalOpen(false); // Cierra el modal
+  };
   useEffect(() => {
     getSalesPerWeek()
       .then((response) => {
@@ -132,10 +146,18 @@ const SalesHistory = () => {
               label: "📄 Ver factura",
               path: "/bill",
               idKey: "id",
+              type: "modal",
             }}
+            onOpenModal={onOpenModal}
           />
         </center>
       </div>
+      {isModalOpen && selectedItemId !== null && (
+        <FacturaModal
+          selectedSaleId={selectedItemId} // Pasa el ID de la venta seleccionada
+          onClose={closeModal} 
+        />
+      )}
     </div>
   );
 };
