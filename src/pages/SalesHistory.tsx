@@ -3,7 +3,7 @@ import { Table } from "../components/layout/Table/Table";
 import Example from "../components/charts/Chart";
 import { Link } from "react-router-dom";
 import { ColumnDefinition } from "../types";
-import { getSalesPerWeek } from "../api/components/Sales";
+import { getSalesHistoryData, getSalesPerWeek } from "../api/components/Sales";
 
 import "./SalesHistory.css";
 import "../css/index.css";
@@ -51,33 +51,22 @@ const SalesHistory = () => {
       .catch((error) => {
         console.error("Error fetching sales data:", error);
       });
-  }, []);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/orders/getSales")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al cargar los datos");
-        }
-        return response.json();
-      })
-      .then((dataP) => {
-        const { headers: hdrs, data } = dataP;
+    getSalesHistoryData().then((res) => {
+      const { headers: hdrs, data } = res;
 
-        const mappedHeaders = hdrs.map(
-          (h: { key: string; header: string }) => ({
-            key: h.key as keyof SalesItem,
-            header: h.header,
-            isNumeric:
-              h.key ===
-              ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
-            isDate: h.key === "fechaVencimiento",
-          })
-        );
+      const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
+        key: h.key as keyof SalesItem,
+        header: h.header,
+        isNumeric:
+          h.key ===
+          ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
+        isDate: h.key === "fechaVencimiento",
+      }));
 
-        setHeaders(mappedHeaders);
-        setData(data);
-      });
+      setHeaders(mappedHeaders);
+      setData(data);
+    });
   }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,7 +144,7 @@ const SalesHistory = () => {
       {isModalOpen && selectedItemId !== null && (
         <FacturaModal
           selectedSaleId={selectedItemId} // Pasa el ID de la venta seleccionada
-          onClose={closeModal} 
+          onClose={closeModal}
         />
       )}
     </div>

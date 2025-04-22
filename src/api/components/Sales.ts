@@ -10,3 +10,12 @@ export const getSalesPerWeek = async () => {
   }
 };
 
+export const getSalesHistoryData = async () => {
+  try {
+    const response = await ApiFarmaNova.get("/orders/getSales");
+    return response.data;
+  } catch(error) {
+    console.error("Error fetching sales data:", error);
+    throw error;
+  }
+};

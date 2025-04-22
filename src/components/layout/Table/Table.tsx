@@ -406,9 +406,9 @@ interface propsHighlight {
 
 const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
   const emojiByLabel: Record<string, string> = {
-    Disponible: "✅",
+    "Disponible": "✅",
     "Próximo a agotarse": "⚠️",
-    "No disponible": "❌",
+    "Agotado": "❌",
   };
 
   const emoji = emojiByLabel[label] || "";
@@ -418,7 +418,7 @@ const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
         {
           green: {
             className: "highlight-bubble",
-            labels: ["Disponible"],
+            labels: ["Disponible", "COMPLETADO"],
             backgroundColor: "#e0f8e0",
             color: "#317a3e",
           },
@@ -461,6 +461,7 @@ const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
     }
     return undefined;
   };
+  console.log(isHighlight)
   const style = isHighlight ? getHighlightStyle(String(label)) : undefined;
 
   return (

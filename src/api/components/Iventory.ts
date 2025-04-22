@@ -1,10 +1,10 @@
 import FarmaNovaApi from "../PharmacyApi";
 
 
-export const getInventoryData = async ({ page, limit }: { page?: number, limit?:number } = { page: 1 , limit: 5}) => {
+export const getInventoryData = async () => {
   try {
-    const response = await FarmaNovaApi.get(`/inventory/getInventoryData?page=${page}&limit=${limit}`);
-    return response.data;
+    const response = await FarmaNovaApi.get("/inventory/getInventoryData");
+    return response;
   } catch (error) {
     console.error("Error fetching distributors:", error);
     throw error;

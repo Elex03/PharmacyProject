@@ -11,9 +11,10 @@ import PieChart from "../components/charts/piChart";
 import type { ColumnDefinition } from "../types.d.ts";
 
 import { Table } from "../components/layout/Table/Table";
-import PharmacyApi from "../api/PharmacyApi";
+
 import "../css/index.css";
 import { ToggleSection } from "../feature/TongleSelection.tsx";
+import { getInventoryData } from "../api/components/Iventory.ts";
 
 type InventoryItem = {
   id: string;
@@ -52,25 +53,23 @@ const Inventario = () => {
   // const [showInfo, setShowInfo] = useState(true);
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const dataP = await PharmacyApi.get("/inventory/getInventoryData").then(
-          (response) => {
-            if (!response) throw new Error("Error al cargar los datos");
-            return response.data;
-          }
-        );
-        console.log(PharmacyApi.getUri());
-        const { headers: hdrs, data } = dataP;
 
-        setHeaders(hdrs);
-        setData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getData();
+    getInventoryData().then((res) => {
+      const { headers: hdrs, data } = res.data;
+      
+      const mappedHeaders = hdrs.map(
+        (h: { key: string; header: string }) => ({
+          key: h.key as keyof InventoryItem,
+          header: h.header,
+          isNumeric:
+            h.key ===
+            ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
+          isDate: h.key === "fechaVencimiento",
+        })
+      );
+      setHeaders(mappedHeaders);
+      setData(data);
+    })
   }, []);
 
   // estado de stock
@@ -188,7 +187,7 @@ const Inventario = () => {
               label: "✏️ Editar",
               path: "/producto",
               idKey: "id",
-              type: "modal"
+              type: "modal",
             }}
           />
         </center>
