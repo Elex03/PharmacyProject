@@ -3,6 +3,7 @@ import logo from "../../assets/img/logo1.png";
 import "../layout/factura.css";
 import CircularIndeterminate from "../progress/CircularIndeterminate";
 import { message } from "antd";
+import { getBillData } from "../../api/components/Sales";
 
 interface Product {
   nombre: string;
@@ -37,18 +38,17 @@ const FacturaModal: React.FC<propsBill> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFactura = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/apiFarmaNova/orders/getSales/${selectedSaleId}`);
-        const data = await response.json();
 
-
+    getBillData(selectedSaleId)
+      .then((data) => {
         setSaleData({
           id: data.id,
           nombre: data.cliente,
           fechacompra: data.fecha,
           total: data.total,
         });
+
+        console.log(data);
 
         const detallesConvertidos = data.productos.map((item: ProductoItem) => ({
           nombre: item.nombre,
@@ -58,14 +58,15 @@ const FacturaModal: React.FC<propsBill> = ({
         }));
 
         setSaleDetails(detallesConvertidos);
-      } catch {
+      })
+      .catch(() => {
         message.error("No se ha encontrado la factura");
-      } finally {
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    };
+      });
+   
 
-    fetchFactura();
   }, [selectedSaleId]);
 
   if (isLoading) {

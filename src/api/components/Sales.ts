@@ -19,3 +19,13 @@ export const getSalesHistoryData = async () => {
     throw error;
   }
 };
+
+export const getBillData = async (id: number) => {
+  try {
+    const response = await ApiFarmaNova.get(`/orders/getSales/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching bill data:", error);
+    throw error;
+  }
+}

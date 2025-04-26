@@ -263,7 +263,7 @@ export function Table<T extends Record<string, unknown>>({
                           }
                         />
                         <SetLabelTrucate
-                          label={String(row[col.key])}
+                          label={"Disponible"}
                           isHighlight={Boolean(col.isHighlight)}
                         />
                       </div>
@@ -284,7 +284,7 @@ export function Table<T extends Record<string, unknown>>({
                       </a>
                     ) : (
                       <SetLabelTrucate
-                        label={String(row[col.key])}
+                        label={"Disponible"}
                         isHighlight={Boolean(col.isHighlight)}
                       />
                     )}
@@ -461,8 +461,8 @@ const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
     }
     return undefined;
   };
-  console.log(isHighlight)
   const style = isHighlight ? getHighlightStyle(String(label)) : undefined;
+  console.log(style)
 
   return (
     <span
