@@ -136,22 +136,24 @@ export function Table<T extends Record<string, unknown>>({
   }, [imagenSeleccionada]);
 
   return (
-    <div className="inventory-container">
-      <ExportOption
-        filename="Distribuidores"
-        headers={columns.map((col) => ({
-          ...col,
-          key: String(col.key),
-        }))}
-        data={filteredData}
-        titleInfo={[
-          ["Farmacia Farmavalue"],
-          ["Cuidamos de ti, cada día."],
-          ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
-          ["Tel: 2255-4524"],
-          [""],
-        ]}
-      />
+    <div style={{ position: "relative" , width: "100%", }}>
+      <div>
+        {/* <ExportOption
+          filename="Distribuidores"
+          headers={columns.map((col) => ({
+            ...col,
+            key: String(col.key),
+          }))}
+          data={sortedData}
+          titleInfo={[
+            ["Farmacia Farmavalue"],
+            ["Cuidamos de ti, cada día."],
+            ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
+            ["Tel: 2255-4524"],
+            [""],
+          ]}
+        /> */}
+      </div>
       <table className="inventory-table-I">
         <thead>
           <tr>
@@ -263,8 +265,8 @@ export function Table<T extends Record<string, unknown>>({
                           }
                         />
                         <SetLabelTrucate
-                          label={"Disponible"}
-                          isHighlight={Boolean(col.isHighlight)}
+                          label={String(row[col.key])}
+                          isHighlight={shouldHighlight(col, row)}
                         />
                       </div>
                     ) : col.key === "telefono" ? (
@@ -279,13 +281,13 @@ export function Table<T extends Record<string, unknown>>({
                       >
                         <SetLabelTrucate
                           label={String(row[col.key])}
-                          isHighlight={Boolean(col.isHighlight)}
+                          isHighlight={shouldHighlight(col, row)}
                         />
                       </a>
                     ) : (
                       <SetLabelTrucate
-                        label={"Disponible"}
-                        isHighlight={Boolean(col.isHighlight)}
+                        label={String(row[col.key])}
+                        isHighlight={shouldHighlight(col, row)}
                       />
                     )}
                   </motion.td>
@@ -301,25 +303,28 @@ export function Table<T extends Record<string, unknown>>({
                     }}
                   >
                     {linkColumn.type === "modal" ? (
-                    <button
-                      onClick={() => onOpenModal && onOpenModal(Number(row[linkColumn.idKey]))} // Llamamos la función para abrir el modal
-                      style={{
-                        color: "black",
-                        textDecoration: "underline",
-                        background: "none",
-                        border: "none",
-                      }}
-                    >
-                      {linkColumn.label}
-                    </button>
-                  ) : (
-                    <a
-                      href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
-                      style={{ color: "black", textDecoration: "underline" }}
-                    >
-                      {linkColumn.label}
-                    </a>
-                  )}
+                      <button
+                        onClick={() =>
+                          onOpenModal &&
+                          onOpenModal(Number(row[linkColumn.idKey]))
+                        } // Llamamos la función para abrir el modal
+                        style={{
+                          color: "black",
+                          textDecoration: "underline",
+                          background: "none",
+                          border: "none",
+                        }}
+                      >
+                        {linkColumn.label}
+                      </button>
+                    ) : (
+                      <a
+                        href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
+                        style={{ color: "black", textDecoration: "underline" }}
+                      >
+                        {linkColumn.label}
+                      </a>
+                    )}
                   </motion.td>
                 )}
               </tr>
@@ -406,9 +411,9 @@ interface propsHighlight {
 
 const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
   const emojiByLabel: Record<string, string> = {
-    "Disponible": "✅",
+    Disponible: "✅",
     "Próximo a agotarse": "⚠️",
-    "Agotado": "❌",
+    Agotado: "❌",
   };
 
   const emoji = emojiByLabel[label] || "";
@@ -461,8 +466,8 @@ const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
     }
     return undefined;
   };
-  const style = isHighlight ? getHighlightStyle(String(label)) : undefined;
-  console.log(style)
+  const style = isHighlight ? undefined : getHighlightStyle(String(label));
+  console.log(style);
 
   return (
     <span
@@ -475,4 +480,8 @@ const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
       {emoji} {truncateText(String(label), 50)}
     </span>
   );
+};
+
+const shouldHighlight = <T,>(col: ColumnDefinition<T>, row: T) => {
+  return col.isHighlight === true && Boolean(row[col.key]);
 };

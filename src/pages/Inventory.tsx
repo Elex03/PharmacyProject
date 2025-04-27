@@ -7,13 +7,11 @@ import {
 } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
-import PieChart from "../components/charts/piChart";
 import type { ColumnDefinition } from "../types.d.ts";
 
 import { Table } from "../components/layout/Table/Table";
 
 import "../css/index.css";
-import { ToggleSection } from "../feature/TongleSelection.tsx";
 import { getInventoryData } from "../api/components/Iventory.ts";
 
 type InventoryItem = {
@@ -34,7 +32,7 @@ const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  // const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -53,23 +51,20 @@ const Inventario = () => {
   // const [showInfo, setShowInfo] = useState(true);
 
   useEffect(() => {
-
     getInventoryData().then((res) => {
       const { headers: hdrs, data } = res.data;
-      
-      const mappedHeaders = hdrs.map(
-        (h: { key: string; header: string }) => ({
-          key: h.key as keyof InventoryItem,
-          header: h.header,
-          isNumeric:
-            h.key ===
-            ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
-          isDate: h.key === "fechaVencimiento",
-        })
-      );
+
+      const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
+        key: h.key as keyof InventoryItem,
+        header: h.header,
+        isNumeric:
+          h.key ===
+          ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
+        isDate: h.key === "fechaVencimiento",
+      }));
       setHeaders(mappedHeaders);
       setData(data);
-    })
+    });
   }, []);
 
   // estado de stock
@@ -127,73 +122,92 @@ const Inventario = () => {
         return a.descripcion.localeCompare(b.descripcion);
       return 0;
     });
-
-  return (
-    <div className="inventory-page" style={{ width: "90vw" }}>
-      <div style={{ width: "95%" }}>
-        <h2>Inventario</h2>
-        <ToggleSection
-          title="información"
-          onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
+    return (
+      <div className="inventory-page" style={{ width: "90vw" }}>
+        <div
+          style={{
+            width: "95%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
-            Aquí puedes gestionar el inventario de productos farmacéuticos.
-            <br />
-            Puedes registrar nuevos productos, actualizar la información de los
-            existentes y realizar un seguimiento del stock disponible.
-          </p>
-          <PieChart />
-        </ToggleSection>
+          <center>
 
-        <div className="actions">
-          <input
-            type="text"
-            placeholder="Buscar"
-            className="search-bar"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <select
-            className="filter-dropdown"
-            value={sortOrder}
-            onChange={handleSort}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "20px 0",
+            }}
           >
-            <option value="">Filtrar por nombre</option>
-            <option value="A-Z">A - Z</option>
-          </select>
-
-          {/* Nuevo filtro por estado de stock */}
-          <select
-            className="filter-dropdown"
-            value={stockFilter}
-            onChange={handleStockFilter}
-          >
-            <option value="">Filtrar por estado de stock</option>
-            <option value="disponible">Disponible</option>
-            <option value="proximo">Próximo a agotarse</option>
-            <option value="agotado">Agotado</option>
-          </select>
-
-          <Link to={"/compras"} className="link">
-            <button className="button-action">Registrar pedido</button>
-          </Link>
-        </div>
-        <center>
+            {/* Título + Filtros */}
+            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              {/* Título grande */}
+              <h1 style={{ fontWeight: "bold", fontSize: "28px", margin: 0 }}>
+                Inventario
+              </h1>
+    
+              {/* Filtros y Buscador */}
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <select
+                  className="filter-dropdown"
+                  value={sortOrder}
+                  onChange={handleSort}
+                >
+                  <option value="">Filtrar por nombre</option>
+                  <option value="A-Z">A - Z</option>
+                </select>
+    
+                <select
+                  className="filter-dropdown"
+                  value={stockFilter}
+                  onChange={handleStockFilter}
+                >
+                  <option value="">Filtrar por estado de stock</option>
+                  <option value="disponible">Disponible</option>
+                  <option value="proximo">Próximo a agotarse</option>
+                  <option value="agotado">Agotado</option>
+                </select>
+    
+                <input
+                  type="text"
+                  placeholder="Buscar rápido"
+                  className="search-bar"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
+              </div>
+            </div>
+    
+            <Link to={"/compras"} className="link" style={{ textDecoration: "none" }}>
+              <button
+                className="button-action"
+              >
+                + Agregar producto
+              </button>
+            </Link>
+          </div>
+    
           <Table
             columns={headers}
             data={filteredData}
-            itemsPerPage={itemsPerPage}
+            itemsPerPage={5}
             linkColumn={{
               label: "✏️ Editar",
               path: "/producto",
               idKey: "id",
               type: "modal",
             }}
-          />
-        </center>
+            />
+            </center>
+        </div>
       </div>
-    </div>
-  );
+    );
+    
 };
 
 export default Inventario;

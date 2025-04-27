@@ -9,19 +9,21 @@
 }
 
 .filter-dropdown {
-  width: 350px;
+  width: 200px;
 }
 
 .search-bar {
-  width: 600px;
+  width: 300px;
+  
 }
 
-.search-bar,
+.search-bar ,
 .filter-dropdown {
   border-radius: 5px;
   padding: 8px;
   border: 1px solid black;
   background-color: white;
+  color: rgb(67, 67, 67)
 }
 .search-bar :active {
   border: 1px solid black;
@@ -35,9 +37,9 @@
 .button-action {
   padding: 9px;
   width: 250px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: white;
+  color: #007bff;
   cursor: pointer;
-  border: none;
+  border: 1px solid #007bff;
   border-radius: 8px;
 }

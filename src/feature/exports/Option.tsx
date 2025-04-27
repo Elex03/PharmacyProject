@@ -24,7 +24,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <>
+<div>
       <button
         className="export-button"
         onClick={() => setShowMenu((prev) => !prev)}
@@ -45,21 +45,21 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
 
       {showMenu && (
         <div
-        style={{
-          position: "absolute",
-          top: "100%",
-          right: 0,
-          backgroundColor: "#fff",
-          border: "1px solid #ccc",
-          borderRadius: "6px",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-          zIndex: 10,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start", 
-          padding: "4px",
-          gap: "8px",
-        }}
+          style={{
+            position: "absolute",
+            top: "100%", // justo debajo del botón
+            right: 0,
+            backgroundColor: "#fff",
+            border: "1px solid #ccc",
+            borderRadius: "6px",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+            zIndex: 1000,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            padding: "4px",
+            gap: "8px",
+          }}
         >
           <div
             onClick={() => {
@@ -75,7 +75,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
             <img
               src={xlsIcon}
               alt=""
-              style={{ width: "20px", height: "20px", paddingRight: "10px"}}
+              style={{ width: "20px", height: "20px", paddingRight: "10px" }}
             />
             Exportar a Excel
           </div>
@@ -90,13 +90,15 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
               whiteSpace: "nowrap",
             }}
           >
-            <img src={pdfIcon} 
-            alt=""
-            style={{ width: "20px", height: "20px", paddingRight: "10px" }} />
+            <img
+              src={pdfIcon}
+              alt=""
+              style={{ width: "20px", height: "20px", paddingRight: "10px" }}
+            />
             Exportar a PDF
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
