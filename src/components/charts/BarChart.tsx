@@ -75,22 +75,9 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
   }, [labels, data]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100%",
-        marginLeft: 30
-      }}
-    >
-      <div style={{ width: "100%", height: "200px" }}>
-        <canvas
-          ref={chartRef}
-          style={{ width: "100%", height: "100%" }}
-        ></canvas>
-      </div>
-    </div>
+    <>
+      <canvas ref={chartRef} style={{ width: "100%", height: "100%" }}></canvas>
+    </>
   );
 };
 

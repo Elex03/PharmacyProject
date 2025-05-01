@@ -14,16 +14,15 @@
 
 .search-bar {
   width: 300px;
-  
 }
 
-.search-bar ,
+.search-bar,
 .filter-dropdown {
   border-radius: 5px;
   padding: 8px;
   border: 1px solid black;
   background-color: white;
-  color: rgb(67, 67, 67)
+  color: rgb(67, 67, 67);
 }
 .search-bar :active {
   border: 1px solid black;
@@ -42,4 +41,23 @@
   cursor: pointer;
   border: 1px solid #007bff;
   border-radius: 8px;
+}
+
+.page-container {
+  width: 80%;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.chart-container {
+  width: 100%;
+  height: 200px;
+}
+
+.page-cotainer-root {
+  display: flex;
+  width: 100vw;
+  height: 100%;
 }

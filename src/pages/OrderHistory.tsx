@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import "./OrderHistory.css";
-import "../css/index.css"
+import "../css/index.css";
 import BarChart from "../components/charts/BarChart";
 import { useNavigate, useParams } from "react-router-dom";
 import { Table } from "../components/layout/Table/Table";
 import { ToggleSection } from "../feature/TongleSelection";
 import { ColumnDefinition } from "../types";
-
-
+import InventoryActions from "../components/forms/actions/Actions";
 
 const OrderHistory = () => {
   const navigator = useNavigate();
@@ -38,7 +37,7 @@ const OrderHistory = () => {
         return response.json();
       })
       .then((data) => {
-        const {data: dataP , headers: hdrs} = data
+        const { data: dataP, headers: hdrs } = data;
         const mappedHeaders = hdrs.map(
           (h: { key: string; header: string }) => ({
             key: h.key as keyof OrderHistory,
@@ -49,7 +48,7 @@ const OrderHistory = () => {
             isDate: h.key === "fechaVencimiento",
           })
         );
-        
+
         setData(dataP);
         setHeaders(mappedHeaders);
         setLoading(false);
@@ -96,23 +95,23 @@ const OrderHistory = () => {
     });
 
   return (
-    <div className="orderhistory-page" style={{ width: "90vw" }}>
-      <div style={{ width: "95%" }}>
-        <div className="arrow-container" onClick={() => navigator(-1)}>
-          <svg
-            width="30"
-            height="30"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </div>
-        <h2 style={{ marginLeft: 30 }}>Historial de pedidos</h2>
+    <div className="page-container">
+      <div className="arrow-container" onClick={() => navigator(-1)}>
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </div>
+      <h2 style={{ marginLeft: 30 }}>Historial de pedidos</h2>
+      <div style={{ width: "100%" }}>
         <ToggleSection
           title="información"
           onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
@@ -123,34 +122,24 @@ const OrderHistory = () => {
             Puedes registrar nuevos productos, actualizar la información de los
             existentes y realizar un seguimiento del stock disponible.
           </p>
-          <BarChart data={dataBar} />
+          <div style={{ width: "100%", height: "200px" }}>
+            <BarChart data={dataBar} />
+          </div>
         </ToggleSection>
-        <div className="actions">
-          <input
-            type="text"
-            placeholder="Buscar"
-            className="search-bar"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <select
-            className="filter-dropdown"
-            value={sortOrder}
-            onChange={handleSort}
-          >
-            <option value="">Filtrar por nombre</option>
-            <option value="A-Z">A - Z</option>
-          </select>
-          <button className="button-action">
-            Levantar pedido
-          </button>
-        </div>
-        <center>
-          {loading ? (
-            <p>Cargando datos...</p>
-          ) : error ? (
-            <p style={{ color: "red" }}>{error}</p>
-          ) : (
+      </div>
+      <InventoryActions
+        labelTitle="Distribuidores"
+        sortOrder={sortOrder}
+        searchTerm={searchTerm}
+        handleSort={handleSort}
+        handleSearch={handleSearch}
+      />
+        {loading ? (
+          <p>Cargando datos...</p>
+        ) : error ? (
+          <p style={{ color: "red" }}>{error}</p>
+        ) : (
+          <div style={{ width: "100%" }}>
             <Table
               data={filteredData}
               columns={headers}
@@ -162,9 +151,8 @@ const OrderHistory = () => {
                 type: "modal",
               }}
             />
-          )}
-        </center>
-      </div>
+          </div>
+        )}
     </div>
   );
 };

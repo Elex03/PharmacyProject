@@ -1,73 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Table } from "../components/layout/Table/Table";
 import Example from "../components/charts/Chart";
-import { Link } from "react-router-dom";
-import { ColumnDefinition } from "../types";
-import { getSalesHistoryData, getSalesPerWeek } from "../api/components/Sales";
-
+// import { Link } from "react-router-dom";
 import "./SalesHistory.css";
 import "../css/index.css";
 import { ToggleSection } from "../feature/TongleSelection";
 import FacturaModal from "../components/layout/factura";
+import InventoryActions from "../components/forms/actions/Actions";
+import { useFetchSalesChart, useFetchSalesHistory } from "../hooks/useFetchSalesHistory";
 
-interface SalesItem {
-  id: number;
-  cliente: string;
-  fechaventa: string;
-  total: number;
-  [key: string]: unknown;
-}
-
-interface DayInventory {
-  dia: string;
-  esta_semana: number;
-  anterior: number;
-}
 const SalesHistory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const [data, setData] = useState<SalesItem[]>([]);
-  const [headers, setHeaders] = useState<ColumnDefinition<SalesItem>[]>([]);
-  const [dataGraphic, setDdataGraphic] = useState<DayInventory[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [isModalOpen, setIsModalOpen] = useState(false); // Controla si el modal está abierto o cerrado
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null); // Guarda el ID de la venta seleccionada
 
-  // Función para abrir el modal, pasando el ID del item seleccionado
+  const {salesHistoryData, headers} = useFetchSalesHistory();
+  const { salesHistoryDataChart } = useFetchSalesChart();
+
   const onOpenModal = (id: number) => {
     setSelectedItemId(id); // Establece el ID de la venta seleccionada
     setIsModalOpen(true); // Abre el modal
   };
 
-  // Función para cerrar el modal
   const closeModal = () => {
     setIsModalOpen(false); // Cierra el modal
   };
-  useEffect(() => {
-    getSalesPerWeek()
-      .then((response) => {
-        setDdataGraphic(response);
-      })
-      .catch((error) => {
-        console.error("Error fetching sales data:", error);
-      });
-
-    getSalesHistoryData().then((res) => {
-      const { headers: hdrs, data } = res;
-
-      const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
-        key: h.key as keyof SalesItem,
-        header: h.header,
-        isNumeric:
-          h.key ===
-          ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
-        isDate: h.key === "fechaVencimiento",
-      }));
-
-      setHeaders(mappedHeaders);
-      setData(data);
-    });
-  }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -77,7 +36,7 @@ const SalesHistory = () => {
     setSortOrder(e.target.value);
   };
 
-  const filteredData = data
+  const filteredData = salesHistoryData
     .filter((SalesHistory) =>
       Object.values(SalesHistory).some((value) =>
         String(value).toLowerCase().includes(searchTerm.toLowerCase())
@@ -89,9 +48,9 @@ const SalesHistory = () => {
     });
 
   return (
-    <div className="SalesHistory-page" style={{ width: "90vw" }}>
-      <div style={{ width: "95%" }}>
-        <h2>Historial de ventas</h2>
+    <div className="page-container">
+      <h2 style={{textAlign: 'initial'}}>Historial de ventas</h2>
+      <div style={{ width: "100%", height: "400" }}>
         <ToggleSection
           title="información"
           onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
@@ -103,44 +62,30 @@ const SalesHistory = () => {
             existentes y realizar un seguimiento del stock disponible.
           </p>
 
-          <Example data={dataGraphic} />
+          <div style={{ marginRight: 20 }} className="chart-container">
+            <Example data={salesHistoryDataChart} />
+          </div>
         </ToggleSection>
-        <div className="actions">
-          <input
-            type="text"
-            placeholder="Buscar por nombre"
-            className="search-bar"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <select
-            className="filter-dropdown"
-            value={sortOrder}
-            onChange={handleSort}
-          >
-            <option value="">Filtrar por nombre</option>
-            <option value="A-Z">A - Z</option>
-          </select>
-
-          <Link to={"/compras"} className="link">
-            <button className="button-action">Registrar pedido</button>
-          </Link>
-        </div>
-        <center>
-          <Table
-            columns={headers}
-            data={filteredData}
-            itemsPerPage={itemsPerPage}
-            linkColumn={{
-              label: "📄 Ver factura",
-              path: "/bill",
-              idKey: "id",
-              type: "modal",
-            }}
-            onOpenModal={onOpenModal}
-          />
-        </center>
       </div>
+      <InventoryActions
+        labelTitle="Historial de ventas"
+        sortOrder={sortOrder}
+        searchTerm={searchTerm}
+        handleSort={handleSort}
+        handleSearch={handleSearch}
+      />
+      <Table
+        columns={headers}
+        data={filteredData}
+        itemsPerPage={itemsPerPage}
+        linkColumn={{
+          label: "📄 Ver factura",
+          path: "/bill",
+          idKey: "id",
+          type: "modal",
+        }}
+        onOpenModal={onOpenModal}
+      />
       {isModalOpen && selectedItemId !== null && (
         <FacturaModal
           selectedSaleId={selectedItemId} // Pasa el ID de la venta seleccionada

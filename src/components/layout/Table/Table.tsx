@@ -136,24 +136,7 @@ export function Table<T extends Record<string, unknown>>({
   }, [imagenSeleccionada]);
 
   return (
-    <div style={{ position: "relative" , width: "100%", }}>
-      <div>
-        {/* <ExportOption
-          filename="Distribuidores"
-          headers={columns.map((col) => ({
-            ...col,
-            key: String(col.key),
-          }))}
-          data={sortedData}
-          titleInfo={[
-            ["Farmacia Farmavalue"],
-            ["Cuidamos de ti, cada día."],
-            ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
-            ["Tel: 2255-4524"],
-            [""],
-          ]}
-        /> */}
-      </div>
+    <div style={{ position: "relative", width: "100%" }}>
       <table className="inventory-table-I">
         <thead>
           <tr>
@@ -233,6 +216,25 @@ export function Table<T extends Record<string, unknown>>({
                 )}
               </th>
             ))}
+            {linkColumn && (
+              <div className="export-column">
+                <ExportOption
+                  filename="Distribuidores"
+                  headers={columns.map((col) => ({
+                    ...col,
+                    key: String(col.key),
+                  }))}
+                  data={sortedData}
+                  titleInfo={[
+                    ["Farmacia Farmavalue"],
+                    ["Cuidamos de ti, cada día."],
+                    ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
+                    ["Tel: 2255-4524"],
+                    [""],
+                  ]}
+                />
+              </div>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -243,11 +245,12 @@ export function Table<T extends Record<string, unknown>>({
                   <motion.td
                     key={String(col.key)}
                     initial={{ opacity: 0, x: -10 }}
+                    viewport={{once: true}}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: rowIdx * 0.1 }} // Añadí delay para una entrada más suave
                   >
                     {col.key === "descripcion" ? (
-                      <div style={{ display: "flex", alignItems: "center" }}>
+                      <span style={{ display: "inline-flex", alignItems: "center" }}>
                         <img
                           src={row.imagenUrl as string}
                           alt="Imagen"
@@ -268,7 +271,7 @@ export function Table<T extends Record<string, unknown>>({
                           label={String(row[col.key])}
                           isHighlight={shouldHighlight(col, row)}
                         />
-                      </div>
+                      </span>
                     ) : col.key === "telefono" ? (
                       <a
                         href={`https://wa.me/505${row[col.key]}`}
@@ -297,6 +300,7 @@ export function Table<T extends Record<string, unknown>>({
                     style={{ textAlign: "right" }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
+                    viewport={{once: true}}
                     transition={{
                       duration: 0.3,
                       delay: pageData.length * 0.05,

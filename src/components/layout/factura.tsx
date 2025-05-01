@@ -3,7 +3,7 @@ import logo from "../../assets/img/logo1.png";
 import "../layout/factura.css";
 import CircularIndeterminate from "../progress/CircularIndeterminate";
 import { message } from "antd";
-import { getBillData } from "../../api/components/Sales";
+import { getBillData } from "../../api/services/Sales";
 
 interface Product {
   nombre: string;

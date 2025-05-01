@@ -1,33 +1,17 @@
-import { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import "./Distributors.css";
-import ApexChart from "../components/charts/apexChart";
-import Formulario from "../components/forms/Distributors";
-import { ColumnDefinition } from "../types";
 import { Table } from "../components/layout/Table/Table";
 import "../css/index.css";
-import { ToggleSection } from "../feature/TongleSelection";
-
-interface DistributorItem {
-  id: number;
-  nombre: string;
-  empresa: string;
-  telefono: string;
-  ultimoPedido: string;
-  [key: string]: unknown; // <-- añade esta línea
-}
+import InventoryActions from "../components/forms/actions/Actions";
+import ApexChart from "../components/charts/apexChart";
+import { useFetchDistributors } from "../hooks/useFetchDistributors";
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
-  const [distributorsData, setDistributorsData] = useState<DistributorItem[]>(
-    []
-  );
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [headers, setHeaders] = useState<ColumnDefinition<DistributorItem>[]>(
-    []
-  );
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // const [itemsPerPage, setItemsPerPage] = useState(5);
+
+  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -37,37 +21,10 @@ const Distributors = () => {
     setSortOrder(e.target.value);
   };
 
-  useEffect(() => {
-    fetch("http://localhost:3000/apiFarmaNova/distributors/")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al cargar los datos");
-        }
-        return response.json();
-      })
-      .then((dataP) => {
-        const { headers: hdrs, data } = dataP;
+  const {distributorData, headers} = useFetchDistributors();
 
-        const mappedHeaders = hdrs.map(
-          (h: { key: string; header: string }) => ({
-            key: h.key as keyof DistributorItem,
-            header: h.header,
-            isNumeric:
-              h.key ===
-              ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
-            isDate: h.key === "fechaVencimiento",
-          })
-        );
 
-        setHeaders(mappedHeaders);
-        setDistributorsData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  }, []);
-
-  const filteredData = distributorsData
+  const filteredData = distributorData
     .filter((distributor) =>
       Object.values(distributor).some((value) =>
         String(value).toLowerCase().includes(searchTerm.toLowerCase())
@@ -79,8 +36,11 @@ const Distributors = () => {
     });
 
   return (
-    <div className="distributors-page" style={{ width: "90vw" }}>
-      <div style={{ width: "95%" }}>
+    <div className="page-container">
+      <div className="chart-container">
+        <ApexChart />
+      </div>
+      {/* <div style={{ width: "95%" }}>
         <h2>Distribuidores</h2>
         <ToggleSection
           title="información"
@@ -92,7 +52,6 @@ const Distributors = () => {
             Puedes registrar nuevos productos, actualizar la información de los
             existentes y realizar un seguimiento del stock disponible.
           </p>
-          <ApexChart />
         </ToggleSection>
         <div className="actions">
           <input
@@ -118,25 +77,29 @@ const Distributors = () => {
             Crear un proveedor
           </button>
 
-          {/* Agregar AnimatePresence para animación del modal */}
           <AnimatePresence>
             {isModalOpen && <Formulario setIsOpen={setIsModalOpen} />}
           </AnimatePresence>
-        </div>
-        <center>
-          <Table
-            columns={headers}
-            data={filteredData}
-            itemsPerPage={itemsPerPage}
-            linkColumn={{
-              label: "🔍 Ver detalles",
-              path: "/historial",
-              idKey: "id",
-              type: "linked"
-            }}
-          />
-        </center>
-      </div>
+        </div> */}
+      <InventoryActions
+        labelTitle="Distribuidores"
+        sortOrder={sortOrder}
+        searchTerm={searchTerm}
+        handleSort={handleSort}
+        handleSearch={handleSearch}
+      />
+      
+      <Table
+        columns={headers}
+        data={filteredData}
+        itemsPerPage={5}
+        linkColumn={{
+          label: "🔍 Ver detalles",
+          path: "/historial",
+          idKey: "id",
+          type: "linked",
+        }}
+      />
     </div>
   );
 };

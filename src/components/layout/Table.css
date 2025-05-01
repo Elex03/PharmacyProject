@@ -3,14 +3,21 @@
 }
 
 .export-button {
-  margin-left: 100%;
   background-color: white;
   border: 1px solid white;
 }
 /* tabla de inventario */
 .inventory-table-I {
-  width: 102%;
+  width: 100%;
   border-collapse: collapse;
+}
+
+.export-column {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+
 }
 
 

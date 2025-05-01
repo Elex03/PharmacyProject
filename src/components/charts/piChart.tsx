@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { PieChart } from "@mui/x-charts/PieChart";
-import { getCategories } from "../../api/components/General";
+import { getCategories } from "../../api/services/General";
 
 export default function PieAnimation() {
   const [categories, setCategories] = React.useState<

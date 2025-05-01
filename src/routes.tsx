@@ -1,104 +1,100 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Dashboard from "./pages/DashBoard";
-import Inventario from "./pages/Inventory";
-import Distributors from "./pages/Distributors";
+import { Suspense, lazy } from "react";
 import Sidebar from "./components/layout/sideBar";
-import CashRegister from "./pages/CashRegister";
-import Shopping from "./pages/shopping";
-import SalesHistory from "./pages/SalesHistory";
-import OrderHistory from "./pages/OrderHistory";
-import UnderConstruction from "./pages/Defualt";
-import FacturaModal from "./components/layout/factura";
+import './routes.css';
+import './css/index.css';
+import CircularIndeterminate from "./components/progress/CircularIndeterminate";
+
+const Login = lazy(() => import("./pages/Login"));
+const Dashboard = lazy(() => import("./pages/DashBoard"));
+const Inventario = lazy(() => import("./pages/Inventory"));
+const Distributors = lazy(() => import("./pages/Distributors"));
+const CashRegister = lazy(() => import("./pages/CashRegister"));
+const Shopping = lazy(() => import("./pages/shopping"));
+const SalesHistory = lazy(() => import("./pages/SalesHistory"));
+const OrderHistory = lazy(() => import("./pages/OrderHistory"));
+const UnderConstruction = lazy(() => import("./pages/Defualt"));
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/dashboard"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <Dashboard />
-            </div>
-          }
-        />
-        <Route
-          path="/inventario"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <Inventario />
-            </div>
-          }
-        />
-        <Route
-          path="/distribuidores"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <Distributors />
-            </div>
-          }
-        />
-
-        <Route
-          path="/ventas"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <CashRegister />
-            </div>
-          }
-        />
-        <Route
-          path="/ventasHisto"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <SalesHistory />
-            </div>
-          }
-        />
-        <Route
-          path="/compras"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <Shopping />
-            </div>
-          }
-        />
-        <Route
-          path="/bill/:id"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <FacturaModal />
-            </div>
-          }
-        />
-        <Route
-          path="/historial/:id"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <OrderHistory />
-            </div>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="*"
-          element={
-            <div style={{ display: "flex" }}>
-              <Sidebar />
-              <UnderConstruction />
-            </div>
-          }
-        />
-      </Routes>
+      <Suspense fallback={<CircularIndeterminate/>}>
+        <Routes>
+          <Route
+            path="/dashboard"
+            element={
+              <div style={{ display: "flex" }}>
+                <Sidebar />
+                <Dashboard />
+              </div>
+            }
+          />
+          <Route
+            path="/inventario"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Inventario />
+              </div>
+            }
+          />
+          <Route
+            path="/distribuidores"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Distributors />
+              </div>
+            }
+          />
+          <Route
+            path="/ventas"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <CashRegister />
+              </div>
+            }
+          />
+          <Route
+            path="/ventasHisto"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <SalesHistory />
+              </div>
+            }
+          />
+          <Route
+            path="/compras"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Shopping />
+              </div>
+            }
+          />
+          <Route
+            path="/historial/:id"
+            element={
+              <div className="page-cotainer-root">
+                <Sidebar />
+                <OrderHistory />
+              </div>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/*"
+            element={
+              <div className="page-cotainer-root">
+                <Sidebar />
+                <UnderConstruction />
+              </div>
+            }
+          />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 };

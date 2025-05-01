@@ -20,7 +20,6 @@ interface GraphicProps {
 const Example: React.FC<GraphicProps> = ({ data }) => {
 
   return (
-    <div style={{ width: "100%", height: 200 }}>
       <ResponsiveContainer>
         <LineChart data={data} margin={{ top: 1, right: 1, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
@@ -37,7 +36,6 @@ const Example: React.FC<GraphicProps> = ({ data }) => {
           <Line type="monotone" dataKey="anterior" stroke="#82ca9d" />
         </LineChart>
       </ResponsiveContainer>
-    </div>
   );
 };
 

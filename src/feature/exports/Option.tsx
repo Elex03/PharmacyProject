@@ -24,7 +24,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-<div>
+    <>
       <button
         className="export-button"
         onClick={() => setShowMenu((prev) => !prev)}
@@ -47,7 +47,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
         <div
           style={{
             position: "absolute",
-            top: "100%", // justo debajo del botón
+            top: "100%", // debajo del botón
             right: 0,
             backgroundColor: "#fff",
             border: "1px solid #ccc",
@@ -99,6 +99,6 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
