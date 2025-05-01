@@ -30,7 +30,11 @@
   gap: 6px;
   white-space: nowrap;
 }
-
+.label {
+  font-size: 12px;
+  color: #4b4d50;
+  font-weight: 500;
+}
 .inventory-table-I th,
 .inventory-table-I td {
   padding: 10px;

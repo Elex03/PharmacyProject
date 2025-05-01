@@ -39,6 +39,7 @@
     "react-select": "^5.10.1",
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.1",
+    "rollup": "^4.40.1",
     "sweetalert2": "^11.17.2",
     "xlsx": "^0.18.5"
   },

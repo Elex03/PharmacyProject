@@ -5,6 +5,8 @@ import {
   FaExclamationTriangle,
   FaTimesCircle,
 } from "react-icons/fa";
+
+import "../components/layout/Table.css";
 import { Table } from "../components/layout/Table/Table";
 import "../css/index.css";
 import InventoryActions from "../components/forms/actions/Actions.tsx";
@@ -94,6 +96,18 @@ const Inventario = () => {
         handleStockFilter={handleStockFilter}
         handleSearch={handleSearch}
       />
+      <div style={{alignSelf: "flex-start"}}>
+        <p className="label">
+          Se encontraron{" "}
+          <span
+            className="highlight-bubble"
+            style={{ backgroundColor: "#A5DDFF" }}
+          >
+            15
+          </span>{" "}
+          elementos
+        </p>
+      </div>
       <Table
         columns={headers}
         data={filteredData}
