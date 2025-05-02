@@ -38,6 +38,7 @@ const Distributors = () => {
         <ApexChart />
       </div>
       <InventoryActions
+        inputLabel="+ Agregar distribuidor"
         sortOrder={sortOrder}
         searchTerm={searchTerm}
         handleSort={handleSort}

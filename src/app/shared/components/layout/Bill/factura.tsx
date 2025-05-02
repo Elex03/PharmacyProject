@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import logo from "../../assets/img/logo1.png";
-import CircularIndeterminate from "../progress/CircularIndeterminate";
+import logo from "../../../assets/img/logo1.png";
+import CircularIndeterminate from "../../progress/CircularIndeterminate";
 import { message } from "antd";
 
-import "../layout/factura.css";
+import "./factura.css";
 
-import { getBillData } from "../../api/services/Sales";
+import { getBillData } from "../../../api/services/Sales";
 
 
 interface Product {

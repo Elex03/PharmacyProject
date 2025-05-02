@@ -78,6 +78,7 @@ const OrderHistory = () => {
       </ToggleSection>
 
       <InventoryActions
+      inputLabel="+ Registrar nuevo pedido"
         sortOrder={sortOrder}
         searchTerm={searchTerm}
         handleSort={handleSort}

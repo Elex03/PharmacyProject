@@ -3,7 +3,8 @@ import { FilterDropdown, ColumnFilterState } from "./Filter";
 import { ExportOption } from "../../exportDocuments/exports/Option";
 import { motion } from "framer-motion";
 
-import "../Table.css";
+import "./Table.css";
+import { InfoQuantityData } from "../infoQuantityData";
 
 type ColumnDefinition<T> = {
   key: keyof T;
@@ -139,18 +140,7 @@ export function Table<T extends Record<string, unknown>>({
 
   return (
     <div style={{ position: "relative", width: "100%" }}>
-      <div style={{ alignSelf: "flex-start", padding: "0 10px" }}>
-        <p className="label">
-          Se encontraron{" "}
-          <span
-            className="highlight-bubble"
-            style={{ backgroundColor: "#A5DDFF" }}
-          >
-            {filteredData.length}
-          </span>{" "}
-          elementos
-        </p>
-      </div>
+      <InfoQuantityData QuantityData={filteredData.length} />
       <table className="inventory-table-I">
         <thead>
           <tr>
@@ -251,115 +241,122 @@ export function Table<T extends Record<string, unknown>>({
             )}
           </tr>
         </thead>
-        <tbody>
-          {pageData.length > 0 ? (
-            pageData.map((row, rowIdx) => (
-              <tr key={rowIdx}>
-                {columns.map((col) => (
-                  <motion.td
-                    key={String(col.key)}
-                    initial={{ opacity: 0, x: -10 }}
-                    viewport={{ once: true }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: rowIdx * 0.1 }} // Añadí delay para una entrada más suave
-                  >
-                    {col.key === "descripcion" ? (
-                      <span
-                        style={{ display: "inline-flex", alignItems: "center" }}
-                      >
-                        <img
-                          src={row.imagenUrl as string}
-                          alt="Imagen"
+
+          <tbody>
+            {pageData.length > 0 ? (
+              pageData.map((row, rowIdx) => (
+                <tr key={rowIdx}>
+                  {columns.map((col) => (
+                    <motion.td
+                      key={String(col.key)}
+                      initial={{ opacity: 0, x: -10 }}
+                      viewport={{ once: true }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: rowIdx * 0.1 }} // Añadí delay para una entrada más suave
+                    >
+                      {col.key === "descripcion" ? (
+                        <span
                           style={{
-                            marginRight: "8px",
-                            width: "50px",
-                            height: "50px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            objectFit: "cover",
+                            display: "inline-flex",
+                            alignItems: "center",
                           }}
-                          className="w-8 h-8 rounded-full object-cover"
+                        >
+                          <img
+                            src={row.imagenUrl as string}
+                            alt="Imagen"
+                            style={{
+                              marginRight: "8px",
+                              width: "50px",
+                              height: "50px",
+                              cursor: "pointer",
+                              borderRadius: "50%",
+                              objectFit: "cover",
+                            }}
+                            className="w-8 h-8 rounded-full object-cover"
+                            onClick={() =>
+                              handleImagenClick(row.imagenUrl as string)
+                            }
+                          />
+                          <SetLabelTrucate
+                            label={String(row[col.key])}
+                            isHighlight={shouldHighlight(col, row)}
+                          />
+                        </span>
+                      ) : col.key === "telefono" ? (
+                        <a
+                          href={`https://wa.me/505${row[col.key]}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: "black",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          <SetLabelTrucate
+                            label={String(row[col.key])}
+                            isHighlight={shouldHighlight(col, row)}
+                          />
+                        </a>
+                      ) : (
+                        <SetLabelTrucate
+                          label={String(row[col.key])}
+                          isHighlight={shouldHighlight(col, row)}
+                        />
+                      )}
+                    </motion.td>
+                  ))}
+                  {linkColumn && (
+                    <motion.td
+                      style={{ textAlign: "right" }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: 0.3,
+                        delay: pageData.length * 0.05,
+                      }}
+                    >
+                      {linkColumn.type === "modal" ? (
+                        <button
                           onClick={() =>
-                            handleImagenClick(row.imagenUrl as string)
-                          }
-                        />
-                        <SetLabelTrucate
-                          label={String(row[col.key])}
-                          isHighlight={shouldHighlight(col, row)}
-                        />
-                      </span>
-                    ) : col.key === "telefono" ? (
-                      <a
-                        href={`https://wa.me/505${row[col.key]}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          color: "black",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        <SetLabelTrucate
-                          label={String(row[col.key])}
-                          isHighlight={shouldHighlight(col, row)}
-                        />
-                      </a>
-                    ) : (
-                      <SetLabelTrucate
-                        label={String(row[col.key])}
-                        isHighlight={shouldHighlight(col, row)}
-                      />
-                    )}
-                  </motion.td>
-                ))}
-                {linkColumn && (
-                  <motion.td
-                    style={{ textAlign: "right" }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.3,
-                      delay: pageData.length * 0.05,
-                    }}
-                  >
-                    {linkColumn.type === "modal" ? (
-                      <button
-                        onClick={() =>
-                          onOpenModal &&
-                          onOpenModal(Number(row[linkColumn.idKey]))
-                        } // Llamamos la función para abrir el modal
-                        style={{
-                          color: "black",
-                          textDecoration: "underline",
-                          background: "none",
-                          border: "none",
-                        }}
-                      >
-                        {linkColumn.label}
-                      </button>
-                    ) : (
-                      <a
-                        href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
-                        style={{ color: "black", textDecoration: "underline" }}
-                      >
-                        {linkColumn.label}
-                      </a>
-                    )}
-                  </motion.td>
-                )}
+                            onOpenModal &&
+                            onOpenModal(Number(row[linkColumn.idKey]))
+                          } // Llamamos la función para abrir el modal
+                          style={{
+                            color: "black",
+                            textDecoration: "underline",
+                            background: "none",
+                            border: "none",
+                          }}
+                        >
+                          {linkColumn.label}
+                        </button>
+                      ) : (
+                        <a
+                          href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
+                          style={{
+                            color: "black",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          {linkColumn.label}
+                        </a>
+                      )}
+                    </motion.td>
+                  )}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  style={{ textAlign: "center", color: "gray" }}
+                >
+                  No se encontraron resultados
+                </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan={columns.length}
-                style={{ textAlign: "center", color: "gray" }}
-              >
-                No se encontraron resultados
-              </td>
-            </tr>
-          )}
-        </tbody>
+            )}
+          </tbody>
       </table>
 
       {/* Paginación */}

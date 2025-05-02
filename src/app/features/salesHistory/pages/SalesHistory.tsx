@@ -3,7 +3,7 @@ import { Table } from "../../../shared/components/layout/Table/Table";
 import Example from "../../../shared/components/charts/Chart";
 import "../../../shared/styles/shared.css";
 import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection";
-import FacturaModal from "../../../shared/components/layout/factura";
+import FacturaModal from "../../../shared/components/layout/Bill/factura";
 import InventoryActions from "../../../shared/components/forms/actions/Actions";
 import {
   useFetchSalesChart,
@@ -65,6 +65,7 @@ const SalesHistory = () => {
       </ToggleSection>
 
       <InventoryActions
+        inputLabel="+ Registrar venta"
         sortOrder={sortOrder}
         searchTerm={searchTerm}
         handleSort={handleSort}

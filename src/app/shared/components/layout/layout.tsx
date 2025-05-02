@@ -10,7 +10,6 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
     <div className="page-container">
-      {/* Título */}
       <div style={{ alignSelf: "flex-start" }}>
         <header
           style={{

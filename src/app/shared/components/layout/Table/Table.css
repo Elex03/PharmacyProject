@@ -1,5 +1,7 @@
 .inventory-container {
   padding: 20px;
+  max-height: 200px; /* Ajusta esta altura según lo que necesites */
+  overflow-y: auto;
 }
 
 .export-button {
@@ -261,6 +263,14 @@ table {
   color: #000;
   margin-bottom: 10px;
 }
+
+.inventory-table-I {
+  display: block;
+  max-height: 50%; /* Ajusta la altura máxima del tbody */
+  overflow-y: auto;
+  width: 100%; /* Esto es necesario para el comportamiento de scroll */
+}
+
 
 .summary-O {
   margin-top: 50px;

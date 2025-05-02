@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input, message, Select, Spin } from "antd";
 import MultipleSelector from "./multipleSelector";
-import Units from "../../data/units.json";
+import Units from "../../../../data/units.json";
 
 interface Option {
   id: number;

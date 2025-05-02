@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 interface InventoryActionsProps {
   sortOrder: string;
   stockFilter?: string;
+  inputLabel?: string;
   searchTerm: string;
   handleSort: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   handleStockFilter?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -14,6 +15,7 @@ const InventoryActions: React.FC<InventoryActionsProps> = ({
   sortOrder,
   stockFilter,
   searchTerm,
+  inputLabel,
   handleSort,
   handleStockFilter,
   handleSearch,
@@ -68,10 +70,10 @@ const InventoryActions: React.FC<InventoryActionsProps> = ({
             onChange={handleSearch}
           />
         </div>
-  
-        {/* Botón a la derecha */}
+
+
         <Link to={"/compras"} className="link" style={{ textDecoration: "none" }}>
-          <button className="button-action">+ Agregar producto</button>
+          <button className="button-action">{inputLabel}</button>
         </Link>
       </div>
     </div>

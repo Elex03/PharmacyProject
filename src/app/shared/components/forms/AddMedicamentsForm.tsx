@@ -15,9 +15,12 @@ import axios from "axios";
 import {
   getCompressedforms,
   getMedicines,
-} from "../../app/shared/api/services/Medicine.ts";
-import { getDistributors } from "../../app/shared/api/services/Distributors.ts";
-import type {Option} from "../../types.d.ts";
+} from "../../../shared/api/services/Medicine.ts";
+
+
+
+import { getDistributors } from "../../../shared/api/services/Distributors.ts";
+import type {Option} from "../../../../types.d.ts";
 export const AddMedicamentsForm = () => {
   const [selectedMedication, setSelectedMedication] = useState<string | null>(
     null
