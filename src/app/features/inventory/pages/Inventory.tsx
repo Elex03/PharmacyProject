@@ -35,7 +35,7 @@ const Inventario = () => {
   );
 
   return (
-    <Layout title="Inventario" totalItems={filteredData.length}>
+    <Layout title="Inventario">
       <InventoryActions
         sortOrder={sortOrder}
         stockFilter={stockFilter}

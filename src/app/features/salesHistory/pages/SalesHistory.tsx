@@ -47,7 +47,7 @@ const SalesHistory = () => {
     sortOrder
   );
   return (
-    <Layout title="Historial de ventas" totalItems={filteredData.length}>
+    <Layout title="Historial de ventas">
       <ToggleSection
         title="información"
         onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}

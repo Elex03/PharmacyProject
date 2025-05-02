@@ -33,7 +33,7 @@ const Distributors = () => {
   );
 
   return (
-    <Layout title="Distribuidores" totalItems={filteredData.length}>
+    <Layout title="Distribuidores">
       <div className="chart-container">
         <ApexChart />
       </div>

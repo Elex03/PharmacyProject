@@ -5,10 +5,9 @@ import "../../styles/shared.css";
 interface LayoutProps {
   title: string;
   children: React.ReactNode;
-  totalItems: number;
 }
 
-const Layout: React.FC<LayoutProps> = ({ title, children, totalItems }) => {
+const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
     <div className="page-container">
       {/* Título */}
@@ -24,21 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ title, children, totalItems }) => {
           {title}
         </header>
       </div>
-      {totalItems !== undefined && (
-        <div style={{ alignSelf: "flex-start", padding: "0 10px" }}>
-          <p className="label">
-            Se encontraron{" "}
-            <span
-              className="highlight-bubble"
-              style={{ backgroundColor: "#A5DDFF" }}
-            >
-              {totalItems}
-            </span>{" "}
-            elementos
-          </p>
-        </div>
-      )}
-
+     
       {children}
     </div>
   );

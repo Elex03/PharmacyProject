@@ -15,7 +15,7 @@ const Distributors = lazy(() => import("./features/ditributors/pages/Distributor
 const CashRegister = lazy(() => import("./shared/pages/CashRegister"));
 const Shopping = lazy(() => import("./shared/pages/shopping"));
 const SalesHistory = lazy(() => import("./features/salesHistory/pages/SalesHistory"));
-const OrderHistory = lazy(() => import("./shared/pages/OrderHistory"));
+const OrderHistory = lazy(() => import("./features/ordersHistory/pages/OrderHistory"));
 const UnderConstruction = lazy(() => import("./shared/pages/Defualt"));
 
 const AppRouter = () => {

@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { getOrdersDetailsData } from "../../../shared/api/services/Orders";
+import {
+  getOrdersDetailsData,
+  getOrdersDetailsGraph,
+} from "../../../shared/api/services/Orders";
 import { ColumnDefinition } from "../../../../types";
 
 interface OrderHistory {
@@ -44,4 +47,20 @@ export const useFetchOrderDetailsHistory = (id: number) => {
   }, [id]);
 
   return { data, headers, loading, error };
+};
+
+export const useFetchOrderDetailsGraph = (id: number) => {
+  const [dataBar, setDataBar] = useState<number[]>([]);
+
+  useEffect(() => {
+    getOrdersDetailsGraph(id)
+      .then((data) => {
+        setDataBar(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching orders:", error);
+      });
+  }, [id]);
+
+  return { dataBar };
 };

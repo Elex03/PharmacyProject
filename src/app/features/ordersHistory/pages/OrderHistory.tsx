@@ -1,42 +1,30 @@
-import { useState, useEffect } from "react";
-import "./OrderHistory.css";
-import "../styles/shared.css";
+import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-import { Table } from "../components/layout/Table/Table";
-import { ToggleSection } from "../components/exportDocuments/TongleSelection";
-import InventoryActions from "../components/forms/actions/Actions";
-import BarChart from "../components/charts/BarChart";
-import Layout from "../components/layout/layout";
-import { useFetchOrderDetailsHistory } from "../../features/ordersHistory/hooks/useFetchOrderHistory";
+import { Table } from "../../../shared/components/layout/Table/Table";
+import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection";
+import InventoryActions from "../../../shared/components/forms/actions/Actions";
+import BarChart from "../../../shared/components/charts/BarChart";
+import Layout from "../../../shared/components/layout/layout";
+import {
+  useFetchOrderDetailsGraph,
+  useFetchOrderDetailsHistory,
+} from "../hooks/useFetchOrderHistory";
+import '../../../shared/styles/shared.css'
+import '../styles/OrderHistory.css'
+
 
 const OrderHistory = () => {
   const navigator = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  
-  const [error, setError] = useState<string | null>(null);
+
   const { id } = useParams();
-  const [dataBar, setDataBar] = useState<number[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  
-  const {data, loading, headers} = useFetchOrderDetailsHistory(Number(id));
 
-  useEffect(() => {
-    
-
-    fetch(`http://localhost:3000/apiFarmaNova/orders/getOrderGraph/${id}`)
-      .then((response) => {
-        if (!response.ok) throw new Error("Error al cargar los datos");
-        return response.json();
-      })
-      .then((data) => {
-        setDataBar(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching orders:", error);
-        setError("Error al cargar los datos.");
-      });
-  }, [id]);
+  const { data, loading, headers, error } = useFetchOrderDetailsHistory(
+    Number(id)
+  );
+  const { dataBar } = useFetchOrderDetailsGraph(Number(id));
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -58,7 +46,7 @@ const OrderHistory = () => {
     });
 
   return (
-    <Layout title="Historial de pedidos" totalItems={filteredData.length}>
+    <Layout title="Historial de pedidos">
       <div className="arrow-container" onClick={() => navigator(-1)}>
         <svg
           width="30"

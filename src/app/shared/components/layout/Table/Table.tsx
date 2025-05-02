@@ -3,7 +3,6 @@ import { FilterDropdown, ColumnFilterState } from "./Filter";
 import { ExportOption } from "../../exportDocuments/exports/Option";
 import { motion } from "framer-motion";
 
-
 import "../Table.css";
 
 type ColumnDefinition<T> = {
@@ -140,6 +139,18 @@ export function Table<T extends Record<string, unknown>>({
 
   return (
     <div style={{ position: "relative", width: "100%" }}>
+      <div style={{ alignSelf: "flex-start", padding: "0 10px" }}>
+        <p className="label">
+          Se encontraron{" "}
+          <span
+            className="highlight-bubble"
+            style={{ backgroundColor: "#A5DDFF" }}
+          >
+            {filteredData.length}
+          </span>{" "}
+          elementos
+        </p>
+      </div>
       <table className="inventory-table-I">
         <thead>
           <tr>
@@ -248,12 +259,14 @@ export function Table<T extends Record<string, unknown>>({
                   <motion.td
                     key={String(col.key)}
                     initial={{ opacity: 0, x: -10 }}
-                    viewport={{once: true}}
+                    viewport={{ once: true }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: rowIdx * 0.1 }} // Añadí delay para una entrada más suave
                   >
                     {col.key === "descripcion" ? (
-                      <span style={{ display: "inline-flex", alignItems: "center" }}>
+                      <span
+                        style={{ display: "inline-flex", alignItems: "center" }}
+                      >
                         <img
                           src={row.imagenUrl as string}
                           alt="Imagen"
@@ -303,7 +316,7 @@ export function Table<T extends Record<string, unknown>>({
                     style={{ textAlign: "right" }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    viewport={{once: true}}
+                    viewport={{ once: true }}
                     transition={{
                       duration: 0.3,
                       delay: pageData.length * 0.05,
