@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import "./createMedicine.css";
 import { CreateMedicineHeader } from "./createMedicine-Header";
 import { BasicInformationForm } from "../../../../../shared/components/forms/createMedicineForm/BasicInformationForm";
+
+import "./createMedicine.css";
 
 interface Medicine {
   nombre: string;

@@ -16,8 +16,8 @@ h2 {
 
 .arrow-container {
   position: absolute;
-  top: 20px;
-  left: 190px;
+  top: 30px;
+  left: 80px;
   cursor: pointer;
   font-size: 30px;  
 }

@@ -19,6 +19,7 @@ export default function SidebarLink({
       className={({ isActive }) =>
         `menu-item ${isActive ? "active" : ""} ${className}`
       }
+      
     >
       <span className="icon-wrapper">{icon}</span>
       <span className="side-label">{label}</span>

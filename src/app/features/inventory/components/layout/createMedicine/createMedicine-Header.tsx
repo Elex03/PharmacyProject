@@ -9,18 +9,19 @@ interface Medicine {
 }
 
 interface Props {
-    medicine: Medicine;
+  medicine: Medicine;
   onChange: (key: keyof Medicine, value: string | boolean) => void;
 }
 
-export const CreateMedicineHeader: React.FC<Props> = ({ medicine, onChange }) => {
+export const CreateMedicineHeader: React.FC<Props> = ({
+  medicine,
+  onChange,
+}) => {
   return (
     <>
-    <div style={{ margin: "0 -10px" }}>
-      <Header title="Crear medicamento" size="1.5rem" />
-
-    </div>
-
+      <div style={{ margin: "0 -10px" }}>
+        <Header title="Registar medicamento" size="1.5rem" />
+      </div>
 
       <div className="form-grid">
         <div className="form-group">

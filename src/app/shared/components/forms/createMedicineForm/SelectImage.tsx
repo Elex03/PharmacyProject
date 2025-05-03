@@ -1,11 +1,22 @@
-import React, { useRef, useState, ChangeEvent } from "react";
+import React, { useRef, useState, ChangeEvent, useEffect } from "react";
+import { useImageFromWebSocket } from "./useImageFromWebSocket";
+import { MenuSelect } from "./MenuSelect";
+import { AnimatePresence } from "framer-motion";
 
 const ImageUploadBox: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showOptions, setShowOptions] = useState(false);
+
+  const {
+    imageSrc,
+    isWaiting,
+    // status,
+    waitForImage,
+  } = useImageFromWebSocket("ws://localhost:3000");
 
   const handleContainerClick = () => {
-    fileInputRef.current?.click();
+    setShowOptions(true);
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -13,11 +24,37 @@ const ImageUploadBox: React.FC = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
+      setShowOptions(false);
     }
   };
 
+  const handleSelectFromGallery = () => {
+    setShowOptions(false);
+    fileInputRef.current?.click();
+  };
+
+  const handleTakePhoto = () => {
+    setShowOptions(false);
+    if (isWaiting) {
+      console.log("Espera de foto cancelada");
+    } else {
+      waitForImage();
+      console.log("Esperando foto...");
+    }
+  };
+
+  const handleCancel = () => {
+    setShowOptions(false);
+  };
+
+  useEffect(() => {
+    if (imageSrc) {
+      setImage(imageSrc);
+    }
+  }, [imageSrc]);
+
   return (
-<>
+    <>
       <input
         id="imagen"
         type="file"
@@ -33,12 +70,13 @@ const ImageUploadBox: React.FC = () => {
           height: "300px",
           border: "1px solid #5c5c5c",
           borderRadius: "8px",
-          cursor: "pointer",
+          cursor: isWaiting ? "default" : "pointer",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           overflow: "hidden",
           backgroundColor: "#fff",
+          position: "relative",
         }}
       >
         {image ? (
@@ -50,14 +88,30 @@ const ImageUploadBox: React.FC = () => {
               maxHeight: "100%",
               objectFit: "contain",
             }}
-            />
+          />
         ) : (
           <span style={{ fontSize: "14px", color: "#555" }}>
             Haz clic para seleccionar
           </span>
         )}
+
+        <AnimatePresence>
+          {showOptions && (
+            <MenuSelect
+              key="options-menu"
+              isWaiting={isWaiting}
+              onSelectFromGallery={handleSelectFromGallery}
+              onTakePhoto={handleTakePhoto}
+              onCancel={handleCancel}
+            />
+          )}
+        </AnimatePresence>
       </div>
-      </>
+
+      {/* <p style={{ fontSize: "12px", color: "#999", marginTop: "4px" }}>
+        Estado WebSocket: {status}
+      </p> */}
+    </>
   );
 };
 

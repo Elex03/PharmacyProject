@@ -139,10 +139,12 @@ export function Table<T extends Record<string, unknown>>({
     };
   }, [imagenSeleccionada]);
 
+  const maxHeight = itemsPerPage === 5? '17rem' : '30rem'; // Cambia la altura máxima según el número de elementos por página
+
   return (
     <div style={{ position: "relative", width: "100%" }}>
       <InfoQuantityData QuantityData={filteredData.length} />
-      <div style={{ maxHeight: "300px", overflowY: "auto", width: "100%" }}>
+      <div style={{ maxHeight: `${maxHeight}`, overflowY: "auto", width: "100%" }}>
         <table className="inventory-table-I">
           <thead>
             <tr>

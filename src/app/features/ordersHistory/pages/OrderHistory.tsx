@@ -78,7 +78,10 @@ const OrderHistory = () => {
       </ToggleSection>
 
       <InventoryActions
-      inputLabel="+ Registrar nuevo pedido"
+      linkButton={{
+        ButtonLabel: "Registrar nuevo pedido",
+        type: "link",
+      }}
         sortOrder={sortOrder}
         searchTerm={searchTerm}
         handleSort={handleSort}

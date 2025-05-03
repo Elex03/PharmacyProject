@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 interface InventoryActionsProps {
   sortOrder: string;
@@ -77,13 +76,13 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
           />
         </div>
         {linkButton.type === "link" && (
-          <Link
-            to={`/${linkButton.to}`}
+          <a
+            href={`/${linkButton.to}`}
             className="link"
             style={{ textDecoration: "none" }}
           >
             <button className="button-action">{linkButton.ButtonLabel}</button>
-          </Link>
+          </a>
         )}
         {linkButton.type === "modal" && (
           <button className="button-action" onClick={onOpenModal}>{linkButton.ButtonLabel}</button>
