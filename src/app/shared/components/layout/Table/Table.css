@@ -43,34 +43,11 @@
   text-align: left;
 }
 
-.inventory-table-I th,
-.inventory-table-H th {
+.inventory-table-I th{
   font-size: 14px;
 }
-.inventory-table-I tr,
-.inventory-table-H tr {
+.inventory-table-I tr {
   font-size: 12px;
-}
-/* tabla historial */
-.inventory-table-H th,
-.inventory-table-H td {
-  padding: 10px;
-  text-align: left;
-  /* color: #333; */
-}
-
-.inventory-table,
-.inventory-table-H {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.inventory-table th,
-.inventory-table td {
-  padding: 10px;
-  text-align: left;
-  padding-left: 50px;
-  /* color: #333; */
 }
 
 .pagination {
@@ -265,7 +242,8 @@ table {
 }
 
 .inventory-table-I {
-  display: block;
+  
+  table-layout: fixed;
   max-height: 50%; /* Ajusta la altura máxima del tbody */
   overflow-y: auto;
   width: 100%; /* Esto es necesario para el comportamiento de scroll */

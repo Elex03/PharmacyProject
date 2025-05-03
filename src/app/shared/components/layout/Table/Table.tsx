@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 import "./Table.css";
 import { InfoQuantityData } from "../infoQuantityData";
+import { PaginationFooter } from "./PaginationFooter";
 
 type ColumnDefinition<T> = {
   key: keyof T;
@@ -141,106 +142,115 @@ export function Table<T extends Record<string, unknown>>({
   return (
     <div style={{ position: "relative", width: "100%" }}>
       <InfoQuantityData QuantityData={filteredData.length} />
-      <table className="inventory-table-I">
-        <thead>
-          <tr>
-            {columns.map((col) => (
-              <th
-                key={String(col.key)}
-                style={{
-                  position: "relative",
-                }}
-              >
-                <div
+      <div style={{ maxHeight: "300px", overflowY: "auto", width: "100%" }}>
+        <table className="inventory-table-I">
+          <thead>
+            <tr>
+              {columns.map((col) => (
+                <th
+                  key={String(col.key)}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    position: "relative",
                   }}
                 >
-                  <span>{col.header}</span>
-                  <button
-                    onClick={() =>
-                      handleChangeFilter(col.key as string, {
-                        isOpen: !filters[col.key as string]?.isOpen,
-                      })
-                    }
+                  <div
                     style={{
-                      marginLeft: "8px",
-                      fontSize: "12px",
-                      backgroundColor: "#fff",
-                      padding: "2px 4px",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
                   >
-                    <div
+                    <span
                       style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "20px",
-                        height: "20px",
-                        border: "1px solid #ccc", // Borde gris claro
-                        borderRadius: "4px", // Esquinas ligeramente redondeadas (opcional)
-                        backgroundColor: "#fff", // Fondo blanco
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        color: "#424242",
                       }}
                     >
-                      <svg
-                        width="8"
-                        height="8"
-                        viewBox="0 0 8 8"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        {/* Flecha hacia abajo (triángulo) */}
-                        <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-                {filters[col.key as string]?.isOpen && (
-                  <FilterDropdown
-                    columnKey={col.key as string}
-                    columnHeader={col.header}
-                    allData={data}
-                    filter={
-                      filters[col.key as string] || {
-                        searchText: "",
-                        selectedValues: [],
+                      {col.header}
+                    </span>
+                    <button
+                      onClick={() =>
+                        handleChangeFilter(col.key as string, {
+                          isOpen: !filters[col.key as string]?.isOpen,
+                        })
                       }
-                    }
-                    onChangeFilter={(newState) =>
-                      handleChangeFilter(col.key as string, newState)
-                    }
-                    isNumeric={col.isNumeric}
-                    isDate={col.isDate}
+                      style={{
+                        marginLeft: "8px",
+                        fontSize: "12px",
+                        backgroundColor: "#fff",
+                        padding: "2px 4px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "20px",
+                          height: "20px",
+                          border: "1px solid #ccc", // Borde gris claro
+                          borderRadius: "4px", // Esquinas ligeramente redondeadas (opcional)
+                          backgroundColor: "#fff", // Fondo blanco
+                        }}
+                      >
+                        <svg
+                          width="8"
+                          height="8"
+                          viewBox="0 0 8 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          {/* Flecha hacia abajo (triángulo) */}
+                          <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+                  {filters[col.key as string]?.isOpen && (
+                    <FilterDropdown
+                      columnKey={col.key as string}
+                      columnHeader={col.header}
+                      allData={data}
+                      filter={
+                        filters[col.key as string] || {
+                          searchText: "",
+                          selectedValues: [],
+                        }
+                      }
+                      onChangeFilter={(newState) =>
+                        handleChangeFilter(col.key as string, newState)
+                      }
+                      isNumeric={col.isNumeric}
+                      isDate={col.isDate}
+                    />
+                  )}
+                </th>
+              ))}
+              {linkColumn && (
+                <div className="export-column">
+                  <ExportOption
+                    filename="Distribuidores"
+                    headers={columns.map((col) => ({
+                      ...col,
+                      key: String(col.key),
+                    }))}
+                    data={sortedData}
+                    titleInfo={[
+                      ["Farmacia Farmavalue"],
+                      ["Cuidamos de ti, cada día."],
+                      ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
+                      ["Tel: 2255-4524"],
+                      [""],
+                    ]}
                   />
-                )}
-              </th>
-            ))}
-            {linkColumn && (
-              <div className="export-column">
-                <ExportOption
-                  filename="Distribuidores"
-                  headers={columns.map((col) => ({
-                    ...col,
-                    key: String(col.key),
-                  }))}
-                  data={sortedData}
-                  titleInfo={[
-                    ["Farmacia Farmavalue"],
-                    ["Cuidamos de ti, cada día."],
-                    ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
-                    ["Tel: 2255-4524"],
-                    [""],
-                  ]}
-                />
-              </div>
-            )}
-          </tr>
-        </thead>
+                </div>
+              )}
+            </tr>
+          </thead>
 
           <tbody>
             {pageData.length > 0 ? (
@@ -357,36 +367,15 @@ export function Table<T extends Record<string, unknown>>({
               </tr>
             )}
           </tbody>
-      </table>
+        </table>
+      </div>
 
       {/* Paginación */}
-      <div className="pagination" style={{ marginTop: "1rem" }}>
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          ← Anterior
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => handlePageChange(index + 1)}
-            className={currentPage === index + 1 ? "active" : ""}
-          >
-            {index + 1}
-          </button>
-        ))}
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          style={{
-            padding: "8px",
-            cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-          }}
-        >
-          Siguiente →
-        </button>
-      </div>
+      <PaginationFooter
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
       {imagenSeleccionada && (
         <div
           onClick={cerrarModal}

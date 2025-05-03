@@ -8,7 +8,7 @@
 }
 
 .container:hover {
-  width: 220px;
+  width: 180px;
 }
 
 .sidebar {
@@ -54,6 +54,27 @@
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.menu-item .icon-wrapper,
+.menu-item .side-label {
+  color: #333;
+  transition: color 0.3s;
+  margin-right: 8px;
+}
+
+.menu-item.active .icon-wrapper,
+.menu-item.active .side-label {
+  color: #178BF7;
+}
+
 
 .container:hover .menu-title {
   opacity: 1;
@@ -63,7 +84,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 10px;
+  padding: 8px 18px;
   color: #333;
   text-decoration: none;
   border-radius: 6px;
@@ -85,6 +106,7 @@
   transition: opacity 0.3s ease;
   white-space: nowrap;
   color: #333;
+  font-size: 12px;
 }
 
 .container:hover .side-label {

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type ToggleSectionProps = {
   title?: string;
   children: React.ReactNode;
-  onToggle?: (visible: boolean) => void; // recibe el nuevo estado
+  onToggle?: (visible: boolean) => void;
 };
 
 export function ToggleSection({
@@ -12,6 +12,7 @@ export function ToggleSection({
   onToggle,
 }: ToggleSectionProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const toggle = () => {
     setIsVisible((prev) => {
@@ -22,7 +23,7 @@ export function ToggleSection({
   };
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <button
         onClick={toggle}
         style={{
@@ -31,7 +32,7 @@ export function ToggleSection({
           cursor: "pointer",
           alignItems: "center",
           gap: "5px",
-          marginLeft: "24px",
+          padding: "0px 10px",
           display: "flex",
         }}
       >
@@ -53,12 +54,12 @@ export function ToggleSection({
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
-
       <div
+        ref={contentRef}
         style={{
-          maxHeight: isVisible ? 300 : 0,
           overflow: "hidden",
-          transition: "max-height 0.5s ease",
+          height: isVisible ? "auto" : 0,
+          transition: "height 0.5s ease",
         }}
       >
         {children}

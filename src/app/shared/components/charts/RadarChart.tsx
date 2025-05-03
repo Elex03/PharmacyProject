@@ -47,6 +47,6 @@ const data = {
   ],
 };
 
-export default function RadarChart() {
+export const RadarChart = () => {
   return <Radar data={data} />;
 }

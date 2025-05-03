@@ -104,7 +104,7 @@ import "./Defualt.css";
 
 const UnderConstruction: React.FC = () => {
   return (
-    <div className="container">
+    <div className="container-default">
       <div className="image">
         <img src="./construction.svg" alt="Bajo construcción" />
       </div>

@@ -1,19 +1,20 @@
-import { Link } from "react-router-dom";
+import SidebarLink from "./NavLink";
 import {
   LuLayoutDashboard,
   LuPackage,
   LuTruck,
   LuClipboardMinus,
+  LuFileClock,
   LuUser,
   LuFileText,
   LuLogOut,
   LuCircle,
-  LuFileClock,
 } from "react-icons/lu";
-import "./Sidebar.css";
+
+import './SideBar.css'
 import logo from "../../assets/img/logo1.png";
 
-const Sidebar = () => {
+export default function Sidebar() {
   return (
     <div className="container">
       <div className="sidebar">
@@ -26,47 +27,23 @@ const Sidebar = () => {
         {/* Menu */}
         <div className="sidebar-menu">
           <p className="menu-title">Gestión general</p>
-          <Link to="/dashboard" className="menu-item">
-            <LuLayoutDashboard className="icon" />
-            <span className="side-label">Dashboard</span>
-          </Link>
+          <SidebarLink to="/dashboard" icon={<LuLayoutDashboard className="icon" />} label="Dashboard" />
 
           <p className="menu-title">Gestión de inventario</p>
-          <Link to="/inventario" className="menu-item">
-            <LuPackage className="icon" />
-            <span className="side-label">Inventario</span>
-          </Link>
-          <Link to="/distribuidores" className="menu-item">
-            <LuTruck className="icon" />
-            <span className="side-label">Distribuidores</span>
-          </Link>
-          <Link to="/ventas" className="menu-item">
-            <LuClipboardMinus className="icon" />
-            <span className="side-label">Ventas</span>
-          </Link>
-          <Link to="/ventasHisto" className="menu-item">
-            <LuFileClock className="icon" />
-            <span className="side-label">Historial</span>
-          </Link>
+          <SidebarLink to="/inventario" icon={<LuPackage className="icon" />} label="Inventario" />
+          <SidebarLink to="/distribuidores" icon={<LuTruck className="icon" />} label="Distribuidores" />
+          <SidebarLink to="/ventas" icon={<LuClipboardMinus className="icon" />} label="Ventas" />
+          <SidebarLink to="/ventasHisto" icon={<LuFileClock className="icon" />} label="Historial" />
 
           <p className="menu-title">Gestión de clientes y reportes</p>
-          <Link to="/clientes" className="menu-item">
-            <LuUser className="icon" />
-            <span className="side-label">Clientes</span>
-          </Link>
-          <Link to="/reportes" className="menu-item">
-            <LuFileText className="icon" />
-            <span className="side-label">Reportes</span>
-          </Link>
+          <SidebarLink to="/clientes" icon={<LuUser className="icon" />} label="Clientes" />
+          <SidebarLink to="/reportes" icon={<LuFileText className="icon" />} label="Reportes" />
         </div>
 
         {/* Footer */}
         <div className="sidebar-footer">
           <p className="menu-title">Cuenta</p>
-          <Link to="/logout" className="menu-item logout">
-            <LuLogOut className="icon" />
-            <span className="side-label">Cerrar sesión</span>
-          </Link>
+          <SidebarLink to="/logout" icon={<LuLogOut className="icon" />} label="Cerrar sesión" className="logout" />
           <div className="user-info">
             <LuCircle className="icon" />
             <span className="side-label">Nombre Usuario</span>
@@ -75,6 +52,4 @@ const Sidebar = () => {
       </div>
     </div>
   );
-};
-
-export default Sidebar;
+}

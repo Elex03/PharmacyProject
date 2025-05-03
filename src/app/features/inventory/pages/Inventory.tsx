@@ -1,14 +1,13 @@
 import { useState } from "react";
-import "../../../shared/components/layout/Table/Table.css";
 import { Table } from "../../../shared/components/layout/Table/Table.tsx";
 import InventoryActions from "../../../shared/components/forms/actions/Actions.tsx";
 import Layout from "../../../shared/components/layout/layout.tsx";
 import { getFilteredInventory } from "../utils/filterInventoryData.ts";
 import { useFetchInventory } from "../hooks/useFetchInventory.tsx";
 import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection.tsx";
-import PieAnimation from "../../../shared/components/charts/piChart.tsx";
-
-
+import "../../../shared/components/layout/Table/Table.css";
+import "../../../shared/styles/shared.css";
+import { RadarChart } from "../../../shared/components/charts/RadarChart.tsx";
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,19 +37,19 @@ const Inventario = () => {
 
   return (
     <Layout title="Inventario">
-       <ToggleSection
+      <ToggleSection
         title="información"
         onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
       >
-        <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
+        <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
           Aquí puedes gestionar el inventario de productos farmacéuticos.
           <br />
           Puedes registrar nuevos productos, actualizar la información de los
           existentes y realizar un seguimiento del stock disponible.
         </p>
 
-        <div style={{ marginRight: 20 }} className="chart-container">
-          <PieAnimation/>
+        <div className="chart-container">
+          <RadarChart />
         </div>
       </ToggleSection>
       <InventoryActions
