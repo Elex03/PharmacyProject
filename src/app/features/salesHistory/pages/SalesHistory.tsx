@@ -25,12 +25,12 @@ const SalesHistory = () => {
   const { salesHistoryDataChart } = useFetchSalesChart();
 
   const onOpenModal = (id: number) => {
-    setSelectedItemId(id); // Establece el ID de la venta seleccionada
-    setIsModalOpen(true); // Abre el modal
+    setSelectedItemId(id); 
+    setIsModalOpen(true); 
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); // Cierra el modal
+    setIsModalOpen(false);
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +64,11 @@ const SalesHistory = () => {
       </ToggleSection>
 
       <InventoryActions
-        inputLabel="+ Registrar venta"
+      linkButton={{
+        ButtonLabel: "Registrar venta",
+        type: "link",
+        to: "/sales",
+      }}
         sortOrder={sortOrder}
         searchTerm={searchTerm}
         handleSort={handleSort}

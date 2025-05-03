@@ -8,6 +8,7 @@ import { ToggleSection } from "../../../shared/components/exportDocuments/Tongle
 import "../../../shared/components/layout/Table/Table.css";
 import "../../../shared/styles/shared.css";
 import { RadarChart } from "../../../shared/components/charts/RadarChart.tsx";
+import CreateMedicineModal from "../components/layout/createMedicine/createMedicine.tsx";
 
 const Inventario = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,6 +16,7 @@ const Inventario = () => {
   const [stockFilter, setStockFilter] = useState("");
   const { inventoryData, headers } = useFetchInventory();
   const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -26,6 +28,14 @@ const Inventario = () => {
 
   const handleStockFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStockFilter(e.target.value);
+  };
+
+  const onOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const filteredData = getFilteredInventory(
@@ -53,7 +63,11 @@ const Inventario = () => {
         </div>
       </ToggleSection>
       <InventoryActions
-        inputLabel="+ Agregar medicamento"
+        linkButton={{
+          ButtonLabel: "Agregar medicamento",
+          type: "modal",
+        }}
+        onOpenModal={onOpenModal}
         sortOrder={sortOrder}
         stockFilter={stockFilter}
         searchTerm={searchTerm}
@@ -72,6 +86,12 @@ const Inventario = () => {
           type: "modal",
         }}
       />
+
+      {isModalOpen && (
+        <CreateMedicineModal
+          onClose={closeModal}
+        />
+      )}
     </Layout>
   );
 };

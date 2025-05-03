@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../../styles/shared.css";
+import { Header } from "./Header";
 
 interface LayoutProps {
   title: string;
@@ -11,18 +12,8 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
     <div className="page-container">
       <div style={{ alignSelf: "flex-start" }}>
-        <header
-          style={{
-            fontWeight: "bolder",
-            fontSize: "38px",
-            margin: 0,
-            padding: "0 10px",
-          }}
-        >
-          {title}
-        </header>
+        <Header title={title} size={'38px'} />
       </div>
-     
       {children}
     </div>
   );

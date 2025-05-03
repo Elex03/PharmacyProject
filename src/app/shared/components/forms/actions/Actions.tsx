@@ -4,18 +4,24 @@ import { Link } from "react-router-dom";
 interface InventoryActionsProps {
   sortOrder: string;
   stockFilter?: string;
-  inputLabel?: string;
   searchTerm: string;
+  onOpenModal?: () => void;
+  linkButton: {
+    type: "modal" | "link";
+    ButtonLabel?: string;
+    to?: string;
+  };
   handleSort: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   handleStockFilter?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InventoryActions: React.FC<InventoryActionsProps> = ({
+const LayoutActions: React.FC<InventoryActionsProps> = ({
   sortOrder,
   stockFilter,
   searchTerm,
-  inputLabel,
+  linkButton,
+  onOpenModal,
   handleSort,
   handleStockFilter,
   handleSearch,
@@ -48,7 +54,7 @@ const InventoryActions: React.FC<InventoryActionsProps> = ({
             <option value="">Filtrar por nombre</option>
             <option value="A-Z">A - Z</option>
           </select>
-  
+
           {handleStockFilter && (
             <select
               className="filter-dropdown"
@@ -61,7 +67,7 @@ const InventoryActions: React.FC<InventoryActionsProps> = ({
               <option value="agotado">Agotado</option>
             </select>
           )}
-  
+
           <input
             type="text"
             placeholder="Buscar rápido"
@@ -70,15 +76,21 @@ const InventoryActions: React.FC<InventoryActionsProps> = ({
             onChange={handleSearch}
           />
         </div>
-
-
-        <Link to={"/compras"} className="link" style={{ textDecoration: "none" }}>
-          <button className="button-action">{inputLabel}</button>
-        </Link>
+        {linkButton.type === "link" && (
+          <Link
+            to={`/${linkButton.to}`}
+            className="link"
+            style={{ textDecoration: "none" }}
+          >
+            <button className="button-action">{linkButton.ButtonLabel}</button>
+          </Link>
+        )}
+        {linkButton.type === "modal" && (
+          <button className="button-action" onClick={onOpenModal}>{linkButton.ButtonLabel}</button>
+        )}
       </div>
     </div>
   );
-  
 };
 
-export default InventoryActions;
+export default LayoutActions;

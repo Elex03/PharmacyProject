@@ -1,0 +1,36 @@
+.form-grid-BasicInformationForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 8px;
+  margin-bottom: 12px;
+}
+
+.form-group-BasicInformationForm {
+  display: flex;
+  flex-direction: column;
+  padding-top: -100px;
+}
+
+.form-group-BasicInformationForm label {
+  font-size: 12px;
+  margin-bottom: 0px;
+}
+
+.textarea-BasicInformationForm {
+  height: 237px;
+  resize: none;
+  border: 1px solid #5c5c5c;
+  border-radius: 6px;
+  color: #555;
+  font-size: 14px;
+}
+.action-input-BasicInformationForm,
+.action-select-BasicInformationForm {
+  background-color: #fff;
+  padding: 8px 12px;
+  border: 1px solid #5c5c5c;
+  border-radius: 6px;
+  color: #555;
+  font-size: 14px;
+}

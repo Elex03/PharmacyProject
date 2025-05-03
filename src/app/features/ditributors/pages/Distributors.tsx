@@ -47,7 +47,10 @@ const Distributors = () => {
         </div>
       </ToggleSection>
       <InventoryActions
-        inputLabel="+ Agregar distribuidor"
+      linkButton={{
+        ButtonLabel: "Crear distribuidor",
+        type: "link"
+      }}
         sortOrder={sortOrder}
         searchTerm={searchTerm}
         handleSort={handleSort}

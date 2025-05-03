@@ -29,11 +29,13 @@ const Example: React.FC<GraphicProps> = ({ data }) => {
         <Line
           type="monotone"
           dataKey="esta_semana"
+          label="Esta semana"
           stroke="#8884d8"
           activeDot={{ r: 8 }}
         />
         <Line
           type="monotone"
+          label="Anterior"
           dataKey="anterior"
           stroke="#82ca9d"
         />
