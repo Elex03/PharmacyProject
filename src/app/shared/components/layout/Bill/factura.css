@@ -1,9 +1,9 @@
 .details-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+  /* font-size: 0.95rem; */
 }
 
 .details-table thead {
@@ -24,7 +24,7 @@
   text-align: center;        
 }
 .Info-Client p{ 
-  font-size: 10px;
+  font-size: 11px;
   text-align: justify;
   margin: 0;
   padding: 2px 5px;
@@ -37,16 +37,32 @@ background-color: #e8e9eb;
 padding-left: 10px;
 border-radius: 7px;
 margin: 10;
-padding: 1px 10px;
-line-height: 1.5;
+padding: 10px 10px;
+line-height: 1.2;
+font-size: 13px;
 }
+/* .summary p {
+  font-size: 13px;
+} */
 .inter {    
-  margin-top: -90px;
-  padding-left: 200px;
+  margin-top: -30px;
+  padding-left: 230px;
 }
+.resaltado-total {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+
 .Nota{
-  font-size: 10px;
+  font-size: 11px;
   text-align: justify;
+  padding: 1px 5px;
+line-height: 1.2;
 }
 .thank-you p{
   font-style: italic;
@@ -101,19 +117,20 @@ font-size: 10px;
 /* parte para el diseño de la impresion */
 @media print {
   body * {
-    visibility: hidden; /* Oculta todo */
+    visibility: hidden;
   }
 
-  .receipt-popup, .receipt-popup * {      
-    visibility: visible; /* Solo muestra el modal de la factura */
+  .receipt-popup, .receipt-popup * {
+    visibility: visible;
   }
 
   .receipt-popup {
-    position: absolute;
-    top: 10;
-    left: 10;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 60%;
-    background-color: white; /* Asegura fondo blanco */
+    background-color: white;
     color: black;
     z-index: 9999;
     padding: 20px;
@@ -121,6 +138,6 @@ font-size: 10px;
 
   .print-button,
   .close-button {
-    display: none; /* Oculta botones al imprimir */
+    display: none;
   }
 }

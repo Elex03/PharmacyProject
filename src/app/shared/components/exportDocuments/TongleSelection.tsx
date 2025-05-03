@@ -59,7 +59,7 @@ export function ToggleSection({
         style={{
           overflow: "hidden",
           height: isVisible ? "auto" : 0,
-          transition: "height 0.5s ease",
+          transition: "height 0.3s ease",
         }}
       >
         {children}
