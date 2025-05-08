@@ -1,0 +1,75 @@
+/* Estilos para la superposición (overlay) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 40px;
+}
+.modal-content {
+  z-index: 999;
+  max-width: 500px;
+  min-height: 35vh;
+  max-height: 35vh;
+  margin: 40px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+  overflow-y: auto;
+}
+.action-input,
+.action-select {
+  background-color: #fff;
+  padding: 8px 12px;
+  border: 1px solid #5c5c5c;
+  border-radius: 6px;
+  color: #555;
+  font-size: 14px;
+}
+.form-group label {
+  font-size: 12px;
+  margin-bottom: 0px;
+}
+
+.cancel {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+.form-grid {
+  display: grid;
+  grid-template-rows: 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}

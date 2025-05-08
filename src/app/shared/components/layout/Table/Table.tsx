@@ -21,8 +21,8 @@ type TableProps<T> = {
   itemsPerPage?: number;
   linkColumn?: {
     label: string;
-    path: string;
-    idKey: keyof T;
+    path?: string;
+    idKey?: keyof T;
     type: "modal" | "linked";
   };
   onOpenModal?: (id: number) => void; // Función para abrir el modal
@@ -332,7 +332,7 @@ export function Table<T extends Record<string, unknown>>({
                         <button
                           onClick={() =>
                             onOpenModal &&
-                            onOpenModal(Number(row[linkColumn.idKey]))
+                            onOpenModal(linkColumn.idKey ? Number(row[linkColumn.idKey]) : 0)
                           } // Llamamos la función para abrir el modal
                           style={{
                             color: "black",
@@ -345,7 +345,11 @@ export function Table<T extends Record<string, unknown>>({
                         </button>
                       ) : (
                         <a
-                          href={`${linkColumn.path}/${row[linkColumn.idKey]}`}
+                          href={
+                            linkColumn.idKey
+                              ? `${linkColumn.path}/${row[linkColumn.idKey]}`
+                              : "#"
+                          }
                           style={{
                             color: "black",
                             textDecoration: "underline",

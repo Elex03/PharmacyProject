@@ -12,7 +12,7 @@ const Login = lazy(() => import("./shared/pages/Login"));
 const Dashboard = lazy(() => import("./shared/pages/DashBoard"));
 const Inventario = lazy(() => import("./features/inventory/pages/Inventory"));
 const Distributors = lazy(() => import("./features/ditributors/pages/Distributors"));
-const CashRegister = lazy(() => import("./shared/pages/CashRegister"));
+const CashRegister = lazy(() => import("./features/makeSales/pages/MakeSalesPage"));
 const Shopping = lazy(() => import("./shared/pages/shopping"));
 const SalesHistory = lazy(() => import("./features/salesHistory/pages/SalesHistory"));
 const OrderHistory = lazy(() => import("./features/ordersHistory/pages/OrderHistory"));

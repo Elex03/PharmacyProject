@@ -4,6 +4,8 @@ import { CreateMedicineHeader } from "./createMedicine-Header";
 import { BasicInformationForm } from "../../../../../shared/components/forms/createMedicineForm/BasicInformationForm";
 
 import "./createMedicine.css";
+import "../../../../../shared/styles/shared.css"
+import { FinancialsInventoryForm } from "../../../../../shared/components/forms/createMedicineForm/FinancialsInventoryForm";
 
 interface Medicine {
   nombre: string;
@@ -83,7 +85,7 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
                 transition={{ duration: 0.3 }}
                 className="tab-panel"
               >
-                <p>Campos relacionados a precio, stock e inventario.</p>
+               <FinancialsInventoryForm/>
               </motion.div>
             )}
           </AnimatePresence>

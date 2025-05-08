@@ -40,11 +40,9 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "0 10px", // opcional
         }}
       >
-        {/* Filtros y búsqueda */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0 10px" }}>
           <select
             className="filter-dropdown"
             value={sortOrder}
@@ -75,6 +73,8 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
             onChange={handleSearch}
           />
         </div>
+        <div style={{padding: "0 10px"}}>
+
         {linkButton.type === "link" && (
           <a
             href={`/${linkButton.to}`}
@@ -87,6 +87,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
         {linkButton.type === "modal" && (
           <button className="button-action" onClick={onOpenModal}>{linkButton.ButtonLabel}</button>
         )}
+        </div>
       </div>
     </div>
   );

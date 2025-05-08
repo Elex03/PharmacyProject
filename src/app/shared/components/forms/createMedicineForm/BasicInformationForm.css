@@ -5,6 +5,30 @@
   margin: 8px;
   margin-bottom: 12px;
 }
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+.action-input-Financials{
+  background-color: #fff;
+  padding: 8px 12px;
+  border: 1px solid #5c5c5c;
+  border-radius: 6px;
+  color: #555;
+  font-size: 14px;
+  width: 77%;
+}
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+select {
+  font-size: 14px;
+  padding:8px 12px;
+}
 
 .form-group-BasicInformationForm {
   display: flex;
@@ -18,7 +42,7 @@
 }
 
 .textarea-BasicInformationForm {
-  height: 237px;
+  height: 173px;
   resize: none;
   border: 1px solid #5c5c5c;
   border-radius: 6px;

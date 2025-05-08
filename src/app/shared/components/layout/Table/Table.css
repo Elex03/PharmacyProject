@@ -7,6 +7,7 @@
 .export-button {
   background-color: white;
   border: 1px solid white;
+  padding: 24px 8px
 }
 /* tabla de inventario */
 .inventory-table-I {
@@ -18,8 +19,6 @@
   position: relative;
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
-
 }
 
 

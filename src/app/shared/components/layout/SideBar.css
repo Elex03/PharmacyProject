@@ -33,6 +33,7 @@
   border-radius: 50%;
 }
 
+
 .brand-title {
   font-size: 16px;
   color: #333;
@@ -118,7 +119,6 @@
   opacity: 1;
 }
 
-/* Footer */
 .sidebar-footer {
   margin-top: auto;
 }

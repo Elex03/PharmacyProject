@@ -34,7 +34,6 @@ const ImageUploadBox: React.FC = () => {
   };
 
   const handleTakePhoto = () => {
-    setShowOptions(false);
     if (isWaiting) {
       console.log("Espera de foto cancelada");
     } else {

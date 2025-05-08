@@ -101,19 +101,3 @@
   max-width: 500px;
   min-width: 500px;
 }
-button.cancelar {
-  background: white;
-  border: 1px solid #ccc;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-button.guardar {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-}

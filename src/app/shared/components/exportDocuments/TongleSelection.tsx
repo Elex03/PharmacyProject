@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type ToggleSectionProps = {
   title?: string;
@@ -12,7 +13,6 @@ export function ToggleSection({
   onToggle,
 }: ToggleSectionProps) {
   const [isVisible, setIsVisible] = useState(true);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const toggle = () => {
     setIsVisible((prev) => {
@@ -54,16 +54,20 @@ export function ToggleSection({
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
-      <div
-        ref={contentRef}
-        style={{
-          overflow: "hidden",
-          height: isVisible ? "auto" : 0,
-          transition: "height 0.3s ease",
-        }}
-      >
-        {children}
-      </div>
+
+      <AnimatePresence initial={false}>
+        {isVisible && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{ overflow: "hidden" }}
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

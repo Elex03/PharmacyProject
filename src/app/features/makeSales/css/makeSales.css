@@ -1,0 +1,17 @@
+.container-makeSale {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.main-content {
+  width: 80%;
+  box-sizing: border-box;
+}
+
+.resumeSale {
+  width: 25%;
+  max-height: 500px;
+  padding: 30px;
+  overflow: auto;
+}

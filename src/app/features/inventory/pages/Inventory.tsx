@@ -46,53 +46,51 @@ const Inventario = () => {
   );
 
   return (
-    <Layout title="Inventario">
-      <ToggleSection
-        title="información"
-        onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
-      >
-        <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
-          Aquí puedes gestionar el inventario de productos farmacéuticos.
-          <br />
-          Puedes registrar nuevos productos, actualizar la información de los
-          existentes y realizar un seguimiento del stock disponible.
-        </p>
+    <div className="container-page">
+      <Layout title="Inventario">
+        <ToggleSection
+          title="información"
+          onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
+        >
+          <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
+            Aquí puedes gestionar el inventario de productos farmacéuticos.
+            <br />
+            Puedes registrar nuevos productos, actualizar la información de los
+            existentes y realizar un seguimiento del stock disponible.
+          </p>
 
-        <div className="chart-container">
-          <RadarChart />
-        </div>
-      </ToggleSection>
-      <InventoryActions
-        linkButton={{
-          ButtonLabel: "Agregar medicamento",
-          type: "modal",
-        }}
-        onOpenModal={onOpenModal}
-        sortOrder={sortOrder}
-        stockFilter={stockFilter}
-        searchTerm={searchTerm}
-        handleSort={handleSort}
-        handleStockFilter={handleStockFilter}
-        handleSearch={handleSearch}
-      />
-      <Table
-        columns={headers}
-        data={filteredData}
-        itemsPerPage={itemsPerPage}
-        linkColumn={{
-          label: "✏️ Editar",
-          path: "/producto",
-          idKey: "id",
-          type: "modal",
-        }}
-      />
-
-      {isModalOpen && (
-        <CreateMedicineModal
-          onClose={closeModal}
+          <div className="chart-container">
+            <RadarChart />
+          </div>
+        </ToggleSection>
+        <InventoryActions
+          linkButton={{
+            ButtonLabel: "Agregar medicamento",
+            type: "modal",
+          }}
+          onOpenModal={onOpenModal}
+          sortOrder={sortOrder}
+          stockFilter={stockFilter}
+          searchTerm={searchTerm}
+          handleSort={handleSort}
+          handleStockFilter={handleStockFilter}
+          handleSearch={handleSearch}
         />
-      )}
-    </Layout>
+        <Table
+          columns={headers}
+          data={filteredData}
+          itemsPerPage={itemsPerPage}
+          linkColumn={{
+            label: "✏️ Editar",
+            path: "/producto",
+            idKey: "id",
+            type: "modal",
+          }}
+        />
+
+        {isModalOpen && <CreateMedicineModal onClose={closeModal} />}
+      </Layout>
+    </div>
   );
 };
 
