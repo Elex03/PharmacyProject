@@ -5,6 +5,7 @@ import Sidebar from "./shared/components/layout/sideBar";
 import './routes.css';
 import './shared/styles/shared.css';
 import CircularIndeterminate from "./shared/components/progress/CircularIndeterminate";
+import Pedidos from "./features/clients/page/pedidos";
 
 
 
@@ -14,9 +15,10 @@ const Inventario = lazy(() => import("./features/inventory/pages/Inventory"));
 const Distributors = lazy(() => import("./features/ditributors/pages/Distributors"));
 const CashRegister = lazy(() => import("./shared/pages/CashRegister"));
 const Shopping = lazy(() => import("./shared/pages/shopping"));
-const SalesHistory = lazy(() => import("./features/salesHistory/pages/SalesHistory"));
+/* const SalesHistory = lazy(() => import("./features/salesHistory/pages/SalesHistory")); */
 const OrderHistory = lazy(() => import("./features/ordersHistory/pages/OrderHistory"));
 const UnderConstruction = lazy(() => import("./shared/pages/Defualt"));
+
 
 const AppRouter = () => {
   return (
@@ -64,7 +66,8 @@ const AppRouter = () => {
             element={
               <div className="page-container-root">
                 <Sidebar />
-                <SalesHistory />
+                {/* <SalesHistory /> */}
+                <Pedidos/>
               </div>
             }
           />

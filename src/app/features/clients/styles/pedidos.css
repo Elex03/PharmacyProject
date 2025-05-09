@@ -1,0 +1,155 @@
+.botones-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .botones {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .btn-calendario {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .btn-registrar {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  /* fullcalendar */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 90%;
+    width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+   /* modal evento */
+  .modal-content.event-modal {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .modal-content h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #333;
+  }
+  /* 
+  .modal-content label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #444;
+  }
+   */
+  .modal-content input.input {
+    width: 95%;
+    padding: 0.5rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .btn-danger:hover {
+    background-color: #a71d2a;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
