@@ -1,11 +1,10 @@
 import { useState } from "react";
 
-
 import { Table } from "../../../shared/components/layout/Table/Table";
 import { ResumeSaleLayout } from "../components/layout/ResumeSaleLayout";
 import { useFetchInventory } from "../../inventory/hooks/useFetchInventory";
 
-import InventoryActions from "../../../shared/components/forms/actions/Actions";
+import Actions from "../../../shared/components/forms/actions/Actions";
 import Layout from "../../../shared/components/layout/layout";
 
 import "../../../shared/styles/shared.css";
@@ -15,8 +14,7 @@ const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
 
-  const {inventoryData, headers} = useFetchInventory();
-
+  const { inventoryData, headers } = useFetchInventory();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -30,9 +28,30 @@ const Distributors = () => {
     <div className="container-makeSale">
       <div className="main-content">
         <Layout title="Realizar venta">
-          <InventoryActions
+          <div
+            style={{
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                padding: "10px",
+                width: "100%",
+              }}
+            >
+              <input
+                style={{ padding: "8px 50px" }}
+                placeholder="Ingresa el nombre del cliente"
+              />
+              <input
+                style={{ padding: "8px 50px" }}
+                placeholder="Ingresa el nombre del cliente"
+              />
+            </div>
+          </div>
+          <Actions
             linkButton={{
-              ButtonLabel: "Crear distribuidor",
+              ButtonLabel: "Escanear",
               type: "modal",
             }}
             sortOrder={sortOrder}
@@ -56,7 +75,7 @@ const Distributors = () => {
       </div>
 
       <div className="resumeSale">
-        <ResumeSaleLayout/>
+        <ResumeSaleLayout />
       </div>
     </div>
   );

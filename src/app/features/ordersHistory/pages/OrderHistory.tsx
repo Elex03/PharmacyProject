@@ -45,7 +45,6 @@ const OrderHistory = () => {
     });
 
   return (
-    <div className="container-page">
       <Layout title="Historial de pedidos">
         <div className="arrow-container" onClick={() => navigator(-1)}>
           <svg
@@ -107,7 +106,6 @@ const OrderHistory = () => {
           </div>
         )}
       </Layout>
-    </div>
   );
 };
 

@@ -40,49 +40,47 @@ const Distributors = () => {
   );
 
   return (
-    <div className="container-page">
-      <Layout title="Distribuidores">
-        <ToggleSection
-          title="información"
-          onToggle={(visible) => console.log(visible)}
-        >
-          <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
-            Aquí puedes gestionar el inventario de productos farmacéuticos.
-            <br />
-            Puedes registrar nuevos productos, actualizar la información de los
-            existentes y realizar un seguimiento del stock disponible.
-          </p>
-          <div className="chart-container">
-            <ApexChart />
-          </div>
-        </ToggleSection>
-        <InventoryActions
-          onOpenModal={onOpenModal}
-          linkButton={{
-            ButtonLabel: "Crear distribuidor",
-            type: "modal",
-          }}
-          sortOrder={sortOrder}
-          searchTerm={searchTerm}
-          handleSort={handleSort}
-          handleSearch={handleSearch}
-        />
+    <Layout title="Distribuidores">
+      <ToggleSection
+        title="información"
+        onToggle={(visible) => console.log(visible)}
+      >
+        <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
+          Aquí puedes gestionar el inventario de productos farmacéuticos.
+          <br />
+          Puedes registrar nuevos productos, actualizar la información de los
+          existentes y realizar un seguimiento del stock disponible.
+        </p>
+        <div className="chart-container">
+          <ApexChart />
+        </div>
+      </ToggleSection>
+      <InventoryActions
+        onOpenModal={onOpenModal}
+        linkButton={{
+          ButtonLabel: "Crear distribuidor",
+          type: "modal",
+        }}
+        sortOrder={sortOrder}
+        searchTerm={searchTerm}
+        handleSort={handleSort}
+        handleSearch={handleSearch}
+      />
 
-        <Table
-          columns={headers}
-          data={filteredData}
-          itemsPerPage={5}
-          linkColumn={{
-            label: "🔍 Ver detalles",
-            path: "/historial",
-            idKey: "id",
-            type: "linked",
-          }}
-        />
+      <Table
+        columns={headers}
+        data={filteredData}
+        itemsPerPage={5}
+        linkColumn={{
+          label: "🔍 Ver detalles",
+          path: "/historial",
+          idKey: "id",
+          type: "linked",
+        }}
+      />
 
-        {isModalOpen && <CreateDistributorModal setIsOpen={closeModal} />}
-      </Layout>
-    </div>
+      {isModalOpen && <CreateDistributorModal setIsOpen={closeModal} />}
+    </Layout>
   );
 };
 

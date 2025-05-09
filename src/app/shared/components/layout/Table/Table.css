@@ -7,7 +7,7 @@
 .export-button {
   background-color: white;
   border: 1px solid white;
-  padding: 24px 8px
+  padding: 24px 8px;
 }
 /* tabla de inventario */
 .inventory-table-I {
@@ -20,7 +20,6 @@
   display: flex;
   justify-content: flex-end;
 }
-
 
 .highlight-bubble {
   padding: 4px 10px;
@@ -42,7 +41,7 @@
   text-align: left;
 }
 
-.inventory-table-I th{
+.inventory-table-I th {
   font-size: 14px;
 }
 .inventory-table-I tr {
@@ -172,8 +171,6 @@ table {
   color: #141518;
 }
 
-
-
 .receipt-popup button:hover {
   background: #0056b3;
 }
@@ -241,13 +238,12 @@ table {
 }
 
 .inventory-table-I {
-  
   table-layout: fixed;
-  max-height: 50%; /* Ajusta la altura máxima del tbody */
+  max-height: 50%;
+  min-height: 50%;
   overflow-y: auto;
-  width: 100%; /* Esto es necesario para el comportamiento de scroll */
+  width: 100%;
 }
-
 
 .summary-O {
   margin-top: 50px;

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Table } from "../../../shared/components/layout/Table/Table.tsx";
 import InventoryActions from "../../../shared/components/forms/actions/Actions.tsx";
 import Layout from "../../../shared/components/layout/layout.tsx";
@@ -9,34 +8,24 @@ import "../../../shared/components/layout/Table/Table.css";
 import "../../../shared/styles/shared.css";
 import { RadarChart } from "../../../shared/components/charts/RadarChart.tsx";
 import CreateMedicineModal from "../components/layout/createMedicine/createMedicine.tsx";
+import { useInventoryState } from "../hooks/useInventoryState.tsx";
 
 const Inventario = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
-  const [stockFilter, setStockFilter] = useState("");
   const { inventoryData, headers } = useFetchInventory();
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOrder(e.target.value);
-  };
-
-  const handleStockFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setStockFilter(e.target.value);
-  };
-
-  const onOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const {
+    searchTerm,
+    sortOrder,
+    stockFilter,
+    itemsPerPage,
+    isModalOpen,
+    setItemsPerPage,
+    handleSearch,
+    handleSort,
+    handleStockFilter,
+    onOpenModal,
+    closeModal,
+  } = useInventoryState();
 
   const filteredData = getFilteredInventory(
     inventoryData,
@@ -46,7 +35,6 @@ const Inventario = () => {
   );
 
   return (
-    <div className="container-page">
       <Layout title="Inventario">
         <ToggleSection
           title="información"
@@ -90,7 +78,6 @@ const Inventario = () => {
 
         {isModalOpen && <CreateMedicineModal onClose={closeModal} />}
       </Layout>
-    </div>
   );
 };
 

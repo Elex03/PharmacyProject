@@ -10,11 +10,13 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
-    <div className="page-container">
-      <div style={{ alignSelf: "flex-start" }}>
-        <Header title={title} size={'38px'} />
+    <div className="container-page">
+      <div className="page-container">
+        <div style={{ alignSelf: "flex-start" }}>
+          <Header title={title} size={"38px"} />
+        </div>
+        {children}
       </div>
-      {children}
     </div>
   );
 };
