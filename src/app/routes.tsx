@@ -78,6 +78,15 @@ const AppRouter = () => {
             }
           />
           <Route
+            path="/clientes"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Login />
+              </div>
+            }
+          />
+          <Route
             path="/historial/:id"
             element={
               <div className="page-cotainer-root">

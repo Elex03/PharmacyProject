@@ -3,7 +3,7 @@ import type { ColumnDefinition } from "../../../../types.d.ts";
 import { getInventoryData } from "../../../shared/api/services/Iventory.ts";
 
 type InventoryItem = {
-  id: string;
+  id: number;
   descripcion: string;
   stock: number;
   distribuidor: string;

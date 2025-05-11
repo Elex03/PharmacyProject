@@ -1,18 +1,25 @@
 import { useState } from "react";
 
-import { Table } from "../../../shared/components/layout/Table/Table";
 import { ResumeSaleLayout } from "../components/layout/ResumeSaleLayout";
-import { useFetchInventory } from "../../inventory/hooks/useFetchInventory";
-
 import Actions from "../../../shared/components/forms/actions/Actions";
 import Layout from "../../../shared/components/layout/layout";
 
 import "../../../shared/styles/shared.css";
 import "../css/makeSales.css";
+import { Table } from "../components/Table";
+import { useFetchInventory } from "../../inventory/hooks/useFetchInventory";
+
+export interface dataPreviewTable {
+  id: number;
+  descripcion: string;
+  precioVenta: number;
+  stock: number;
+}
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
+  const [data, setData] = useState<dataPreviewTable[]>([]);
 
   const { inventoryData, headers } = useFetchInventory();
 
@@ -24,31 +31,36 @@ const Distributors = () => {
     setSortOrder(e.target.value);
   };
 
+  const handleData = (element: dataPreviewTable, eliminated: boolean) => {
+    console.log(eliminated);
+    setData((prev) => {
+      const existingItem = prev.find((item) => item.id === element.id);
+      if (existingItem && eliminated) {
+        const dataC = prev.filter(
+          (registro) => registro.id !== existingItem.id
+        );
+        return dataC;
+      }
+      if (existingItem) {
+        return prev.map((item) =>
+          item.id === element.id ? { ...item, cantidad: item.stock + 1 } : item
+        );
+      } else {
+        return [
+          ...prev,
+          {
+            ...element,
+            cantidad: 1,
+          },
+        ];
+      }
+    });
+  };
+
   return (
     <div className="container-makeSale">
       <div className="main-content">
         <Layout title="Realizar venta">
-          <div
-            style={{
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                padding: "10px",
-                width: "100%",
-              }}
-            >
-              <input
-                style={{ padding: "8px 50px" }}
-                placeholder="Ingresa el nombre del cliente"
-              />
-              <input
-                style={{ padding: "8px 50px" }}
-                placeholder="Ingresa el nombre del cliente"
-              />
-            </div>
-          </div>
           <Actions
             linkButton={{
               ButtonLabel: "Escanear",
@@ -59,23 +71,17 @@ const Distributors = () => {
             handleSort={handleSort}
             handleSearch={handleSearch}
           />
-
           <Table
-            columns={headers}
+            itemsPerPage={10}
             data={inventoryData}
-            itemsPerPage={5}
-            linkColumn={{
-              label: "🔍 Ver detalles",
-              path: "/historial",
-              idKey: "id",
-              type: "linked",
-            }}
+            columns={headers}
+            handleData={handleData}
           />
         </Layout>
       </div>
 
       <div className="resumeSale">
-        <ResumeSaleLayout />
+        <ResumeSaleLayout data={data} handleData={handleData} />
       </div>
     </div>
   );

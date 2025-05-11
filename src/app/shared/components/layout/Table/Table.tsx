@@ -121,7 +121,6 @@ export function Table<T extends Record<string, unknown>>({
     }
   };
 
-  console.log(itemsPerPage);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
