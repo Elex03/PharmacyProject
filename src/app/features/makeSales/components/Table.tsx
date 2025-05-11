@@ -1,25 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ColumnDefinition } from "../../../../types";
 import { PaginationFooter } from "../../../shared/components/layout/Table/PaginationFooter";
 import "./Table.css";
-
+import { useCart } from "../hooks/useCart";
 
 type TableProps<T> = {
   columns: ColumnDefinition<T>[];
   data: T[];
   itemsPerPage?: number;
-handleData: (row: T, eliminated: false) => void;
 };
-export function Table<T extends { id: string | number }>({
-  columns,
-  data,
-  itemsPerPage = 10,
-  handleData,
-}: TableProps<T>) {
+export function Table<
+  T extends {
+    id: number;
+    stock: number;
+    descripcion: string;
+    precioVenta: number;
+  }
+>({ columns, data, itemsPerPage = 10 }: TableProps<T>) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const pageData = data.slice(startIndex, startIndex + itemsPerPage);
+
+  const { add } = useCart();
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -27,48 +30,66 @@ export function Table<T extends { id: string | number }>({
     }
   };
 
-  const handleRowClick = (element: T) => {
-    handleData(element, false);
+  const handleRowClick = (element: {
+    id: number;
+    stock: number;
+    name: string;
+    price: number;
+  }) => {
+    add(element);
     console.log(element);
   };
 
-  return (
-<div className="Table-MakeSales">
-  <table className="custom-table">
-    <thead>
-      <tr>
-        {columns.map((col) => (
-          <th key={String(col.key)}>{col.header}</th>
-        ))}
-      </tr>
-    </thead>
-  </table>
+  useEffect(() => {
+    if (pageData.length === 0) {
+      setCurrentPage(1);
+    }
+  }, [pageData.length]);
 
-  <div className="table-body-scroll">
-    <table className="custom-table">
-      <tbody>
-        {pageData.map((row) => (
-          <tr
-            key={row.id}
-            onClick={() => handleRowClick(row)}
-            style={{ cursor: "pointer" }}
-          >
+  return (
+    <div className="Table-MakeSales">
+      <table className="custom-table">
+        <thead>
+          <tr>
             {columns.map((col) => (
-              <td key={String(col.key)}>
-                {String(row[col.key as keyof T])}
-              </td>
+              <th key={String(col.key)}>{col.header}</th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+        </thead>
+      </table>
 
-  <PaginationFooter
-    currentPage={currentPage}
-    totalPages={totalPages}
-    onPageChange={handlePageChange}
-  />
-</div>
+      <div className="table-body-scroll">
+        <table className="custom-table">
+          <tbody>
+            {pageData.map((row) => (
+              <tr
+                key={row.id}
+                onClick={() =>
+                  handleRowClick({
+                    name: row.descripcion,
+                    stock: row.stock,
+                    id: row.id,
+                    price: row.precioVenta,
+                  })
+                }
+                style={{ cursor: "pointer" }}
+              >
+                {columns.map((col) => (
+                  <td key={String(col.key)}>
+                    {String(row[col.key as keyof T])}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <PaginationFooter
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+    </div>
   );
 }

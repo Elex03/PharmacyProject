@@ -8,6 +8,7 @@ import "../../../shared/styles/shared.css";
 import "../css/makeSales.css";
 import { Table } from "../components/Table";
 import { useFetchInventory } from "../../inventory/hooks/useFetchInventory";
+import { useCart } from "../hooks/useCart";
 
 export interface dataPreviewTable {
   id: number;
@@ -19,9 +20,12 @@ export interface dataPreviewTable {
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
-  const [data, setData] = useState<dataPreviewTable[]>([]);
 
   const { inventoryData, headers } = useFetchInventory();
+
+  const { items: selectedItems } = useCart();
+
+  const selectedIds = new Set(selectedItems.map((item) => item.id));
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -31,31 +35,9 @@ const Distributors = () => {
     setSortOrder(e.target.value);
   };
 
-  const handleData = (element: dataPreviewTable, eliminated: boolean) => {
-    console.log(eliminated);
-    setData((prev) => {
-      const existingItem = prev.find((item) => item.id === element.id);
-      if (existingItem && eliminated) {
-        const dataC = prev.filter(
-          (registro) => registro.id !== existingItem.id
-        );
-        return dataC;
-      }
-      if (existingItem) {
-        return prev.map((item) =>
-          item.id === element.id ? { ...item, cantidad: item.stock + 1 } : item
-        );
-      } else {
-        return [
-          ...prev,
-          {
-            ...element,
-            cantidad: 1,
-          },
-        ];
-      }
-    });
-  };
+  const filteredData = inventoryData.filter(
+    (item) => !selectedIds.has(item.id)
+  );
 
   return (
     <div className="container-makeSale">
@@ -71,17 +53,12 @@ const Distributors = () => {
             handleSort={handleSort}
             handleSearch={handleSearch}
           />
-          <Table
-            itemsPerPage={10}
-            data={inventoryData}
-            columns={headers}
-            handleData={handleData}
-          />
+          <Table itemsPerPage={10} data={filteredData} columns={headers} />
         </Layout>
       </div>
 
       <div className="resumeSale">
-        <ResumeSaleLayout data={data} handleData={handleData} />
+        <ResumeSaleLayout />
       </div>
     </div>
   );

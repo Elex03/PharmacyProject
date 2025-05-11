@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../../../../shared/components/layout/Header";
 import type { dataPreviewTable } from "../../pages/MakeSalesPage";
+import { useCart } from "../../hooks/useCart";
 
-interface ResumeSaleLayoutProps {
-  data: dataPreviewTable[];
-  handleData: (row: dataPreviewTable, eliminated: boolean) => void;
-}
 
-export const ResumeSaleLayout: React.FC<ResumeSaleLayoutProps> = ({
-  data,
-  handleData,
-}) => {
+export const ResumeSaleLayout = () => {
   const [items, setItems] = useState<
     (dataPreviewTable & { cantidad: number })[]
   >([]);
+
+  const {items: data} = useCart()
+
+  const {deleteItem, empty} = useCart();
 
   useEffect(() => {
     const updatedItems = data.map((item) => ({
       ...item,
       cantidad: 1,
+      descripcion: item.name || "",
+      precioVenta: item.price || 0,
     }));
-    setItems(updatedItems);
+    setItems(updatedItems)
   }, [data]);
 
   console.log(data);
@@ -28,7 +28,8 @@ export const ResumeSaleLayout: React.FC<ResumeSaleLayoutProps> = ({
   const eliminarItem = (id: number) => {
     const itemToRemove = data.find((item) => item.id === id);
     if (itemToRemove) {
-      handleData(itemToRemove, true); // Eliminar del estado `data`
+      const {id} = itemToRemove;
+      deleteItem(id);
     }
 
     setItems((prev) => prev.filter((item) => item.id !== id));
@@ -51,6 +52,10 @@ export const ResumeSaleLayout: React.FC<ResumeSaleLayoutProps> = ({
           : item
       )
     );
+  };
+
+  const handleCancelBotton = () => {
+  empty();
   };
 
   return (
@@ -101,7 +106,9 @@ export const ResumeSaleLayout: React.FC<ResumeSaleLayoutProps> = ({
       </p>
 
       <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <button className="cancelar">Cancelar venta</button>
+        <button className="cancelar" onClick={handleCancelBotton}>
+          Cancelar venta
+        </button>
         <button className="guardar">Confirmar venta</button>
       </div>
     </div>
