@@ -1,5 +1,7 @@
 import React from 'react';
 import { useImageFromWebSocket } from '../components/forms/createMedicineForm/useImageFromWebSocket';
+import DonutChart from '../components/charts/DonutChart';
+import { Header } from '../components/layout/Header';
 
 const WebSocketImageMenu: React.FC = () => {
   const {
@@ -20,6 +22,8 @@ const WebSocketImageMenu: React.FC = () => {
 
   return (
     <div>
+      <Header title='Hello, Eliezer 👋'/>
+      <DonutChart/>
       <h2>Selecciona una opción</h2>
       <p>Estado WebSocket: {status}</p>
 

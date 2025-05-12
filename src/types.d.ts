@@ -23,6 +23,7 @@ export type ColumnDefinition<T> = {
   key: keyof T;
   header: string;
   isNumeric?: boolean;
+  isDate?: boolean;
 };
 
 export interface InventoryItem {

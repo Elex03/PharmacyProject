@@ -239,9 +239,7 @@ table {
 
 .inventory-table-I {
   table-layout: fixed;
-  max-height: 50%;
-  min-height: 50%;
-  overflow-y: auto;
+  overflow-y:hidden;
   width: 100%;
 }
 
@@ -294,7 +292,15 @@ table {
   overflow: hidden;
   font-size: 12px;
 }
+.table-body-scroll {
+  max-height: 200px; /* Ajusta esto a tu necesidad */
+  overflow-y: auto;
+}
 
+.table-body-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+}
 .receipt-content {
   max-height: 80vh;
   overflow-y: auto;

@@ -1,8 +1,8 @@
 export interface InventoryItem {
-    id: string;
+    id: number;
     descripcion: string;
     stock: number | string;
-    [key: string]: unknown; // para permitir propiedades adicionales
+    [key: string]: unknown; 
   }
   
   export interface ProcessedInventoryItem extends InventoryItem {

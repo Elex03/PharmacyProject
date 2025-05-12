@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
-import { FilterDropdown, ColumnFilterState } from "./Filter";
+import { useEffect } from "react";
+import { FilterDropdown } from "./Filter";
 import { ExportOption } from "../../exportDocuments/exports/Option";
 import { motion } from "framer-motion";
 
 import "./Table.css";
 import { InfoQuantityData } from "../infoQuantityData";
 import { PaginationFooter } from "./PaginationFooter";
+import { useTableState } from "./hooks/useTableState";
 
 type ColumnDefinition<T> = {
   key: keyof T;
@@ -25,7 +26,7 @@ type TableProps<T> = {
     idKey?: keyof T;
     type: "modal" | "linked";
   };
-  onOpenModal?: (id: number) => void; // Función para abrir el modal
+  onOpenModal?: (id: number) => void;
 };
 
 const truncateText = (text: string, maxLength: number) => {
@@ -39,89 +40,22 @@ export function Table<T extends Record<string, unknown>>({
   linkColumn,
   onOpenModal,
 }: TableProps<T>) {
-  const [filters, setFilters] = useState<Record<string, ColumnFilterState>>({});
-  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const handleChangeFilter = (
-    columnKey: string,
-    newState: Partial<ColumnFilterState>
-  ) => {
-    setFilters((prev) => {
-      const existing = prev[columnKey] || {
-        searchText: "",
-        selectedValues: [],
-        sortOrder: undefined,
-        isOpen: false,
-      };
-
-      return {
-        ...prev,
-        [columnKey]: { ...existing, ...newState },
-      };
-    });
-  };
-
-  const filteredData = data.filter((item) => {
-    return columns.every((col) => {
-      const f = filters[col.key as string];
-      if (!f) return true;
-      const value = String(item[col.key]);
-      const matchSelected =
-        f.selectedValues?.length === 0 || f.selectedValues.includes(value);
-      const matchSearch = value
-        .toLowerCase()
-        .includes(f.searchText?.toLowerCase() || "");
-      return matchSelected && matchSearch;
-    });
-  });
-
-  const sortedData = [...filteredData];
-  columns.forEach((col) => {
-    const f = filters[col.key as string];
-    if (f?.sortOrder !== undefined) {
-      sortedData.sort((a, b) => {
-        if (col.isNumeric) {
-          const aNum = Number(a[col.key]);
-          const bNum = Number(b[col.key]);
-          return f.sortOrder ? aNum - bNum : bNum - aNum;
-        } else if (col.isDate) {
-          const dateA = new Date(a[col.key] as string | number).getTime();
-          const dateB = new Date(b[col.key] as string | number).getTime();
-          return f.sortOrder ? dateB - dateA : dateA - dateB;
-        } else {
-          const valA = String(a[col.key]).toLowerCase();
-          const valB = String(b[col.key]).toLowerCase();
-          return f.sortOrder
-            ? valA.localeCompare(valB)
-            : valB.localeCompare(valA);
-        }
-      });
-    }
-  });
-
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const pageData = sortedData.slice(startIndex, startIndex + itemsPerPage);
-
-  const [imagenSeleccionada, setImagenSeleccionada] = useState<string | null>(
-    null
-  );
-
-  const handleImagenClick = (url: string) => {
-    setImagenSeleccionada(url);
-  };
-
-  const cerrarModal = () => {
-    setImagenSeleccionada(null);
-  };
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
-  };
-
-
+  const {
+    handleChangeFilter,
+    handleImagenClick,
+    handlePageChange,
+    cerrarModal,
+    imagenSeleccionada,
+    setImagenSeleccionada,
+    pageData,
+    sortedData,
+    filteredData,
+    filters,
+    currentPage,
+    totalPages,
+  } = useTableState(columns, data, itemsPerPage);
+  
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -136,14 +70,14 @@ export function Table<T extends Record<string, unknown>>({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [imagenSeleccionada]);
+  }, [imagenSeleccionada, setImagenSeleccionada]);
 
-  const maxHeight = itemsPerPage === 5? '17rem' : '30rem'; // Cambia la altura máxima según el número de elementos por página
+  const maxHeight = itemsPerPage === 5 ? "15rem" : "30rem"; // Cambia la altura máxima según el número de elementos por página
 
   return (
     <div style={{ position: "relative", width: "100%" }}>
       <InfoQuantityData QuantityData={filteredData.length} />
-      <div style={{ maxHeight: `${maxHeight}`, overflowY: "auto", width: "100%" }}>
+
         <table className="inventory-table-I">
           <thead>
             <tr>
@@ -193,7 +127,7 @@ export function Table<T extends Record<string, unknown>>({
                           justifyContent: "center",
                           width: "20px",
                           height: "20px",
-                          border: "1px solid #ccc", // Borde gris claro
+                          border: "1px solid #ccc", 
                           borderRadius: "4px", // Esquinas ligeramente redondeadas (opcional)
                           backgroundColor: "#fff", // Fondo blanco
                         }}
@@ -252,7 +186,9 @@ export function Table<T extends Record<string, unknown>>({
               )}
             </tr>
           </thead>
-
+          </table>
+          <div className="table-body-scroll" style={{ maxHeight: `${maxHeight}`}}>
+          <table className="inventory-table-I">
           <tbody>
             {pageData.length > 0 ? (
               pageData.map((row, rowIdx) => (
@@ -263,7 +199,7 @@ export function Table<T extends Record<string, unknown>>({
                       initial={{ opacity: 0, x: -10 }}
                       viewport={{ once: true }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: rowIdx * 0.1 }} // Añadí delay para una entrada más suave
+                      transition={{ duration: 0.3, delay: rowIdx * 0.1 }} 
                     >
                       {col.key === "descripcion" ? (
                         <span
@@ -331,7 +267,11 @@ export function Table<T extends Record<string, unknown>>({
                         <button
                           onClick={() =>
                             onOpenModal &&
-                            onOpenModal(linkColumn.idKey ? Number(row[linkColumn.idKey]) : 0)
+                            onOpenModal(
+                              linkColumn.idKey
+                                ? Number(row[linkColumn.idKey])
+                                : 0
+                            )
                           } // Llamamos la función para abrir el modal
                           style={{
                             color: "black",
