@@ -52,10 +52,13 @@ export function Table<T extends Record<string, unknown>>({
     filteredData,
     filters,
     currentPage,
+    setCurrentPage,
     totalPages,
   } = useTableState(columns, data, itemsPerPage);
 
   useEffect(() => {
+
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setImagenSeleccionada(null);
@@ -66,10 +69,14 @@ export function Table<T extends Record<string, unknown>>({
       document.addEventListener("keydown", handleKeyDown);
     }
 
+    if (pageData.length === 0) {
+      setCurrentPage(1);
+    }
+
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [imagenSeleccionada, setImagenSeleccionada]);
+  }, [imagenSeleccionada, pageData.length, setCurrentPage, setImagenSeleccionada]);
 
   const maxHeight = itemsPerPage === 5 ? "15rem" : "30rem";
 
@@ -204,10 +211,9 @@ export function Table<T extends Record<string, unknown>>({
                             alt="Imagen"
                             style={{
                               marginRight: "8px",
-                              width: "50px",
-                              height: "50px",
+                              width: "40px",
+                              height: "40px",
                               cursor: "pointer",
-                              borderRadius: "50%",
                               objectFit: "cover",
                             }}
                             className="w-8 h-8 rounded-full object-cover"
@@ -338,7 +344,7 @@ export function Table<T extends Record<string, unknown>>({
               objectFit: "contain",
               transition: "transform 0.3s",
             }}
-            onClick={(e) => e.stopPropagation()} // Evita cerrar al hacer clic sobre la imagen
+            onClick={(e) => e.stopPropagation()} 
           />
         </div>
       )}

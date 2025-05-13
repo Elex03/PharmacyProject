@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "../../../../shared/components/layout/Header";
 import { useCart } from "../../hooks/useCart";
-import '../../../../shared/components/layout/Table/Table.css'
+import "../../../../shared/components/layout/Table/Table.css";
 
 interface dataPreviewTable {
   id: number;
@@ -15,9 +15,9 @@ export const ResumeSaleLayout = () => {
     (dataPreviewTable & { cantidad: number })[]
   >([]);
 
-  const {items: data} = useCart()
+  const { items: data } = useCart();
 
-  const {deleteItem, empty} = useCart();
+  const { deleteItem, empty } = useCart();
 
   useEffect(() => {
     const updatedItems = data.map((item) => ({
@@ -26,7 +26,7 @@ export const ResumeSaleLayout = () => {
       descripcion: item.name || "",
       precioVenta: item.price || 0,
     }));
-    setItems(updatedItems)
+    setItems(updatedItems);
   }, [data]);
 
   console.log(data);
@@ -34,7 +34,7 @@ export const ResumeSaleLayout = () => {
   const eliminarItem = (id: number) => {
     const itemToRemove = data.find((item) => item.id === id);
     if (itemToRemove) {
-      const {id} = itemToRemove;
+      const { id } = itemToRemove;
       deleteItem(id);
     }
 
@@ -61,7 +61,7 @@ export const ResumeSaleLayout = () => {
   };
 
   const handleCancelBotton = () => {
-  empty();
+    empty();
   };
 
   return (
@@ -83,29 +83,35 @@ export const ResumeSaleLayout = () => {
             <th className="bold-font">Acciones</th>
           </tr>
         </thead>
-        <tbody>
-          {items.map((item) => (
-            <tr key={item.id}>
-              <td>{item.descripcion}</td>
-              <td>
-                <input
-                  type="number"
-                  value={item.cantidad}
-                  min={1}
-                  onChange={(e) =>
-                    handleCantidadChange(item.id, parseInt(e.target.value))
-                  }
-                  style={{ width: "60px" }}
-                />
-              </td>
-              <td>C${(item.cantidad * item.precioVenta).toFixed(2)}</td>
-              <td>
-                <button onClick={() => eliminarItem(item.id)}>Eliminar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
       </table>
+      <div className="table-body-scroll" style={{maxHeight: '20rem'}}>
+        <table className="inventory-table-I">
+          <tbody>
+            {items.map((item) => (
+              <tr key={item.id}>
+                <td>{item.descripcion}</td>
+                <td>
+                  <input
+                    type="number"
+                    value={item.cantidad}
+                    min={1}
+                    onChange={(e) =>
+                      handleCantidadChange(item.id, parseInt(e.target.value))
+                    }
+                    style={{ width: "60px" }}
+                  />
+                </td>
+                <td>C${(item.cantidad * item.precioVenta).toFixed(2)}</td>
+                <td>
+                  <button onClick={() => eliminarItem(item.id)}>
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <p style={{ fontWeight: "bold", marginTop: "10px" }}>
         Total de la venta: C${calcularTotal().toFixed(2)}

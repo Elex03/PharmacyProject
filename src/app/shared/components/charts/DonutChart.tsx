@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Sector } from 'recharts';
 
 const data = [
@@ -8,15 +8,25 @@ const data = [
   { name: 'Amarillo', value: 30 },
 ];
 
+
 const COLORS = ['#8CCAFF', '#B9A8F9', '#F7A6B4', '#FCD89B'];
 
-const renderActiveShape = (props: any) => {
+interface propsRender {
+  cx: number, 
+  cy: number, 
+  innerRadius: number, 
+  outerRadius: number, 
+  startAngle: number, 
+  endAngle: number, 
+  fill: string, 
+  midAngle: number
+}
+const renderActiveShape = (props: propsRender) => {
   const {
     cx, cy, innerRadius, outerRadius, startAngle, endAngle,
     fill, midAngle,
   } = props;
 
-  // Cálculo para mover hacia afuera el segmento
   const RADIAN = Math.PI / 180;
   const moveRadius = 10;
   const dx = Math.cos(-RADIAN * midAngle) * moveRadius;
@@ -38,9 +48,13 @@ const renderActiveShape = (props: any) => {
 };
 
 export default function DonutChart() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(1);
 
-  const onPieEnter = (_: any, index: number) => {
+  useEffect(() => {
+    setActiveIndex(1);
+  }, []);
+  const onPieEnter = (_: unknown, index: number) => {
+    console.log(index)
     setActiveIndex(index);
   };
 
@@ -54,15 +68,17 @@ export default function DonutChart() {
           cx="50%"
           cy="50%"
           innerRadius={60}
-          outerRadius={80}
-          paddingAngle={5} // aumenta separación entre segmentos
+          outerRadius={100}
+          paddingAngle={5} 
           dataKey="value"
           onMouseEnter={onPieEnter}
           onMouseLeave={() => setActiveIndex(null)}
         >
-          {data.map((entry, index) => (
+          {data.map((_entry, index) => (
+            
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
+          ))
+          }
         </Pie>
       </PieChart>
       <div style={{

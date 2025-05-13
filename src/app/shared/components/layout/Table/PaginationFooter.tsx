@@ -17,7 +17,7 @@ export function PaginationFooter({
     }
   };
 
-  // Páginas a mostrar alrededor del actual
+
   const visiblePages = Array.from(
     { length: 5 },
     (_, i) => currentPage - 2 + i

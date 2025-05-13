@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { ColumnDefinition } from "../../../../types";
 import { PaginationFooter } from "../../../shared/components/layout/Table/PaginationFooter";
 import "./Table.css";
-import '../../../shared/components/layout/Table/Table.css'
+import "../../../shared/components/layout/Table/Table.css";
 import { useCart } from "../hooks/useCart";
 
 type TableProps<T> = {
@@ -53,9 +53,9 @@ export function Table<
         <thead>
           <tr>
             {columns.map((col) => (
-              <th key={String(col.key)}
-               className="bold-font"
-              >{col.header}</th>
+              <th key={String(col.key)} className="bold-font">
+                {col.header}
+              </th>
             ))}
           </tr>
         </thead>
@@ -84,6 +84,17 @@ export function Table<
                 ))}
               </tr>
             ))}
+
+            {pageData.length === 0 && (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  style={{ textAlign: "center", color: "gray" }}
+                >
+                  No se encontraron resultados
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

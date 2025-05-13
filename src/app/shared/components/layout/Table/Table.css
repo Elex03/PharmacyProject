@@ -297,7 +297,7 @@ table {
   font-size: 12px;
 }
 .table-body-scroll {
-  max-height: 200px; /* Ajusta esto a tu necesidad */
+  max-height: 200px; 
   overflow-y: auto;
 }
 

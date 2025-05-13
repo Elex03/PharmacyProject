@@ -9,6 +9,7 @@ import {
   LuFileText,
   LuLogOut,
   LuCircle,
+  // LuInfo,
 } from "react-icons/lu";
 
 import './SideBar.css'

@@ -10,7 +10,7 @@ thead tr, tbody tr {
 }
 
 .table-body-scroll {
-  max-height: 200px; /* Ajusta esto a tu necesidad */
+  max-height: 400px; 
   overflow-y: auto;
 }
 

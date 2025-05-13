@@ -88,6 +88,8 @@ export function  useTableState<T>(columns: ColumnDefinition<T>[] , data: T[], it
     }
   };
 
+  
+
 
     return {
         handleChangeFilter, 
@@ -97,6 +99,7 @@ export function  useTableState<T>(columns: ColumnDefinition<T>[] , data: T[], it
         pageData, 
         imagenSeleccionada, 
         setImagenSeleccionada,
+        setCurrentPage,
         sortedData, 
         filteredData, 
         filters, 
