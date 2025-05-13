@@ -7,21 +7,15 @@ import Layout from "../../../shared/components/layout/layout";
 import "../../../shared/styles/shared.css";
 import "../css/makeSales.css";
 import { Table } from "../components/Table";
-import { useFetchInventory } from "../../inventory/hooks/useFetchInventory";
 import { useCart } from "../hooks/useCart";
+import { useFetchgetMakeSales } from "../hooks/useFetchMakeSales";
 
-export interface dataPreviewTable {
-  id: number;
-  descripcion: string;
-  precioVenta: number;
-  stock: number;
-}
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
 
-  const { inventoryData, headers } = useFetchInventory();
+  const { makeSalesData, headers } = useFetchgetMakeSales();
 
   const { items: selectedItems } = useCart();
 
@@ -35,7 +29,7 @@ const Distributors = () => {
     setSortOrder(e.target.value);
   };
 
-  const filteredData = inventoryData.filter(
+  const filteredData = makeSalesData.filter(
     (item) => !selectedIds.has(item.id)
   );
 

@@ -3,7 +3,11 @@
   max-height: 200px; /* Ajusta esta altura según lo que necesites */
   overflow-y: auto;
 }
-
+.bold-font {
+  font-weight: bold;
+  font-size: 12;
+  color: #424242;
+}
 .export-button {
   background-color: white;
   border: 1px solid white;
@@ -239,7 +243,7 @@ table {
 
 .inventory-table-I {
   table-layout: fixed;
-  overflow-y:hidden;
+  overflow-y: hidden;
   width: 100%;
 }
 

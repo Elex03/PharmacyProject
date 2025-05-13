@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { ColumnDefinition } from "../../../../types";
 import { PaginationFooter } from "../../../shared/components/layout/Table/PaginationFooter";
 import "./Table.css";
+import '../../../shared/components/layout/Table/Table.css'
 import { useCart } from "../hooks/useCart";
 
 type TableProps<T> = {
@@ -48,18 +49,20 @@ export function Table<
 
   return (
     <div className="Table-MakeSales">
-      <table className="custom-table">
+      <table className="inventory-table-I">
         <thead>
           <tr>
             {columns.map((col) => (
-              <th key={String(col.key)}>{col.header}</th>
+              <th key={String(col.key)}
+               className="bold-font"
+              >{col.header}</th>
             ))}
           </tr>
         </thead>
       </table>
 
       <div className="table-body-scroll">
-        <table className="custom-table">
+        <table className="inventory-table-I">
           <tbody>
             {pageData.map((row) => (
               <tr

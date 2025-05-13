@@ -40,7 +40,6 @@ export function Table<T extends Record<string, unknown>>({
   linkColumn,
   onOpenModal,
 }: TableProps<T>) {
-
   const {
     handleChangeFilter,
     handleImagenClick,
@@ -55,7 +54,7 @@ export function Table<T extends Record<string, unknown>>({
     currentPage,
     totalPages,
   } = useTableState(columns, data, itemsPerPage);
-  
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -72,123 +71,115 @@ export function Table<T extends Record<string, unknown>>({
     };
   }, [imagenSeleccionada, setImagenSeleccionada]);
 
-  const maxHeight = itemsPerPage === 5 ? "15rem" : "30rem"; // Cambia la altura máxima según el número de elementos por página
+  const maxHeight = itemsPerPage === 5 ? "15rem" : "30rem";
 
   return (
     <div style={{ position: "relative", width: "100%" }}>
       <InfoQuantityData QuantityData={filteredData.length} />
 
-        <table className="inventory-table-I">
-          <thead>
-            <tr>
-              {columns.map((col) => (
-                <th
-                  key={String(col.key)}
+      <table className="inventory-table-I">
+        <thead>
+          <tr>
+            {columns.map((col) => (
+              <th
+                key={String(col.key)}
+                style={{
+                  position: "relative",
+                }}
+              >
+                <div
                   style={{
-                    position: "relative",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  <div
+                  <span className="bold-font">{col.header}</span>
+                  <button
+                    onClick={() =>
+                      handleChangeFilter(col.key as string, {
+                        isOpen: !filters[col.key as string]?.isOpen,
+                      })
+                    }
                     style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
+                      marginLeft: "8px",
+                      fontSize: "12px",
+                      backgroundColor: "#fff",
+                      padding: "2px 4px",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
                     }}
                   >
-                    <span
+                    <div
                       style={{
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        color: "#424242",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "20px",
+                        height: "20px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px", // Esquinas ligeramente redondeadas (opcional)
+                        backgroundColor: "#fff", // Fondo blanco
                       }}
                     >
-                      {col.header}
-                    </span>
-                    <button
-                      onClick={() =>
-                        handleChangeFilter(col.key as string, {
-                          isOpen: !filters[col.key as string]?.isOpen,
-                        })
-                      }
-                      style={{
-                        marginLeft: "8px",
-                        fontSize: "12px",
-                        backgroundColor: "#fff",
-                        padding: "2px 4px",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          width: "20px",
-                          height: "20px",
-                          border: "1px solid #ccc", 
-                          borderRadius: "4px", // Esquinas ligeramente redondeadas (opcional)
-                          backgroundColor: "#fff", // Fondo blanco
-                        }}
+                      <svg
+                        width="8"
+                        height="8"
+                        viewBox="0 0 8 8"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <svg
-                          width="8"
-                          height="8"
-                          viewBox="0 0 8 8"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          {/* Flecha hacia abajo (triángulo) */}
-                          <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
-                        </svg>
-                      </div>
-                    </button>
-                  </div>
-                  {filters[col.key as string]?.isOpen && (
-                    <FilterDropdown
-                      columnKey={col.key as string}
-                      columnHeader={col.header}
-                      allData={data}
-                      filter={
-                        filters[col.key as string] || {
-                          searchText: "",
-                          selectedValues: [],
-                        }
-                      }
-                      onChangeFilter={(newState) =>
-                        handleChangeFilter(col.key as string, newState)
-                      }
-                      isNumeric={col.isNumeric}
-                      isDate={col.isDate}
-                    />
-                  )}
-                </th>
-              ))}
-              {linkColumn && (
-                <div className="export-column">
-                  <ExportOption
-                    filename="Distribuidores"
-                    headers={columns.map((col) => ({
-                      ...col,
-                      key: String(col.key),
-                    }))}
-                    data={sortedData}
-                    titleInfo={[
-                      ["Farmacia Farmavalue"],
-                      ["Cuidamos de ti, cada día."],
-                      ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
-                      ["Tel: 2255-4524"],
-                      [""],
-                    ]}
-                  />
+                        {/* Flecha hacia abajo (triángulo) */}
+                        <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
+                      </svg>
+                    </div>
+                  </button>
                 </div>
-              )}
-            </tr>
-          </thead>
-          </table>
-          <div className="table-body-scroll" style={{ maxHeight: `${maxHeight}`}}>
-          <table className="inventory-table-I">
+                {filters[col.key as string]?.isOpen && (
+                  <FilterDropdown
+                    columnKey={col.key as string}
+                    columnHeader={col.header}
+                    allData={data}
+                    filter={
+                      filters[col.key as string] || {
+                        searchText: "",
+                        selectedValues: [],
+                      }
+                    }
+                    onChangeFilter={(newState) =>
+                      handleChangeFilter(col.key as string, newState)
+                    }
+                    isNumeric={col.isNumeric}
+                    isDate={col.isDate}
+                  />
+                )}
+              </th>
+            ))}
+            {linkColumn && (
+              <div className="export-column">
+                <ExportOption
+                  filename="Distribuidores"
+                  headers={columns.map((col) => ({
+                    ...col,
+                    key: String(col.key),
+                  }))}
+                  data={sortedData}
+                  titleInfo={[
+                    ["Farmacia Farmavalue"],
+                    ["Cuidamos de ti, cada día."],
+                    ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
+                    ["Tel: 2255-4524"],
+                    [""],
+                  ]}
+                />
+              </div>
+            )}
+          </tr>
+        </thead>
+      </table>
+      <div className="table-body-scroll" style={{ maxHeight: `${maxHeight}` }}>
+        <table className="inventory-table-I">
           <tbody>
             {pageData.length > 0 ? (
               pageData.map((row, rowIdx) => (
@@ -199,7 +190,7 @@ export function Table<T extends Record<string, unknown>>({
                       initial={{ opacity: 0, x: -10 }}
                       viewport={{ once: true }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: rowIdx * 0.1 }} 
+                      transition={{ duration: 0.3, delay: rowIdx * 0.1 }}
                     >
                       {col.key === "descripcion" ? (
                         <span

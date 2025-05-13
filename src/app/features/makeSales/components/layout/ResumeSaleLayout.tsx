@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 import { Header } from "../../../../shared/components/layout/Header";
-import type { dataPreviewTable } from "../../pages/MakeSalesPage";
 import { useCart } from "../../hooks/useCart";
+import '../../../../shared/components/layout/Table/Table.css'
 
+interface dataPreviewTable {
+  id: number;
+  descripcion: string;
+  precioVenta: number;
+  stock: number;
+}
 
 export const ResumeSaleLayout = () => {
   const [items, setItems] = useState<
@@ -68,13 +74,13 @@ export const ResumeSaleLayout = () => {
         Puede ajustar la cantidad de cada producto o eliminarlo si lo desea.
       </p>
 
-      <table style={{ width: "100%", fontSize: "14px", marginTop: "10px" }}>
+      <table className="inventory-table-I">
         <thead>
           <tr>
-            <th>Descripción</th>
-            <th>Cantidad</th>
-            <th>SubTotal</th>
-            <th>Acciones</th>
+            <th className="bold-font">Descripción</th>
+            <th className="bold-font">Cantidad</th>
+            <th className="bold-font">SubTotal</th>
+            <th className="bold-font">Acciones</th>
           </tr>
         </thead>
         <tbody>
