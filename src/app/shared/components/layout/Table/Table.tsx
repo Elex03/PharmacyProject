@@ -57,8 +57,6 @@ export function Table<T extends Record<string, unknown>>({
   } = useTableState(columns, data, itemsPerPage);
 
   useEffect(() => {
-
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setImagenSeleccionada(null);
@@ -76,7 +74,12 @@ export function Table<T extends Record<string, unknown>>({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [imagenSeleccionada, pageData.length, setCurrentPage, setImagenSeleccionada]);
+  }, [
+    imagenSeleccionada,
+    pageData.length,
+    setCurrentPage,
+    setImagenSeleccionada,
+  ]);
 
   const maxHeight = itemsPerPage === 5 ? "15rem" : "30rem";
 
@@ -137,7 +140,6 @@ export function Table<T extends Record<string, unknown>>({
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        {/* Flecha hacia abajo (triángulo) */}
                         <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
                       </svg>
                     </div>
@@ -344,7 +346,7 @@ export function Table<T extends Record<string, unknown>>({
               objectFit: "contain",
               transition: "transform 0.3s",
             }}
-            onClick={(e) => e.stopPropagation()} 
+            onClick={(e) => e.stopPropagation()}
           />
         </div>
       )}
