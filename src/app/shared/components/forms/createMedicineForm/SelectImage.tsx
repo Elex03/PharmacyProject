@@ -2,16 +2,17 @@ import React, { useRef, useState, ChangeEvent, useEffect } from "react";
 import { useImageFromWebSocket } from "./useImageFromWebSocket";
 import { MenuSelect } from "./MenuSelect";
 import { AnimatePresence } from "framer-motion";
+import { useFormContext } from "react-hook-form";
 
 const ImageUploadBox: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showOptions, setShowOptions] = useState(false);
+    const { setValue } = useFormContext();
 
   const {
     imageSrc,
     isWaiting,
-    // status,
     waitForImage,
   } = useImageFromWebSocket("ws://localhost:3000");
 
@@ -25,6 +26,7 @@ const ImageUploadBox: React.FC = () => {
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
       setShowOptions(false);
+      setValue('imagen', file);
     }
   };
 
@@ -55,6 +57,7 @@ const ImageUploadBox: React.FC = () => {
   return (
     <>
       <input
+        
         id="imagen"
         type="file"
         accept="image/*"

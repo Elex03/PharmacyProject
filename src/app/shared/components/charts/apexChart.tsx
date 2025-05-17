@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
+import { ResponsiveContainer } from "recharts";
+
 interface Distributor {
   distribuidor: string;
   cantidad: number;
@@ -12,7 +14,7 @@ interface ChartState {
   }[];
   options: {
     chart: {
-      type: "bar"; 
+      type: "bar";
       height: number;
     };
     plotOptions: {
@@ -32,12 +34,14 @@ interface ChartState {
 
 const ApexChart: React.FC = () => {
   const [state, setState] = useState<ChartState>({
-    series: [{
-      data: [],
-    }],
+    series: [
+      {
+        data: [],
+      },
+    ],
     options: {
       chart: {
-        type: "bar", 
+        type: "bar",
         height: 350,
       },
       plotOptions: {
@@ -50,25 +54,28 @@ const ApexChart: React.FC = () => {
         enabled: true,
       },
       xaxis: {
-        categories: [], 
+        categories: [],
       },
-      
     },
   });
 
   const loadDistributorData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/apiFarmaNova/distributors/getdistributors");
+      const response = await fetch(
+        "http://localhost:3000/apiFarmaNova/distributors/getdistributors"
+      );
       const data: Distributor[] = await response.json();
-      
+
       setState({
-        series: [{
-          data: data.map(item => item.cantidad), 
-        }],
+        series: [
+          {
+            data: data.map((item) => item.cantidad),
+          },
+        ],
         options: {
           ...state.options,
           xaxis: {
-            categories: data.map(item => item.distribuidor),
+            categories: data.map((item) => item.distribuidor),
           },
         },
       });
@@ -82,11 +89,14 @@ const ApexChart: React.FC = () => {
   }, []);
 
   return (
-    <div style={{width: "100%", height: "100%"}} >
-      <ReactApexChart options={state.options} series={state.series} type="bar" height={200}/>
-
-    </div>
-
+    <ResponsiveContainer>
+      <ReactApexChart
+        options={state.options}
+        series={state.series}
+        type="bar"
+        height={200}
+      />
+    </ResponsiveContainer>
   );
 };
 

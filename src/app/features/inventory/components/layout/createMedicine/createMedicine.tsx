@@ -3,10 +3,28 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CreateMedicineHeader } from "./createMedicine-Header";
 import { BasicInformationForm } from "../../../../../shared/components/forms/createMedicineForm/BasicInformationForm";
 import { FinancialsInventoryForm } from "../../../../../shared/components/forms/createMedicineForm/FinancialsInventoryForm";
+import { useForm, FormProvider } from "react-hook-form";
 
 import "./createMedicine.css";
-import "../../../../../shared/styles/shared.css"
+import "../../../../../shared/styles/shared.css";
 
+interface FullMedicineData {
+  nombre: string;
+  accion: string;
+  codigo: string;
+  imagen?: File; // para inputs de tipo file
+  accioTera: number; // acción terapéutica (puede ser ID o índice)
+  dosis: number;
+  sintomas: string;
+  unidad: number; // ID o índice de la unidad
+  requierePrescripcion: boolean;
+  financiero: {
+    precioCompra: number;
+    precioVenta: number;
+    minStock: number;
+    maxStock: number;
+  };
+}
 
 interface Medicine {
   nombre: string;
@@ -18,6 +36,8 @@ interface Medicine {
 interface CreateMedicineModalProps {
   onClose: () => void;
 }
+
+
 const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
   onClose,
 }) => {
@@ -35,6 +55,26 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
       [key]: value,
     }));
   };
+
+  const methods = useForm<FullMedicineData>({
+    defaultValues: {
+      nombre: "",
+      accion: "",
+      codigo: "",
+      imagen: undefined, // para archivos, se captura con watch o handleSubmit
+      accioTera: 0,
+      dosis: 0,
+      sintomas: "",
+      unidad: 0,
+      requierePrescripcion: false,
+      financiero: {
+        precioCompra: 0,
+        precioVenta: 0,
+        minStock: 0,
+        maxStock: 0,
+      },
+    },
+  });
 
   return (
     <div className="modal-overlay">
@@ -62,49 +102,51 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
           </button>
         </div>
 
-        <div className="tab-content">
-          <AnimatePresence mode="wait">
-            {tab === "basico" && (
-              <motion.div
-                key="basico"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
-                className="tab-panel"
-              >
-                <BasicInformationForm/>
-              </motion.div>
-            )}
-
-            {tab === "financiero" && (
-              <motion.div
-                key="financiero"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
-                className="tab-panel"
-              >
-               <FinancialsInventoryForm/>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        <div className="action-buttons">
-          <button className="cancelar" onClick={onClose}>
-            Cancelar
-          </button>
-          <button
-            className="guardar"
-            onClick={() => {
-              console.log(Medicine);
-            }}
+        <FormProvider {...methods}>
+          <form
+            onSubmit={methods.handleSubmit((data) => {
+              console.log(data); 
+              // onClose();
+            })}
           >
-            Guardar
-          </button>
-        </div>
+            <AnimatePresence mode="wait">
+              {tab === "basico" && (
+                <motion.div
+                  key="basico"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="tab-panel"
+                >
+                  <BasicInformationForm />
+                </motion.div>
+              )}
+
+              {tab === "financiero" && (
+                <motion.div
+                  key="financiero"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="tab-panel"
+                >
+                  <FinancialsInventoryForm />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="action-buttons">
+              <button type="button" className="cancelar" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="guardar">
+                Guardar
+              </button>
+            </div>
+          </form>
+        </FormProvider>
       </motion.div>
     </div>
   );

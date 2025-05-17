@@ -1,57 +1,70 @@
+import { useFormContext } from "react-hook-form";
 import "./BasicInformationForm.css";
 
 export const FinancialsInventoryForm = () => {
+  const { register } = useFormContext();
+
   return (
-    <div className="form-grid-BasicInformationForm">
+    <form className="form-grid-BasicInformationForm">
       <div className="form-group">
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="precioCompra">Precio de compra</label>
         <input
-          id="nombre"
-          type="text"
+          id="precioCompra"
+          type="number"
+          step="0.01"
+          {...register("financiero.precioCompra")}
           className="action-input-BasicInformationForm"
-          placeholder="Ingresa el nombre del medicine"
+          placeholder="Ej. C$ 50.00"
         />
       </div>
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="accion">% de ganancias</label>
+          <label htmlFor="porcentajeGanancia">% de ganancias</label>
           <input
-            id="nombre"
-            type="text"
+            id="porcentajeGanancia"
+            type="number"
+            step="0.01"
+            {...register("financiero.porcentajeGanancia")}
             className="action-input-Financials"
-            placeholder="00 %"
+            placeholder="Ej. 25 %"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="sintoma">Precio de venta</label>
+          <label htmlFor="precioVenta">Precio de venta</label>
           <input
-            id="nombre"
-            type="text"
+            id="precioVenta"
+            type="number"
+            step="0.01"
+            {...register("financiero.precioVenta")}
             className="action-input-Financials"
-            placeholder="C$ 00.00"
+            placeholder="Ej. C$ 62.50"
           />
         </div>
       </div>
+
       <div className="form-group">
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="minStock">Cantidad mínima</label>
         <input
-          id="nombre"
-          type="text"
+          id="minStock"
+          type="number"
+          {...register("financiero.minStock")}
           className="action-input-BasicInformationForm"
-          placeholder="Ingresa el nombre del medicine"
+          placeholder="Ej. 10"
         />
       </div>
+
       <div className="form-group">
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="maxStock">Cantidad máxima</label>
         <input
-          id="nombre"
-          type="text"
+          id="maxStock"
+          type="number"
+          {...register("financiero.maxStock")}
           className="action-input-BasicInformationForm"
-          placeholder="Ingresa el nombre del medicine"
+          placeholder="Ej. 100"
         />
       </div>
-    </div>
+    </form>
   );
 };
