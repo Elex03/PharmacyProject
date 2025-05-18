@@ -4,7 +4,7 @@ export const useInventoryState = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

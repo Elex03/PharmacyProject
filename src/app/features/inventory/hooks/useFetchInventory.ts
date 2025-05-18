@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { ColumnDefinition } from "../../../../types.d.ts";
+import type { ColumnDefinition } from "../../../../types";
 import { getInventoryData } from "../../../shared/api/services/Iventory.ts";
 
 type InventoryItem = {
@@ -16,7 +16,11 @@ type InventoryItem = {
   imagenUrl: string;
 };
 
-export const useFetchInventory = () => {
+export const useFetchInventory: () => {
+  inventoryData: InventoryItem[];
+  headers: ColumnDefinition<InventoryItem>[];
+  loading: boolean;
+} = () => {
   const [inventoryData, setInventoryData] = useState<InventoryItem[]>([]);
   const [headers, setHeaders] = useState<ColumnDefinition<InventoryItem>[]>([]);
   const [loading, setLoading] = useState(true);

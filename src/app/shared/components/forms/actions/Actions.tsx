@@ -4,6 +4,7 @@ interface InventoryActionsProps {
   sortOrder: string;
   stockFilter?: string;
   searchTerm: string;
+  enableSecondButton?: boolean;
   onOpenModal?: () => void;
   linkButton: {
     type: "modal" | "link";
@@ -18,6 +19,7 @@ interface InventoryActionsProps {
 const LayoutActions: React.FC<InventoryActionsProps> = ({
   sortOrder,
   stockFilter,
+  enableSecondButton,
   searchTerm,
   linkButton,
   onOpenModal,
@@ -42,7 +44,14 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
           alignItems: "center",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0 10px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            padding: "0 10px",
+          }}
+        >
           <select
             className="filter-dropdown"
             value={sortOrder}
@@ -73,20 +82,34 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
             onChange={handleSearch}
           />
         </div>
-        <div style={{padding: "0 10px"}}>
+        <div style={{ padding: "0 10px" }}>
+          <div style={{ gap: 10, display: "flex" }}>
+            {enableSecondButton && (
+              <button
+                className="button-action"
+                style={{ backgroundColor: "white", color: "black" }}
+              >
+                Devolver producto
+              </button>
+            )}
 
-        {linkButton.type === "link" && (
-          <a
-            href={`/${linkButton.to}`}
-            className="link"
-            style={{ textDecoration: "none" }}
-          >
-            <button className="button-action">{linkButton.ButtonLabel}</button>
-          </a>
-        )}
-        {linkButton.type === "modal" && (
-          <button className="button-action" onClick={onOpenModal}>{linkButton.ButtonLabel}</button>
-        )}
+            {linkButton.type === "link" && (
+              <a
+                href={`/${linkButton.to}`}
+                className="link"
+                style={{ textDecoration: "none" }}
+              >
+                <button className="button-action">
+                  {linkButton.ButtonLabel}
+                </button>
+              </a>
+            )}
+            {linkButton.type === "modal" && (
+              <button className="button-action" onClick={onOpenModal}>
+                {linkButton.ButtonLabel}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

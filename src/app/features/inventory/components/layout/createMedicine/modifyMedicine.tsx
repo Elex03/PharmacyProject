@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateMedicineHeader } from "./createMedicine-Header";
-import { BasicInformationForm } from "../../../../../shared/components/forms/createMedicineForm/BasicInformationForm";
-import { FinancialsInventoryForm } from "../../../../../shared/components/forms/createMedicineForm/FinancialsInventoryForm";
+import { BasicInformationForm } from "../createMedicineForm/BasicInformationForm";
+import { FinancialsInventoryForm } from "../createMedicineForm/FinancialsInventoryForm";
 
 import "./createMedicine.css";
 import "../../../../../shared/styles/shared.css"

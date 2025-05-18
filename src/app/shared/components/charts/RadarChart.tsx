@@ -1,4 +1,3 @@
-// components/RadarChart.tsx
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -48,5 +47,5 @@ const data = {
 };
 
 export const RadarChart = () => {
-  return <Radar data={data} />;
+  return <Radar data={data}/>;
 }

@@ -76,11 +76,11 @@ export const ResumeSaleLayout = () => {
 
       <table className="inventory-table-I">
         <thead>
-          <tr>
-            <th className="bold-font">Descripción</th>
-            <th className="bold-font">Cantidad</th>
-            <th className="bold-font">SubTotal</th>
-            <th className="bold-font">Acciones</th>
+          <tr >
+            <th className="bold-font" style={{padding: '0px'}}>Descripción</th>
+            <th className="bold-font" style={{padding: '0px'}}>Cantidad</th>
+            <th className="bold-font" style={{padding: '0px'}}>SubTotal</th>
+            <th className="bold-font" style={{padding: '0px'}}>Acciones</th>
           </tr>
         </thead>
       </table>
@@ -117,7 +117,7 @@ export const ResumeSaleLayout = () => {
         Total de la venta: C${calcularTotal().toFixed(2)}
       </p>
 
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+      <div style={{ display: "flex", gap: "10px", marginTop: "10px", justifyContent: 'space-between' }}>
         <button className="cancelar" onClick={handleCancelBotton}>
           Cancelar venta
         </button>

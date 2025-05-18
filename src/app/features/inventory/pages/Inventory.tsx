@@ -2,13 +2,13 @@ import { Table } from "../../../shared/components/layout/Table/Table.tsx";
 import InventoryActions from "../../../shared/components/forms/actions/Actions.tsx";
 import Layout from "../../../shared/components/layout/layout.tsx";
 import { getFilteredInventory } from "../utils/filterInventoryData.ts";
-import { useFetchInventory } from "../hooks/useFetchInventory.tsx";
+import { useFetchInventory } from "../hooks/useFetchInventory.ts";
 import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection.tsx";
 import "../../../shared/components/layout/Table/Table.css";
 import "../../../shared/styles/shared.css";
 import { RadarChart } from "../../../shared/components/charts/RadarChart.tsx";
 import CreateMedicineModal from "../components/layout/createMedicine/createMedicine.tsx";
-import { useInventoryState } from "../hooks/useInventoryState.tsx";
+import { useInventoryState } from "../hooks/useInventoryState.ts";
 
 const Inventario = () => {
   const { inventoryData, headers } = useFetchInventory();
@@ -38,7 +38,7 @@ const Inventario = () => {
       <Layout title="Inventario">
         <ToggleSection
           title="información"
-          onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
+          onToggle={(visible) => setItemsPerPage(visible ? 20 : 30)}
         >
           <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
             Aquí puedes gestionar el inventario de productos farmacéuticos.
@@ -56,6 +56,7 @@ const Inventario = () => {
             ButtonLabel: "Agregar medicamento",
             type: "modal",
           }}
+          enableSecondButton={true}
           onOpenModal={onOpenModal}
           sortOrder={sortOrder}
           stockFilter={stockFilter}

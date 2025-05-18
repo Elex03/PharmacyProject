@@ -19,3 +19,13 @@ export const getCompressedforms = async () => {
     throw error;
   }
 };
+
+export const getTherapeuticAction = async () => {
+  try {
+    const response = await ApiFarmanovaApi.get("medicines/getTherapeuticAction");
+    return response.data;
+  } catch(error) {
+    console.error("Error fetching Therapeutic Action", error);
+    throw error;
+  }
+}

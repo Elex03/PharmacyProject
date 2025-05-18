@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateMedicineHeader } from "./createMedicine-Header";
-import { BasicInformationForm } from "../../../../../shared/components/forms/createMedicineForm/BasicInformationForm";
-import { FinancialsInventoryForm } from "../../../../../shared/components/forms/createMedicineForm/FinancialsInventoryForm";
+import { BasicInformationForm } from "../createMedicineForm/BasicInformationForm";
+import { FinancialsInventoryForm } from "../createMedicineForm/FinancialsInventoryForm";
 import { useForm, FormProvider } from "react-hook-form";
 
 import "./createMedicine.css";
@@ -10,13 +10,15 @@ import "../../../../../shared/styles/shared.css";
 
 interface FullMedicineData {
   nombre: string;
+  presentacion: number;
+  fabricante: number;
   accion: string;
   codigo: string;
-  imagen?: File; // para inputs de tipo file
-  accioTera: number; // acción terapéutica (puede ser ID o índice)
+  imagen?: File; 
+  accioTera: number;
   dosis: number;
   sintomas: string;
-  unidad: number; // ID o índice de la unidad
+  unidad: number; 
   requierePrescripcion: boolean;
   financiero: {
     precioCompra: number;
@@ -61,8 +63,10 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
       nombre: "",
       accion: "",
       codigo: "",
-      imagen: undefined, // para archivos, se captura con watch o handleSubmit
+      imagen: undefined,
       accioTera: 0,
+      presentacion: 0,
+      fabricante: 0,
       dosis: 0,
       sintomas: "",
       unidad: 0,

@@ -81,7 +81,7 @@ export function Table<T extends Record<string, unknown>>({
     setImagenSeleccionada,
   ]);
 
-  const maxHeight = itemsPerPage === 5 ? "15rem" : "30rem";
+  const maxHeight = itemsPerPage === 20 ? "15rem" : "30rem";
 
   return (
     <div style={{ position: "relative", width: "100%" }}>

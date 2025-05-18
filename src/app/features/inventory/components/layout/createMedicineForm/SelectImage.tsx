@@ -69,7 +69,7 @@ const ImageUploadBox: React.FC = () => {
       <div
         onClick={handleContainerClick}
         style={{
-          height: "300px",
+          height: "246px",
           border: "1px solid #5c5c5c",
           borderRadius: "8px",
           cursor: isWaiting ? "default" : "pointer",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useImageFromWebSocket } from '../components/forms/createMedicineForm/useImageFromWebSocket';
+import { useImageFromWebSocket } from '../../features/inventory/components/layout/createMedicineForm/useImageFromWebSocket';
 import DonutChart from '../components/charts/DonutChart';
 import { Header } from '../components/layout/Header';
 
