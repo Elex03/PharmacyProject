@@ -35,7 +35,9 @@
   align-items: center;
   z-index: 1000;
 }
-
+.tabs {
+  margin-top: 20px;
+}
 .medicamento-container h2 {
   font-size: 22px;
   margin-bottom: 20px;
@@ -89,6 +91,7 @@
   height: 25rem;
   border: 1px solid #555;
   margin-top: -1px;
+  padding: 10px;
 }
 
 .action-buttons {

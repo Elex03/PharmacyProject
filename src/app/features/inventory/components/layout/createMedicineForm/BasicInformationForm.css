@@ -1,60 +1,58 @@
 .form-grid-BasicInformationForm {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 16px;
   margin: 8px;
   margin-bottom: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
+
 .form-row {
   display: flex;
   gap: 10px;
-}
-.action-input-Financials{
-  background-color: #fff;
-  padding: 8px 12px;
-  border: 1px solid #5c5c5c;
-  border-radius: 6px;
-  color: #555;
-  font-size: 14px;
-  width: 77%;
-}
-.form-group {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-
-select {
-  font-size: 14px;
-  padding:8px 12px;
+  width: 100%;
 }
 
 .form-group-BasicInformationForm {
   display: flex;
   flex-direction: column;
-  padding-top: -100px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group-BasicInformationForm label {
   font-size: 12px;
-  margin-bottom: 0px;
+  margin-bottom: 4px;
 }
 
-.textarea-BasicInformationForm {
-  height: 240px;
-  resize: none;
-  border: 1px solid #5c5c5c;
-  border-radius: 6px;
-  color: #555;
+textarea,
+input,
+select, 
+Select {
+  box-sizing: border-box;
   font-size: 14px;
-}
-.action-input-BasicInformationForm,
-.action-select-BasicInformationForm {
-  background-color: #fff;
   padding: 8px 12px;
   border: 1px solid #5c5c5c;
   border-radius: 6px;
   color: #555;
-  font-size: 14px;
+  background-color: #fff;
+}
+
+/* Específico para textarea */
+.textarea-BasicInformationForm {
+  height: 150px;
+  resize: none;
+}
+
+/* Específicos pero consistentes */
+.action-input-BasicInformationForm,
+.action-select-BasicInformationForm {
+  width: 100%;
+}
+
+
+.labelForm {
+  font-size: 12px;
+  margin-bottom: 4px;
 }

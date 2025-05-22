@@ -13,7 +13,7 @@ const Dashboard = lazy(() => import("./shared/pages/DashBoard"));
 const Inventario = lazy(() => import("./features/inventory/pages/Inventory"));
 const Distributors = lazy(() => import("./features/ditributors/pages/Distributors"));
 const CashRegister = lazy(() => import("./features/makeSales/pages/MakeSalesPage"));
-const Shopping = lazy(() => import("./shared/pages/shopping"));
+
 const SalesHistory = lazy(() => import("./features/salesHistory/pages/SalesHistory"));
 const OrderHistory = lazy(() => import("./features/ordersHistory/pages/OrderHistory"));
 const UnderConstruction = lazy(() => import("./shared/pages/Defualt"));
@@ -65,15 +65,6 @@ const AppRouter = () => {
               <div className="page-container-root">
                 <Sidebar />
                 <SalesHistory />
-              </div>
-            }
-          />
-          <Route
-            path="/compras"
-            element={
-              <div className="page-container-root">
-                <Sidebar />
-                <Shopping />
               </div>
             }
           />

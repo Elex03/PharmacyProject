@@ -1,6 +1,8 @@
 import React from "react";
 import "./createMedicine.css";
 import { Header } from "../../../../../shared/components/layout/Header";
+import { AnimatedMulti } from "../../../../../shared/components/forms/multipleSelector";
+import { useFetchTherapeuticAction } from "../../../hooks/useMedicineForm";
 interface Medicine {
   nombre: string;
   accion: string;
@@ -13,10 +15,13 @@ interface Props {
   onChange: (key: keyof Medicine, value: string | boolean) => void;
 }
 
+
 export const CreateMedicineHeader: React.FC<Props> = ({
   medicine,
   onChange,
 }) => {
+  
+  const {therapeuticData} = useFetchTherapeuticAction();
   return (
     <>
       <div style={{ margin: "0 -10px" }}>
@@ -38,16 +43,7 @@ export const CreateMedicineHeader: React.FC<Props> = ({
 
         <div className="form-group">
           <label htmlFor="accion">Acción terapéutica</label>
-          <select
-            id="accion"
-            className="action-select"
-            value={medicine.accion}
-            onChange={(e) => onChange("accion", e.target.value)}
-          >
-            <option value="">Seleccionar acción terapéutica</option>
-            <option value="analgésico">Analgésico</option>
-            <option value="antibiótico">Antibiótico</option>
-          </select>
+         <AnimatedMulti data={therapeuticData}/>
         </div>
 
         <div className="form-group">

@@ -7,6 +7,7 @@ import {
 
 interface labelI {
   label: string;
+  value: string;
   id: number;
 }
 

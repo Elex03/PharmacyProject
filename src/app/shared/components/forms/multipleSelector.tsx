@@ -1,35 +1,35 @@
 import React from "react";
-import { MultiSelect } from "react-multi-select-component";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
+import '../../../features/inventory/components/layout/createMedicineForm/BasicInformationForm.css'
 
+interface dataI {
+  label: string;
+  value: string;
+  id: number;
+}
 
-interface MultipleSelectorProps {
-  selected: Option[];
-  setSelected: (selected: Option[]) => void;
-  options: {
-    id: number;
-    label: string;
-    value: string;
-  }[];
-  };
+interface propsMulti {
+  data: dataI[];
+}
 
+const animatedComponents = makeAnimated();
 
-const MultipleSelector: React.FC<MultipleSelectorProps> = ({
-  selected,
-  setSelected,
-  options
-}) => {
+export const AnimatedMulti: React.FC<propsMulti> = ({ data }) => {
+  const defaultValue = data.map((res) => ({
+    label: res.label,
+    value: res.value,
+  }));
+
   return (
-    <div>
-      <label htmlFor="categories">Categories</label>
-      <MultiSelect
-        options={options}
-        value={selected} 
-        onChange={setSelected}
-        labelledBy="Select"
-      />
-    </div>
+    <Select
+      className="action-select-BasicInformationForm"
+      closeMenuOnSelect={false}
+      components={animatedComponents}
+      defaultValue={defaultValue}
+      isMulti
+      options={data}
+    />
   );
 };
-
-export default MultipleSelector;
