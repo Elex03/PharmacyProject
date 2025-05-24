@@ -12,10 +12,9 @@ interface FullMedicineData {
   nombre: string;
   presentacion: number;
   fabricante: number;
-  accion: string;
   codigo: string;
   imagen?: File; 
-  accioTera: number;
+  accioTera: number[];
   dosis: number;
   sintomas: string;
   unidad: number; 
@@ -61,10 +60,9 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
   const methods = useForm<FullMedicineData>({
     defaultValues: {
       nombre: "",
-      accion: "",
       codigo: "",
       imagen: undefined,
-      accioTera: 0,
+      accioTera: [],
       presentacion: 0,
       fabricante: 0,
       dosis: 0,

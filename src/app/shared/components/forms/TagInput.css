@@ -1,0 +1,78 @@
+/* Contenedor general de los tags */
+.react-tagsinput {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  min-height: 44px;
+  display: flex;
+  flex-wrap: wrap;
+  cursor: text;
+  font-family: Arial, sans-serif;
+}
+
+/* Input para agregar nuevos tags */
+.react-tagsinput input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 120px;
+  font-size: 14px;
+  padding: 4px;
+}
+
+/* Cada tag */
+.react-tagsinput-tag {
+  background-color: #007bff;
+  color: white;
+  padding: 4px 10px;
+  margin: 4px 6px 0 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* Texto del tag */
+.react-tagsinput-tag-text {
+  margin-right: 8px;
+}
+
+/* Botón para remover tag */
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 4px;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.react-tagsinput-remove:hover {
+  color: #ff4d4f;
+}
+
+/* Contenedor de las sugerencias */
+.react-tagsinput-suggestions {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 4px;
+  z-index: 1000;
+  width: 300px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Cada sugerencia */
+.react-tagsinput-suggestion {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.react-tagsinput-suggestion:hover,
+.react-tagsinput-suggestion-active {
+  background-color: #007bff;
+  color: white;
+}

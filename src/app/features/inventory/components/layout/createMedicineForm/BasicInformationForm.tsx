@@ -5,6 +5,7 @@ import {
   useFetchCompanies,
   useFetchCompressedForm,
 } from "../../../hooks/useMedicineForm";
+import { TagInput } from "../../../../../shared/components/forms/TagInput";
 
 export const BasicInformationForm = () => {
   const { register } = useFormContext();
@@ -55,7 +56,7 @@ export const BasicInformationForm = () => {
         </div>
 
         {/* Unidad interna */}
-        <div className="form-group-BasicInformationForm">
+        {/* <div className="form-group-BasicInformationForm">
           <label htmlFor="unidad">Unidad interna</label>
           <select
             {...register("unidad")}
@@ -66,7 +67,7 @@ export const BasicInformationForm = () => {
             <option value={2}>Ml</option>
             <option value={3}>Dosis</option>
           </select>
-        </div>
+        </div> */}
 
         {/* Fabricante */}
         <div className="form-group-BasicInformationForm">
@@ -86,12 +87,14 @@ export const BasicInformationForm = () => {
         {/* Síntomas */}
         <div className="form-group-BasicInformationForm">
           <label htmlFor="sintomas">Síntomas que alivia</label>
-          <textarea
+          {/* <textarea
             {...register("sintomas")}
             id="sintomas"
             className="textarea-BasicInformationForm"
             placeholder="Descripción de los síntomas"
-          />
+          /> */}
+
+          <TagInput/>
         </div>
       </div>
 
