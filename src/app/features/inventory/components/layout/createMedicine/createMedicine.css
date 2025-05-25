@@ -1,6 +1,7 @@
 .medicamento-container {
   z-index: 999;
   max-width: 500px;
+  min-width: 500px;
   min-height: 80vh;
   max-height: 80vh;
   margin: 40px auto;

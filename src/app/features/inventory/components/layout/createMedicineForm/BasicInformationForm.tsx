@@ -5,7 +5,22 @@ import {
   useFetchCompanies,
   useFetchCompressedForm,
 } from "../../../hooks/useMedicineForm";
-import { TagInput } from "../../../../../shared/components/forms/TagInput";
+import TagInput from "../../../../../shared/components/forms/TagInput";
+
+interface Tag  {
+  id: string, 
+  text: string
+}
+
+const COUNTRIES: Tag[] = [
+  { id: 'Thailand', text: 'Thailand' },
+  { id: 'India', text: 'India' },
+  { id: 'Vietnam', text: 'Vietnam' },
+  { id: 'Turkey', text: 'Turkey' },
+  { id: 'Canada', text: 'Canada' },
+  { id: 'Argentina', text: 'Argentina' },
+  { id: 'España', text: 'España' },
+];
 
 export const BasicInformationForm = () => {
   const { register } = useFormContext();
@@ -94,7 +109,7 @@ export const BasicInformationForm = () => {
             placeholder="Descripción de los síntomas"
           /> */}
 
-          <TagInput/>
+           <TagInput suggestions={COUNTRIES} maxTags={7} />
         </div>
       </div>
 

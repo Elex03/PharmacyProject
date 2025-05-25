@@ -1,76 +1,119 @@
-import React, { useState } from 'react';
-import { WithContext as ReactTags, Tag } from 'react-tag-input';
+import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
+import './TagInput.css';
 
-import './TagInput.css'
-
-const suggestions: Tag[] = [
-  { id: 'Thailand', text: 'Thailand', className: '' },
-  { id: 'India', text: 'India', className: '' },
-  { id: 'Vietnam', text: 'Vietnam', className: '' },
-  { id: 'Turkey', text: 'Turkey', className: '' },
-  // ... más sugerencias
-];
-
-const KeyCodes = {
-  comma: 188,
-  enter: [10, 13],
+type Tag = {
+  id: string;
+  text: string;
 };
 
-const delimiters = [...KeyCodes.enter, KeyCodes.comma];
+type TagInputProps = {
+  suggestions: Tag[];
+  maxTags: number;
+};
 
-export const TagInput: React.FC = () => {
-  const [tags, setTags] = useState<Tag[]>([
-    {
-        id: 'Thailand', text: 'Thailand',
-        className: ''
-    },
-    {
-        id: 'India', text: 'India',
-        className: ''
-    },
-    {
-        id: 'Vietnam', text: 'Vietnam',
-        className: ''
-    },
-    {
-        id: 'Turkey', text: 'Turkey',
-        className: ''
-    },
-  ]);
+const TagInput: React.FC<TagInputProps> = ({ suggestions, maxTags }) => {
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [input, setInput] = useState('');
+  const [filtered, setFiltered] = useState<Tag[]>([]);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleDelete = (i: number) => {
-    setTags(tags.filter((_tag, index) => index !== i));
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInput(value);
+
+    if (value.trim() === '') {
+      setFiltered([]);
+      setShowDropdown(false);
+      return;
+    }
+
+    const filteredSuggestions = suggestions
+      .filter((s) =>
+        s.text.toLowerCase().includes(value.toLowerCase()) &&
+        !tags.find((tag) => tag.text === s.text)
+      )
+      .slice(0, 5);
+
+    setFiltered(filteredSuggestions);
+    setShowDropdown(filteredSuggestions.length > 0);
+    setActiveIndex(-1);
   };
 
-  const handleAddition = (tag: Tag) => {
-    if (tags.length < 7) {
-      setTags([...tags, tag]);
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex((prev) => Math.min(prev + 1, filtered.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((prev) => Math.max(prev - 1, 0));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeIndex >= 0 && filtered[activeIndex]) {
+        addTag(filtered[activeIndex]);
+      } else if (input.trim()) {
+        addTag({ id: input.trim(), text: input.trim() });
+      }
     }
   };
 
-  const handleDrag = (tag: Tag, currPos: number, newPos: number) => {
-    const newTags = [...tags];
-    newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
-    setTags(newTags);
+  const addTag = (tag: Tag) => {
+    if (tags.length >= maxTags) return;
+
+    setTags([...tags, tag]);
+    setInput('');
+    setFiltered([]);
+    setShowDropdown(false);
+    setActiveIndex(-1);
+  };
+
+  const removeTag = (index: number) => {
+    setTags(tags.filter((_, i) => i !== index));
+  };
+
+  const removeAll = () => {
+    setTags([]);
   };
 
   return (
-    <div>
-      
-      <ReactTags
-        tags={tags}
-        suggestions={suggestions}
-        delimiters={delimiters}
-        handleDelete={handleDelete}
-        handleAddition={handleAddition}
-        handleDrag={handleDrag}
-        autofocus={false}
-        inputFieldPosition="bottom"
-        autocomplete
-        placeholder="Escribe y presiona Enter"
-        maxLength={50}
-      />
+    <div className="tag-input-container">
+      <div className="tags-wrapper">
+        {tags.map((tag, index) => (
+          <div key={tag.id} className="tag">
+            {tag.text}
+            <span className="remove" onClick={() => removeTag(index)}>&times;</span>
+          </div>
+        ))}
+
+        <input
+          className="tag-input"
+          type="text"
+          value={input}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          onFocus={() => setShowDropdown(true)}
+          onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
+          placeholder={tags.length >= maxTags ? "Max tags reached" : "Add tag..."}
+        />
+      </div>
+
+      {showDropdown && (
+        <ul className="dropdown">
+          {filtered.map((s, i) => (
+            <li
+              key={s.id}
+              className={i === activeIndex ? 'active' : ''}
+              onMouseDown={() => addTag(s)}
+            >
+              {s.text}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <button className="remove-all" onClick={removeAll}>Remove All</button>
     </div>
   );
 };
+
+export default TagInput;

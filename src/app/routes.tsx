@@ -9,7 +9,7 @@ import CircularIndeterminate from "./shared/components/progress/CircularIndeterm
 
 
 const Login = lazy(() => import("./shared/pages/Login"));
-const Dashboard = lazy(() => import("./shared/pages/DashBoard"));
+const Dashboard = lazy(() => import("./features/dashboard/pages/dashboard2.tsx"));
 const Inventario = lazy(() => import("./features/inventory/pages/Inventory"));
 const Distributors = lazy(() => import("./features/ditributors/pages/Distributors"));
 const CashRegister = lazy(() => import("./features/makeSales/pages/MakeSalesPage"));

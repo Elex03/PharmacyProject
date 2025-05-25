@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { exportToExcel } from "./exportToExcel";
 import { exportToPDF } from "./exportToPdf";
 import pdfIcon from "../../../assets/img/pdf-icon.svg";
 import xlsIcon from "../../../assets/img/xls-icon.svg";
-
 
 type HeaderItem = {
   key: string;
@@ -15,6 +14,7 @@ type ExportOptionProps = {
   headers: HeaderItem[];
   data: Record<string, unknown>[];
   titleInfo?: string[][];
+  onColumnChange?: (visibleColumns: string[]) => void; // NUEVO
 };
 
 export const ExportOption: React.FC<ExportOptionProps> = ({
@@ -22,17 +22,35 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
   data,
   filename = "Exportacion",
   titleInfo = [],
+  onColumnChange, // NUEVO
 }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [submenu, setSubmenu] = useState<"exportar" | "mostrar" | null>(null);
+  const [selectedHeaders, setSelectedHeaders] = useState<string[]>(
+    headers.map((h) => h.key)
+  );
+
+  // Comunicar cambios de columnas visibles
+  useEffect(() => {
+    if (onColumnChange) {
+      onColumnChange(selectedHeaders);
+    }
+  }, [selectedHeaders, onColumnChange]);
 
   return (
     <>
       <button
         className="export-button"
-        onClick={() => setShowMenu((prev) => !prev)}
-        style={{ background: "transparent", border: "none", cursor: "pointer" }}
+        onClick={() => {
+          setShowMenu((prev) => !prev);
+          setSubmenu(null);
+        }}
+        style={{
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+        }}
       >
-        {/* Icono de menú hamburguesa */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -49,7 +67,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
         <div
           style={{
             position: "absolute",
-            top: "100%", // debajo del botón
+            top: "100%",
             right: 0,
             backgroundColor: "#fff",
             border: "1px solid #ccc",
@@ -64,41 +82,187 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
           }}
         >
           <div
-            onClick={() => {
-              exportToExcel(headers, data, `${filename}`, titleInfo);
-              setShowMenu(false);
-            }}
+            onMouseEnter={() => setSubmenu("mostrar")}
+            onClick={() => setSubmenu("mostrar")}
             style={{
               padding: "8px 12px",
               cursor: "pointer",
               whiteSpace: "nowrap",
             }}
           >
-            <img
-              src={xlsIcon}
-              alt=""
-              style={{ width: "20px", height: "20px", paddingRight: "10px" }}
-            />
-            Exportar a Excel
+            Mostrar
           </div>
           <div
-            onClick={() => {
-              exportToPDF(headers, data, `${filename}`, titleInfo);
-              setShowMenu(false);
-            }}
+            onMouseEnter={() => setSubmenu("exportar")}
+            onClick={() => setSubmenu("exportar")}
             style={{
               padding: "8px 12px",
               cursor: "pointer",
               whiteSpace: "nowrap",
             }}
           >
-            <img
-              src={pdfIcon}
-              alt=""
-              style={{ width: "20px", height: "20px", paddingRight: "10px" }}
-            />
-            Exportar a PDF
+            Exportar
           </div>
+
+          {/* Submenú exportar */}
+          {submenu === "exportar" && (
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: "100%",
+                transform: "translateY(-50%)",
+                marginRight: "8px",
+                backgroundColor: "#fff",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                padding: "8px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+                minWidth: "180px",
+                zIndex: 1001,
+              }}
+            >
+              <div
+                onClick={() => {
+                  const filteredHeaders = headers.filter((h) =>
+                    selectedHeaders.includes(h.key)
+                  );
+
+                  const filteredData = data.map((row) => {
+                    const filteredRow: Record<string, unknown> = {};
+                    selectedHeaders.forEach((key) => {
+                      filteredRow[key] = row[key];
+                    });
+                    return filteredRow;
+                  });
+
+                  exportToExcel(
+                    filteredHeaders,
+                    filteredData,
+                    `${filename}`,
+                    titleInfo
+                  );
+                  setShowMenu(false);
+                }}
+                style={{
+                  padding: "8px 12px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <img
+                  src={xlsIcon}
+                  alt=""
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    paddingRight: "10px",
+                  }}
+                />
+                Exportar a Excel
+              </div>
+
+              <div
+                onClick={() => {
+                  const filteredHeaders = headers.filter((h) =>
+                    selectedHeaders.includes(h.key)
+                  );
+
+                  const filteredData = data.map((row) => {
+                    const filteredRow: Record<string, unknown> = {};
+                    selectedHeaders.forEach((key) => {
+                      filteredRow[key] = row[key];
+                    });
+                    return filteredRow;
+                  });
+
+                  exportToPDF(
+                    filteredHeaders,
+                    filteredData,
+                    `${filename}`,
+                    titleInfo
+                  );
+                  setShowMenu(false);
+                }}
+                style={{
+                  padding: "8px 12px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <img
+                  src={pdfIcon}
+                  alt=""
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    paddingRight: "10px",
+                  }}
+                />
+                Exportar a PDF
+              </div>
+            </div>
+          )}
+
+          {/* Submenú mostrar */}
+          {submenu === "mostrar" && (
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: "100%",
+                transform: "translateY(-50%)",
+                marginRight: "8px",
+                backgroundColor: "#fff",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                padding: "8px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+                minWidth: "180px",
+                zIndex: 1001,
+              }}
+            >
+              <label style={{ fontWeight: "bold" }}>
+                <input
+                  type="checkbox"
+                  checked={selectedHeaders.length === headers.length}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedHeaders(headers.map((h) => h.key));
+                    } else {
+                      setSelectedHeaders([]);
+                    }
+                  }}
+                  style={{ marginRight: "8px" }}
+                />
+                Todas las columnas
+              </label>
+              {headers.map((header) => (
+                <label key={header.key}>
+                  <input
+                    type="checkbox"
+                    checked={selectedHeaders.includes(header.key)}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setSelectedHeaders((prev) =>
+                        checked
+                          ? [...prev, header.key]
+                          : prev.filter((key) => key !== header.key)
+                      );
+                    }}
+                    style={{ marginRight: "8px" }}
+                  />
+                  {header.header}
+                </label>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </>
