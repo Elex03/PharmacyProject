@@ -5,6 +5,7 @@ import {
   getTherapeuticAction,
 } from "../../../shared/api/services/Medicine";
 import type { FullMedicineData } from "../../../../types";
+import axios from "axios";
 
 interface labelI {
   label: string;
@@ -44,16 +45,16 @@ export const useFetchCompressedForm = () => {
 export const useFetchDrugVia = () => {
   const [drugVia, setDrugVia] = useState<labelI[]>([]);
 
-  useEffect(() => {
-    fetch("/drugsAdministration.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setDrugVia(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching drug via:", error);
-      });
-  }, []);
+useEffect(() => {
+  axios
+    .get("/drugsAdministration.json")
+    .then((response) => {
+      setDrugVia(response.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching drug via:", error);
+    });
+}, []);
 
   return {
     drugVia,

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ColumnFilterState } from "../Filter";
 import { ColumnDefinition } from "../../../../../../types";
+import { API_URL } from "../../../config";
 
 export function useTableState<T>(
   columns: ColumnDefinition<T>[],
@@ -76,7 +77,7 @@ export function useTableState<T>(
   );
 
   const handleImagenClick = (url: string) => {
-    setImagenSeleccionada(url);
+    setImagenSeleccionada(`${API_URL}${url}`);
   };
 
   const cerrarModal = () => {
