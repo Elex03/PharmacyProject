@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FilterDropdown } from "./Filter";
 import { ExportOption } from "../../exportDocuments/exports/Option";
 import { motion } from "framer-motion";
@@ -81,7 +81,10 @@ export function Table<T extends Record<string, unknown>>({
     setImagenSeleccionada,
   ]);
 
-  const maxHeight = itemsPerPage === 20 ? "15rem" : "30rem";
+  const maxHeight = itemsPerPage === 5 ? "15rem" : "30rem";
+  const [visibleColumns, setVisibleColumns] = useState<string[]>(
+    columns.map((h) => String(h.key))
+  );
 
   return (
     <div style={{ position: "relative", width: "100%" }}>
@@ -90,81 +93,83 @@ export function Table<T extends Record<string, unknown>>({
       <table className="inventory-table-I">
         <thead>
           <tr>
-            {columns.map((col) => (
-              <th
-                key={String(col.key)}
-                style={{
-                  position: "relative",
-                }}
-              >
-                <div
+            {columns
+              .filter((col) => visibleColumns.includes(String(col.key)))
+              .map((col) => (
+                <th
+                  key={String(col.key)}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    position: "relative",
                   }}
                 >
-                  <span className="bold-font">{col.header}</span>
-                  <button
-                    onClick={() =>
-                      handleChangeFilter(col.key as string, {
-                        isOpen: !filters[col.key as string]?.isOpen,
-                      })
-                    }
+                  <div
                     style={{
-                      marginLeft: "8px",
-                      fontSize: "12px",
-                      backgroundColor: "#fff",
-                      padding: "2px 4px",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
                   >
-                    <div
+                    <span className="bold-font">{col.header}</span>
+                    <button
+                      onClick={() =>
+                        handleChangeFilter(col.key as string, {
+                          isOpen: !filters[col.key as string]?.isOpen,
+                        })
+                      }
                       style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "20px",
-                        height: "20px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px", // Esquinas ligeramente redondeadas (opcional)
-                        backgroundColor: "#fff", // Fondo blanco
+                        marginLeft: "8px",
+                        fontSize: "12px",
+                        backgroundColor: "#fff",
+                        padding: "2px 4px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
                       }}
                     >
-                      <svg
-                        width="8"
-                        height="8"
-                        viewBox="0 0 8 8"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "20px",
+                          height: "20px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px", // Esquinas ligeramente redondeadas (opcional)
+                          backgroundColor: "#fff", // Fondo blanco
+                        }}
                       >
-                        <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-                {filters[col.key as string]?.isOpen && (
-                  <FilterDropdown
-                    columnKey={col.key as string}
-                    columnHeader={col.header}
-                    allData={data}
-                    filter={
-                      filters[col.key as string] || {
-                        searchText: "",
-                        selectedValues: [],
+                        <svg
+                          width="8"
+                          height="8"
+                          viewBox="0 0 8 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M0 2 L4 6 L8 2 Z" fill="#333" />
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+                  {filters[col.key as string]?.isOpen && (
+                    <FilterDropdown
+                      columnKey={col.key as string}
+                      columnHeader={col.header}
+                      allData={data}
+                      filter={
+                        filters[col.key as string] || {
+                          searchText: "",
+                          selectedValues: [],
+                        }
                       }
-                    }
-                    onChangeFilter={(newState) =>
-                      handleChangeFilter(col.key as string, newState)
-                    }
-                    isNumeric={col.isNumeric}
-                    isDate={col.isDate}
-                  />
-                )}
-              </th>
-            ))}
+                      onChangeFilter={(newState) =>
+                        handleChangeFilter(col.key as string, newState)
+                      }
+                      isNumeric={col.isNumeric}
+                      isDate={col.isDate}
+                    />
+                  )}
+                </th>
+              ))}
             {linkColumn && (
               <div className="export-column">
                 <ExportOption
@@ -181,6 +186,7 @@ export function Table<T extends Record<string, unknown>>({
                     ["Tel: 2255-4524"],
                     [""],
                   ]}
+                  onColumnChange={setVisibleColumns} // NUEVO
                 />
               </div>
             )}
@@ -193,64 +199,72 @@ export function Table<T extends Record<string, unknown>>({
             {pageData.length > 0 ? (
               pageData.map((row, rowIdx) => (
                 <tr key={rowIdx}>
-                  {columns.map((col) => (
-                    <motion.td
-                      key={String(col.key)}
-                      initial={{ opacity: 0, x: -10 }}
-                      viewport={{ once: true }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: rowIdx * 0.1 }}
-                    >
-                      {col.key === "descripcion" ? (
-                        <span
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <img
-                            src={row.imagenUrl as string}
-                            alt="Imagen"
+                  {columns
+                    .filter((col) => visibleColumns.includes(String(col.key)))
+                    .map((col) => (
+                      <motion.td
+                        key={String(col.key)}
+                        initial={{ opacity: 0, x: -10 }}
+                        viewport={{ once: true }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: rowIdx * 0.1 }}
+                      >
+                        {col.key === "descripcion" ? (
+                          <span
                             style={{
-                              marginRight: "8px",
-                              width: "40px",
-                              height: "40px",
-                              cursor: "pointer",
-                              objectFit: "cover",
+                              display: "inline-flex",
+                              alignItems: "center",
                             }}
-                            className="w-8 h-8 rounded-full object-cover"
-                            onClick={() =>
-                              handleImagenClick(row.imagenUrl as string)
-                            }
-                          />
+                          >
+                            <img
+                              src={
+                                typeof row.imagenUrl === "string"
+                                  ? row.imagenUrl.startsWith("http") + '/uploads/'
+                                    ? row.imagenUrl
+                                    : `/uploads/${row.imagenUrl}`
+                                  : ""
+                              }
+                              alt="Imagen"
+                              style={{
+                                marginRight: "8px",
+                                width: "40px",
+                                height: "40px",
+                                cursor: "pointer",
+                                objectFit: "cover",
+                              }}
+                              className="w-8 h-8 rounded-full object-cover"
+                              onClick={() =>
+                                handleImagenClick(row.imagenUrl as string)
+                              }
+                            />
+                            <SetLabelTrucate
+                              label={String(row[col.key])}
+                              isHighlight={shouldHighlight(col, row)}
+                            />
+                          </span>
+                        ) : col.key === "telefono" ? (
+                          <a
+                            href={`https://wa.me/505${row[col.key]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              color: "black",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            <SetLabelTrucate
+                              label={String(row[col.key])}
+                              isHighlight={shouldHighlight(col, row)}
+                            />
+                          </a>
+                        ) : (
                           <SetLabelTrucate
                             label={String(row[col.key])}
                             isHighlight={shouldHighlight(col, row)}
                           />
-                        </span>
-                      ) : col.key === "telefono" ? (
-                        <a
-                          href={`https://wa.me/505${row[col.key]}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            color: "black",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          <SetLabelTrucate
-                            label={String(row[col.key])}
-                            isHighlight={shouldHighlight(col, row)}
-                          />
-                        </a>
-                      ) : (
-                        <SetLabelTrucate
-                          label={String(row[col.key])}
-                          isHighlight={shouldHighlight(col, row)}
-                        />
-                      )}
-                    </motion.td>
-                  ))}
+                        )}
+                      </motion.td>
+                    ))}
                   {linkColumn && (
                     <motion.td
                       style={{ textAlign: "right" }}
