@@ -5,6 +5,7 @@ interface InventoryActionsProps {
   stockFilter?: string;
   searchTerm: string;
   enableSecondButton?: boolean;
+  onOpenSecondModal?: () => void;
   onOpenModal?: () => void;
   linkButton: {
     type: "modal" | "link";
@@ -23,6 +24,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
   searchTerm,
   linkButton,
   onOpenModal,
+  onOpenSecondModal,
   handleSort,
   handleStockFilter,
   handleSearch,
@@ -88,6 +90,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
               <button
                 className="button-action"
                 style={{ backgroundColor: "white", color: "black" }}
+                onClick={onOpenSecondModal}
               >
                 Devolver producto
               </button>

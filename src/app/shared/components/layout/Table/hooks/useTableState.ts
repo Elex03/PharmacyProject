@@ -2,11 +2,12 @@ import { useState } from "react";
 import { ColumnFilterState } from "../Filter";
 import { ColumnDefinition } from "../../../../../../types";
 
-
-
-
-export function  useTableState<T>(columns: ColumnDefinition<T>[] , data: T[], itemsPerPage: number)  {
- const [filters, setFilters] = useState<Record<string, ColumnFilterState>>({});
+export function useTableState<T>(
+  columns: ColumnDefinition<T>[],
+  data: T[],
+  itemsPerPage: number
+) {
+  const [filters, setFilters] = useState<Record<string, ColumnFilterState>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const handleChangeFilter = (
@@ -88,22 +89,19 @@ export function  useTableState<T>(columns: ColumnDefinition<T>[] , data: T[], it
     }
   };
 
-  
-
-
-    return {
-        handleChangeFilter, 
-        handlePageChange, 
-        cerrarModal, 
-        handleImagenClick, 
-        pageData, 
-        imagenSeleccionada, 
-        setImagenSeleccionada,
-        setCurrentPage,
-        sortedData, 
-        filteredData, 
-        filters, 
-        currentPage, 
-        totalPages
-    }
+  return {
+    handleChangeFilter,
+    handlePageChange,
+    cerrarModal,
+    handleImagenClick,
+    pageData,
+    imagenSeleccionada,
+    setImagenSeleccionada,
+    setCurrentPage,
+    sortedData,
+    filteredData,
+    filters,
+    currentPage,
+    totalPages,
+  };
 }

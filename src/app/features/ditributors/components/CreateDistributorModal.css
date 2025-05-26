@@ -61,7 +61,7 @@
   gap: 12px;
   margin-top: 20px;
 }
-.form-grid {
+.form-grid-CD {
   display: grid;
   grid-template-rows: 1fr;
   gap: 8px;

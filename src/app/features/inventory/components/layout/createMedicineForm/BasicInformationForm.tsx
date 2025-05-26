@@ -2,11 +2,11 @@ import { useFormContext } from "react-hook-form";
 import "./BasicInformationForm.css";
 import ImageSelector from "./SelectImage";
 import {
-  useFetchCompanies,
   useFetchCompressedForm,
   useFetchDrugVia,
 } from "../../../hooks/useMedicineForm";
 import TagInput from "../../../../../shared/components/forms/TagInput";
+import { useFetchCompanies } from "../../../../ditributors/hooks/useFetchDistributors";
 
 interface Tag {
   id: string;

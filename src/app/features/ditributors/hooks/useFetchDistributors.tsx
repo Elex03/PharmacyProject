@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import type { ColumnDefinition } from "../../../../types.d.ts";
-import { getDistributors } from "../../../shared/api/services/Distributors.ts";
+import { getDistributors, getDistributorsCompany } from "../../../shared/api/services/Distributors.ts";
+
+interface labelI {
+  label: string;
+  value: string;
+  id: number;
+}
 
 interface DistributorItem {
   id: number;
@@ -37,4 +43,18 @@ export const useFetchDistributors = () => {
     });
   }, []);
   return { distributorData, headers, loading };
+};
+
+export const useFetchCompanies = () => {
+  const [companiesData, setCompaniesData] = useState<labelI[]>([]);
+
+  useEffect(() => {
+    getDistributorsCompany().then((res) => {
+      setCompaniesData(res);
+    });
+  }, []);
+
+  return {
+    companiesData,
+  };
 };

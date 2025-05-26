@@ -9,6 +9,7 @@ import "../../../shared/styles/shared.css";
 import { RadarChart } from "../../../shared/components/charts/RadarChart.tsx";
 import CreateMedicineModal from "../components/layout/createMedicine/createMedicine.tsx";
 import { useInventoryState } from "../hooks/useInventoryState.ts";
+import ReturnProduct from "../../../shared/components/layout/ReturnProduct.tsx";
 
 const Inventario = () => {
   const { inventoryData, headers } = useFetchInventory();
@@ -18,13 +19,12 @@ const Inventario = () => {
     sortOrder,
     stockFilter,
     itemsPerPage,
-    isModalOpen,
+    modal,
+    secondModal,
     setItemsPerPage,
     handleSearch,
     handleSort,
     handleStockFilter,
-    onOpenModal,
-    closeModal,
   } = useInventoryState();
 
   const filteredData = getFilteredInventory(
@@ -57,7 +57,8 @@ const Inventario = () => {
             type: "modal",
           }}
           enableSecondButton={true}
-          onOpenModal={onOpenModal}
+          onOpenSecondModal={secondModal.onOpen}
+          onOpenModal={modal.onOpen}
           sortOrder={sortOrder}
           stockFilter={stockFilter}
           searchTerm={searchTerm}
@@ -77,7 +78,8 @@ const Inventario = () => {
           }}
         />
 
-        {isModalOpen && <CreateMedicineModal onClose={closeModal} />}
+        {modal.isOpen && <CreateMedicineModal onClose={modal.onClose} />}
+        {secondModal.isOpen && <ReturnProduct onClose={secondModal.onClose} medicines={[]} />}
       </Layout>
   );
 };

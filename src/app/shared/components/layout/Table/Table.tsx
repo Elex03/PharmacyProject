@@ -229,7 +229,7 @@ export function Table<T extends Record<string, unknown>>({
                               }}
                               className="w-8 h-8 rounded-full object-cover"
                               onClick={() =>
-                                handleImagenClick(row.imagenUrl as string)
+                                handleImagenClick(`${API_URL}${row.imagenUrl}`)
                               }
                             />
                             <SetLabelTrucate

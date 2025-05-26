@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getDistributorsCompany } from "../../../shared/api/services/Distributors";
 import {
   getCompressedforms,
   getTherapeuticAction,
@@ -11,19 +10,6 @@ interface labelI {
   id: number;
 }
 
-export const useFetchCompanies = () => {
-  const [companiesData, setCompaniesData] = useState<labelI[]>([]);
-
-  useEffect(() => {
-    getDistributorsCompany().then((res) => {
-      setCompaniesData(res);
-    });
-  }, []);
-
-  return {
-    companiesData,
-  };
-};
 
 export const useFetchTherapeuticAction = () => {
   const [therapeuticData, setTherapeuticData] = useState<labelI[]>([]);

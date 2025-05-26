@@ -15,7 +15,7 @@ type ExportOptionProps = {
   headers: HeaderItem[];
   data: Record<string, unknown>[];
   titleInfo?: string[][];
-  onColumnChange?: (visibleColumns: string[]) => void; // NUEVO
+  onColumnChange?: (visibleColumns: string[]) => void;
 };
 
 export const ExportOption: React.FC<ExportOptionProps> = ({
@@ -23,13 +23,11 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
   data,
   filename = "Exportacion",
   titleInfo = [],
-  onColumnChange, // NUEVO
+  onColumnChange,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [submenu, setSubmenu] = useState<"exportar" | "mostrar" | null>(null);
-  const [selectedHeaders, setSelectedHeaders] = useState<string[]>(
-    headers.map((h) => h.key)
-  );
+  const [selectedHeaders, setSelectedHeaders] = useState<string[]>([]);
 
   const handleExport = (type: "excel" | "pdf") => {
     const filteredHeaders = headers.filter((h) =>
@@ -52,6 +50,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
     setShowMenu(false);
   };
 
+
   useEffect(() => {
     if (onColumnChange) {
       onColumnChange(selectedHeaders);
@@ -59,7 +58,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
   }, [selectedHeaders, onColumnChange]);
 
   //ocultar menu, al tocar fuera de el pao pao pao
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null); 
 
   // Cerrar el menú si se hace clic fuera
   useEffect(() => {
