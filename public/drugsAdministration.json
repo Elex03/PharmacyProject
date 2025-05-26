@@ -1,0 +1,23 @@
+[
+  { "id": 1, "label": "Oral", "value": "oral" },
+  { "id": 2, "label": "Sublingual", "value": "sublingual" },
+  { "id": 3, "label": "Bucofaríngea o Bucal", "value": "bucal" },
+  { "id": 4, "label": "Rectal", "value": "rectal" },
+  { "id": 5, "label": "Vaginal", "value": "vaginal" },
+  { "id": 6, "label": "Inhalatoria", "value": "inhalatoria" },
+  { "id": 7, "label": "Nasal", "value": "nasal" },
+  { "id": 8, "label": "Oftálmica", "value": "oftalmica" },
+  { "id": 9, "label": "Otic", "value": "otic" },
+  { "id": 10, "label": "Cutánea o Tópica", "value": "topica" },
+  { "id": 11, "label": "Transdérmica", "value": "transdermica" },
+  { "id": 12, "label": "Intravenosa", "value": "intravenosa" },
+  { "id": 13, "label": "Intramuscular", "value": "intramuscular" },
+  { "id": 14, "label": "Subcutánea", "value": "subcutanea" },
+  { "id": 15, "label": "Intradérmica", "value": "intradermica" },
+  { "id": 16, "label": "Intraósea", "value": "intraosea" },
+  { "id": 17, "label": "Intratecal", "value": "intratecal" },
+  { "id": 18, "label": "Epidural", "value": "epidural" },
+  { "id": 19, "label": "Intraperitoneal", "value": "intraperitoneal" },
+  { "id": 20, "label": "Intrarterial", "value": "intrarterial" },
+  { "id": 21, "label": "Intranasal", "value": "intranasal" }
+]

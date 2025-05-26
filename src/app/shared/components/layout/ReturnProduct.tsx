@@ -22,8 +22,6 @@ const ReturnProduct: React.FC<ReturnProductProps> = ({ medicines }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Devolución registrada:", { selectedMedicine, quantity, reason });
-
     // Reiniciar valores
     setSelectedMedicine("");
     setQuantity("");

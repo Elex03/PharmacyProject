@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { exportToExcel } from "./exportToExcel";
 import { exportToPDF } from "./exportToPdf";
 import pdfIcon from "../../../assets/img/pdf-icon.svg";
 import xlsIcon from "../../../assets/img/xls-icon.svg";
+import "./Option.css";
 
 type HeaderItem = {
   key: string;
@@ -30,12 +31,50 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
     headers.map((h) => h.key)
   );
 
-  // Comunicar cambios de columnas visibles
+  const handleExport = (type: "excel" | "pdf") => {
+    const filteredHeaders = headers.filter((h) =>
+      selectedHeaders.includes(h.key)
+    );
+    const filteredData = data.map((row) => {
+      const filteredRow: Record<string, unknown> = {};
+      selectedHeaders.forEach((key) => {
+        filteredRow[key] = row[key];
+      });
+      return filteredRow;
+    });
+
+    if (type === "excel") {
+      exportToExcel(filteredHeaders, filteredData, filename, titleInfo);
+    } else {
+      exportToPDF(filteredHeaders, filteredData, filename, titleInfo);
+    }
+
+    setShowMenu(false);
+  };
+
   useEffect(() => {
     if (onColumnChange) {
       onColumnChange(selectedHeaders);
     }
   }, [selectedHeaders, onColumnChange]);
+
+  //ocultar menu, al tocar fuera de el pao pao pao
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Cerrar el menú si se hace clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+        setSubmenu(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -44,11 +83,6 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
         onClick={() => {
           setShowMenu((prev) => !prev);
           setSubmenu(null);
-        }}
-        style={{
-          background: "transparent",
-          border: "none",
-          cursor: "pointer",
         }}
       >
         <svg
@@ -64,144 +98,37 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
       </button>
 
       {showMenu && (
-        <div
-          style={{
-            position: "absolute",
-            top: "100%",
-            right: 0,
-            backgroundColor: "#fff",
-            border: "1px solid #ccc",
-            borderRadius: "6px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-            zIndex: 1000,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            padding: "4px",
-            gap: "8px",
-          }}
-        >
+        <div className="container-menu" ref={menuRef}>
           <div
+            className="sub-menu-content"
             onMouseEnter={() => setSubmenu("mostrar")}
             onClick={() => setSubmenu("mostrar")}
-            style={{
-              padding: "8px 12px",
-              cursor: "pointer",
-              whiteSpace: "nowrap",
-            }}
           >
             Mostrar
           </div>
           <div
+            className="sub-menu-content"
             onMouseEnter={() => setSubmenu("exportar")}
             onClick={() => setSubmenu("exportar")}
-            style={{
-              padding: "8px 12px",
-              cursor: "pointer",
-              whiteSpace: "nowrap",
-            }}
           >
             Exportar
           </div>
 
           {/* Submenú exportar */}
           {submenu === "exportar" && (
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                right: "100%",
-                transform: "translateY(-50%)",
-                marginRight: "8px",
-                backgroundColor: "#fff",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                padding: "8px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "6px",
-                minWidth: "180px",
-                zIndex: 1001,
-              }}
-            >
+            <div className="sub-menu">
               <div
-                onClick={() => {
-                  const filteredHeaders = headers.filter((h) =>
-                    selectedHeaders.includes(h.key)
-                  );
-
-                  const filteredData = data.map((row) => {
-                    const filteredRow: Record<string, unknown> = {};
-                    selectedHeaders.forEach((key) => {
-                      filteredRow[key] = row[key];
-                    });
-                    return filteredRow;
-                  });
-
-                  exportToExcel(
-                    filteredHeaders,
-                    filteredData,
-                    `${filename}`,
-                    titleInfo
-                  );
-                  setShowMenu(false);
-                }}
-                style={{
-                  padding: "8px 12px",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap",
-                }}
+                className="sub-menu-content"
+                onClick={() => handleExport("excel")}
               >
-                <img
-                  src={xlsIcon}
-                  alt=""
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    paddingRight: "10px",
-                  }}
-                />
+                <img src={xlsIcon} alt="" />
                 Exportar a Excel
               </div>
-
               <div
-                onClick={() => {
-                  const filteredHeaders = headers.filter((h) =>
-                    selectedHeaders.includes(h.key)
-                  );
-
-                  const filteredData = data.map((row) => {
-                    const filteredRow: Record<string, unknown> = {};
-                    selectedHeaders.forEach((key) => {
-                      filteredRow[key] = row[key];
-                    });
-                    return filteredRow;
-                  });
-
-                  exportToPDF(
-                    filteredHeaders,
-                    filteredData,
-                    `${filename}`,
-                    titleInfo
-                  );
-                  setShowMenu(false);
-                }}
-                style={{
-                  padding: "8px 12px",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap",
-                }}
+                className="sub-menu-content"
+                onClick={() => handleExport("pdf")}
               >
-                <img
-                  src={pdfIcon}
-                  alt=""
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    paddingRight: "10px",
-                  }}
-                />
+                <img src={pdfIcon} alt="" />
                 Exportar a PDF
               </div>
             </div>
@@ -209,25 +136,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
 
           {/* Submenú mostrar */}
           {submenu === "mostrar" && (
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                right: "100%",
-                transform: "translateY(-50%)",
-                marginRight: "8px",
-                backgroundColor: "#fff",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                padding: "8px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "6px",
-                minWidth: "180px",
-                zIndex: 1001,
-              }}
-            >
+            <div className="sub-menu">
               <label style={{ fontWeight: "bold" }}>
                 <input
                   type="checkbox"

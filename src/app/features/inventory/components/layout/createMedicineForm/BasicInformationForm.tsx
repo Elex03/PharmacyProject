@@ -4,22 +4,23 @@ import ImageSelector from "./SelectImage";
 import {
   useFetchCompanies,
   useFetchCompressedForm,
+  useFetchDrugVia,
 } from "../../../hooks/useMedicineForm";
 import TagInput from "../../../../../shared/components/forms/TagInput";
 
-interface Tag  {
-  id: string, 
-  text: string
+interface Tag {
+  id: string;
+  text: string;
 }
 
 const COUNTRIES: Tag[] = [
-  { id: 'Thailand', text: 'Thailand' },
-  { id: 'India', text: 'India' },
-  { id: 'Vietnam', text: 'Vietnam' },
-  { id: 'Turkey', text: 'Turkey' },
-  { id: 'Canada', text: 'Canada' },
-  { id: 'Argentina', text: 'Argentina' },
-  { id: 'España', text: 'España' },
+  { id: "Thailand", text: "Thailand" },
+  { id: "India", text: "India" },
+  { id: "Vietnam", text: "Vietnam" },
+  { id: "Turkey", text: "Turkey" },
+  { id: "Canada", text: "Canada" },
+  { id: "Argentina", text: "Argentina" },
+  { id: "España", text: "España" },
 ];
 
 export const BasicInformationForm = () => {
@@ -27,7 +28,8 @@ export const BasicInformationForm = () => {
 
   const { companiesData } = useFetchCompanies();
   const { compressedForm } = useFetchCompressedForm();
-
+  const { drugVia } = useFetchDrugVia();
+  
   return (
     <div
       style={{
@@ -109,7 +111,7 @@ export const BasicInformationForm = () => {
             placeholder="Descripción de los síntomas"
           /> */}
 
-           <TagInput suggestions={COUNTRIES} maxTags={7} />
+          <TagInput suggestions={COUNTRIES} maxTags={7} />
         </div>
       </div>
 
@@ -127,16 +129,28 @@ export const BasicInformationForm = () => {
           <div style={{ flex: 1 }} className="form-group-BasicInformationForm">
             <label htmlFor="accioTera">Via</label>
             <select
-              {...register("accioTera")}
+              {...register("via")}
               id="accioTera"
               className="action-select-BasicInformationForm"
             >
-              <option>Oral</option>
-              <option>Rectal</option>
+              {drugVia.length > 0 ? (
+                drugVia.map((compressedFormResponse) => (
+                  <option
+                    key={compressedFormResponse.id}
+                    value={compressedFormResponse.label}
+                  >
+                    {compressedFormResponse.label}
+                  </option>
+                ))
+              ) : (
+                <option disabled value="">
+                  No hay nada que mostrar
+                </option>
+              )}
             </select>
           </div>
 
-          <div style={{ flex: 1 }} className="form-group-BasicInformationForm">
+          {/* <div style={{ flex: 1 }} className="form-group-BasicInformationForm">
             <label htmlFor="dosis">Dosis</label>
             <select
               {...register("accioTera")}
@@ -146,7 +160,7 @@ export const BasicInformationForm = () => {
               <option>Oral</option>
               <option>Rectal</option>
             </select>
-          </div>
+          </div> */}
         </div>
 
         {/* Imagen */}

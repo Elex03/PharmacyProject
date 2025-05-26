@@ -12,7 +12,6 @@ const WebSocketImageMenu: React.FC = () => {
   } = useImageFromWebSocket('ws://localhost:3000');
 
   const handleSelectFromGallery = () => {
-    console.log('Seleccionar desde galería');
     // Lógica para seleccionar desde galería
   };
 

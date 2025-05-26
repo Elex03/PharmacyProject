@@ -38,7 +38,6 @@ export function Table<
     price: number;
   }) => {
     add(element);
-    console.log(element);
   };
 
   useEffect(() => {

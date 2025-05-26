@@ -18,7 +18,6 @@ interface Medication {
   cantidad: string | number | undefined;
 }
 
-
 export type ColumnDefinition<T> = {
   key: keyof T;
   header: string;
@@ -42,4 +41,20 @@ export interface InventoryItem {
   precioCompra: number;
   precioVenta: string;
   margenUtilidad: number;
+}
+
+export interface FullMedicineData {
+  nombre: string;
+  codigo: string;
+  accioTera: number[];
+  presentacion: number;
+  via: string;
+  fabricante: number;
+  imagen?: File;
+  sintomas: string[];
+  requierePrescripcion: boolean;
+  precioCompra: number;
+  precioVenta: number;
+  minStock: number;
+  maxStock: number;
 }

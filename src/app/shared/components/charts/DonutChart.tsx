@@ -54,7 +54,7 @@ export default function DonutChart() {
     setActiveIndex(1);
   }, []);
   const onPieEnter = (_: unknown, index: number) => {
-    console.log(index)
+
     setActiveIndex(index);
   };
 

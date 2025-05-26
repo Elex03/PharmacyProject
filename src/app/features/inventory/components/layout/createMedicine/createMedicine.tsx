@@ -4,79 +4,51 @@ import { CreateMedicineHeader } from "./createMedicine-Header";
 import { BasicInformationForm } from "../createMedicineForm/BasicInformationForm";
 import { FinancialsInventoryForm } from "../createMedicineForm/FinancialsInventoryForm";
 import { useForm, FormProvider } from "react-hook-form";
+import type { FullMedicineData } from "../../../../../../types";
+import { createMedicine } from "../../../../../shared/api/services/Medicine";
 
 import "./createMedicine.css";
 import "../../../../../shared/styles/shared.css";
-
-interface FullMedicineData {
-  nombre: string;
-  presentacion: number;
-  fabricante: number;
-  codigo: string;
-  imagen?: File; 
-  accioTera: number[];
-  dosis: number;
-  sintomas: string;
-  unidad: number; 
-  requierePrescripcion: boolean;
-  financiero: {
-    precioCompra: number;
-    precioVenta: number;
-    minStock: number;
-    maxStock: number;
-  };
-}
-
-interface Medicine {
-  nombre: string;
-  accion: string;
-  codigo: string;
-  requierePrescripcion: boolean;
-}
 
 interface CreateMedicineModalProps {
   onClose: () => void;
 }
 
-
 const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
   onClose,
 }) => {
   const [tab, setTab] = useState<"basico" | "financiero">("basico");
-  const [Medicine, setMedicine] = useState<Medicine>({
-    nombre: "",
-    accion: "",
-    codigo: "",
-    requierePrescripcion: false,
-  });
-
-  const handleChange = (key: keyof Medicine, value: string | boolean) => {
-    setMedicine((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
 
   const methods = useForm<FullMedicineData>({
     defaultValues: {
       nombre: "",
       codigo: "",
-      imagen: undefined,
       accioTera: [],
       presentacion: 0,
+      via: "",
       fabricante: 0,
-      dosis: 0,
-      sintomas: "",
-      unidad: 0,
+      imagen: undefined,
+      sintomas: [],
       requierePrescripcion: false,
-      financiero: {
-        precioCompra: 0,
-        precioVenta: 0,
-        minStock: 0,
-        maxStock: 0,
-      },
+      precioCompra: 0,
+      precioVenta: 0,
+      minStock: 0,
+      maxStock: 0,
     },
   });
+
+  const onSubmit = (data: FullMedicineData) => {
+    console.log("Form submitted with data:", data);
+    createMedicine(data)
+      .then(() => {
+        console.log("Medicine created successfully");
+
+        onClose();
+      })
+      .catch((error) => {
+        console.error("Error creating medicine:", error);
+      });
+  };
 
   return (
     <div className="modal-overlay">
@@ -87,30 +59,28 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
         exit={{ opacity: 0, y: 30 }}
         transition={{ duration: 0.4 }}
       >
-        <CreateMedicineHeader medicine={Medicine} onChange={handleChange} />
-        <div className="tabs">
-          <button
-            className={tab === "basico" ? "active" : ""}
-            onClick={() => setTab("basico")}
-          >
-            Información básica
-          </button>
-          <button
-            style={{ marginLeft: "-1px" }}
-            className={tab === "financiero" ? "active" : ""}
-            onClick={() => setTab("financiero")}
-          >
-            Datos financieros e inventario
-          </button>
-        </div>
-
         <FormProvider {...methods}>
-          <form
-            onSubmit={methods.handleSubmit((data) => {
-              console.log(data); 
-              // onClose();
-            })}
-          >
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <CreateMedicineHeader />
+
+            <div className="tabs">
+              <button
+                type="button"
+                className={tab === "basico" ? "active" : ""}
+                onClick={() => setTab("basico")}
+              >
+                Información básica
+              </button>
+              <button
+                type="button"
+                style={{ marginLeft: "-1px" }}
+                className={tab === "financiero" ? "active" : ""}
+                onClick={() => setTab("financiero")}
+              >
+                Datos financieros e inventario
+              </button>
+            </div>
+
             <AnimatePresence mode="wait">
               {tab === "basico" && (
                 <motion.div
@@ -143,7 +113,11 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
               <button type="button" className="cancelar" onClick={onClose}>
                 Cancelar
               </button>
-              <button type="submit" className="guardar">
+              <button
+                type="submit"
+                className="guardar"
+                onClick={(e) => e.stopPropagation()}
+              >
                 Guardar
               </button>
             </div>

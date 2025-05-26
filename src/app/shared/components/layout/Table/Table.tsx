@@ -7,6 +7,7 @@ import "./Table.css";
 import { InfoQuantityData } from "../infoQuantityData";
 import { PaginationFooter } from "./PaginationFooter";
 import { useTableState } from "./hooks/useTableState";
+import { API_URL } from "../../config";
 
 type ColumnDefinition<T> = {
   key: keyof T;
@@ -217,13 +218,7 @@ export function Table<T extends Record<string, unknown>>({
                             }}
                           >
                             <img
-                              src={
-                                typeof row.imagenUrl === "string"
-                                  ? row.imagenUrl.startsWith("http") + '/uploads/'
-                                    ? row.imagenUrl
-                                    : `/uploads/${row.imagenUrl}`
-                                  : ""
-                              }
+                               src={`${API_URL}${row.imagenUrl}`}
                               alt="Imagen"
                               style={{
                                 marginRight: "8px",
@@ -431,7 +426,6 @@ const SetLabelTrucate: React.FC<propsHighlight> = ({ label, isHighlight }) => {
     return undefined;
   };
   const style = isHighlight ? undefined : getHighlightStyle(String(label));
-  console.log(style);
 
   return (
     <span

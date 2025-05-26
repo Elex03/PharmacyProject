@@ -52,3 +52,22 @@ export const useFetchCompressedForm = () => {
     compressedForm,
   };
 };
+
+export const useFetchDrugVia = () => {
+  const [drugVia, setDrugVia] = useState<labelI[]>([]);
+
+  useEffect(() => {
+    fetch("/drugsAdministration.json")
+      .then((response) => response.json())
+      .then((data) => {
+        setDrugVia(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching drug via:", error);
+      });
+  }, []);
+
+  return {
+    drugVia,
+  };
+};

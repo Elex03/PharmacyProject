@@ -29,7 +29,6 @@ export const ResumeSaleLayout = () => {
     setItems(updatedItems);
   }, [data]);
 
-  console.log(data);
 
   const eliminarItem = (id: number) => {
     const itemToRemove = data.find((item) => item.id === id);

@@ -43,7 +43,6 @@ const Distributors = () => {
     <Layout title="Distribuidores">
       <ToggleSection
         title="información"
-        onToggle={(visible) => console.log(visible)}
       >
         <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
           Aquí puedes gestionar el inventario de productos farmacéuticos.

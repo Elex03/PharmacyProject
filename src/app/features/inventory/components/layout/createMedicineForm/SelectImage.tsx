@@ -1,33 +1,25 @@
 import React, { useRef, useState, ChangeEvent, useEffect } from "react";
 import { useImageFromWebSocket } from "./useImageFromWebSocket";
 import { MenuSelect } from "./MenuSelect";
-import { AnimatePresence } from "framer-motion";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 const ImageUploadBox: React.FC = () => {
-  const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showOptions, setShowOptions] = useState(false);
-    const { setValue } = useFormContext();
+  const [preview, setPreview] = useState<string | null>(null);
+  const { imageSrc, isWaiting, waitForImage } = useImageFromWebSocket(
+    "ws://localhost:3000"
+  );
+  const { control } = useFormContext();
 
-  const {
-    imageSrc,
-    isWaiting,
-    waitForImage,
-  } = useImageFromWebSocket("ws://localhost:3000");
+  useEffect(() => {
+    if (imageSrc) {
+      setPreview(imageSrc);
+    }
+  }, [imageSrc]);
 
   const handleContainerClick = () => {
     setShowOptions(true);
-  };
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
-      setShowOptions(false);
-      setValue('imagen', file);
-    }
   };
 
   const handleSelectFromGallery = () => {
@@ -44,76 +36,90 @@ const ImageUploadBox: React.FC = () => {
     }
   };
 
-  const handleCancel = () => {
+  const handleCancelM = () => {
     setShowOptions(false);
   };
 
-  useEffect(() => {
-    if (imageSrc) {
-      setImage(imageSrc);
+  const handleImageChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    onChange: (value: File | string | null) => void
+  ) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPreview(imageUrl);
+      onChange(file); // o imageUrl si prefieres guardar una string
+
+      const img = new Image();
+      img.onload = () => {
+        setShowOptions(false);
+      };
+      img.src = imageUrl;
     }
-  }, [imageSrc]);
+  };
 
   return (
-    <>
-      <input
-        
-        id="imagen"
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        ref={fileInputRef}
-        style={{ display: "none" }}
-      />
-
-      <div
-        onClick={handleContainerClick}
-        style={{
-          height: "246px",
-          border: "1px solid #5c5c5c",
-          borderRadius: "8px",
-          cursor: isWaiting ? "default" : "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
-          backgroundColor: "#fff",
-          position: "relative",
-        }}
-      >
-        {image ? (
-          <img
-            src={image}
-            alt="Vista previa"
-            style={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              objectFit: "contain",
-            }}
+    <Controller
+      name="imagen"
+      control={control}
+      render={({ field: { onChange } }) => (
+        <>
+          <input
+            id="imagen"
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageChange(e, onChange)}
+            ref={fileInputRef}
+            style={{ display: "none" }}
           />
-        ) : (
-          <span style={{ fontSize: "14px", color: "#555" }}>
-            Haz clic para seleccionar
-          </span>
-        )}
 
-        <AnimatePresence>
-          {showOptions && (
-            <MenuSelect
-              key="options-menu"
-              isWaiting={isWaiting}
-              onSelectFromGallery={handleSelectFromGallery}
-              onTakePhoto={handleTakePhoto}
-              onCancel={handleCancel}
-            />
-          )}
-        </AnimatePresence>
-      </div>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              handleContainerClick();
+            }}
+            style={{
+              height: "246px",
+              border: "1px solid #5c5c5c",
+              borderRadius: "8px",
+              cursor: isWaiting ? "default" : "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+              backgroundColor: "#fff",
+              position: "relative",
+            }}
+          >
+            {preview ? (
+              <img
+                src={preview}
+                alt="Vista previa"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            ) : (
+              <span style={{ fontSize: "14px", color: "#555" }}>
+                Haz clic para seleccionar
+              </span>
+            )}
 
-      {/* <p style={{ fontSize: "12px", color: "#999", marginTop: "4px" }}>
-        Estado WebSocket: {status}
-      </p> */}
-    </>
+            {showOptions && (
+              <MenuSelect
+                key="options-menu"
+                isWaiting={isWaiting}
+                onSelectFromGallery={handleSelectFromGallery}
+                onTakePhoto={handleTakePhoto}
+                onCancel={handleCancelM}
+              />
+            )}
+          </div>
+        </>
+      )}
+    />
   );
 };
 

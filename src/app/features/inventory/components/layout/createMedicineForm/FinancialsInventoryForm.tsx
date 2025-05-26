@@ -16,7 +16,7 @@ export const FinancialsInventoryForm = () => {
 
     if (!isNaN(compra) && !isNaN(ganancia)) {
       const precioSugerido = compra * (1 + ganancia / 100);
-      setValue("financiero.precioVenta", parseFloat(precioSugerido.toFixed(2)));
+      setValue("precioVenta", parseFloat(precioSugerido.toFixed(2)));
     }
   }, [precioCompra, porcentajeGanancia, setValue]);
 
@@ -46,7 +46,7 @@ export const FinancialsInventoryForm = () => {
               id="precioCompra"
               type="number"
               step="0.01"
-              {...register("financiero.precioCompra")}
+              {...register("precioCompra")}
               className="action-input-BasicInformationForm"
               placeholder="Ej. C$ 50.00"
             />
@@ -65,7 +65,7 @@ export const FinancialsInventoryForm = () => {
               id="porcentajeGanancia"
               type="number"
               step="0.01"
-              {...register("financiero.porcentajeGanancia")}
+              {...register("porcentajeGanancia")}
               className="action-input-Financials"
               placeholder="Ej. 25 %"
             />
@@ -84,7 +84,7 @@ export const FinancialsInventoryForm = () => {
               id="precioVenta"
               type="number"
               step="0.01"
-              {...register("financiero.precioVenta")}
+              {...register("precioVenta")}
               className="action-input-Financials"
               placeholder="Calculado automáticamente"
             />
@@ -108,7 +108,7 @@ export const FinancialsInventoryForm = () => {
             <input
               id="minStock"
               type="number"
-              {...register("financiero.minStock")}
+              {...register("minStock")}
               className="action-input-BasicInformationForm"
               placeholder="Ej. 10"
             />
@@ -126,7 +126,7 @@ export const FinancialsInventoryForm = () => {
             <input
               id="maxStock"
               type="number"
-              {...register("financiero.maxStock")}
+              {...register("maxStock")}
               className="action-input-BasicInformationForm"
               placeholder="Ej. 100"
             />

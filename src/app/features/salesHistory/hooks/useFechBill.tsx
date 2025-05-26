@@ -32,8 +32,6 @@ export const useFetchBill = (id: string) => {
         montoPagado: 0,
       });
 
-      console.log(data);
-
       const detallesConvertidos = data.productos.map((item: ProductoItem) => ({
         nombre: item.nombre,
         precio: item.precio,

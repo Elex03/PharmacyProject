@@ -14,7 +14,6 @@ export const useImageFromWebSocket = (url: string) => {
 
     ws.onopen = () => {
       setStatus('Conectado');
-      console.log('Conexión WebSocket abierta');
     };
 
     ws.onmessage = (event) => {
@@ -27,7 +26,6 @@ export const useImageFromWebSocket = (url: string) => {
           if (typeof imageUrl === 'string' && imageUrl.startsWith('http')) {
             setImageSrc(imageUrl);
             setIsWaiting(false);
-            console.log('Imagen recibida correctamente:', imageUrl);
           } else {
             console.error('Formato de imagen inválido:', imageUrl);
           }
@@ -43,7 +41,6 @@ export const useImageFromWebSocket = (url: string) => {
 
     ws.onclose = () => {
       setStatus('Desconectado');
-      console.log('Conexión WebSocket cerrada');
     };
 
     return () => {
