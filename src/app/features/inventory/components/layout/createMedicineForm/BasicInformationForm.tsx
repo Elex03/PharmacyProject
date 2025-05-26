@@ -1,17 +1,21 @@
 import { useFormContext } from "react-hook-form";
 import "./BasicInformationForm.css";
 import ImageSelector from "./SelectImage";
-import {
-  useFetchCompressedForm,
-  useFetchDrugVia,
-} from "../../../hooks/useMedicineForm";
 import TagInput from "../../../../../shared/components/forms/TagInput";
-import { useFetchCompanies } from "../../../../ditributors/hooks/useFetchDistributors";
+import React from "react";
 
 interface Tag {
   id: string;
   text: string;
 }
+
+
+interface labelI {
+  label: string;
+  value: string;
+  id: number;
+}
+
 
 const COUNTRIES: Tag[] = [
   { id: "Thailand", text: "Thailand" },
@@ -23,13 +27,18 @@ const COUNTRIES: Tag[] = [
   { id: "España", text: "España" },
 ];
 
-export const BasicInformationForm = () => {
+interface BasicInformationFormProps {
+  companiesData: labelI[];
+  compressedForm: labelI[];
+  drugVia: labelI[];
+}
+export const BasicInformationForm:React.FC<BasicInformationFormProps>  = ({
+  companiesData,
+  compressedForm,
+  drugVia,
+}) => {
   const { register } = useFormContext();
 
-  const { companiesData } = useFetchCompanies();
-  const { compressedForm } = useFetchCompressedForm();
-  const { drugVia } = useFetchDrugVia();
-  
   return (
     <div
       style={{

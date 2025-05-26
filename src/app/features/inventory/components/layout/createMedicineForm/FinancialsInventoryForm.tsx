@@ -4,7 +4,7 @@ import { useEffect } from "react";
 export const FinancialsInventoryForm = () => {
   const { register, control, setValue } = useFormContext();
 
-  const precioCompra = useWatch({ control, name: "financiero.precioCompra" });
+  const precioCompra = useWatch({ control, name: "precioCompra" });
   const porcentajeGanancia = useWatch({
     control,
     name: "financiero.porcentajeGanancia",

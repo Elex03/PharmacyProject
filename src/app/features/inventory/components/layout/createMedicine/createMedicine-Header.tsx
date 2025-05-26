@@ -3,15 +3,19 @@ import { Header } from "../../../../../shared/components/layout/Header";
 import { AnimatedMulti } from "../../../../../shared/components/forms/multipleSelector";
 import { useFetchTherapeuticAction } from "../../../hooks/useMedicineForm";
 import { useFormContext } from "react-hook-form";
+import React from "react";
 
-export const CreateMedicineHeader = () => {
+interface CreateMedicineHeaderProps {
+  title: string;
+}
+export const CreateMedicineHeader:React.FC<CreateMedicineHeaderProps> = ({title}) => {
   const { register } = useFormContext();
 
   const { therapeuticData } = useFetchTherapeuticAction();
   return (
     <>
       <div style={{ margin: "0 -10px" }}>
-        <Header title="Registar medicamento" size="1.5rem" />
+        <Header title={title} size="1.5rem" />
       </div>
 
       <div className="form-grid">

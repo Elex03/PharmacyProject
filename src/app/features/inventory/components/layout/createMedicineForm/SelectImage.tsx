@@ -1,26 +1,35 @@
 import React, { useRef, useState, ChangeEvent, useEffect } from "react";
 import { useImageFromWebSocket } from "./useImageFromWebSocket";
 import { MenuSelect } from "./MenuSelect";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 
 const ImageUploadBox: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { control, setValue } = useFormContext();
+  const watchImage = useWatch({ control, name: "imagen" });
   const [showOptions, setShowOptions] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
-  const { imageSrc, isWaiting, waitForImage } = useImageFromWebSocket(
-    "ws://localhost:3000"
-  );
-  const { control } = useFormContext();
+  const { imageSrc, isWaiting, waitForImage } = useImageFromWebSocket("ws://localhost:3000");
 
+  // Sincroniza el valor del formulario con el preview
+  useEffect(() => {
+    if (typeof watchImage === "string") {
+      setPreview(watchImage); // URL de WebSocket
+    } else if (watchImage instanceof File) {
+      const imageUrl = URL.createObjectURL(watchImage);
+      setPreview(imageUrl);
+    }
+  }, [watchImage]);
+
+  // Cuando llega imagen por WebSocket
   useEffect(() => {
     if (imageSrc) {
+      setValue("imagen", imageSrc); // Guardar en el formulario
       setPreview(imageSrc);
     }
-  }, [imageSrc]);
+  }, [imageSrc, setValue]);
 
-  const handleContainerClick = () => {
-    setShowOptions(true);
-  };
+  const handleContainerClick = () => setShowOptions(true);
 
   const handleSelectFromGallery = () => {
     setShowOptions(false);
@@ -28,17 +37,12 @@ const ImageUploadBox: React.FC = () => {
   };
 
   const handleTakePhoto = () => {
-    if (isWaiting) {
-      console.log("Espera de foto cancelada");
-    } else {
+    if (!isWaiting) {
       waitForImage();
-      console.log("Esperando foto...");
     }
   };
 
-  const handleCancelM = () => {
-    setShowOptions(false);
-  };
+  const handleCancelM = () => setShowOptions(false);
 
   const handleImageChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -48,13 +52,8 @@ const ImageUploadBox: React.FC = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPreview(imageUrl);
-      onChange(file); // o imageUrl si prefieres guardar una string
-
-      const img = new Image();
-      img.onload = () => {
-        setShowOptions(false);
-      };
-      img.src = imageUrl;
+      onChange(file);
+      setShowOptions(false);
     }
   };
 

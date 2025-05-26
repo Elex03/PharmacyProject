@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateMedicineHeader } from "./createMedicine-Header";
 import { BasicInformationForm } from "../createMedicineForm/BasicInformationForm";
@@ -7,40 +7,51 @@ import { useForm, FormProvider } from "react-hook-form";
 import type { FullMedicineData } from "../../../../../../types";
 import { createMedicine } from "../../../../../shared/api/services/Medicine";
 
-import "./createMedicine.css";
-import "../../../../../shared/styles/shared.css";
 import { useFetchCompanies } from "../../../../ditributors/hooks/useFetchDistributors";
 import { useFetchCompressedForm, useFetchDrugVia } from "../../../hooks/useMedicineForm";
 
-interface CreateMedicineModalProps {
+
+import "./createMedicine.css";
+import "../../../../../shared/styles/shared.css";
+import { useFetchOneMedicine } from "../../../hooks/useMedicineForm";
+import { API_URL } from "../../../../../shared/components/config";
+
+interface EditMedicineProps {
   onClose: () => void;
+  selectedMedicineId: number;
 }
 
-const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
-  onClose,
-}) => {
+const EditMedicine: React.FC<EditMedicineProps> = ({ onClose, selectedMedicineId }) => {
   const [tab, setTab] = useState<"basico" | "financiero">("basico");
 
-  const methods = useForm<FullMedicineData>({
-    defaultValues: {
-      nombre: "",
-      codigo: "",
-      accioTera: [],
-      presentacion: 0,
-      via: "",
-      fabricante: 0,
-      imagen: undefined,
-      sintomas: [],
-      requierePrescripcion: false,
-      precioCompra: 0,
-      precioVenta: 0,
-      minStock: 0,
-      maxStock: 0,
-    },
-  });
+const { medicineData } = useFetchOneMedicine(selectedMedicineId);
+
+const methods = useForm<FullMedicineData>();
+
+useEffect(() => {
+  if (medicineData) {
+    methods.reset({
+      nombre: medicineData.nombre || "",
+      codigo: medicineData.codigo || "",
+      accioTera: medicineData.accioTera || [],
+      presentacion: medicineData.presentacion || 0,
+      via: medicineData.via || "",
+      fabricante: medicineData.fabricante || 0,
+      imagen: medicineData.imagen ? API_URL + medicineData.imagen : undefined,
+      sintomas: medicineData.sintomas || [],
+      requierePrescripcion: medicineData.requierePrescripcion || false,
+      precioCompra: medicineData.precioCompra || 0,
+      precioVenta: medicineData.precioVenta || 0,
+      minStock: medicineData.minStock || 0,
+      maxStock: medicineData.maxStock || 0,
+    });
+  }
+}, [medicineData, methods, methods.reset]);
+
   const { companiesData } = useFetchCompanies();
   const { compressedForm } = useFetchCompressedForm();
   const { drugVia } = useFetchDrugVia();
+
 
   const onSubmit = (data: FullMedicineData) => {
     console.log("Form submitted with data:", data);
@@ -66,7 +77,7 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
       >
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <CreateMedicineHeader title="Registrar medicamento"/>
+            <CreateMedicineHeader title="Editar medicamento" />
 
             <div className="tabs">
               <button
@@ -133,4 +144,4 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
   );
 };
 
-export default CreateMedicineModal;
+export default EditMedicine;

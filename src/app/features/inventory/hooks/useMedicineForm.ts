@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   getCompressedforms,
+  getOneMedicine,
   getTherapeuticAction,
 } from "../../../shared/api/services/Medicine";
+import type { FullMedicineData } from "../../../../types";
 
 interface labelI {
   label: string;
@@ -57,3 +59,20 @@ export const useFetchDrugVia = () => {
     drugVia,
   };
 };
+
+
+export const useFetchOneMedicine = (id: number) => {
+  const [medicineData, setMedicineData] = useState<FullMedicineData | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      getOneMedicine(id).then((res) => {
+        setMedicineData(res);
+      });
+    }
+  }, [id]);
+
+  return {
+    medicineData,
+  };
+}

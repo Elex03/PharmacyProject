@@ -50,3 +50,4 @@ export const useFetchInventory: () => {
 
   return { inventoryData, headers, loading };
 };
+

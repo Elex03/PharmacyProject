@@ -64,3 +64,14 @@ export const createMedicine = async (
     throw error;
   }
 };
+
+
+export const getOneMedicine = async (id: number) => {
+  try {
+    const response = await ApiFarmanovaApi.get(`medicines/getOneMedicine/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching medicine:", error);
+    throw error;
+  }
+}

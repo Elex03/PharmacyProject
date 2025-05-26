@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useModal = () => {
+export const useModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => setIsOpen(true);
   const onClose = () => setIsOpen(false);
@@ -19,6 +19,8 @@ export const useInventoryState = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -32,6 +34,8 @@ export const useInventoryState = () => {
     setStockFilter(e.target.value);
   };
 
+  
+
 
 
   return {
@@ -39,11 +43,13 @@ export const useInventoryState = () => {
     sortOrder,
     stockFilter,
     itemsPerPage,
+    selectedItemId,
+    modal,
+    secondModal,
+    setSelectedItemId,
     setItemsPerPage,
     handleSearch,
     handleSort,
     handleStockFilter,
-    modal,
-    secondModal,
   };
 };

@@ -8,12 +8,13 @@ import "../../../shared/components/layout/Table/Table.css";
 import "../../../shared/styles/shared.css";
 import { RadarChart } from "../../../shared/components/charts/RadarChart.tsx";
 import CreateMedicineModal from "../components/layout/createMedicine/createMedicine.tsx";
-import { useInventoryState } from "../hooks/useInventoryState.ts";
+import { useInventoryState, useModal } from "../hooks/useInventoryState.ts";
 import ReturnProduct from "../../../shared/components/layout/ReturnProduct.tsx";
+import EditMedicine from "../components/layout/createMedicine/editMedicine.tsx";
 
 const Inventario = () => {
   const { inventoryData, headers } = useFetchInventory();
-
+  const modalEdit = useModal();
   const {
     searchTerm,
     sortOrder,
@@ -21,11 +22,18 @@ const Inventario = () => {
     itemsPerPage,
     modal,
     secondModal,
+    selectedItemId,
     setItemsPerPage,
     handleSearch,
     handleSort,
     handleStockFilter,
+    setSelectedItemId,
   } = useInventoryState();
+
+  const onOpenModal = (id: number) => {
+    setSelectedItemId(id);
+    modalEdit.onOpen();
+  };
 
   const filteredData = getFilteredInventory(
     inventoryData,
@@ -35,52 +43,56 @@ const Inventario = () => {
   );
 
   return (
-      <Layout title="Inventario">
-        <ToggleSection
-          title="información"
-          onToggle={(visible) => setItemsPerPage(visible ? 20 : 30)}
-        >
-          <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
-            Aquí puedes gestionar el inventario de productos farmacéuticos.
-            <br />
-            Puedes registrar nuevos productos, actualizar la información de los
-            existentes y realizar un seguimiento del stock disponible.
-          </p>
+    <Layout title="Inventario">
+      <ToggleSection
+        title="información"
+        onToggle={(visible) => setItemsPerPage(visible ? 20 : 30)}
+      >
+        <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
+          Aquí puedes gestionar el inventario de productos farmacéuticos.
+          <br />
+          Puedes registrar nuevos productos, actualizar la información de los
+          existentes y realizar un seguimiento del stock disponible.
+        </p>
 
-          <div className="chart-container">
-            <RadarChart />
-          </div>
-        </ToggleSection>
-        <InventoryActions
-          linkButton={{
-            ButtonLabel: "Agregar medicamento",
-            type: "modal",
-          }}
-          enableSecondButton={true}
-          onOpenSecondModal={secondModal.onOpen}
-          onOpenModal={modal.onOpen}
-          sortOrder={sortOrder}
-          stockFilter={stockFilter}
-          searchTerm={searchTerm}
-          handleSort={handleSort}
-          handleStockFilter={handleStockFilter}
-          handleSearch={handleSearch}
-        />
-        <Table
-          columns={headers}
-          data={filteredData}
-          itemsPerPage={itemsPerPage}
-          linkColumn={{
-            label: "✏️ Editar",
-            path: "/producto",
-            idKey: "id",
-            type: "modal",
-          }}
-        />
-
-        {modal.isOpen && <CreateMedicineModal onClose={modal.onClose} />}
-        {secondModal.isOpen && <ReturnProduct onClose={secondModal.onClose} medicines={[]} />}
-      </Layout>
+        <div className="chart-container">
+          <RadarChart />
+        </div>
+      </ToggleSection>
+      <InventoryActions
+        linkButton={{
+          ButtonLabel: "Agregar medicamento",
+          type: "modal",
+        }}
+        enableSecondButton={true}
+        onOpenSecondModal={secondModal.onOpen}
+        onOpenModal={modal.onOpen}
+        sortOrder={sortOrder}
+        stockFilter={stockFilter}
+        searchTerm={searchTerm}
+        handleSort={handleSort}
+        handleStockFilter={handleStockFilter}
+        handleSearch={handleSearch}
+      />
+      <Table
+        columns={headers}
+        data={filteredData}
+        itemsPerPage={itemsPerPage}
+        linkColumn={{
+          label: "✏️ Editar",
+          path: "/producto",
+          idKey: "id",
+          type: "modal",
+        }}
+        onOpenModal={onOpenModal}
+      />
+      {modalEdit.isOpen && selectedItemId !== null && (
+       <EditMedicine selectedMedicineId={selectedItemId} onClose={modalEdit.onClose} />)}
+      {modal.isOpen && <CreateMedicineModal onClose={modal.onClose} />}
+      {secondModal.isOpen && (
+        <ReturnProduct onClose={secondModal.onClose} medicines={[]} />
+      )}
+    </Layout>
   );
 };
 

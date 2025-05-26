@@ -280,12 +280,13 @@ export function Table<T extends Record<string, unknown>>({
                                 ? Number(row[linkColumn.idKey])
                                 : 0
                             )
-                          } // Llamamos la función para abrir el modal
+                          }
                           style={{
                             color: "black",
                             textDecoration: "underline",
                             background: "none",
                             border: "none",
+                            cursor: "pointer",
                           }}
                         >
                           {linkColumn.label}
