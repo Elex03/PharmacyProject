@@ -1,73 +1,134 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { Header } from "../../../../shared/components/layout/Header";
 import { useCart } from "../../hooks/useCart";
 import "../../../../shared/components/layout/Table/Table.css";
+import { createMakeSales } from "../../../../shared/api/services/MakeSales";
+import { toast } from "react-toastify";
 
-interface dataPreviewTable {
-  id: number;
-  descripcion: string;
-  precioVenta: number;
-  stock: number;
+interface FormValues {
+  pagaCon: number;
+  total: number;
+  empleado_fk: number;
+  detalle: {
+    medicamento_fk: number;
+    cantidad: number;
+    descripcion?: string;
+    precioVenta?: number;
+    stock?: number;
+  }[];
 }
 
 export const ResumeSaleLayout = () => {
-  const [items, setItems] = useState<
-    (dataPreviewTable & { cantidad: number })[]
-  >([]);
+  const { items: cartItems, deleteItem, empty } = useCart();
 
-  const { items: data } = useCart();
+  const { register, handleSubmit, control, watch, reset } = useForm<FormValues>(
+    {
+      defaultValues: {
+        pagaCon: 0,
+        total: 0,
+        empleado_fk: 1,
+        detalle: [],
+      },
+    }
+  );
 
-  const { deleteItem, empty } = useCart();
+  const { fields, remove, update } = useFieldArray({
+    control,
+    name: "detalle",
+  });
 
   useEffect(() => {
-    const updatedItems = data.map((item) => ({
-      ...item,
+    const detalle = cartItems.map((item) => ({
+      medicamento_fk: item.id,
       cantidad: 1,
-      descripcion: item.name || "",
-      precioVenta: item.price || 0,
+      descripcion: item.name,
+      precioVenta: item.price,
+      stock: item.stock,
     }));
-    setItems(updatedItems);
-  }, [data]);
+    reset({
+      pagaCon: 0,
+      empleado_fk: 1,
+      detalle,
+    });
+  }, [cartItems, reset]);
 
-
-  const eliminarItem = (id: number) => {
-    const itemToRemove = data.find((item) => item.id === id);
-    if (itemToRemove) {
-      const { id } = itemToRemove;
-      deleteItem(id);
-    }
-
-    setItems((prev) => prev.filter((item) => item.id !== id));
+  const handleCantidadChange = (
+    index: number,
+    cantidad: number,
+    stock: number
+  ) => {
+    const nuevaCantidad = Math.max(1, Math.min(cantidad, stock));
+    update(index, {
+      ...fields[index],
+      cantidad: nuevaCantidad,
+    });
   };
+
   const calcularTotal = () => {
-    return items.reduce(
-      (acc, item) => acc + item.cantidad * item.precioVenta,
+    return watch("detalle").reduce(
+      (acc, item) => acc + item.cantidad * (item.precioVenta || 0),
       0
     );
   };
 
-  const handleCantidadChange = (id: number, cantidad: number) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              cantidad: Math.max(1, Math.min(cantidad, item.stock)),
-            }
-          : item
-      )
-    );
+  const eliminarItem = (index: number, id: number) => {
+    deleteItem(id);
+    remove(index);
   };
 
   const handleCancelBotton = () => {
     empty();
+    reset({
+      pagaCon: 0,
+      empleado_fk: 1,
+      detalle: [],
+    });
+  };
+
+  const onSubmit = (data: FormValues) => {
+    const payload = {
+      pagaCon: data.pagaCon,
+      empleado_fk: data.empleado_fk,
+      detalle: data.detalle.map((d) => ({
+        medicamento_fk: d.medicamento_fk,
+        cantidad: d.cantidad,
+      })),
+      total: calcularTotal(),
+    };
+
+    toast
+      .promise(
+        createMakeSales(payload),
+        {
+          pending: "Procesando venta...",
+          success: "Venta creada exitosamente",
+          error: "Error al crear la venta",
+        },
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        }
+      )
+      .catch((error) => {
+        console.error("Error al crear la venta:", error);
+      });
   };
 
   return (
-    <div style={{ border: "1px solid #000", padding: "10px" }}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      style={{ border: "1px solid #000", padding: "10px" }}
+    >
       <div style={{ marginLeft: "-10px" }}>
         <Header title="Resumen de venta" size="1.2rem" />
       </div>
+
       <p style={{ fontSize: "12px" }}>
         Aquí se muestran los medicamentos que ha seleccionado para comprar.
         Puede ajustar la cantidad de cada producto o eliminarlo si lo desea.
@@ -75,18 +136,27 @@ export const ResumeSaleLayout = () => {
 
       <table className="inventory-table-I">
         <thead>
-          <tr >
-            <th className="bold-font" style={{padding: '0px'}}>Descripción</th>
-            <th className="bold-font" style={{padding: '0px'}}>Cantidad</th>
-            <th className="bold-font" style={{padding: '0px'}}>SubTotal</th>
-            <th className="bold-font" style={{padding: '0px'}}>Acciones</th>
+          <tr>
+            <th className="bold-font" style={{ padding: "0px" }}>
+              Descripción
+            </th>
+            <th className="bold-font" style={{ padding: "0px" }}>
+              Cantidad
+            </th>
+            <th className="bold-font" style={{ padding: "0px" }}>
+              SubTotal
+            </th>
+            <th className="bold-font" style={{ padding: "0px" }}>
+              Acciones
+            </th>
           </tr>
         </thead>
       </table>
-      <div className="table-body-scroll" style={{maxHeight: '20rem'}}>
+
+      <div className="table-body-scroll" style={{ maxHeight: "20rem" }}>
         <table className="inventory-table-I">
           <tbody>
-            {items.map((item) => (
+            {fields.map((item, index) => (
               <tr key={item.id}>
                 <td>{item.descripcion}</td>
                 <td>
@@ -95,14 +165,23 @@ export const ResumeSaleLayout = () => {
                     value={item.cantidad}
                     min={1}
                     onChange={(e) =>
-                      handleCantidadChange(item.id, parseInt(e.target.value))
+                      handleCantidadChange(
+                        index,
+                        parseInt(e.target.value),
+                        item.stock || 1
+                      )
                     }
                     style={{ width: "60px" }}
                   />
                 </td>
-                <td>C${(item.cantidad * item.precioVenta).toFixed(2)}</td>
                 <td>
-                  <button onClick={() => eliminarItem(item.id)}>
+                  C${(item.cantidad * (item.precioVenta || 0)).toFixed(2)}
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => eliminarItem(index, item.medicamento_fk)}
+                  >
                     Eliminar
                   </button>
                 </td>
@@ -112,16 +191,36 @@ export const ResumeSaleLayout = () => {
         </table>
       </div>
 
+      <div style={{ marginTop: "10px" }}>
+        <label style={{ fontWeight: "bold", fontSize: "13px" }}>
+          ¿Con cuánto paga el cliente?
+        </label>
+        <input
+          type="number"
+          {...register("pagaCon", { required: true, min: 0 })}
+          style={{ width: "100%", padding: "5px", marginTop: "5px" }}
+        />
+      </div>
+
       <p style={{ fontWeight: "bold", marginTop: "10px" }}>
         Total de la venta: C${calcularTotal().toFixed(2)}
       </p>
 
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px", justifyContent: 'space-between' }}>
-        <button className="cancelar" onClick={handleCancelBotton}>
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "10px",
+          justifyContent: "space-between",
+        }}
+      >
+        <button type="button" className="cancelar" onClick={handleCancelBotton}>
           Cancelar venta
         </button>
-        <button className="guardar">Confirmar venta</button>
+        <button type="submit" className="guardar">
+          Confirmar venta
+        </button>
       </div>
-    </div>
+    </form>
   );
 };

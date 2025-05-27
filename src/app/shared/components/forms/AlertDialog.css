@@ -1,0 +1,53 @@
+.modalDialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 46, 46, 0.6);
+  z-index: 9999;
+}
+
+.modalDialog-content {
+  position: fixed;
+  transform: translate(-50%, -50%); 
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+}
+.modalDialog-content h2 {
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modalDialog-content p {
+  margin: 0 0 20px;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.modalDialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.cancel-button {
+  background: transparent;
+  border: none;
+  color: #111;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.delete-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}

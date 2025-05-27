@@ -9,3 +9,20 @@ export const getMakeSales = async () => {
     throw error;
   }
 };
+
+export const createMakeSales = async (data: {
+  pagaCon: number;
+  empleado_fk: number;
+  detalle: Array<{
+    medicamento_fk: number;
+    cantidad: number;
+  }>;
+}) => {
+  try {
+    const response = await FarmaNovaApi.post("/general/createMakeSales", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating sale:", error);
+    throw error;
+  }
+};

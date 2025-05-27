@@ -19,3 +19,17 @@ export const getDistributorsCompany = async () => {
     throw error;
   }
 };
+
+export const createDistributor = async (data: {
+  nombre: string;
+  empresa: number;
+  telefono: string;
+}) => {
+  try {
+    const response = await FarmaNovaApi.post("/distributors", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating distributor:", error);
+    throw error;
+  }
+};

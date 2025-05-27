@@ -6,11 +6,17 @@ import { FinancialsInventoryForm } from "../createMedicineForm/FinancialsInvento
 import { useForm, FormProvider } from "react-hook-form";
 import type { FullMedicineData } from "../../../../../../types";
 import { createMedicine } from "../../../../../shared/api/services/Medicine";
+import { toast } from "react-toastify";
 
 import "./createMedicine.css";
 import "../../../../../shared/styles/shared.css";
 import { useFetchCompanies } from "../../../../ditributors/hooks/useFetchDistributors";
-import { useFetchCompressedForm, useFetchDrugVia } from "../../../hooks/useMedicineForm";
+import {
+  useFetchCompressedForm,
+  useFetchDrugVia,
+} from "../../../hooks/useMedicineForm";
+import { useModal } from "../../../hooks/useInventoryState";
+import { ConfirmModal } from "../../../../../shared/components/forms/AlertDialog";
 
 interface CreateMedicineModalProps {
   onClose: () => void;
@@ -20,6 +26,7 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
   onClose,
 }) => {
   const [tab, setTab] = useState<"basico" | "financiero">("basico");
+  const modal = useModal();
 
   const methods = useForm<FullMedicineData>({
     defaultValues: {
@@ -41,18 +48,42 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
   const { companiesData } = useFetchCompanies();
   const { compressedForm } = useFetchCompressedForm();
   const { drugVia } = useFetchDrugVia();
+  const [pendingData, setPendingData] = useState<FullMedicineData | null>(null);
 
-  const onSubmit = (data: FullMedicineData) => {
-    console.log("Form submitted with data:", data);
-    createMedicine(data)
+  const handleConfirmCreation = async () => {
+    if (!pendingData) return;
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    toast
+      .promise(
+        createMedicine(pendingData),
+        {
+          pending: "Guardando medicamento...",
+          success: "Medicamento creado exitosamente",
+          error: "Hubo un error al crear el medicamento",
+        },
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        }
+      )
       .then(() => {
-        console.log("Medicine created successfully");
-
+        modal.onClose();
         onClose();
       })
       .catch((error) => {
         console.error("Error creating medicine:", error);
       });
+  };
+
+  const onSubmit = (data: FullMedicineData) => {
+    setPendingData(data);
+    modal.onOpen();
   };
 
   return (
@@ -66,7 +97,7 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
       >
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <CreateMedicineHeader title="Registrar medicamento"/>
+            <CreateMedicineHeader title="Registrar medicamento" />
 
             <div className="tabs">
               <button
@@ -96,7 +127,11 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
                   transition={{ duration: 0.3 }}
                   className="tab-panel"
                 >
-                  <BasicInformationForm companiesData={companiesData} compressedForm={compressedForm} drugVia={drugVia}/>
+                  <BasicInformationForm
+                    companiesData={companiesData}
+                    compressedForm={compressedForm}
+                    drugVia={drugVia}
+                  />
                 </motion.div>
               )}
 
@@ -129,6 +164,18 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
           </form>
         </FormProvider>
       </motion.div>
+
+      {modal.isOpen && (
+        <ConfirmModal
+          title="Confirmar creación"
+          message="¿Estás seguro de que deseas crear este medicamento? Esta acción no se puede deshacer."
+          cancelText="Cancelar"
+          confirmText="Confirmar"
+          isOpen={modal.isOpen}
+          onCancel={modal.onClose}
+          onConfirm={handleConfirmCreation}
+        />
+      )}
     </div>
   );
 };

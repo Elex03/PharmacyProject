@@ -2,8 +2,8 @@
   z-index: 999;
   max-width: 500px;
   min-width: 500px;
-  min-height: 80vh;
-  max-height: 80vh;
+  min-height: 650px;
+  max-height: 650px;
   margin: 40px auto;
   padding: 24px;
   background: #fff;
@@ -89,7 +89,7 @@
 }
 
 .tab-panel {
-  height: 25rem;
+  height: 23rem;
   border: 1px solid #555;
   margin-top: -1px;
   padding: 10px;

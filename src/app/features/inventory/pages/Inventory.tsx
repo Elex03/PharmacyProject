@@ -9,8 +9,9 @@ import "../../../shared/styles/shared.css";
 import { RadarChart } from "../../../shared/components/charts/RadarChart.tsx";
 import CreateMedicineModal from "../components/layout/createMedicine/createMedicine.tsx";
 import { useInventoryState, useModal } from "../hooks/useInventoryState.ts";
-import ReturnProduct from "../../../shared/components/layout/ReturnProduct.tsx";
+import ReturnProduct from "./ReturnProduct.tsx";
 import EditMedicine from "../components/layout/createMedicine/editMedicine.tsx";
+import { Bounce, ToastContainer } from "react-toastify";
 
 const Inventario = () => {
   const { inventoryData, headers } = useFetchInventory();
@@ -92,6 +93,9 @@ const Inventario = () => {
       {secondModal.isOpen && (
         <ReturnProduct onClose={secondModal.onClose} medicines={[]} />
       )}
+      <ToastContainer
+        transition={Bounce}
+      />
     </Layout>
   );
 };

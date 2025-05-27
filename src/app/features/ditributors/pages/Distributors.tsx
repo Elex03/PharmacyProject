@@ -8,6 +8,7 @@ import Layout from "../../../shared/components/layout/layout";
 import { useFetchDistributors } from "../hooks/useFetchDistributors";
 import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection";
 import CreateDistributorModal from "../components/CreateDistributorModal";
+import { ToastContainer } from "react-toastify";
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -79,6 +80,7 @@ const Distributors = () => {
       />
 
       {isModalOpen && <CreateDistributorModal setIsOpen={closeModal} />}
+      <ToastContainer/>
     </Layout>
   );
 };

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import type { ColumnDefinition } from "../../../../types.d.ts";
-import { getDistributors, getDistributorsCompany } from "../../../shared/api/services/Distributors.ts";
+import {
+  getDistributors,
+  getDistributorsCompany,
+} from "../../../shared/api/services/Distributors.ts";
 
 interface labelI {
   label: string;
@@ -14,7 +17,7 @@ interface DistributorItem {
   empresa: string;
   telefono: string;
   ultimoPedido: string;
-  [key: string]: unknown; 
+  [key: string]: unknown;
 }
 
 export const useFetchDistributors = () => {
