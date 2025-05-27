@@ -5,6 +5,7 @@ interface InventoryActionsProps {
   sortOrder: string;
   stockFilter?: string;
   searchTerm: string;
+  filterBySymptom?: boolean;
   enableSecondButton?: boolean;
   onOpenSecondModal?: () => void;
   onOpenModal?: () => void;
@@ -20,7 +21,8 @@ interface InventoryActionsProps {
 }
 
 const LayoutActions: React.FC<InventoryActionsProps> = ({
-
+  sortOrder,
+  filterBySymptom = false,
   stockFilter,
   enableSecondButton,
   searchTerm,
@@ -30,6 +32,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
   onOpenSecondModal,
   handleStockFilter,
   handleSearch,
+  handleSort,
 }) => {
   const { symptoms } = useFetchSymptoms();
   return (
@@ -57,17 +60,25 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
             padding: "0 10px",
           }}
         >
-          <select
-            className="filter-dropdown"
-            onChange={handleSymptomChange}
-          >
-            <option value="">Filtrar por síntoma</option>
-            {symptoms.map((symptom) => (
-              <option key={symptom.id} value={symptom.text}>
-                {symptom.text}
-              </option>
-            ))}
-          </select>
+          {filterBySymptom ? (
+            <select className="filter-dropdown" onChange={handleSymptomChange}>
+              <option value="">Filtrar por síntoma</option>
+              {symptoms.map((symptom) => (
+                <option key={symptom.id} value={symptom.text}>
+                  {symptom.text}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <select
+              className="filter-dropdown"
+              value={sortOrder}
+              onChange={handleSort}
+            >
+              <option value="">Filtrar por nombre</option>
+              <option value="A-Z">A - Z</option>
+            </select>
+          )}
 
           {handleStockFilter && (
             <select

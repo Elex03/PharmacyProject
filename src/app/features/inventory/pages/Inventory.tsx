@@ -68,6 +68,7 @@ const Inventario = () => {
           ButtonLabel: "Agregar medicamento",
           type: "modal",
         }}
+        filterBySymptom={true}
         enableSecondButton={true}
         handleSymptomChange={handleSymptomChange}
         onOpenSecondModal={secondModal.onOpen}
