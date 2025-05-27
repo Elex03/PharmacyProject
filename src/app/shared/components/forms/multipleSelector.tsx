@@ -3,6 +3,8 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useFormContext, Controller } from "react-hook-form";
 
+import '../../../features/inventory/components/layout/createMedicineForm/BasicInformationForm.css'
+
 interface dataI {
   label: string;
   value: string;
@@ -25,7 +27,7 @@ export const AnimatedMulti: React.FC<propsMulti> = ({ data }) => {
       defaultValue={[]}
       render={({ field: { onChange, value } }) => (
         <Select
-          className="action-select-BasicInformationForm"
+          className="Select"
           closeMenuOnSelect={false}
           components={animatedComponents}
           isMulti

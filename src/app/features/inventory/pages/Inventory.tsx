@@ -29,6 +29,8 @@ const Inventario = () => {
     handleSort,
     handleStockFilter,
     setSelectedItemId,
+    selectedSymptom,
+    handleSymptomChange
   } = useInventoryState();
 
   const onOpenModal = (id: number) => {
@@ -40,7 +42,8 @@ const Inventario = () => {
     inventoryData,
     searchTerm,
     stockFilter,
-    sortOrder
+    sortOrder,
+     selectedSymptom ? [selectedSymptom] : []
   );
 
   return (
@@ -66,6 +69,7 @@ const Inventario = () => {
           type: "modal",
         }}
         enableSecondButton={true}
+        handleSymptomChange={handleSymptomChange}
         onOpenSecondModal={secondModal.onOpen}
         onOpenModal={modal.onOpen}
         sortOrder={sortOrder}

@@ -11,7 +11,6 @@ export const useModal = () => {
   };
 };
 
-
 export const useInventoryState = () => {
   const modal = useModal();
   const secondModal = useModal();
@@ -19,12 +18,13 @@ export const useInventoryState = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(20);
-    const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedSymptom, setSelectedSymptom] = useState<string>("");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
+
 
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOrder(e.target.value);
@@ -34,9 +34,9 @@ export const useInventoryState = () => {
     setStockFilter(e.target.value);
   };
 
-  
-
-
+  const handleSymptomChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  setSelectedSymptom(event.target.value);
+};
 
   return {
     searchTerm,
@@ -46,6 +46,8 @@ export const useInventoryState = () => {
     selectedItemId,
     modal,
     secondModal,
+    selectedSymptom,
+    handleSymptomChange ,
     setSelectedItemId,
     setItemsPerPage,
     handleSearch,

@@ -1,4 +1,5 @@
 import React from "react";
+import { useFetchSymptoms } from "../../../../features/inventory/hooks/useMedicineForm";
 
 interface InventoryActionsProps {
   sortOrder: string;
@@ -7,6 +8,7 @@ interface InventoryActionsProps {
   enableSecondButton?: boolean;
   onOpenSecondModal?: () => void;
   onOpenModal?: () => void;
+  handleSymptomChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   linkButton: {
     type: "modal" | "link";
     ButtonLabel?: string;
@@ -18,17 +20,18 @@ interface InventoryActionsProps {
 }
 
 const LayoutActions: React.FC<InventoryActionsProps> = ({
-  sortOrder,
+
   stockFilter,
   enableSecondButton,
   searchTerm,
   linkButton,
+  handleSymptomChange,
   onOpenModal,
   onOpenSecondModal,
-  handleSort,
   handleStockFilter,
   handleSearch,
 }) => {
+  const { symptoms } = useFetchSymptoms();
   return (
     <div
       style={{
@@ -56,11 +59,14 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
         >
           <select
             className="filter-dropdown"
-            value={sortOrder}
-            onChange={handleSort}
+            onChange={handleSymptomChange}
           >
-            <option value="">Filtrar por nombre</option>
-            <option value="A-Z">A - Z</option>
+            <option value="">Filtrar por síntoma</option>
+            {symptoms.map((symptom) => (
+              <option key={symptom.id} value={symptom.text}>
+                {symptom.text}
+              </option>
+            ))}
           </select>
 
           {handleStockFilter && (
