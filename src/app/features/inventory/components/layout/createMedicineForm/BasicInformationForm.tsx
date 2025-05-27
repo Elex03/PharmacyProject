@@ -3,11 +3,8 @@ import "./BasicInformationForm.css";
 import ImageSelector from "./SelectImage";
 import TagInput from "../../../../../shared/components/forms/TagInput";
 import React from "react";
+import { useFetchSymptoms } from "../../../hooks/useMedicineForm";
 
-interface Tag {
-  id: string;
-  text: string;
-}
 
 
 interface labelI {
@@ -17,15 +14,7 @@ interface labelI {
 }
 
 
-const COUNTRIES: Tag[] = [
-  { id: "Thailand", text: "Thailand" },
-  { id: "India", text: "India" },
-  { id: "Vietnam", text: "Vietnam" },
-  { id: "Turkey", text: "Turkey" },
-  { id: "Canada", text: "Canada" },
-  { id: "Argentina", text: "Argentina" },
-  { id: "España", text: "España" },
-];
+
 
 interface BasicInformationFormProps {
   companiesData: labelI[];
@@ -38,7 +27,7 @@ export const BasicInformationForm:React.FC<BasicInformationFormProps>  = ({
   drugVia,
 }) => {
   const { register } = useFormContext();
-
+  const {symptoms} = useFetchSymptoms();
   return (
     <div
       style={{
@@ -120,7 +109,7 @@ export const BasicInformationForm:React.FC<BasicInformationFormProps>  = ({
             placeholder="Descripción de los síntomas"
           /> */}
 
-          <TagInput suggestions={COUNTRIES} maxTags={7} />
+          <TagInput suggestions={symptoms} maxTags={5} />
         </div>
       </div>
 

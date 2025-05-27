@@ -33,9 +33,9 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
       nombre: "",
       codigo: "",
       accioTera: [],
-      presentacion: 0,
-      via: "",
-      fabricante: 0,
+      presentacion: 1,
+      via: "Oral",
+      fabricante: 1,
       imagen: undefined,
       sintomas: [],
       requierePrescripcion: false,
@@ -53,6 +53,8 @@ const CreateMedicineModal: React.FC<CreateMedicineModalProps> = ({
   const handleConfirmCreation = async () => {
     if (!pendingData) return;
     await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    console.log("Creating medicine with data:", pendingData);
 
     toast
       .promise(

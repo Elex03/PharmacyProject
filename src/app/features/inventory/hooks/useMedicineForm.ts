@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   getCompressedforms,
   getOneMedicine,
+  getSymptoms,
   getTherapeuticAction,
 } from "../../../shared/api/services/Medicine";
 import type { FullMedicineData } from "../../../../types";
@@ -12,7 +13,6 @@ interface labelI {
   value: string;
   id: number;
 }
-
 
 export const useFetchTherapeuticAction = () => {
   const [therapeuticData, setTherapeuticData] = useState<labelI[]>([]);
@@ -45,25 +45,26 @@ export const useFetchCompressedForm = () => {
 export const useFetchDrugVia = () => {
   const [drugVia, setDrugVia] = useState<labelI[]>([]);
 
-useEffect(() => {
-  axios
-    .get("/drugsAdministration.json")
-    .then((response) => {
-      setDrugVia(response.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching drug via:", error);
-    });
-}, []);
+  useEffect(() => {
+    axios
+      .get("/drugsAdministration.json")
+      .then((response) => {
+        setDrugVia(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching drug via:", error);
+      });
+  }, []);
 
   return {
     drugVia,
   };
 };
 
-
 export const useFetchOneMedicine = (id: number) => {
-  const [medicineData, setMedicineData] = useState<FullMedicineData | null>(null);
+  const [medicineData, setMedicineData] = useState<FullMedicineData | null>(
+    null
+  );
 
   useEffect(() => {
     if (id) {
@@ -76,4 +77,28 @@ export const useFetchOneMedicine = (id: number) => {
   return {
     medicineData,
   };
+};
+
+
+interface Tag {
+  id: string;
+  text: string;
 }
+
+export const useFetchSymptoms = () => {
+  const [symptoms, setSymptoms] = useState<Tag[]>([]);
+
+  useEffect(() => {
+    getSymptoms()
+      .then((response) => {
+        setSymptoms(response);
+      })
+      .catch((error) => {
+        console.error("Error fetching symptoms:", error);
+      });
+  }, []);
+
+  return {
+    symptoms,
+  };
+};

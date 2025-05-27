@@ -44,7 +44,7 @@ const Inventario = () => {
   );
 
   return (
-    <Layout title="Inventario">
+    <Layout title="Inventario" headerButton={true}>
       <ToggleSection
         title="información"
         onToggle={(visible) => setItemsPerPage(visible ? 20 : 30)}
@@ -88,14 +88,16 @@ const Inventario = () => {
         onOpenModal={onOpenModal}
       />
       {modalEdit.isOpen && selectedItemId !== null && (
-       <EditMedicine selectedMedicineId={selectedItemId} onClose={modalEdit.onClose} />)}
+        <EditMedicine
+          selectedMedicineId={selectedItemId}
+          onClose={modalEdit.onClose}
+        />
+      )}
       {modal.isOpen && <CreateMedicineModal onClose={modal.onClose} />}
       {secondModal.isOpen && (
         <ReturnProduct onClose={secondModal.onClose} medicines={[]} />
       )}
-      <ToastContainer
-        transition={Bounce}
-      />
+      <ToastContainer transition={Bounce} />
     </Layout>
   );
 };

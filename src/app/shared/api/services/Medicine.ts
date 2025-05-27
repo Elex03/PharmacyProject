@@ -65,13 +65,24 @@ export const createMedicine = async (
   }
 };
 
-
 export const getOneMedicine = async (id: number) => {
   try {
-    const response = await ApiFarmanovaApi.get(`medicines/getOneMedicine/${id}`);
+    const response = await ApiFarmanovaApi.get(
+      `medicines/getOneMedicine/${id}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching medicine:", error);
     throw error;
   }
-}
+};
+
+export const getSymptoms = async () => {
+  try {
+    const response = await ApiFarmanovaApi.get("medicines/getSymptoms");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching symptoms:", error);
+    throw error;
+  }
+};

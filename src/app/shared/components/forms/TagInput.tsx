@@ -25,7 +25,6 @@ const TagInput: React.FC<TagInputProps> = ({  suggestions, maxTags }) => {
       name="sintomas"
       defaultValue={[]}
       render={({ field: { onChange, value } }) => {
-        // Siempre aseguramos que value sea un array de strings
         const tags = Array.isArray(value) ? value : [];
 
         const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +55,7 @@ const TagInput: React.FC<TagInputProps> = ({  suggestions, maxTags }) => {
           if (tags.length >= maxTags) return;
           if (tags.includes(tagText)) return;
 
-          const newTags = [...tags, tagText];
+          const newTags = [...tags, tagText.toLowerCase()];
           onChange(newTags); // Actualiza el estado en React Hook Form
           setInput("");
           setFiltered([]);
@@ -116,7 +115,7 @@ const TagInput: React.FC<TagInputProps> = ({  suggestions, maxTags }) => {
                 }}
                 onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
                 placeholder={
-                  tags.length >= maxTags ? "Max tags reached" : "Add tag..."
+                  tags.length >= maxTags ? "Maximo de sintomas" : "Agrear un sintoma..."
                 }
                 disabled={tags.length >= maxTags}
               />
@@ -138,7 +137,7 @@ const TagInput: React.FC<TagInputProps> = ({  suggestions, maxTags }) => {
 
             {tags.length > 0 && (
               <button className="remove-all" onClick={removeAll}>
-                Remove All
+                Remover todas
               </button>
             )}
           </div>
