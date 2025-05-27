@@ -38,6 +38,7 @@ const Distributors = () => {
       <div className="main-content">
         <Layout title="Realizar venta">
           <Actions
+            filterBySymptom={true}
             linkButton={{
               ButtonLabel: "Escanear",
               type: "modal",

@@ -3,7 +3,6 @@ import React from "react";
 import CircularIndeterminate from "../../progress/CircularIndeterminate";
 import { useFetchBill } from "../../../../features/salesHistory/hooks/useFechBill";
 
-
 import logo from "../../../assets/img/logo1.png";
 import "./factura.css";
 
@@ -13,7 +12,9 @@ interface propsBill {
 }
 
 const FacturaModal: React.FC<propsBill> = ({ selectedSaleId, onClose }) => {
-  const {billData, billDetails, loading} = useFetchBill(selectedSaleId.toString());
+  const { billData, billDetails, loading } = useFetchBill(
+    selectedSaleId.toString()
+  );
 
   if (loading) {
     return (
@@ -98,9 +99,7 @@ const FacturaModal: React.FC<propsBill> = ({ selectedSaleId, onClose }) => {
             <p>
               <strong>- Subtotal:</strong> C${subtotalVenta.toFixed(2)}
             </p>
-            <p>
-              <strong>- IVA (15%):</strong> C${iva.toFixed(2)}
-            </p>
+
             <p className="total-pagar">
               <strong>- Total a pagar:</strong>
               <span className="resaltado-total">
@@ -116,12 +115,6 @@ const FacturaModal: React.FC<propsBill> = ({ selectedSaleId, onClose }) => {
               <strong>- Total a regresar:</strong> C$
               {(billData ? billData.montoPagado - totalVenta : 0).toFixed(2)}
             </p>
-
-            <div className="inter">
-              <p>
-                <strong>- Forma de pago:</strong> Efectivo
-              </p>
-            </div>
           </div>
 
           <hr />

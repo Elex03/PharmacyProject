@@ -125,9 +125,7 @@ export const ResumeSaleLayout = () => {
       onSubmit={handleSubmit(onSubmit)}
       style={{ border: "1px solid #000", padding: "10px" }}
     >
-      <div style={{ marginLeft: "-10px" }}>
-        <Header title="Resumen de venta" size="1.2rem" />
-      </div>
+      <Header title="Resumen de venta" size="1.2rem" />
 
       <p style={{ fontSize: "12px" }}>
         Aquí se muestran los medicamentos que ha seleccionado para comprar.
