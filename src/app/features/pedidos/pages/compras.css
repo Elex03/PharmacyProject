@@ -1,15 +1,24 @@
 .actions1 {
-  width: 100%;
-  height: 100%;
+  width: 88vw;
+  height: 82vh;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 15% 15% 15% 45%;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 15% 15% 70%;
   flex-wrap: wrap;
   flex: 1;
-  margin-top: 0px;
-  margin-left: 0px;
   align-items: column;
   justify-content: space-between;
+}
+
+.select-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.2fr 0.8fr;
+}
+.input-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.2fr 0.8fr;
 }
 
 .customer-name-label-1 {
@@ -21,19 +30,26 @@
 }
 
 .customer-name-input-1 {
-  padding: 8px;
-  margin-top: 1px;
-  margin-left: 0px;
-  margin-right: 110px;
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  width: 405px;
+  width: 300px;
+  height: 36px;
+  transition: border-color 0.3s;
+}
+.customer-name-input-2 {
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 305px;
+  height: 38px;
   transition: border-color 0.3s;
 }
 
 .button-action-1 {
-  padding: 9px;
+  position: relative;
+  top: 28px;
+  height: 36px;
   width: 250px;
   background-color: white;
   color: #007bff;
@@ -43,8 +59,8 @@
 }
 
 .table {
-  grid-column: 1 / 4;
-  grid-row: 4;
+  grid-column: 1 / 5;
+  grid-row: 3;
 }
 
 .table {

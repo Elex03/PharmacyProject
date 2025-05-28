@@ -5,7 +5,6 @@ import {
   LuTruck,
   LuClipboardMinus,
   LuFileClock,
-  LuUser,
   LuFileText,
   LuLogOut,
   LuSettings,
@@ -56,11 +55,11 @@ export default function Sidebar() {
             label="Historial"
           />
 
-          <p className="menu-title">Gestión de clientes y reportes</p>
+          <p className="menu-title">Gestión de Pedidos y reportes</p>
           <SidebarLink
             to="/clientes"
-            icon={<LuUser className="icon" />}
-            label="Clientes"
+            icon={<LuPackage className="icon" />}
+            label="Pedidos"
           />
           <SidebarLink
             to="/reportes"
