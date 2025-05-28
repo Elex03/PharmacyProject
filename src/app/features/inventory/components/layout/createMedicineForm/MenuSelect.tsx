@@ -6,14 +6,18 @@ interface MenuSelectProps {
   onSelectFromGallery: () => void;
   onTakePhoto: () => void;
   onCancel: () => void;
+  cancelWait: () => void;
 }
+
 
 export const MenuSelect: React.FC<MenuSelectProps> = ({
   isWaiting,
   onSelectFromGallery,
   onTakePhoto,
   onCancel,
+  cancelWait,
 }) => {
+ 
   return (
     <motion.div
       onClick={(e) => e.stopPropagation()} // <--- Agregado aquí
@@ -45,14 +49,18 @@ export const MenuSelect: React.FC<MenuSelectProps> = ({
       >
         📁 Galería
       </button>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onTakePhoto();
-        }}
-      >
-        {isWaiting ? "❌ Cancelar foto" : "📷 Tomar foto"}
-      </button>
+     <button
+  onClick={(e) => {
+    e.stopPropagation();
+    if (isWaiting) {
+      cancelWait(); // si ya está esperando, cancelar
+    } else {
+      onTakePhoto(); // comenzar a esperar la imagen
+    }
+  }}
+>
+  {isWaiting ? "❌ Cancelar foto" : "📷 Tomar foto"}
+</button>  
       <button onClick={(e) => {e.stopPropagation();  onCancel()}}>Cancelar</button>
     </motion.div>
   );

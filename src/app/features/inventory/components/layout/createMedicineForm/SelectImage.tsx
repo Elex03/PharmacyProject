@@ -9,7 +9,9 @@ const ImageUploadBox: React.FC = () => {
   const watchImage = useWatch({ control, name: "imagen" });
   const [showOptions, setShowOptions] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
-  const { imageSrc, isWaiting, waitForImage } = useImageFromWebSocket("ws://localhost:3000");
+
+  
+  const { imageSrc, isWaiting, waitForImage, cancelWait } = useImageFromWebSocket("ws://localhost:3000");
 
   // Sincroniza el valor del formulario con el preview
   useEffect(() => {
@@ -113,6 +115,7 @@ const ImageUploadBox: React.FC = () => {
                 onSelectFromGallery={handleSelectFromGallery}
                 onTakePhoto={handleTakePhoto}
                 onCancel={handleCancelM}
+                cancelWait={cancelWait}
               />
             )}
           </div>

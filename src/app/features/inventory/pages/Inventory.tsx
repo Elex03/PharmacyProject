@@ -51,7 +51,7 @@ const Inventario = () => {
     <Layout title="Inventario" headerButton={true}>
       <ToggleSection
         title="información"
-        onToggle={(visible) => setItemsPerPage(visible ? 20 : 30)}
+        onToggle={(visible) => setItemsPerPage(visible ? 10 : 20)}
       >
         <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
           Aquí puedes gestionar el inventario de productos farmacéuticos.

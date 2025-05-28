@@ -35,9 +35,7 @@ const ApexChart: React.FC<ApexChartProps> = ({ data, horizontal = false }) => {
       dataLabels: {
         enabled: true,
       },
-      xaxis: {
-        categories: data.map((item) => item.descripcion),
-      },
+      
     },
   };
 
@@ -47,7 +45,7 @@ const ApexChart: React.FC<ApexChartProps> = ({ data, horizontal = false }) => {
         options={chartState.options}
         series={chartState.series}
         type="bar"
-        height={300}
+        height={200}
       />
     </ResponsiveContainer>
   );
