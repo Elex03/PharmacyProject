@@ -13,7 +13,6 @@ const ImageUploadBox: React.FC = () => {
   
   const { imageSrc, isWaiting, waitForImage, cancelWait } = useImageFromWebSocket("ws://localhost:3000");
 
-  // Sincroniza el valor del formulario con el preview
   useEffect(() => {
     if (typeof watchImage === "string") {
       setPreview(watchImage); // URL de WebSocket
@@ -24,12 +23,20 @@ const ImageUploadBox: React.FC = () => {
   }, [watchImage]);
 
   // Cuando llega imagen por WebSocket
-  useEffect(() => {
-    if (imageSrc) {
-      setValue("imagen", imageSrc); // Guardar en el formulario
-      setPreview(imageSrc);
-    }
-  }, [imageSrc, setValue]);
+useEffect(() => {
+  const urlToFile = async (url: string, fileName: string): Promise<File> => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], fileName, { type: blob.type });
+  };
+
+  if (imageSrc) {
+    setPreview(imageSrc);
+    urlToFile(imageSrc, "imagen.jpg").then((file) => {
+      setValue("imagen", file);
+    });
+  }
+}, [imageSrc, setValue]);
 
   const handleContainerClick = () => setShowOptions(true);
 
