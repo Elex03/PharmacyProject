@@ -42,6 +42,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
         display: "flex",
         flexDirection: "column",
         gap: "20px",
+        marginTop: "20px"
       }}
     >
       <div

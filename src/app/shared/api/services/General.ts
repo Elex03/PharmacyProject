@@ -10,13 +10,28 @@ export const getCategories = async () => {
   }
 };
 
-
 export const getBackups = async () => {
   try {
     const response = await ApiFarmaNova.get("general/getBackups");
     return response.data;
-  }catch(error) {
+  } catch (error) {
     console.log("Error fetching Backups", error);
-
   }
-}
+};
+
+export const createBackup = async (nombre: string) => {
+  try {
+    const response = await ApiFarmaNova.post("general/createBackup/", {nombre});
+    return response.data;
+  } catch (error) {
+    console.log("Error creating backup", error);
+  }
+};
+export const restoreBackup = async (nombre: string) => {
+  try {
+    const response = await ApiFarmaNova.post("general/restoreBackup/", {nombre});
+    return response.data;
+  } catch (error) {
+    console.log("Error creating backup", error);
+  }
+};

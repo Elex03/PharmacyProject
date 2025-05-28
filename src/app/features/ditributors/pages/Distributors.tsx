@@ -9,7 +9,6 @@ import { useFetchDistributors } from "../hooks/useFetchDistributors";
 import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection";
 import CreateDistributorModal from "../components/CreateDistributorModal";
 import { ToastContainer } from "react-toastify";
-import { useFetchMedicineSelect } from "../../../shared/hooks/useFetchGeneral";
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -41,12 +40,6 @@ const Distributors = () => {
     sortOrder
   );
 
-  const { distributorData: distributors } = useFetchDistributors();
-
-  const { medicineSelect } = useFetchMedicineSelect();
-
-
-
   return (
     <Layout title="Distribuidores">
       <ToggleSection title="información">
@@ -71,19 +64,6 @@ const Distributors = () => {
         handleSort={handleSort}
         handleSearch={handleSearch}
       />
-
-      <select>
-        {distributors.map((res) => (
-          <option value={res.id}> {res.nombre + res.empresa  }</option>
-        ))}
-      </select>
-
-      <select>
-        {medicineSelect.map((res) => (
-          <option value={res.value}>{res.label + res.precio}</option>
-        ))}
-      </select>
-
       <Table
         columns={headers}
         data={filteredData}

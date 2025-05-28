@@ -2,21 +2,26 @@ import { useState } from "react";
 import { useFetchBackups } from "../../hooks/useFetchBackups";
 import "../../../../shared/components/layout/Table/Table.css";
 import { Table } from "../../../../shared/components/layout/Table/Table";
+import {
+  createBackup,
+  restoreBackup,
+} from "../../../../shared/api/services/General";
 
 export const Backup = () => {
   const [backupName, setBackupName] = useState("");
 
   const { backups, headers } = useFetchBackups();
 
-  //   const handleRestore = async (filename: string) => {
-  //     // Llamar a la API para restaurar
-  //     await fetch(`/api/backup/restore?file=${filename}`, { method: "POST" });
-  //     alert(`Backup ${filename} restaurado`);
-  //   };
+  const handleRestore = async (backupNameSelect: string) => {
+    restoreBackup(backupNameSelect).then(() =>
+      console.log("Backup was restore")
+    );
+  };
 
   const handleCreateBackup = async () => {
     if (!backupName.trim()) return;
-    await fetch(`/api/backup?name=${backupName}`, { method: "POST" });
+
+    createBackup(backupName).then(() => console.log("Backup was created"));
     setBackupName("");
   };
 
@@ -41,7 +46,8 @@ export const Backup = () => {
           itemsPerPage={10}
           linkColumn={{
             label: "Restarurar",
-            type: "modal",
+            type: "button",
+            onClick: handleRestore,
           }}
         />
       </div>

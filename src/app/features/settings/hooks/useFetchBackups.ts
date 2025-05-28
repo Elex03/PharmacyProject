@@ -16,6 +16,7 @@ export const useFetchBackups = () => {
   useEffect(() => {
     getBackups()
       .then((res) => {
+        console.log(res);
         const { headers: hdrs, data } = res;
         setBackups(data);
         const mappedHeaders = hdrs.map(
@@ -31,6 +32,6 @@ export const useFetchBackups = () => {
 
   return {
     backups,
-    headers
+    headers,
   };
 };

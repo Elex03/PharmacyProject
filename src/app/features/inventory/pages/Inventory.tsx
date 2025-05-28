@@ -6,12 +6,12 @@ import { useFetchInventory } from "../hooks/useFetchInventory.ts";
 import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection.tsx";
 import "../../../shared/components/layout/Table/Table.css";
 import "../../../shared/styles/shared.css";
-import { RadarChart } from "../../../shared/components/charts/RadarChart.tsx";
 import CreateMedicineModal from "../components/layout/createMedicine/createMedicine.tsx";
 import { useInventoryState, useModal } from "../hooks/useInventoryState.ts";
 import ReturnProduct from "./ReturnProduct.tsx";
 import EditMedicine from "../components/layout/createMedicine/editMedicine.tsx";
 import { Bounce, ToastContainer } from "react-toastify";
+import ApexChart from "../../../shared/components/charts/apexChart.tsx";
 
 const Inventario = () => {
   const { inventoryData, headers } = useFetchInventory();
@@ -60,7 +60,7 @@ const Inventario = () => {
         </p>
 
         <div className="chart-container">
-          <RadarChart />
+          <ApexChart />
         </div>
       </ToggleSection>
       <InventoryActions

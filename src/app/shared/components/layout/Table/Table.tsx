@@ -21,10 +21,11 @@ type TableProps<T> = {
   data: T[];
   itemsPerPage?: number;
   linkColumn?: {
+    onClick?: (nombre: string) => void;
     label: string;
     path?: string;
     idKey?: keyof T;
-    type: "modal" | "linked";
+    type: "modal" | "linked" | "button";
   };
   onOpenModal?: (id: number) => void;
 };
@@ -278,6 +279,18 @@ export function Table<T extends Record<string, unknown>>({
                               linkColumn.idKey
                                 ? Number(row[linkColumn.idKey])
                                 : 0
+                            )
+                          }
+                          className="link-button"
+                        >
+                          {linkColumn.label}
+                        </button>
+                      ) : linkColumn.type === "button" ? (
+                        <button
+                          onClick={() =>
+                            linkColumn.onClick &&
+                            linkColumn.onClick(
+                              row.nombre as string ?? "" // ← Aquí mandas la descripción directamente
                             )
                           }
                           className="link-button"
