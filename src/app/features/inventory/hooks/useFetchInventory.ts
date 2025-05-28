@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ColumnDefinition } from "../../../../types";
-import { getBackups } from "../../../shared/api/services/General.ts";
+import { getInventoryData } from "../../../shared/api/services/Iventory.ts";
 
 type InventoryItem = {
   id: number;
@@ -27,7 +27,7 @@ export const useFetchInventory: () => {
 
   useEffect(() => {
     const fetchInventoryData = async () => {
-      getBackups().then((res) => {
+      getInventoryData().then((res) => {
         const { headers: hdrs, data } = res.data;
         setInventoryData(data);
         const mappedHeaders = hdrs.map(

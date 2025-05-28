@@ -17,7 +17,7 @@ export const useInventoryState = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [stockFilter, setStockFilter] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedSymptom, setSelectedSymptom] = useState<string>("");
 

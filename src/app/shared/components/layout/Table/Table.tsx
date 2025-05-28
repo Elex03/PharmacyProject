@@ -134,7 +134,7 @@ export function Table<T extends Record<string, unknown>>({
     setImagenSeleccionada,
   ]);
 
-  const maxHeight = itemsPerPage === 5 ? "15rem" : "30rem";
+  const maxHeight = itemsPerPage === 10 ? "15rem" : "30rem";
 
   return (
     <div className="table-container">
