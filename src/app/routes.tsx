@@ -6,6 +6,7 @@ import "./routes.css";
 import "./shared/styles/shared.css";
 import CircularIndeterminate from "./shared/components/progress/CircularIndeterminate";
 
+const Report = lazy(() => import("./features/reports/pages/Report.tsx"));
 const Login = lazy(() => import("./shared/pages/Login"));
 const Dashboard = lazy(
   () => import("./features/dashboard/pages/dashboard2.tsx")
@@ -93,6 +94,15 @@ const AppRouter = () => {
               <div className="page-cotainer-root">
                 <Sidebar />
                 <OrderHistory />
+              </div>
+            }
+          />
+          <Route
+            path="/reportes"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Report />
               </div>
             }
           />

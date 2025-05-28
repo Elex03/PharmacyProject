@@ -135,7 +135,7 @@ export function Table<T extends Record<string, unknown>>({
     setImagenSeleccionada,
   ]);
 
-  const maxHeight = itemsPerPage === 10 ? "12rem" : "100%";
+  const maxHeight = itemsPerPage === 10 ? "12rem" : "30rem";
 
   return (
     <div className="table-container">
@@ -210,7 +210,7 @@ export function Table<T extends Record<string, unknown>>({
 
       <div
         className="table-body-scroll"
-        style={{ maxHeight, minHeight: maxHeight}} // este lo dejo inline porque depende de prop
+        style={{ maxHeight,}} // este lo dejo inline porque depende de prop
       >
         <table className="inventory-table-I">
           <tbody>

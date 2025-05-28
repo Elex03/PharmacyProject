@@ -86,13 +86,70 @@ export const getMedicineSelect = async () => {
   }
 };
 
-
-
 export const getMedicineStock = async () => {
   try {
     const response = await ApiFarmanovaApi.get("medicines/getMedicineStock");
     return response.data;
-  }catch(error) {
-    console.log("Error fetching medicine stock", error)
+  } catch (error) {
+    console.log("Error fetching medicine stock", error);
   }
-}
+};
+
+export const updateMedicine = async (
+  data: FullMedicineData & { accioTera?: number[]; sintomas?: string[] }
+) => {
+  try {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        if (Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, value as Blob | string);
+        }
+      }
+    });
+
+    const response = await ApiFarmanovaApi.post(
+      "medicines/updateMedicine",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error creating medicine:", error);
+    throw error;
+  }
+};
+
+export const getMedicineSales = async (
+  order: "asc" | "desc",
+  limit: number | "todos",
+  filterByDate: boolean,
+  from: string,
+  to: string
+) => {
+  try {
+    const queryParams = new URLSearchParams({
+      order,
+      limit: limit.toString(),
+      filterByDate: filterByDate.toString(),
+      from,
+      to,
+    });
+
+    const response = await ApiFarmanovaApi.get(
+      `/medicines/getMedicineSale?${queryParams.toString()}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching medicine sales:", error);
+    return [];
+  }
+};
