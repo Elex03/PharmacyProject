@@ -10,3 +10,13 @@ export const getCategories = async () => {
   }
 };
 
+
+export const getBackups = async () => {
+  try {
+    const response = await ApiFarmaNova.get("general/getBackups");
+    return response.data;
+  }catch(error) {
+    console.log("Error fetching Backups", error);
+
+  }
+}

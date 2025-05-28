@@ -5,29 +5,26 @@ import TagInput from "../../../../../shared/components/forms/TagInput";
 import React from "react";
 import { useFetchSymptoms } from "../../../hooks/useMedicineForm";
 
-
-
 interface labelI {
   label: string;
   value: string;
   id: number;
 }
 
-
-
-
 interface BasicInformationFormProps {
   companiesData: labelI[];
   compressedForm: labelI[];
   drugVia: labelI[];
 }
-export const BasicInformationForm:React.FC<BasicInformationFormProps>  = ({
+export const BasicInformationForm: React.FC<BasicInformationFormProps> = ({
   companiesData,
   compressedForm,
   drugVia,
 }) => {
   const { register } = useFormContext();
-  const {symptoms} = useFetchSymptoms();
+
+  const { symptoms } = useFetchSymptoms();
+
   return (
     <div
       style={{

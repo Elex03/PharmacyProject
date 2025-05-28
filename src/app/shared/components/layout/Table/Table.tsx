@@ -139,7 +139,6 @@ export function Table<T extends Record<string, unknown>>({
   return (
     <div className="table-container">
       <InfoQuantityData QuantityData={filteredData.length} />
-
       <table className="inventory-table-I">
         <thead>
           <tr>

@@ -1,0 +1,42 @@
+.settings-container {
+  display: flex;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  height: 100%;
+}
+
+.settings-sidebar {
+  width: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-right: 1px solid #ddd;
+}
+
+.tab-button {
+  padding: 10px 12px;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.tab-button:hover {
+  background-color: #eaeaea;;
+}
+
+.tab-button.active {
+  color: black;
+  font-weight: bold;
+}
+
+.settings-content {
+  flex: 1;
+  padding: 24px;
+}

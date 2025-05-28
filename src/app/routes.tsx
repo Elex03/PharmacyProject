@@ -2,26 +2,36 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 
 import Sidebar from "./shared/components/layout/sideBar";
-import './routes.css';
-import './shared/styles/shared.css';
+import "./routes.css";
+import "./shared/styles/shared.css";
 import CircularIndeterminate from "./shared/components/progress/CircularIndeterminate";
 
-
-
 const Login = lazy(() => import("./shared/pages/Login"));
-const Dashboard = lazy(() => import("./features/dashboard/pages/dashboard2.tsx"));
-const Inventario = lazy(() => import("./features/inventory/pages/Inventory"));
-const Distributors = lazy(() => import("./features/ditributors/pages/Distributors"));
-const CashRegister = lazy(() => import("./features/makeSales/pages/MakeSalesPage"));
+const Dashboard = lazy(
+  () => import("./features/dashboard/pages/dashboard2.tsx")
+);
+const Settings = lazy(() => import("./features/settings/pages/settings.tsx"));
 
-const SalesHistory = lazy(() => import("./features/salesHistory/pages/SalesHistory"));
-const OrderHistory = lazy(() => import("./features/ordersHistory/pages/OrderHistory"));
+const Inventario = lazy(() => import("./features/inventory/pages/Inventory"));
+const Distributors = lazy(
+  () => import("./features/ditributors/pages/Distributors")
+);
+const CashRegister = lazy(
+  () => import("./features/makeSales/pages/MakeSalesPage")
+);
+
+const SalesHistory = lazy(
+  () => import("./features/salesHistory/pages/SalesHistory")
+);
+const OrderHistory = lazy(
+  () => import("./features/ordersHistory/pages/OrderHistory")
+);
 const UnderConstruction = lazy(() => import("./shared/pages/Defualt"));
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Suspense fallback={<CircularIndeterminate/>}>
+      <Suspense fallback={<CircularIndeterminate />}>
         <Routes>
           <Route
             path="/dashboard"
@@ -83,6 +93,15 @@ const AppRouter = () => {
               <div className="page-cotainer-root">
                 <Sidebar />
                 <OrderHistory />
+              </div>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Settings />
               </div>
             }
           />
