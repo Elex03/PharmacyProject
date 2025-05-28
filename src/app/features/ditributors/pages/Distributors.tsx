@@ -41,24 +41,23 @@ const Distributors = () => {
     sortOrder
   );
 
-  const {medicineStock} = useFetchMedicineStock();
+  const { medicineStock } = useFetchMedicineStock();
 
   return (
     <Layout title="Distribuidores">
-      <ToggleSection title="información">
+      <ToggleSection title="Información">
         <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
-          Aquí puedes gestionar el inventario de productos farmacéuticos.
+          Administra de forma sencilla a los distribuidores de productos
+          farmacéuticos desde esta sección.
           <br />
-          Puedes registrar nuevos productos, actualizar la información de los
-          existentes y realizar un seguimiento del stock disponible.
+          Puedes añadir nuevos distribuidores, actualizar sus datos y verificar
+          su actividad dentro del sistema.
         </p>
         <div className="chart-container">
-          <ApexChart 
-          data={medicineStock}
-          horizontal={true}
-          />
+          <ApexChart data={medicineStock} horizontal={true} />
         </div>
       </ToggleSection>
+
       <InventoryActions
         onOpenModal={onOpenModal}
         linkButton={{

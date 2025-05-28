@@ -53,11 +53,13 @@ const SalesHistory = () => {
           title="información"
           onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
         >
-          <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
-            Aquí puedes gestionar el inventario de productos farmacéuticos.
+          <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
+            Consulta el historial de ventas de productos farmacéuticos en esta
+            sección.
             <br />
-            Puedes registrar nuevos productos, actualizar la información de los
-            existentes y realizar un seguimiento del stock disponible.
+            Puedes visualizar el comportamiento de las ventas a lo largo del
+            tiempo, identificar productos con mayor rotación y tomar decisiones
+            basadas en datos reales.
           </p>
           <div style={{ marginRight: 20 }} className="chart-container">
             <Example data={salesHistoryDataChart} />

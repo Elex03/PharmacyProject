@@ -45,67 +45,67 @@ const OrderHistory = () => {
     });
 
   return (
-      <Layout title="Historial de pedidos">
-        <div className="arrow-container" onClick={() => navigator(-1)}>
-          <svg
-            width="30"
-            height="30"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </div>
-
-        <ToggleSection
-          title="información"
-          onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
+    <Layout title="Historial de pedidos">
+      <div className="arrow-container" onClick={() => navigator(-1)}>
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
-            Aquí puedes gestionar el inventario de productos farmacéuticos.
-            <br />
-            Puedes registrar nuevos productos, actualizar la información de los
-            existentes y realizar un seguimiento del stock disponible.
-          </p>
-          <div className="chart-container">
-            <BarChart data={dataBar} />
-          </div>
-        </ToggleSection>
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </div>
 
-        <InventoryActions
-          linkButton={{
-            ButtonLabel: "Registrar nuevo pedido",
-            type: "link",
-          }}
-          sortOrder={sortOrder}
-          searchTerm={searchTerm}
-          handleSort={handleSort}
-          handleSearch={handleSearch}
-        />
-        {loading ? (
-          <p>Cargando datos...</p>
-        ) : error ? (
-          <p style={{ color: "red" }}>{error}</p>
-        ) : (
-          <div style={{ width: "100%" }}>
-            <Table
-              data={filteredData}
-              columns={headers}
-              itemsPerPage={itemsPerPage}
-              linkColumn={{
-                label: "Ver detalles",
-                path: "/historial",
-                idKey: "id",
-                type: "modal",
-              }}
-            />
-          </div>
-        )}
-      </Layout>
+      <ToggleSection
+        title="información"
+        onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
+      >
+        <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>
+          Aquí puedes gestionar el inventario de productos farmacéuticos.
+          <br />
+          Puedes registrar nuevos productos, actualizar la información de los
+          existentes y realizar un seguimiento del stock disponible.
+        </p>
+        <div className="chart-container">
+          <BarChart data={dataBar} />
+        </div>
+      </ToggleSection>
+
+      <InventoryActions
+        linkButton={{
+          ButtonLabel: "Registrar nuevo pedido",
+          type: "link",
+        }}
+        sortOrder={sortOrder}
+        searchTerm={searchTerm}
+        handleSort={handleSort}
+        handleSearch={handleSearch}
+      />
+      {loading ? (
+        <p>Cargando datos...</p>
+      ) : error ? (
+        <p style={{ color: "red" }}>{error}</p>
+      ) : (
+        <div style={{ width: "100%" }}>
+          <Table
+            data={filteredData}
+            columns={headers}
+            itemsPerPage={itemsPerPage}
+            linkColumn={{
+              label: "Ver detalles",
+              path: "/historial",
+              idKey: "id",
+              type: "modal",
+            }}
+          />
+        </div>
+      )}
+    </Layout>
   );
 };
 
