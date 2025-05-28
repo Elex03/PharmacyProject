@@ -41,7 +41,7 @@ const Distributors = () => {
             filterBySymptom={true}
             linkButton={{
               ButtonLabel: "Escanear",
-              type: "modal",
+              type: "scanner",
             }}
             sortOrder={sortOrder}
             searchTerm={searchTerm}

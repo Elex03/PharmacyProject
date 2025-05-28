@@ -6,6 +6,9 @@ import {
   createBackup,
   restoreBackup,
 } from "../../../../shared/api/services/General";
+import { Header } from "../../../../shared/components/layout/Header";
+import "../../../../shared/styles/shared.css"
+
 
 export const Backup = () => {
   const [backupName, setBackupName] = useState("");
@@ -27,18 +30,21 @@ export const Backup = () => {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <h2>Gestión de Backups</h2>
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+      <div style={{marginBottom: "20px"}}>
+        <Header title="Gestión de Backups" />
+      </div>
+      <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem", padding: "10px" }}>
         <input
           type="text"
           value={backupName}
+          style={{padding: "10px", width: "100%"}}
           onChange={(e) => setBackupName(e.target.value)}
           placeholder="Nombre del backup"
         />
-        <button onClick={handleCreateBackup}>Generar backup</button>
+        <button onClick={handleCreateBackup}
+          className="button-action"
+        >Generar backup</button>
       </div>
-
-      <h3>Lista de backups</h3>
       <div style={{ width: "100%" }}>
         <Table
           data={backups}

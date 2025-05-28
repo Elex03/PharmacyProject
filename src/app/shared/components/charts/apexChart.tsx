@@ -18,7 +18,9 @@ const ApexChart: React.FC<ApexChartProps> = ({ data, horizontal = false }) => {
   const chartState = {
     series: [
       {
+        name: "Cantidad",
         data: data.map((item) => item.cantidad),
+        
       },
     ],
     options: {
@@ -33,9 +35,8 @@ const ApexChart: React.FC<ApexChartProps> = ({ data, horizontal = false }) => {
         },
       },
       dataLabels: {
-        enabled: true,
+        enabled: false,
       },
-      
     },
   };
 

@@ -58,7 +58,19 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <VscInbox size={24} />
             </button>
-            <TfiHelpAlt size={24} style={{ marginLeft: "10px" }} />
+            <button
+              type="button"
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "#000",
+              }}
+              onClick={openModal}
+              aria-label="Abrir notificaciones"
+            >
+              <TfiHelpAlt size={24} style={{ marginLeft: "10px" }} />
+            </button>
           </div>
         )}
       </header>

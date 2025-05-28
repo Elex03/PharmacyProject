@@ -1,0 +1,52 @@
+.dispositivo-container {
+  max-width: 400px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  margin-bottom: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.estado-text {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Colores según estado */
+.desconectado {
+  background-color: red;
+}
+
+.conectando {
+  background-color: gray;
+  animation: blink 1s infinite;
+}
+
+.conectado {
+  background-color: green;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}

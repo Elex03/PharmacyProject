@@ -1,5 +1,6 @@
 import React from "react";
 import { useFetchSymptoms } from "../../../../features/inventory/hooks/useMedicineForm";
+import DispositivoConBoton from "./DispositivoButton";
 
 interface InventoryActionsProps {
   sortOrder: string;
@@ -11,7 +12,7 @@ interface InventoryActionsProps {
   onOpenModal?: () => void;
   handleSymptomChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   linkButton: {
-    type: "modal" | "link";
+    type: "modal" | "link" | "scanner";
     ButtonLabel?: string;
     to?: string;
   };
@@ -42,7 +43,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
         display: "flex",
         flexDirection: "column",
         gap: "20px",
-        marginTop: "20px"
+        marginTop: "20px",
       }}
     >
       <div
@@ -125,11 +126,14 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
                 </button>
               </a>
             )}
+
             {linkButton.type === "modal" && (
               <button className="button-action" onClick={onOpenModal}>
                 {linkButton.ButtonLabel}
               </button>
             )}
+
+            {linkButton.type === "scanner" && <DispositivoConBoton />}
           </div>
         </div>
       </div>
