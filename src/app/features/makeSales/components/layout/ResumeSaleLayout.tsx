@@ -5,6 +5,9 @@ import { useCart } from "../../hooks/useCart";
 import "../../../../shared/components/layout/Table/Table.css";
 import { createMakeSales } from "../../../../shared/api/services/MakeSales";
 import { toast } from "react-toastify";
+import { useNotifications } from "../../../pedidos/hooks/useNotifications";
+
+import type { Notificacion } from "../../../pedidos/hooks/useNotifications";
 
 interface FormValues {
   pagaCon: number;
@@ -17,6 +20,21 @@ interface FormValues {
     precioVenta?: number;
     stock?: number;
   }[];
+}
+
+export interface VentaResponse {
+  message: string;
+  ventaId: number;
+  total: number;
+  detalle: DetalleVentaResponse[];
+}
+
+export interface DetalleVentaResponse {
+  medicamento_fk: number;
+  nombre: string;
+  imageUrl: string;
+  cantidadVendida: number;
+  stockRestante: number;
 }
 
 export const ResumeSaleLayout = () => {
@@ -86,6 +104,8 @@ export const ResumeSaleLayout = () => {
     });
   };
 
+  const { guardarNotificaciones } = useNotifications();
+
   const onSubmit = (data: FormValues) => {
     const payload = {
       pagaCon: data.pagaCon,
@@ -115,6 +135,32 @@ export const ResumeSaleLayout = () => {
           theme: "light",
         }
       )
+      .then((response) => {
+        // Supongamos que `response.detalle` contiene el stock actual después de la venta
+        const notificacionesBajoStock: Notificacion[] = response.detalle
+          .filter((item: DetalleVentaResponse) => item.stockRestante < 10) // Ajusta el nombre del campo si es diferente
+          .map((item: DetalleVentaResponse) => ({
+            nombre: item.nombre, // nombre del medicamento
+            stock: item.cantidadVendida,
+            tipoAviso: "stock",
+            fechaProgramada: new Date().toISOString(),
+            fechaVencimiento: "", 
+            img: item.imageUrl,
+            leido: false,
+          }));
+
+        if (notificacionesBajoStock.length > 0) {
+          const notificacionesGuardadas: Notificacion[] = JSON.parse(
+            localStorage.getItem("notificaciones") || "[]"
+          );
+          const nuevas = [
+            ...notificacionesGuardadas,
+            ...notificacionesBajoStock,
+          ];
+          guardarNotificaciones(nuevas);
+          console.log('Se guardo');
+        }
+      })
       .catch((error) => {
         console.error("Error al crear la venta:", error);
       });

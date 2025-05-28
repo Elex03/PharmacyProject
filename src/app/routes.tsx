@@ -12,7 +12,7 @@ const Dashboard = lazy(
   () => import("./features/dashboard/pages/dashboard2.tsx")
 );
 const Settings = lazy(() => import("./features/settings/pages/settings.tsx"));
-
+const Orders = lazy(() => import("./features/pedidos/pages/compras.tsx"))
 const Inventario = lazy(() => import("./features/inventory/pages/Inventory"));
 const Distributors = lazy(
   () => import("./features/ditributors/pages/Distributors")
@@ -84,7 +84,7 @@ const AppRouter = () => {
             element={
               <div className="page-container-root">
                 <Sidebar />
-                <Login />
+                <Orders />
               </div>
             }
           />
