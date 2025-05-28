@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Table } from "../../../shared/components/layout/Table/Table.tsx";
 import InventoryActions from "../../../shared/components/forms/actions/Actions.tsx";
 import Layout from "../../../shared/components/layout/layout.tsx";
@@ -13,9 +14,11 @@ import EditMedicine from "../components/layout/createMedicine/editMedicine.tsx";
 import { Bounce, ToastContainer } from "react-toastify";
 import ApexChart from "../../../shared/components/charts/apexChart.tsx";
 import { useFetchMedicineStock } from "../../../shared/hooks/useFetchGeneral.ts";
+import Tour from "reactour";
 
 const Inventario = () => {
   const { inventoryData, headers } = useFetchInventory();
+
   const modalEdit = useModal();
   const {
     searchTerm,
@@ -31,7 +34,7 @@ const Inventario = () => {
     handleStockFilter,
     setSelectedItemId,
     selectedSymptom,
-    handleSymptomChange
+    handleSymptomChange,
   } = useInventoryState();
 
   const onOpenModal = (id: number) => {
@@ -44,9 +47,30 @@ const Inventario = () => {
     searchTerm,
     stockFilter,
     sortOrder,
-     selectedSymptom ? [selectedSymptom] : []
+    selectedSymptom ? [selectedSymptom] : []
   );
-  const  {medicineStock} = useFetchMedicineStock();
+
+  const [isTourOpen, setIsTourOpen] = useState(false);
+
+  const closeTour = () => setIsTourOpen(false);
+
+  const tourSteps = [
+    {
+      selector: ".step-chart",
+      content: "Este gráfico muestra un resumen visual del inventario.",
+    },
+    {
+      selector: ".step-actions",
+      content: "Aquí puedes buscar, filtrar o agregar nuevos medicamentos.",
+    },
+    {
+      selector: ".step-table",
+      content: "Esta tabla muestra los productos registrados en el inventario.",
+    },
+  ];
+
+  const { medicineStock } = useFetchMedicineStock();
+
   return (
     <Layout title="Inventario" headerButton={true}>
       <ToggleSection
@@ -60,12 +84,13 @@ const Inventario = () => {
           existentes y realizar un seguimiento del stock disponible.
         </p>
 
-        <div className="chart-container">
-          <ApexChart
-            data={medicineStock}
-          />
+        {/* Agregar la clase step-chart para el tour */}
+        <div className="chart-container step-chart">
+          <ApexChart data={medicineStock} />
         </div>
       </ToggleSection>
+
+      {/* Agregar clase step-actions para el tour */}
       <InventoryActions
         linkButton={{
           ButtonLabel: "Agregar medicamento",
@@ -83,6 +108,7 @@ const Inventario = () => {
         handleStockFilter={handleStockFilter}
         handleSearch={handleSearch}
       />
+
       <Table
         columns={headers}
         data={filteredData}
@@ -105,7 +131,15 @@ const Inventario = () => {
       {secondModal.isOpen && (
         <ReturnProduct onClose={secondModal.onClose} medicines={[]} />
       )}
+
       <ToastContainer transition={Bounce} />
+
+      <Tour
+        steps={tourSteps}
+        isOpen={isTourOpen}
+        onRequestClose={closeTour}
+        accentColor="#007bff"
+      />
     </Layout>
   );
 };

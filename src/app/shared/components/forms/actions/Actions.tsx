@@ -45,6 +45,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
         gap: "20px",
         marginTop: "20px",
       }}
+      className="step-actions"
     >
       <div
         style={{

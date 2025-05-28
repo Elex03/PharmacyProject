@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { VscInbox } from "react-icons/vsc";
 import { TfiHelpAlt } from "react-icons/tfi";
+import Tour from "reactour";
 import { ModalNotifications } from "../../../features/pedidos/components/ModalNotifications";
-
+import { useTour } from "../../../shared/hooks/useTour"; // importa tu nuevo hook
+import type {ReactourStep} from 'reactour'
 interface HeaderProps {
   title: string;
   size?: string;
@@ -21,6 +23,30 @@ export const Header: React.FC<HeaderProps> = ({
   const closeModal = () => setModalVisible(false);
 
   const handleSelectTab = (tab: string) => setSelectedTab(tab);
+
+
+  const {
+    isTourOpen,
+    openTour,
+    closeTour,
+    steps,
+  } = useTour(
+    "Inventory",
+    [
+      {
+        selector: ".step-chart",
+        content: "Este gráfico muestra un resumen visual del inventario.",
+      },
+      {
+        selector: ".step-actions",
+        content: "Aquí puedes buscar, filtrar o agregar nuevos medicamentos.",
+      },
+      {
+        selector: ".step-table",
+        content: "Esta tabla muestra los productos registrados en el inventario.",
+      },
+    ] as ReactourStep[]
+  );
 
   return (
     <>
@@ -66,8 +92,8 @@ export const Header: React.FC<HeaderProps> = ({
                 cursor: "pointer",
                 color: "#000",
               }}
-              onClick={openModal}
-              aria-label="Abrir notificaciones"
+              onClick={openTour}
+              aria-label="Iniciar recorrido"
             >
               <TfiHelpAlt size={24} style={{ marginLeft: "10px" }} />
             </button>
@@ -80,6 +106,13 @@ export const Header: React.FC<HeaderProps> = ({
         onClose={closeModal}
         selectedTab={selectedTab}
         onSelectTab={handleSelectTab}
+      />
+
+      <Tour
+        steps={steps}
+        isOpen={isTourOpen}
+        onRequestClose={closeTour}
+        accentColor="#007bff"
       />
     </>
   );

@@ -58,3 +58,10 @@ export interface FullMedicineData {
   minStock: number;
   maxStock: number;
 }
+
+
+declare global {
+  interface Window {
+    __isTourOpen?: boolean;
+  }
+}
