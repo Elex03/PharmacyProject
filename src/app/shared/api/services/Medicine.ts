@@ -85,3 +85,14 @@ export const getMedicineSelect = async () => {
     console.log("Error fetching Medicine", error);
   }
 };
+
+
+
+export const getMedicineStock = async () => {
+  try {
+    const response = await ApiFarmanovaApi.get("medicines/getMedicineStock");
+    return response.data;
+  }catch(error) {
+    console.log("Error fetching medicine stock", error)
+  }
+}

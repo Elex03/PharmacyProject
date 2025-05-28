@@ -9,6 +9,7 @@ import { useFetchDistributors } from "../hooks/useFetchDistributors";
 import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection";
 import CreateDistributorModal from "../components/CreateDistributorModal";
 import { ToastContainer } from "react-toastify";
+import { useFetchMedicineStock } from "../../../shared/hooks/useFetchGeneral";
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -40,6 +41,8 @@ const Distributors = () => {
     sortOrder
   );
 
+  const {medicineStock} = useFetchMedicineStock();
+
   return (
     <Layout title="Distribuidores">
       <ToggleSection title="información">
@@ -50,7 +53,10 @@ const Distributors = () => {
           existentes y realizar un seguimiento del stock disponible.
         </p>
         <div className="chart-container">
-          <ApexChart />
+          <ApexChart 
+          data={medicineStock}
+          horizontal={true}
+          />
         </div>
       </ToggleSection>
       <InventoryActions

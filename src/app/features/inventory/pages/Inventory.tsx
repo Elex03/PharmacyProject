@@ -12,6 +12,7 @@ import ReturnProduct from "./ReturnProduct.tsx";
 import EditMedicine from "../components/layout/createMedicine/editMedicine.tsx";
 import { Bounce, ToastContainer } from "react-toastify";
 import ApexChart from "../../../shared/components/charts/apexChart.tsx";
+import { useFetchMedicineStock } from "../../../shared/hooks/useFetchGeneral.ts";
 
 const Inventario = () => {
   const { inventoryData, headers } = useFetchInventory();
@@ -45,7 +46,7 @@ const Inventario = () => {
     sortOrder,
      selectedSymptom ? [selectedSymptom] : []
   );
-
+  const  {medicineStock} = useFetchMedicineStock();
   return (
     <Layout title="Inventario" headerButton={true}>
       <ToggleSection
@@ -60,7 +61,9 @@ const Inventario = () => {
         </p>
 
         <div className="chart-container">
-          <ApexChart />
+          <ApexChart
+            data={medicineStock}
+          />
         </div>
       </ToggleSection>
       <InventoryActions

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMedicineSelect } from "../api/services/Medicine";
+import { getMedicineSelect, getMedicineStock } from "../api/services/Medicine";
 
 interface MedicineSelect {
   id: number;
@@ -22,3 +22,21 @@ export const useFetchMedicineSelect = () => {
   }
 
 };
+
+interface GrphicProps {
+    descripcion: string; 
+    cantidad: number;
+}
+export const useFetchMedicineStock = () => {
+    const [medicineStock, setMedicineStock] = useState<GrphicProps[]>([]);
+
+    useEffect(() => {
+        getMedicineStock().then((res) => {
+            setMedicineStock(res);
+        })
+    }, [])
+
+    return {
+        medicineStock
+    }
+}
