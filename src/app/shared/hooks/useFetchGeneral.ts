@@ -5,6 +5,7 @@ interface MedicineSelect {
   id: number;
   label: string;
   value: string;
+  precio: number;
 }
 
 export const useFetchMedicineSelect = () => {

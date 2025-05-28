@@ -45,6 +45,8 @@ const Distributors = () => {
 
   const { medicineSelect } = useFetchMedicineSelect();
 
+
+
   return (
     <Layout title="Distribuidores">
       <ToggleSection title="información">
@@ -72,13 +74,13 @@ const Distributors = () => {
 
       <select>
         {distributors.map((res) => (
-          <option value={res.id}> {res.nombre + res.empresa}</option>
+          <option value={res.id}> {res.nombre + res.empresa  }</option>
         ))}
       </select>
 
       <select>
         {medicineSelect.map((res) => (
-          <option value={res.value}>{res.label}</option>
+          <option value={res.value}>{res.label + res.precio}</option>
         ))}
       </select>
 
