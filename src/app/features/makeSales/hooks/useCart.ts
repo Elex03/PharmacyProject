@@ -12,6 +12,7 @@ type createCart = {
   add: (product: Product) => void;
   empty: () => void;
   deleteItem: (id: number) => void;
+  setItems: (productos: Product[]) => void;
 };
 
 export const useCart = create<createCart>((set) => ({
@@ -20,4 +21,5 @@ export const useCart = create<createCart>((set) => ({
   empty: () => set({ items: [] }),
   deleteItem: (id) =>
     set((state) => ({ items: state.items.filter((item) => item.id !== id) })),
+  setItems: (productos) => set({ items: productos }), 
 }));

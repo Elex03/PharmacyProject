@@ -9,7 +9,7 @@ export interface dataPreviewTableItem {
   stock: number;
 }
 
-export const useFetchgetMakeSales = () => {
+export const useFetchgetMakeSales = (dataChanged: boolean) => {
   const [makeSalesData, setMakeSalesData] = useState<dataPreviewTableItem[]>(
     []
   );
@@ -38,7 +38,7 @@ export const useFetchgetMakeSales = () => {
       });
     };
     fetchMakeSales();
-  }, []);
+  },[dataChanged]);
   return {
     makeSalesData,
     headers,

@@ -1,171 +1,24 @@
-import { useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import React from "react";
 import { Header } from "../../../../shared/components/layout/Header";
-import { useCart } from "../../hooks/useCart";
-import "../../../../shared/components/layout/Table/Table.css";
-import { createMakeSales } from "../../../../shared/api/services/MakeSales";
-import { toast } from "react-toastify";
-import { useNotifications } from "../../../pedidos/hooks/useNotifications";
+import { useStateResumeLayout } from "../../hooks/useStateResumeLayout";
 
-import type { Notificacion } from "../../../pedidos/hooks/useNotifications";
-
-interface FormValues {
-  pagaCon: number;
-  total: number;
-  empleado_fk: number;
-  detalle: {
-    medicamento_fk: number;
-    cantidad: number;
-    descripcion?: string;
-    precioVenta?: number;
-    stock?: number;
-  }[];
+interface resumeSaleLayoutProps {
+  setDataChanged: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
-export interface VentaResponse {
-  message: string;
-  ventaId: number;
-  total: number;
-  detalle: DetalleVentaResponse[];
-}
-
-export interface DetalleVentaResponse {
-  medicamento_fk: number;
-  nombre: string;
-  imageUrl: string;
-  cantidadVendida: number;
-  stockRestante: number;
-}
-
-export const ResumeSaleLayout = () => {
-  const { items: cartItems, deleteItem, empty } = useCart();
-
-  const { register, handleSubmit, control, watch, reset } = useForm<FormValues>(
-    {
-      defaultValues: {
-        pagaCon: 0,
-        total: 0,
-        empleado_fk: 1,
-        detalle: [],
-      },
-    }
-  );
-
-  const { fields, remove, update } = useFieldArray({
-    control,
-    name: "detalle",
-  });
-
-  useEffect(() => {
-    const detalle = cartItems.map((item) => ({
-      medicamento_fk: item.id,
-      cantidad: 1,
-      descripcion: item.name,
-      precioVenta: item.price,
-      stock: item.stock,
-    }));
-    reset({
-      pagaCon: 0,
-      empleado_fk: 1,
-      detalle,
-    });
-  }, [cartItems, reset]);
-
-  const handleCantidadChange = (
-    index: number,
-    cantidad: number,
-    stock: number
-  ) => {
-    const nuevaCantidad = Math.max(1, Math.min(cantidad, stock));
-    update(index, {
-      ...fields[index],
-      cantidad: nuevaCantidad,
-    });
-  };
-
-  const calcularTotal = () => {
-    return watch("detalle").reduce(
-      (acc, item) => acc + item.cantidad * (item.precioVenta || 0),
-      0
-    );
-  };
-
-  const eliminarItem = (index: number, id: number) => {
-    deleteItem(id);
-    remove(index);
-  };
-
-  const handleCancelBotton = () => {
-    empty();
-    reset({
-      pagaCon: 0,
-      empleado_fk: 1,
-      detalle: [],
-    });
-  };
-
-  const { guardarNotificaciones } = useNotifications();
-
-  const onSubmit = (data: FormValues) => {
-    const payload = {
-      pagaCon: data.pagaCon,
-      empleado_fk: data.empleado_fk,
-      detalle: data.detalle.map((d) => ({
-        medicamento_fk: d.medicamento_fk,
-        cantidad: d.cantidad,
-      })),
-      total: calcularTotal(),
-    };
-
-    toast
-      .promise(
-        createMakeSales(payload),
-        {
-          pending: "Procesando venta...",
-          success: "Venta creada exitosamente",
-          error: "Error al crear la venta",
-        },
-        {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "light",
-        }
-      )
-      .then((response) => {
-        // Supongamos que `response.detalle` contiene el stock actual después de la venta
-        const notificacionesBajoStock: Notificacion[] = response.detalle
-          .filter((item: DetalleVentaResponse) => item.stockRestante < 10) // Ajusta el nombre del campo si es diferente
-          .map((item: DetalleVentaResponse) => ({
-            nombre: item.nombre, // nombre del medicamento
-            stock: item.cantidadVendida,
-            tipoAviso: "stock",
-            fechaProgramada: new Date().toISOString(),
-            fechaVencimiento: "", 
-            img: item.imageUrl,
-            leido: false,
-          }));
-
-        if (notificacionesBajoStock.length > 0) {
-          const notificacionesGuardadas: Notificacion[] = JSON.parse(
-            localStorage.getItem("notificaciones") || "[]"
-          );
-          const nuevas = [
-            ...notificacionesGuardadas,
-            ...notificacionesBajoStock,
-          ];
-          guardarNotificaciones(nuevas);
-          console.log('Se guardo');
-        }
-      })
-      .catch((error) => {
-        console.error("Error al crear la venta:", error);
-      });
-  };
-
+export const ResumeSaleLayout: React.FC<resumeSaleLayoutProps> = ({
+  setDataChanged,
+}) => {
+  const {
+    handleCancelBotton,
+    eliminarItem,
+    handleCantidadChange,
+    onSubmit,
+    register,
+    handleSubmit,
+    fields,
+    calcularTotal,
+  } = useStateResumeLayout(setDataChanged);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

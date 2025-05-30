@@ -14,8 +14,9 @@ import { ToastContainer } from "react-toastify";
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
+  const [dataChanged, setDataChanged] = useState(false);
 
-  const { makeSalesData, headers } = useFetchgetMakeSales();
+  const { makeSalesData, headers } = useFetchgetMakeSales(dataChanged);
 
   const { items: selectedItems } = useCart();
 
@@ -53,7 +54,7 @@ const Distributors = () => {
       </div>
 
       <div className="resumeSale">
-        <ResumeSaleLayout />
+        <ResumeSaleLayout setDataChanged={setDataChanged}/>
       </div>
       <ToastContainer />
     </div>
