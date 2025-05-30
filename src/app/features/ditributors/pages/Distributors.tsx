@@ -44,7 +44,7 @@ const Distributors = () => {
   const { medicineStock } = useFetchMedicineStock();
 
   return (
-    <Layout title="Distribuidores">
+    <Layout title="Distribuidores" headerButton={true}>
       <ToggleSection title="Información">
         <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
           Administra de forma sencilla a los distribuidores de productos
