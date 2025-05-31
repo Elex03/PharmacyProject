@@ -1,16 +1,23 @@
 import Layout from "../../../shared/components/layout/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Table } from "../../../shared/components/layout/Table/Table";
 import { DateRange } from "react-date-range";
 import { addDays } from "date-fns";
 import { Range, RangeKeyDict } from "react-date-range";
 import { useForm } from "react-hook-form";
 import { useFetchSalesReport } from "../../../shared/hooks/useFetchGeneral";
+import { useMemo } from "react";
 
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
 import "./Report.css";
+
+
+const infoReport = [
+  "Reportes de los medicamentos mas vendidos", 
+  "De 20/03/2005 hasta 31/05/2025"
+]
 
 interface ReportFormData {
   filterByDate: boolean;
@@ -42,46 +49,56 @@ const Report = () => {
     },
   });
 
-  // Solo disparar fetch tras “Generar”
   const [enabled, setEnabled] = useState(false);
 
-  // Lectura de campos
-  const reportType   = watch("reportType");
+  const reportType = watch("reportType");
   const filterByDate = watch("filterByDate");
-  const itemCount    = watch("itemCount");
-  const order        = watch("order");
-  const from         = watch("from");
-  const to           = watch("to");
+  const itemCount = watch("itemCount");
+  const order = watch("order");
+  const from = watch("from");
+  const to = watch("to");
 
-  // Hook: solo enabled && reportType==='ventas'
   const { salesReport, headers, loading } = useFetchSalesReport(
     order,
     itemCount === "todos" ? "todos" : Number(itemCount),
     filterByDate,
     from,
     enabled && reportType === "ventas",
-    to,
+    to
   );
-
+  
   const handleDateChange = (ranges: RangeKeyDict) => {
     const sel = ranges.selection;
     if (sel.startDate && sel.endDate) {
       setRange([sel]);
       setValue("from", sel.startDate.toISOString().split("T")[0]);
-      setValue("to",   sel.endDate  .toISOString().split("T")[0]);
+      setValue("to", sel.endDate.toISOString().split("T")[0]);
       setShowCalendar(false);
     }
   };
 
   const onSubmit = (data: ReportFormData) => {
-    // Solo habilitamos la carga si es reporte de ventas
     if (data.reportType === "ventas") {
       setEnabled(false);
-      // refrescar hook
       setTimeout(() => setEnabled(true), 0);
     }
     console.log("Filtros aplicados:", data);
   };
+
+
+const typeReports = useMemo(() => [
+  { value: "seleccionar", label: "Seleccionar" },
+  { value: "ventas", label: "Medicamentos más vendidos" },
+  { value: "devolucion", label: "Medicamentos devueltos" },
+], []);
+
+const [selectedReport, setSelectedReport] = useState("");
+const [fileName, setFileName] = useState("");
+
+useEffect(() => {
+  const report = typeReports.find(item => item.value === selectedReport);
+  setFileName(report ? report.label : "");
+}, [selectedReport, typeReports]);
 
   return (
     <Layout title="Reportes">
@@ -90,11 +107,12 @@ const Report = () => {
           <div className="filters-row">
             <div className="filter-group">
               <label>Tipo de reporte</label>
-              <select {...register("reportType")} className="filter-dropdown">
-                <option value="">Selecciona</option>
-                <option value="ventas">Medicamentos Vendidos</option>
-                <option value="inventario">Medicamentos Devueltos</option>
-                <option value="usuarios">Usuarios</option>
+              <select {...register("reportType")} className="filter-dropdown"
+              onChange={(e) => setSelectedReport(e.target.value)}
+              >
+                {typeReports.map((item) => (
+                  <option value={item.value}>{item.label}</option>
+                ))}
               </select>
             </div>
 
@@ -164,12 +182,14 @@ const Report = () => {
           <Table
             data={enabled && reportType === "ventas" ? (salesReport as []) : []}
             columns={enabled && reportType === "ventas" ? (headers as []) : []}
+            fileName={fileName}
+            tableInfo={infoReport}
             linkColumn={{
-          label: "",
-          path: "/producto",
-          idKey: "id",
-          type: "modal",
-        }}
+              label: "",
+              path: "/producto",
+              idKey: "id",
+              type: "modal",
+            }}
           />
         )}
       </div>

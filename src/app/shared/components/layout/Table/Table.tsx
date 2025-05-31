@@ -28,6 +28,8 @@ type TableProps<T> = {
     type: "modal" | "linked" | "button";
   };
   onOpenModal?: (id: number) => void;
+  fileName?: string;
+  tableInfo?: string[];
 };
 
 const truncateText = (text: string, maxLength: number) =>
@@ -94,6 +96,8 @@ export function Table<T extends Record<string, unknown>>({
   itemsPerPage = 5,
   linkColumn,
   onOpenModal,
+  fileName = "Archivo",
+  tableInfo = [],
 }: TableProps<T>) {
   const {
     handleChangeFilter,
@@ -188,7 +192,7 @@ export function Table<T extends Record<string, unknown>>({
               {linkColumn && (
                 <th className="export-column">
                   <ExportOption
-                    filename="Distribuidores"
+                    filename={fileName}
                     headers={columns.map((col) => ({
                       ...col,
                       key: String(col.key),
@@ -199,6 +203,7 @@ export function Table<T extends Record<string, unknown>>({
                       ["Cuidamos de ti, cada día."],
                       ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
                       ["Tel: 2255-4524"],
+                      tableInfo,
                       [""],
                     ]}
                     onColumnChange={setVisibleColumns}

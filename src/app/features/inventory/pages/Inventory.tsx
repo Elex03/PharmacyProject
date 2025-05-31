@@ -90,7 +90,6 @@ const Inventario = () => {
         </div>
       </ToggleSection>
 
-      {/* Agregar clase step-actions para el tour */}
       <InventoryActions
         linkButton={{
           ButtonLabel: "Agregar medicamento",

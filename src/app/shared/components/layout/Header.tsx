@@ -84,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
                   style={{
                     position: 'absolute',
                     top: 0,
-                    right: 0,
+                    left: 0,
                     width: "10px",
                     height: "10px",
                     backgroundColor: "red",
