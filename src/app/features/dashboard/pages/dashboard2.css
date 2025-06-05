@@ -173,19 +173,19 @@
 }
 */
 .card.one {
-  background-color: rgba(242, 240, 255, 255);
+  background-color: rgba(200, 190, 255, 1);
 }
 
 .card.two {
-  background-color: rgba(254, 237, 238, 255);
+  background-color: rgba(255, 180, 190, 1);
 }
 
 .card.tree {
-  background-color: rgba(228, 242, 254, 255);
+  background-color: rgba(170, 220, 255, 1);
 }
 
 .card.four {
-  background-color: rgba(242, 240, 255, 255);
+  background-color: rgba(210, 190, 255, 1);
 }
 
 .card .top {
@@ -195,7 +195,7 @@
   top: 30px;
 }
 
-.card .top.one {
+/* .card .top.one {
   color: rgba(120, 105, 189, 255);
 }
 .card .top.two {
@@ -206,6 +206,19 @@
 }
 .card .top.four {
   color: rgba(180, 170, 250, 1);
+} */
+
+.card .top.one {
+  color: rgba(160, 100, 255, 1);
+}
+.card .top.two {
+  color: rgba(255, 60, 100, 1);
+}
+.card .top.tree {
+  color: rgba(70, 180, 255, 1);
+}
+.card .top.four {
+  color: rgba(190, 100, 255, 1);
 }
 
 .card .middle {
@@ -259,7 +272,8 @@
   position: relative;
   left: 20px;
   top: 30px;
-  color: rgb(48, 47, 47);
+
+  /* color: rgb(48, 47, 47); */
 }
 
 .tables {
@@ -351,7 +365,8 @@
   display: flex;
   align-items: flex-start; /* Al fondo verticalmente */
   justify-content: left; /* Al centro horizontalmente */
-  color: black;
+  /* color: black; */
+  font-weight: bold;
 }
 
 .disponible {
@@ -362,8 +377,15 @@
 }
 
 .texto {
-  background-color: rgba(130, 202, 157, 0.3);
+  /* background-color: rgba(130, 202, 157, 0.3);
   color: rgba(100, 190, 130, 1);
+   */
+  /* background-color: rgba(130, 170, 255, 0.3); 
+  color: rgba(100, 150, 230, 1); */
+
+  background-color: rgba(140, 200, 245, 1);
+  /* color: rgb(33, 33, 218); */
+  color: rgba(33, 90, 188, 255);
 }
 
 .date-range-wrapper {
@@ -373,7 +395,7 @@
   z-index: 10000;
   right: 10%; */
   position: absolute;
-  left: 36%;
+  left: 41.4%;
   top: 20%;
   z-index: 1;
 }

@@ -101,62 +101,6 @@ const productsData = {
       precio: "C$ 95.00",
       stock: 80,
     },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
   ],
   pocoStock: [
     {
@@ -316,6 +260,7 @@ function Dashboard2() {
               <div className="value">{formattedTotal}</div>
             </div>
             <div className="buttons">
+              <div></div>
               <button className="calendar" onClick={handleCalendarButtonClick}>
                 <LuCalendarDays className="icon" />
                 <p>{buttonText}</p>
