@@ -1,0 +1,43 @@
+.actions1 {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  margin-top: 0px;
+  margin-left: 0px;
+  align-items: column;
+  justify-content: space-between;
+}
+
+.pedido .customer-name-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-left: 0px;
+  color: #333;
+}
+
+.pedido .customer-name-input {
+  padding: 8px;
+  margin-top: 1px;
+  margin-left: 0px;
+  margin-right: 110px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 405px;
+  transition: border-color 0.3s;
+}
+
+.pedido .button-action {
+  padding: 9px;
+  width: 250px;
+  background-color: white;
+  color: #007bff;
+  cursor: pointer;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+}
+
+.pedido .right {
+  margin-left: 1066px;
+}

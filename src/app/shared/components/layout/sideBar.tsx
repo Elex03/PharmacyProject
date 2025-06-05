@@ -57,7 +57,7 @@ export default function Sidebar() {
 
           <p className="menu-title">Gestión de Pedidos y reportes</p>
           <SidebarLink
-            to="/clientes"
+            to="/pedidos"
             icon={<LuPackage className="icon" />}
             label="Pedidos"
           />

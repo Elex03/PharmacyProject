@@ -4,7 +4,7 @@ import { useFetchMedicineSelect } from "../../../shared/hooks/useFetchGeneral";
 import { useFetchDistributors } from "../../ditributors/hooks/useFetchDistributors";
 import { LuTrash2 } from "react-icons/lu";
 
-import "./compras.css";
+import "../styles/compras.css";
 import { createNewOrder } from "../../../shared/api/services/Orders";
 
 interface RegistroTabla {

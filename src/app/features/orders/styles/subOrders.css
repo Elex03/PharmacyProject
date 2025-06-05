@@ -1,0 +1,57 @@
+/* Contenedor principal */
+.suborders-container {
+  padding: 24px;
+}
+
+/* Bloques superiores */
+.suborders-header-block {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suborders-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Texto principal */
+.suborders-header {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Controles: input + botón */
+.suborders-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.suborders-date-input {
+  padding: 6px 8px;
+  font-size: 14px;
+  color: #636161;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.suborders-button {
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suborders-button:hover {
+  background-color: #d5d5d5;
+}

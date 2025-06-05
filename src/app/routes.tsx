@@ -12,7 +12,9 @@ const Dashboard = lazy(
   () => import("./features/dashboard/pages/dashboard2.tsx")
 );
 const Settings = lazy(() => import("./features/settings/pages/settings.tsx"));
-const Orders = lazy(() => import("./features/pedidos/pages/compras.tsx"))
+const Orders = lazy(() => import("./features/orders/page/Orders.tsx"))
+const Suborders = lazy(() => import("./features/orders/page/SubOrders.tsx"))
+const Compras = lazy(() => import("./features/orders/page/compras.tsx"))
 const Inventario = lazy(() => import("./features/inventory/pages/Inventory"));
 const Distributors = lazy(
   () => import("./features/ditributors/pages/Distributors")
@@ -80,11 +82,29 @@ const AppRouter = () => {
             }
           />
           <Route
-            path="/clientes"
+            path="/pedidos"
             element={
               <div className="page-container-root">
                 <Sidebar />
                 <Orders />
+              </div>
+            }
+          />
+          <Route
+            path="/subpedidos/:id"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Suborders />
+              </div>
+            }
+          />
+          <Route
+            path="/subpedidos/:id/compras"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Compras />
               </div>
             }
           />

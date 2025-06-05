@@ -1,0 +1,144 @@
+/* modal programar pedidos */
+  .modal-overlay-order {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content-order {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .modal-content-order h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .modal-content-order label {
+    display: block;
+    margin: 0.5rem 0 0.2rem;
+  }
+  
+  .modal-content-order select,
+  .modal-content-order input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;  
+  }
+  .modal-content-order textarea{
+    width: 494px;    
+    margin-bottom: 1rem;
+  }
+  .modal-buttons-order {
+    display: flex;
+    justify-content: end;
+    gap: 0.5rem;
+  }
+  
+  
+  .btn-whatsapp {
+    background-color: white;
+    color: #08c74e;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid #08c74e;
+    margin-right: 219px;    
+  }
+  
+.btn-order {
+    padding: 0.5rem 0.6rem;    
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;        
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;        
+  }
+    
+  .btn-secondary {
+    background-color: #fff;    
+    border: 1px solid #ccc;
+    
+  }
+
+ /* fin modal programar pedidos */
+
+ /* fila de medicamento dinámico */
+.medication-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem; 
+}
+
+/* inputs de medicamento: nombre y cantidad */
+.medication-row input[type="text"],
+.medication-row input[type="number"] {
+  flex: 1;
+  padding: 0.4rem;
+}
+
+/* botón para eliminar un medicamento */
+.btn-delete {
+  /* border: none; */
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  border: 1px solid #be0b0e;
+}
+
+.btn-delete:hover {
+  background-color: #d9363e;
+}
+
+/* botón agregar medicamento */
+.btn-order.btn-agregar-med {
+  margin-bottom: 1rem;
+  background-color: #fff;    
+  border: 1px solid #ccc;  
+}
+.btn-agregar-med:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+/* deshabilitar enlace de whatsapp si no hay datos */
+.btn-whatsapp[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* scroll interno al modal si crece demasiado */
+.order-modal {
+  max-height: 80vh;  
+  overflow-y: auto;
+}
+
+/* mejora visual del scrollbar */
+.order-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.order-modal::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.Table {
+  margin-top: 10px;
+}
