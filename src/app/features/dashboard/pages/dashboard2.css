@@ -173,19 +173,19 @@
 }
 */
 .card.one {
-  background-color: rgba(200, 190, 255, 1);
+  background-color: rgba(225, 220, 255, 1); /* lavanda suave */
 }
 
 .card.two {
-  background-color: rgba(255, 180, 190, 1);
+  background-color: rgba(250, 200, 205, 1); /* rosa claro, menos chillón */
 }
 
 .card.tree {
-  background-color: rgba(170, 220, 255, 1);
+  background-color: rgba(200, 230, 250, 1); /* celeste balanceado */
 }
 
 .card.four {
-  background-color: rgba(210, 190, 255, 1);
+  background-color: rgba(230, 215, 255, 1); /* lila pastel */
 }
 
 .card .top {
@@ -318,7 +318,7 @@
 .product {
   height: 66px;
   display: grid;
-  grid-template-columns: 10% 70% 20%;
+  grid-template-columns: 10% 67% 23%;
   grid-template-rows: 1fr 1fr;
 }
 
@@ -326,7 +326,7 @@
   grid-column: 1;
   grid-row: 1/3;
   position: relative;
-  width: 80%;
+  width: 75%;
   height: 80%;
   border-radius: 20%;
   overflow: hidden;
@@ -353,7 +353,7 @@
 }
 
 .total {
-  font-size: 14px;
+  font-size: 16px;
   display: flex;
   align-items: flex-end; /* Al fondo verticalmente */
   justify-content: left; /* Al centro horizontalmente */
@@ -383,9 +383,15 @@
   /* background-color: rgba(130, 170, 255, 0.3); 
   color: rgba(100, 150, 230, 1); */
 
-  background-color: rgba(140, 200, 245, 1);
   /* color: rgb(33, 33, 218); */
-  color: rgba(33, 90, 188, 255);
+
+  /* background-color: rgba(140, 200, 245, 1);
+  color: rgba(33, 90, 188, 255); */
+  font-weight: bold;
+
+  background-color: rgba(130, 202, 157, 0.3);
+  color: rgba(100, 190, 130, 1);
+  font-size: 14px;
 }
 
 .date-range-wrapper {
