@@ -67,6 +67,10 @@ const Inventario = () => {
       selector: ".step-table",
       content: "Esta tabla muestra los productos registrados en el inventario.",
     },
+    // {
+    //   selector: ".step-syntomps",
+    //   content: "Este filtro te permite filtrar el inventario por el sintoma",
+    // },
   ];
 
   const { medicineStock } = useFetchMedicineStock();

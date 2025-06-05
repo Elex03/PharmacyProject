@@ -7,7 +7,7 @@ export const FinancialsInventoryForm = () => {
   const precioCompra = useWatch({ control, name: "precioCompra" });
   const porcentajeGanancia = useWatch({
     control,
-    name: "financiero.porcentajeGanancia",
+    name: "porcentajeGanancia",
   });
 
   useEffect(() => {

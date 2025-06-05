@@ -64,7 +64,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
           }}
         >
           {filterBySymptom ? (
-            <select className="filter-dropdown" onChange={handleSymptomChange}>
+            <select className="filter-dropdown step-syntomps" onChange={handleSymptomChange}>
               <option value="">Filtrar por síntoma</option>
               {symptoms.map((symptom) => (
                 <option key={symptom.id} value={symptom.text}>

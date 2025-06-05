@@ -49,7 +49,7 @@ export const useImageFromWebSocket = (url: string) => {
     return () => {
       ws.close();
     };
-  }, [url]); // ✅ Solo se conecta/desconecta con el URL
+  }, [url]); 
 
   const waitForImage = () => {
     setIsWaiting(true);

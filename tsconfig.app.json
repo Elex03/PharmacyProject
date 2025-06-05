@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "public/webUsageStats.ts"]
+  "include": ["src", "public/webUsageStats.ts", "src/test/shared/components/export"]
 }

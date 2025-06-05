@@ -9,7 +9,6 @@ interface MenuSelectProps {
   cancelWait: () => void;
 }
 
-
 export const MenuSelect: React.FC<MenuSelectProps> = ({
   isWaiting,
   onSelectFromGallery,
@@ -17,10 +16,8 @@ export const MenuSelect: React.FC<MenuSelectProps> = ({
   onCancel,
   cancelWait,
 }) => {
- 
   return (
     <motion.div
-      onClick={(e) => e.stopPropagation()} // <--- Agregado aquí
       key="options-menu"
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -49,19 +46,26 @@ export const MenuSelect: React.FC<MenuSelectProps> = ({
       >
         📁 Galería
       </button>
-     <button
-  onClick={(e) => {
-    e.stopPropagation();
-    if (isWaiting) {
-      cancelWait(); // si ya está esperando, cancelar
-    } else {
-      onTakePhoto(); // comenzar a esperar la imagen
-    }
-  }}
->
-  {isWaiting ? "❌ Cancelar foto" : "📷 Tomar foto"}
-</button>  
-      <button onClick={(e) => {e.stopPropagation();  onCancel()}}>Cancelar</button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          if (isWaiting) {
+            cancelWait(); // si ya está esperando, cancelar
+          } else {
+            onTakePhoto(); // comenzar a esperar la imagen
+          }
+        }}
+      >
+        {isWaiting ? "❌ Cancelar foto" : "📷 Tomar foto"}
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onCancel();
+        }}
+      >
+        Cancelar
+      </button>
     </motion.div>
   );
 };

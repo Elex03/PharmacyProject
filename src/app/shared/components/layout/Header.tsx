@@ -42,6 +42,10 @@ export const Header: React.FC<HeaderProps> = ({
       selector: ".step-table",
       content: "Esta tabla muestra los productos registrados en el inventario.",
     },
+    {
+      selector: ".step-syntomps",
+      content: "Esta tabla muestra los productos registrados en el inventario.",
+    },
   ] as ReactourStep[]);
 
   return (

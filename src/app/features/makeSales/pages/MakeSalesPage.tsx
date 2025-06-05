@@ -6,10 +6,10 @@ import Layout from "../../../shared/components/layout/layout";
 
 import "../../../shared/styles/shared.css";
 import "../css/makeSales.css";
-import { Table } from "../components/Table";
 import { useCart } from "../hooks/useCart";
 import { useFetchgetMakeSales } from "../hooks/useFetchMakeSales";
 import { ToastContainer } from "react-toastify";
+import { Table } from "../components/Table";
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");

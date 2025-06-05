@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useNotifications } from "../hooks/useNotifications";
-import { useEffect } from "react";
 import "./ModalNotifications.css";
 import { API_URL } from "../../../shared/components/config";
 
@@ -19,50 +18,6 @@ export const ModalNotifications: React.FC<ModalNotificationsProps> = ({
 }) => {
   const { notificaciones, guardarNotificaciones, marcarTodasComoLeidas } =
     useNotifications();
-
-  useEffect(() => {
-    const yaInicializado = localStorage.getItem("notificacionesInicializadas");
-    if (notificaciones.length === 0 && !yaInicializado) {
-      const prueba = [
-        {
-          nombre: "Paracetamol",
-          stock: 2,
-          tipoAviso: "stock" as const,
-          fechaProgramada: new Date().toISOString(),
-          fechaVencimiento: new Date(
-            Date.now() + 1000 * 60 * 60 * 24 * 30
-          ).toISOString(),
-          img: "./medicamento2.jpg",
-          leido: false,
-        },
-        {
-          nombre: "Amoxicilina",
-          stock: 15,
-          tipoAviso: "vencimiento" as const,
-          fechaProgramada: new Date().toISOString(),
-          fechaVencimiento: new Date(
-            Date.now() + 1000 * 60 * 60 * 24 * 10
-          ).toISOString(),
-          img: "./medicamento2.jpg",
-          leido: false,
-        },
-        {
-          nombre: "Ibuprofeno",
-          stock: 2,
-          tipoAviso: "stock" as const,
-          fechaProgramada: new Date().toISOString(),
-          fechaVencimiento: new Date(
-            Date.now() + 1000 * 60 * 60 * 24 * 40
-          ).toISOString(),
-          img: "./medicamento2.jpg",
-          leido: false,
-        },
-      ];
-
-      guardarNotificaciones(prueba);
-      localStorage.setItem("notificacionesInicializadas", "true");
-    }
-  }, [notificaciones.length, guardarNotificaciones]);
 
   if (!show) return null;
 

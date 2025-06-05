@@ -535,6 +535,7 @@ table {
   height: 40px;
   cursor: pointer;
   object-fit: cover;
+  aspect-ratio: 1/1;
 }
 
 .telefono-link {

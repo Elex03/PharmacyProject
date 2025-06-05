@@ -1,4 +1,4 @@
-import ExcelJS from "exceljs";
+import { Workbook } from 'exceljs';
 import { saveAs } from "file-saver";
 
 type HeaderItem = {
@@ -12,7 +12,7 @@ export const exportToExcel = async (
   filename: string = "Exportacion.xlsx",
   titleInfo: string[][] = []
 ) => {
-  const workbook = new ExcelJS.Workbook();
+  const workbook = new Workbook();
   const worksheet = workbook.addWorksheet("Datos");
 
   // Agregar cabecera (opcional)
