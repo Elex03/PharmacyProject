@@ -585,3 +585,28 @@ table {
   object-fit: contain;
   transition: transform 0.3s;
 }
+
+/* botones de acciones */
+.link-button {  
+  cursor: pointer;
+  font-size: 1rem;  
+}
+
+
+.edit-btn {    
+  color: #4a4a4a;
+  border: 1px solid #a7a5a5;
+  border-radius: 100px;
+}
+
+.delete-btn {  
+  color: #d81616;
+  border: 1px solid #a7a5a5;
+  border-radius: 100px;
+}
+
+.ready-btn {
+  color: #4a4a4a;
+  border: 1px solid #a7a5a5;
+  border-radius: 100px;
+}

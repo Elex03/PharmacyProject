@@ -7,6 +7,9 @@ import { InfoQuantityData } from "../infoQuantityData";
 import { PaginationFooter } from "./PaginationFooter";
 import { useTableState } from "./hooks/useTableState";
 import { API_URL } from "../../config";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
+
 
 type ColumnDefinition<T> = {
   key: keyof T;
@@ -22,10 +25,13 @@ type TableProps<T> = {
   itemsPerPage?: number;
   linkColumn?: {
     onClick?: (nombre: string) => void;
+    onEdit?: (id: number) => void;
+    onDelete?: (id: number) => void;
+    onMarkAsReady?: (id: number) => void;
     label: string;
     path?: string;
     idKey?: keyof T;
-    type: "modal" | "linked" | "button";
+    type: "modal" | "linked" | "button" | "buttons";
   };
   onOpenModal?: (id: number) => void;
   fileName?: string;
@@ -268,55 +274,84 @@ export function Table<T extends Record<string, unknown>>({
                         </motion.td>
                       ))}
                     {linkColumn && (
-                      <motion.td
-                        className="link-column-cell"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: pageData.length * 0.05,
-                        }}
-                      >
-                        {linkColumn.type === "modal" ? (
-                          <button
-                            onClick={() =>
-                              onOpenModal &&
-                              onOpenModal(
+                        <motion.td
+                          className="link-column-cell"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: pageData.length * 0.05,
+                          }}
+                        >
+                          {linkColumn.type === "buttons" ? (
+                            <>
+                              <button
+                                onClick={() =>
+                                  linkColumn.onEdit &&
+                                  linkColumn.onEdit(Number(row[linkColumn.idKey!]))
+                                }
+                                className="link-button edit-btn"
+                              >
+                                <FontAwesomeIcon icon={faPen} />
+                              </button>
+
+                              <button
+                                onClick={() =>
+                                  linkColumn.onDelete &&
+                                  linkColumn.onDelete(Number(row[linkColumn.idKey!]))
+                                }
+                                className="link-button delete-btn"
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
+
+                              {row.estado === "Pendiente" && (
+                                <button
+                                  onClick={() =>
+                                    linkColumn.onMarkAsReady &&
+                                    linkColumn.onMarkAsReady(Number(row[linkColumn.idKey!]))
+                                  }
+                                  className="link-button ready-btn"
+                                >
+                                  <FontAwesomeIcon icon={faCheck} />
+                                </button>
+                              )}
+                            </>
+                          ) : linkColumn.type === "modal" ? (
+                            <button
+                              onClick={() =>
+                                onOpenModal &&
+                                onOpenModal(linkColumn.idKey ? Number(row[linkColumn.idKey]) : 0)
+                              }
+                              className="link-button"
+                            >
+                              {linkColumn.label}
+                            </button>
+                          ) : linkColumn.type === "button" ? (
+                            <button
+                              onClick={() =>
+                                linkColumn.onClick &&
+                                linkColumn.onClick((row.nombre as string) ?? "")
+                              }
+                              className="link-button"
+                            >
+                              {linkColumn.label}
+                            </button>
+                          ) : (
+                            <a
+                              href={
                                 linkColumn.idKey
-                                  ? Number(row[linkColumn.idKey])
-                                  : 0
-                              )
-                            }
-                            className="link-button"
-                          >
-                            {linkColumn.label}
-                          </button>
-                        ) : linkColumn.type === "button" ? (
-                          <button
-                            onClick={() =>
-                              linkColumn.onClick &&
-                              linkColumn.onClick(
-                                (row.nombre as string) ?? "" // ← Aquí mandas la descripción directamente
-                              )
-                            }
-                            className="link-button"
-                          >
-                            {linkColumn.label}
-                          </button>
-                        ) : (
-                          <a
-                            href={
-                              linkColumn.idKey
-                                ? `${linkColumn.path}/${row[linkColumn.idKey]}`
-                                : "#"
-                            }
-                            className="link-anchor"
-                          >
-                            {linkColumn.label}
-                          </a>
-                        )}
-                      </motion.td>
-                    )}
+                                  ? `${linkColumn.path}/${row[linkColumn.idKey]}`
+                                  : "#"
+                              }
+                              className="link-anchor"
+                            >
+                              {linkColumn.label}
+                            </a>
+                          )}
+                        </motion.td>
+                      )}
+
                   </tr>
                 ))
               ) : (

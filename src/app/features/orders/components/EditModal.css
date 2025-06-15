@@ -1,0 +1,57 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2);
+  min-width: 320px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Estilo general para inputs y select */
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Botones */
+.modal-content button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-content button:first-of-type {
+  background-color: #007bff; /* verde */
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.modal-content button:first-of-type:hover {
+  background-color:rgb(3, 82, 167);
+}
+
+.modal-content button:last-of-type {
+  background-color: #fff; /* rojo */
+  color: #000;
+  border: 1px solid #707471;
+}
