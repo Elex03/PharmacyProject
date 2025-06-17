@@ -1,4 +1,10 @@
 {
+   "compilerOptions": {
+    "module": "esnext", 
+    "jsx": "react-jsx", // ← Asegúrate de tener esto
+     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

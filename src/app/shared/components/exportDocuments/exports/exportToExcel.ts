@@ -61,7 +61,9 @@ export const exportToExcel = async (
     col.width = 20;
   });
 
-  const buffer = await workbook.xlsx.writeBuffer();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const buffer = await (workbook.xlsx as any).writeBuffer();
+
   const blob = new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });

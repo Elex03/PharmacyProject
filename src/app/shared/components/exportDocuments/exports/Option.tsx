@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { exportToExcel } from "./exportToExcel";
 import { exportToPDF } from "./exportToPdf";
-import pdfIcon from "../../../assets/img/pdf-icon.svg";
-import xlsIcon from "../../../assets/img/xls-icon.svg";
 import "./Option.css";
+
 
 type HeaderItem = {
   key: string;
@@ -128,14 +127,14 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
                 className="sub-menu-content"
                 onClick={() => handleExport("excel")}
               >
-                <img src={xlsIcon} alt="" />
+                <img src={'./logo.svg'} alt="" />
                 Exportar a Excel
               </div>
               <div
                 className="sub-menu-content"
                 onClick={() => handleExport("pdf")}
               >
-                <img src={pdfIcon} alt="" />
+                <img src={'./logo.svg'} alt="" />
                 Exportar a PDF
               </div>
             </div>
