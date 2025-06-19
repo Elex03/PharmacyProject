@@ -100,6 +100,15 @@ const AppRouter = () => {
             }
           />
           <Route
+            path="/subpedido/"
+            element={
+              <div className="page-container-root">
+                <Sidebar />
+                <Suborders />
+              </div>
+            }
+          />
+          <Route
             path="/subpedidos/:id/compras"
             element={
               <div className="page-container-root">

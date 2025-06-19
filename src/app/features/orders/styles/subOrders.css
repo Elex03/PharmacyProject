@@ -33,13 +33,48 @@
   gap: 12px;
 }
 
-.suborders-date-input {
+/* .suborders-date-input {
   padding: 6px 8px;
   font-size: 14px;
   color: #636161;
   border: 1px solid #ccc;
   border-radius: 4px;
+} */
+
+.suborders-date-group {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
 }
+
+.suborders-date-label {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+}
+.suborders-date-input {
+  width: 225px;  
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;  
+}
+
+.suborders-date-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.suborders-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.4);
+  cursor: pointer;
+}
+
 
 .suborders-button {
   padding: 6px 12px;

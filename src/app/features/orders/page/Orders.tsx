@@ -4,18 +4,23 @@ import { Table } from "../../../shared/components/layout/Table/Table";
 import InventoryActions from "../../../shared/components/forms/actions/Actions";
 import { ordersData } from "../data/ordersData";
 import { headers } from "../headers/headers";
-import EditModal from "../components/EditModal";
+import { useNavigate } from "react-router-dom";
+
+/* import EditModal from "../components/EditModal"; */
 import "../styles/orders.css";
+/* import { useParams } from "react-router-dom"; */
 
 const Orders = () => {
+  /* const { id } = useParams(); */
+
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");  
 
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
-  const [orders, setOrders] = useState(ordersData); // estado editable
-
-  const openEditModal = (id: number) => {
+  /* const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null); */
+  const [orders] = useState(ordersData); // estado editable  
+  
+  /* const openEditModal = (id: number) => {
     setSelectedOrderId(id);
     setIsEditModalOpen(true);
   };
@@ -27,6 +32,12 @@ const Orders = () => {
 
   const handleEdit = (id: number) => {
     openEditModal(id);
+  }; */
+
+  const navigate = useNavigate();
+
+  const handleEdit = (id: number) => {
+    navigate(`/subpedidos/${id}`);
   };
 
   const handleDelete = (id: number) => {
@@ -39,13 +50,13 @@ const Orders = () => {
     // Aquí actualizarías el estado del pedido para marcarlo como listo
   };
 
-  const handleSaveEdit = (updatedOrder: typeof orders[0]) => {
+  /* const handleSaveEdit = (updatedOrder: typeof orders[0]) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order.id === updatedOrder.id ? updatedOrder : order
       )
     );
-  };
+  }; */
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -74,7 +85,7 @@ const Orders = () => {
     <Layout title="Lista de Pedidos">
       <div className="Table">
         <InventoryActions
-          linkButton={{ ButtonLabel: "+ Registrar nuevo", type: "modal" }}
+          linkButton={{ ButtonLabel: "Registrar nuevo", type: "link", to: `subpedido` }}
           sortOrder={sortOrder}
           searchTerm={searchTerm}
           handleSort={handleSort}
@@ -97,14 +108,14 @@ const Orders = () => {
         />
       </div>
 
-      {isEditModalOpen && selectedOrderId !== null && (
+      {/* {isEditModalOpen && selectedOrderId !== null && (
         <EditModal
           orderId={selectedOrderId}
           orderData={orders}
           onClose={closeEditModal}
           onSave={handleSaveEdit}
         />
-      )}
+      )} */}
     </Layout>
   );
 };
