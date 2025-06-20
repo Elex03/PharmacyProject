@@ -10,6 +10,7 @@ import { useCart } from "../hooks/useCart";
 import { useFetchgetMakeSales } from "../hooks/useFetchMakeSales";
 import { ToastContainer } from "react-toastify";
 import { Table } from "../components/Table";
+import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection";
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -38,12 +39,16 @@ const Distributors = () => {
     <div className="container-makeSale">
       <div className="main-content">
         <Layout title="Realizar venta">
+          <ToggleSection title="información">
+            <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
+              Aquí puedes gestionar el inventario de productos farmacéuticos.
+              <br />
+              Puedes registrar nuevos productos, actualizar la información de
+              los existentes y realizar un seguimiento del stock disponible.
+            </p>
+          </ToggleSection>
           <Actions
             filterBySymptom={true}
-            linkButton={{
-              ButtonLabel: "Escanear",
-              type: "scanner",
-            }}
             sortOrder={sortOrder}
             searchTerm={searchTerm}
             handleSort={handleSort}
@@ -54,7 +59,7 @@ const Distributors = () => {
       </div>
 
       <div className="resumeSale">
-        <ResumeSaleLayout setDataChanged={setDataChanged}/>
+        <ResumeSaleLayout setDataChanged={setDataChanged} />
       </div>
       <ToastContainer />
     </div>

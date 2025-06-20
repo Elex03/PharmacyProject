@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./DispositivoButton.css"; // asegúrate de importar el CSS
+import "./DispositivoButton.css";
 
 enum Estado {
   DESCONECTADO = "Desconectado",

@@ -11,7 +11,7 @@ interface InventoryActionsProps {
   onOpenSecondModal?: () => void;
   onOpenModal?: () => void;
   handleSymptomChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  linkButton: {
+  linkButton?: {
     type: "modal" | "link" | "scanner";
     ButtonLabel?: string;
     to?: string;
@@ -116,7 +116,7 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
               </button>
             )}
 
-            {linkButton.type === "link" && (
+            {linkButton?.type === "link" && (
               <a
                 href={`/${linkButton.to}`}
                 className="link"
@@ -128,13 +128,13 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
               </a>
             )}
 
-            {linkButton.type === "modal" && (
+            {linkButton?.type === "modal" && (
               <button className="button-action" onClick={onOpenModal}>
                 {linkButton.ButtonLabel}
               </button>
             )}
 
-            {linkButton.type === "scanner" && <DispositivoConBoton />}
+            {linkButton?.type === "scanner" && <DispositivoConBoton />}
           </div>
         </div>
       </div>

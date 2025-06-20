@@ -1,7 +1,6 @@
 .dispositivo-container {
   max-width: 400px;
   padding: 16px;
-  border: 1px solid #ccc;
   margin-bottom: 40px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);

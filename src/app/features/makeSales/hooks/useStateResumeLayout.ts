@@ -35,9 +35,10 @@ export interface DetalleVentaResponse {
   stockRestante: number;
 }
 
-export const useStateResumeLayout = (setDataChanged: (value: boolean | ((prev: boolean) => boolean)) => void) => {
+export const useStateResumeLayout = (
+  setDataChanged: (value: boolean | ((prev: boolean) => boolean)) => void
+) => {
   const { items: cartItems, deleteItem, empty } = useCart();
-  
 
   const { register, handleSubmit, control, watch, reset } = useForm<FormValues>(
     {
@@ -136,7 +137,7 @@ export const useStateResumeLayout = (setDataChanged: (value: boolean | ((prev: b
       )
       .then((response) => {
         empty();
-        setDataChanged(prev => !prev);
+        setDataChanged((prev) => !prev);
 
         const notificacionesBajoStock: Notificacion[] = response.detalle
           .filter((item: DetalleVentaResponse) => item.stockRestante <= 10)
@@ -162,7 +163,7 @@ export const useStateResumeLayout = (setDataChanged: (value: boolean | ((prev: b
             toast.warn(
               `"${noti.nombre}" está próximo a agotarse (stock: ${noti.stock})`,
               {
-                position: "top-right",
+                position: "top-center",
                 autoClose: 4000,
                 hideProgressBar: false,
                 closeOnClick: true,
