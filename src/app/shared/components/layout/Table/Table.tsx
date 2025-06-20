@@ -305,7 +305,7 @@ export function Table<T extends Record<string, unknown>>({
                                 <FontAwesomeIcon icon={faTrash} />
                               </button>
 
-                              {row.estado === "Pendiente" && (
+                              {row.estado === "Completado" && (
                                 <button
                                   onClick={() =>
                                     linkColumn.onMarkAsReady &&

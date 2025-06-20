@@ -5,8 +5,6 @@ import InventoryActions from "../../../shared/components/forms/actions/Actions";
 import { ordersData } from "../data/ordersData";
 import { headers } from "../headers/headers";
 import { useNavigate } from "react-router-dom";
-
-/* import EditModal from "../components/EditModal"; */
 import "../styles/orders.css";
 /* import { useParams } from "react-router-dom"; */
 
@@ -15,24 +13,7 @@ const Orders = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");  
-
-  /* const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null); */
   const [orders] = useState(ordersData); // estado editable  
-  
-  /* const openEditModal = (id: number) => {
-    setSelectedOrderId(id);
-    setIsEditModalOpen(true);
-  };
-
-  const closeEditModal = () => {
-    setSelectedOrderId(null);
-    setIsEditModalOpen(false);
-  };
-
-  const handleEdit = (id: number) => {
-    openEditModal(id);
-  }; */
 
   const navigate = useNavigate();
 
@@ -49,14 +30,6 @@ const Orders = () => {
     console.log("Marcar como Listo pedido con id:", id);
     // Aquí actualizarías el estado del pedido para marcarlo como listo
   };
-
-  /* const handleSaveEdit = (updatedOrder: typeof orders[0]) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === updatedOrder.id ? updatedOrder : order
-      )
-    );
-  }; */
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -107,15 +80,6 @@ const Orders = () => {
           }}
         />
       </div>
-
-      {/* {isEditModalOpen && selectedOrderId !== null && (
-        <EditModal
-          orderId={selectedOrderId}
-          orderData={orders}
-          onClose={closeEditModal}
-          onSave={handleSaveEdit}
-        />
-      )} */}
     </Layout>
   );
 };
