@@ -6,6 +6,7 @@ import { createMakeSales } from "../../../shared/api/services/MakeSales";
 import { toast } from "react-toastify";
 
 import type { Notificacion } from "../../../features/pedidos/hooks/useNotifications";
+import { getItemPerCode } from "../../../shared/api/services/General";
 
 interface FormValues {
   pagaCon: number;
@@ -38,7 +39,87 @@ export interface DetalleVentaResponse {
 export const useStateResumeLayout = (
   setDataChanged: (value: boolean | ((prev: boolean) => boolean)) => void
 ) => {
-  const { items: cartItems, deleteItem, empty } = useCart();
+  const { items: cartItems, deleteItem, empty, add } = useCart();
+
+  useEffect(() => {
+    const socket = new WebSocket("ws://10.17.82.184:3000");
+
+    const handleSearchItem = (code: string) => {
+      if (code) {
+
+        const settingsPromise = {
+          position: "top-center" as const,
+          autoClose: 1000,
+        }
+        const promise = getItemPerCode(Number(code));
+
+       
+
+        promise
+          .then((response) => {
+            const data = response.data;
+
+            if (cartItems.some((item) => item.id === data.id)) {
+              toast.error("Producto ya está en el carrito", {
+                ...settingsPromise,
+              });
+              return;
+            }
+            if (data.stock <= 0) {
+              toast.error("Producto sin stock", {
+                ...settingsPromise,
+              });
+              return;
+            }
+
+            add({
+              id: data.id,
+              name: data.name,
+              price: data.price,
+              stock: data.stock,
+            });
+            toast.success("Producto agregado al carrito", {
+              ...settingsPromise,
+            });
+          })
+          .catch(() => {
+            toast.error("Error en la búsqueda", {
+              ...settingsPromise,
+            });
+          });
+      }
+    };
+
+    socket.onopen = () => {
+      console.log("✅ Conectado al servidor WebSocket");
+    };
+
+    socket.onmessage = (event) => {
+      try {
+        const message = JSON.parse(event.data);
+
+        if (message.type === "text") {
+          console.log("📥 Código QR recibido en web:", message.data);
+
+          handleSearchItem(message.data);
+        }
+      } catch (err) {
+        console.error("❌ Error al parsear mensaje:", err);
+      }
+    };
+
+    socket.onclose = () => {
+      console.log("🔌 Conexión WebSocket cerrada");
+    };
+
+    socket.onerror = (err) => {
+      console.error("🚨 Error WebSocket:", err);
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [add, cartItems]);
 
   const { register, handleSubmit, control, watch, reset } = useForm<FormValues>(
     {

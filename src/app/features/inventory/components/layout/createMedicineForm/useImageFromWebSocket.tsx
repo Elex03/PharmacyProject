@@ -28,7 +28,7 @@ export const useImageFromWebSocket = (url: string) => {
           if (typeof imageUrl === "string" && imageUrl.startsWith("http")) {
             setImageSrc(imageUrl);
             setIsWaiting(false);
-            isWaitingRef.current = false; // detener espera
+            isWaitingRef.current = false; 
           } else {
             console.error("Formato de imagen inválido:", imageUrl);
           }

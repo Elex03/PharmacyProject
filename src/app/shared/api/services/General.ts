@@ -35,3 +35,16 @@ export const restoreBackup = async (nombre: string) => {
     console.log("Error creating backup", error);
   }
 };
+
+
+export const getItemPerCode = async (id: number) => {
+  try {
+    const response = await ApiFarmaNova.get(
+      `general/getItemPerCode/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching item by code:", error);
+    return [];
+  }
+};
