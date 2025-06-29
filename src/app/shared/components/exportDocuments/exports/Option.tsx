@@ -86,7 +86,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
   return (
     <>
       <button
-        className="export-button"
+      style={{backgroundColor: "transparent", border: "none", cursor: "pointer" }}
         onClick={() => {
           setShowChartMenu((prev) => !prev);
         }}
@@ -94,7 +94,7 @@ export const ExportOption: React.FC<ExportOptionProps> = ({
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 200 200"
-          style={{ width: 45, height: 45, fill: "#6e8192" }}
+          style={{ width: 50, height: 50, fill: "rgb(110, 129, 146)"}}
         >
           <path d="M148.483 95.598h-42.2c-1.1 0-1.6-.8-1.6-1.9v-40.4c0-1.1.7-2 1.8-2 27.7 0 44.101 15.8 44.101 42.3-.001 1.1-1.001 2-2.101 2zm-39.801-4h37.7c-.7-22-14.7-35.6-37.7-36.3v36.3z" />
           <path d="M94.382 148.098c-24.8 0-44.3-19.2-44.3-43.7 0-26.9 18.6-45 46.3-45 1.1 0 2 .9 2 2v30.6c0 .5-.2 1.1-.6 1.4-.4.4-.9.6-1.5.5h-.5c-5.1 0-9.1 4.1-9.1 9 0 5 4.1 9.1 9.1 9.1s9.1-4.1 9.1-9.1c0-.3 0-.6-.1-.8-.1-.6.1-1.2.5-1.7.4-.4.9-.8 1.5-.8h30c1.1 0 2 .9 2 2-.099 27.9-17.9 46.5-44.4 46.5zm0-84.6c-24.2.8-40.3 17.1-40.3 40.9 0 22.6 17.3 39.6 40.3 39.6 23.8 0 39.5-15.8 40.3-40.3h-25.9c-.4 6.9-6.1 12.3-13 12.3-7.2 0-13.1-5.9-13.1-13.1 0-6.8 5.1-12.3 11.7-13v-26.4z" />

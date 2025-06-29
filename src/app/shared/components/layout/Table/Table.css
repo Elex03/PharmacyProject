@@ -21,8 +21,8 @@
 
 .export-column {
   position: relative;
-  display: flex;
   justify-content: flex-end;
+  display: flex;
 }
 
 .highlight-bubble {
@@ -491,7 +491,6 @@ table {
   height: 50%;
   display: flex;
   flex-direction: column;
-
 }
 
 .header-cell {

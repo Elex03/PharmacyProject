@@ -24,7 +24,7 @@ export const ShowChartSide: React.FC<ShowChartSideProps> = ({
       animate={{ x: showChartMenu ? 0 : 300 }}
       transition={{ type: "tween", duration: 0.3 }}
       style={{
-        width: 300,
+        width: 400,
         height: "100vh",
         backgroundColor: "#fff",
         padding: "16px",
@@ -43,6 +43,7 @@ export const ShowChartSide: React.FC<ShowChartSideProps> = ({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          marginBottom: 30,
         }}
       >
         <Header title="Gráficos" />
@@ -59,11 +60,18 @@ export const ShowChartSide: React.FC<ShowChartSideProps> = ({
         </button>
       </div>
 
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <select
           value={selectedKey}
           onChange={(e) => setSelectedKey(e.target.value)}
-          style={{ width: "100%", padding: 4, marginBottom: 12 }}
+          style={{ width: "80%", padding: 4, marginBottom: 12, height: 40 }}
         >
           {headers.map((header) => (
             <option key={header.key} value={header.key}>
@@ -71,15 +79,16 @@ export const ShowChartSide: React.FC<ShowChartSideProps> = ({
             </option>
           ))}
         </select>
-
-        <PieAnimation headers={
-            headers.map((header) => ({
-                id: header.key,
-                label: header.header,
-            }))
-
-        } data={data} selectedKey={selectedKey} />
-      </div>
+       
+          <PieAnimation
+            headers={headers.map((header) => ({
+              id: header.key,
+              label: header.header,
+            }))}
+            data={data}
+            selectedKey={selectedKey}
+          />
+        </div>
     </motion.div>
   );
 };
