@@ -7,28 +7,40 @@ import Layout from "../../../shared/components/layout/layout";
 import InventoryActions from "../../../shared/components/forms/actions/Actions";
 import "../styles/subOrders.css";
 
+// ✅ Interfaz del tipo de subpedido
+interface Suborder {
+  id: number;
+  nombre: string;
+  distribuidor: string;
+  subtotal: string;
+  telefono: string;
+}
+
 const Suborders = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // id del pedido general desde la URL
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-
-  const [suborders, setSuborders] = useState(subordersData); // editable
+  const [suborders, setSuborders] = useState<Suborder[]>(subordersData);
 
   const handleEdit = (id: number) => {
     console.log("Editar subpedido con id:", id);
-    // Aquí abrirías modal de edición si lo tienes
+    // lógica de edición aquí
   };
 
-  const handleDelete = (id: number) => {
-    console.log("Eliminar subpedido con id:", id);
-    setSuborders((prev) => prev.filter((item) => item.id !== id.toString()
-));
+  const handleDelete = (idToDelete: number) => {
+    const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este subpedido?");
+    if (confirmDelete) {
+      setSuborders((prevOrders) =>
+        prevOrders.filter((order) => order.id !== idToDelete)
+      );
+      console.log("Pedido eliminado con éxito. ID:", idToDelete);
+    }
   };
 
   const handleMarkAsReady = (id: number) => {
     console.log("Marcar como Listo subpedido con id:", id);
-    // Aquí actualizarías estado de ese subpedido
+    // lógica de estado aquí
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,8 +55,9 @@ const Suborders = () => {
     .filter((item) => {
       const search = searchTerm.toLowerCase();
       return (
-        item.id.toLowerCase().includes(search) ||
-        item.distribuidor.toLowerCase().includes(search)
+        item.nombre.toLowerCase().includes(search) ||
+        item.distribuidor.toLowerCase().includes(search) ||
+        item.id.toString().includes(search)
       );
     })
     .sort((a, b) => {
@@ -86,7 +99,7 @@ const Suborders = () => {
           itemsPerPage={5}
           linkColumn={{
             label: "Acciones",
-            idKey: "id",
+            idKey: "id", // debe coincidir con el campo numérico en los datos
             path: "/compras",
             type: "buttons",
             onEdit: handleEdit,

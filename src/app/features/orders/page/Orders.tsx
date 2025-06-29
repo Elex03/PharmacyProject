@@ -13,7 +13,7 @@ const Orders = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");  
-  const [orders] = useState(ordersData); // estado editable  
+  const [orders, setOrders] = useState(ordersData); // estado editable  
 
   const navigate = useNavigate();
 
@@ -21,9 +21,13 @@ const Orders = () => {
     navigate(`/subpedidos/${id}`);
   };
 
-  const handleDelete = (id: number) => {
-    console.log("Eliminar pedido con id:", id);
+  const handleDelete = (id: number) => {    
     // Aquí puedes mostrar confirmación y luego eliminar el pedido
+    const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este pedido?");
+    if (confirmDelete) {
+      setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
+      console.log("Pedido eliminado con éxito. ID:", id);
+    }
   };
 
   const handleMarkAsReady = (id: number) => {

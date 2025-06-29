@@ -123,11 +123,18 @@ export function Table<T extends Record<string, unknown>>({
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
 
-  useEffect(() => {
-    if (columns.length > 0) {
-      setVisibleColumns(columns.map((h) => String(h.key)));
+useEffect(() => {
+  if (columns.length > 0) {
+    const columnKeys = columns.map((h) => String(h.key));
+    if (
+      linkColumn?.type === "buttons"      
+    ) {
+      columnKeys.push("acciones");
     }
-  }, [columns]);
+    setVisibleColumns(columnKeys);
+  }
+}, [columns, linkColumn]);
+
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) =>
@@ -199,10 +206,15 @@ export function Table<T extends Record<string, unknown>>({
                 <th className="export-column">
                   <ExportOption
                     filename={fileName}
-                    headers={columns.map((col) => ({
-                      ...col,
-                      key: String(col.key),
-                    }))}
+                    headers={[
+                      ...columns.map((col) => ({
+                        key: String(col.key),
+                        header: col.header,
+                      })),
+                      ...(linkColumn?.type === "buttons"
+                      ? [{ key: "acciones", header: "Acciones" }]
+                      : []),
+                    ]}
                     data={sortedData}
                     titleInfo={[
                       ["Farmacia Farmavalue"],
@@ -273,7 +285,7 @@ export function Table<T extends Record<string, unknown>>({
                           )}
                         </motion.td>
                       ))}
-                    {linkColumn && (
+                    {linkColumn && visibleColumns.includes("acciones") && (
                         <motion.td
                           className="link-column-cell"
                           initial={{ opacity: 0 }}
