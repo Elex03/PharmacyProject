@@ -1,27 +1,14 @@
 import { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Sector } from 'recharts';
 
-const data = [
-  { name: 'Azul', value: 40 },
-  { name: 'Morado', value: 10 },
-  { name: 'Rosa', value: 20 },
-  { name: 'Amarillo', value: 30 },
-];
-
+interface DataItem {
+  name: string;
+  value: number;
+}
 
 const COLORS = ['#8CCAFF', '#B9A8F9', '#F7A6B4', '#FCD89B'];
 
-interface propsRender {
-  cx: number, 
-  cy: number, 
-  innerRadius: number, 
-  outerRadius: number, 
-  startAngle: number, 
-  endAngle: number, 
-  fill: string, 
-  midAngle: number
-}
-const renderActiveShape = (props: propsRender) => {
+const renderActiveShape = (props: any) => {
   const {
     cx, cy, innerRadius, outerRadius, startAngle, endAngle,
     fill, midAngle,
@@ -47,7 +34,9 @@ const renderActiveShape = (props: propsRender) => {
   );
 };
 
-export default function DonutChart() {
+export default function DonutChart(
+  { data }: { data?: DataItem[] } = {},
+) {
   const [activeIndex, setActiveIndex] = useState<number | null>(1);
 
   useEffect(() => {
@@ -89,7 +78,7 @@ export default function DonutChart() {
         fontWeight: 'bold',
         fontSize: '20px',
       }}>
-        100%
+        {data?.reduce((sum, item) => sum + item.value, 0)}
       </div>
     </div>
   );

@@ -1,51 +1,88 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { PieChart } from "@mui/x-charts/PieChart";
-import { getCategories } from "../../api/services/General";
+import React, { useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import DonutChart from "./DonutChart";
 
-export default function PieAnimation() {
+interface HeaderItem {
+  id: string;
+  label: string;
+}
+
+export function PieAnimation({
+  headers,
+  data,
+  selectedKey,
+}: {
+  headers: HeaderItem[];
+  data: Record<string, unknown>[];
+  selectedKey: string;
+}) {
   const [categories, setCategories] = React.useState<
     { id: number; label: string; value: number }[]
   >([]);
 
-  const colors = ["#64B5F6", "#A5D6A7", "#EF9A9A", "#FFB74D", "#9575CD"];
+  useEffect(() => {
+    if (!data || data.length === 0 || !selectedKey) return;
 
-  React.useEffect(() => {
-    getCategories()
-      .then((data) => {
-        setCategories(data);
-      })
-      .catch((error) => {
-        console.error("Error cargando las categorías:", error);
-      });
-  }, []);
+    const countMap: Record<string, number> = {};
+
+    data.forEach((item) => {
+      const key = String(item[selectedKey] ?? "Sin valor");
+      countMap[key] = (countMap[key] || 0) + 1;
+    });
+
+    const grouped = Object.entries(countMap).map(([label, value], index) => ({
+      id: index,
+      label,
+      value,
+    }));
+
+    setCategories(grouped);
+  }, [data, selectedKey]);
 
   return (
     <Box sx={{ width: "100%", fontSize: 12 }}>
       {categories.length > 0 ? (
-        <PieChart
-          height={200}
-          series={[
-            {
-              data: categories.map((item, index) => ({
-                ...item,
-                color: colors[index % colors.length],
-              })),
-              innerRadius: 50,
-              arcLabel: (params) => params.label ?? "",
-              arcLabelMinAngle: 20,
-            },
-          ]}
-          skipAnimation={false}
-          sx={{
-            "& .MuiChartsArcLabel": {
-              fontSize: 12, // Cambia esto al tamaño que desees
-              fill: "#333", // Color opcional del texto
-              fontWeight: 500,
-            },
-          }}
-        />
+        <>
+          <DonutChart data={
+            categories.map((category) => ({
+              name: category.label,
+              value: category.value,
+            }))
+          } />
+          <Box mt={2}>
+            <Typography variant="h6" gutterBottom>
+              Lista de datos
+            </Typography>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  {headers.map((header) => (
+                    <TableCell key={header.id}>{header.id}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((row, index) => (
+                  <TableRow key={index}>
+                    {headers.map((header) => (
+                      <TableCell key={header.id}>
+                        {String(row[header.id])}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </>
       ) : (
         <Typography>Cargando datos...</Typography>
       )}

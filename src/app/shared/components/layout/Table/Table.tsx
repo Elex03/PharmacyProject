@@ -189,35 +189,31 @@ export function Table<T extends Record<string, unknown>>({
                     )}
                   </th>
                 ))}
-              {linkColumn && (
-                <th className="export-column">
-                  <ExportOption
-                    filename={fileName}
-                    headers={columns.map((col) => ({
-                      ...col,
-                      key: String(col.key),
-                    }))}
-                    data={sortedData}
-                    titleInfo={[
-                      ["Farmacia Farmavalue"],
-                      ["Cuidamos de ti, cada día."],
-                      ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
-                      ["Tel: 2255-4524"],
-                      tableInfo,
-                      [""],
-                    ]}
-                    onColumnChange={setVisibleColumns}
-                  />
-                </th>
-              )}
+
+              <th className="export-column">
+                <ExportOption
+                  filename={fileName}
+                  headers={columns.map((col) => ({
+                    ...col,
+                    key: String(col.key),
+                  }))}
+                  data={sortedData}
+                  titleInfo={[
+                    ["Farmacia Farmavalue"],
+                    ["Cuidamos de ti, cada día."],
+                    ["De la farmacia San Benito 10 crs al sur 1/2 al oeste"],
+                    ["Tel: 2255-4524"],
+                    tableInfo,
+                    [""],
+                  ]}
+                  onColumnChange={setVisibleColumns}
+                />
+              </th>
             </tr>
           </thead>
         </table>
 
-        <div
-          className="table-body-scroll"
-          style={{ maxHeight }}
-        >
+        <div className="table-body-scroll" style={{ maxHeight }}>
           <table className="inventory-table-I">
             <tbody>
               {pageData.length > 0 ? (
