@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
-import { getMedicineSales, getMedicineSelect, getMedicineStock } from "../api/services/Medicine";
+import {
+  getMedicineSales,
+  getMedicineSelect,
+  getMedicineStock,
+} from "../api/services/Medicine";
 import { ColumnDefinition } from "../../../types";
+import { getDistributorsChart } from "../api/services/Distributors";
 
 interface MedicineSelect {
   id: number;
@@ -18,28 +23,43 @@ export const useFetchMedicineSelect = () => {
   }, []);
 
   return {
-    medicineSelect
-  }
-
+    medicineSelect,
+  };
 };
 
 interface GrphicProps {
-    descripcion: string; 
-    cantidad: number;
+  descripcion: string;
+  cantidad: number;
 }
+
 export const useFetchMedicineStock = () => {
-    const [medicineStock, setMedicineStock] = useState<GrphicProps[]>([]);
+  const [medicineStock, setMedicineStock] = useState<GrphicProps[]>([]);
 
-    useEffect(() => {
-        getMedicineStock().then((res) => {
-            setMedicineStock(res);
-        })
-    }, [])
+  useEffect(() => {
+    getMedicineStock().then((res) => {
+      setMedicineStock(res);
+    });
+  }, []);
 
-    return {
-        medicineStock
-    }
-}
+  return {
+    medicineStock,
+  };
+};
+
+export const useFetchdistributorQuantity = () => {
+  const [distributorQuantity, setDistributorQuantity] = useState<GrphicProps[]>(
+    []
+  );
+  useEffect(() => {
+    getDistributorsChart().then((res) => {
+      setDistributorQuantity(res);
+    });
+  }, []);
+
+  return {
+    distributorQuantity,
+  };
+};
 
 export interface SalesReport {
   id: number;
@@ -57,28 +77,26 @@ export const useFetchSalesReport = (
   to = ""
 ) => {
   const [salesReport, setSalesReport] = useState<SalesReport[]>([]);
-  
+
   const [headers, setHeaders] = useState<ColumnDefinition<SalesReport>[]>([]);
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     getMedicineSales(order, limit, filterByDate, from, to).then((res) => {
-       const { headers: hdrs, data } = res;
-        setSalesReport(data);
-        const mappedHeaders = hdrs.map(
-          (h: { key: string; header: string }) => ({
-            key: h.key as keyof SalesReport,
-            header: h.header,
-            isNumeric:
-              h.key ===
-              ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
-            isDate: h.key === "fechaVencimiento",
-          })
-        );
-        setHeaders(mappedHeaders);
-        setLoading(false)
-    })
+      const { headers: hdrs, data } = res;
+      setSalesReport(data);
+      const mappedHeaders = hdrs.map((h: { key: string; header: string }) => ({
+        key: h.key as keyof SalesReport,
+        header: h.header,
+        isNumeric:
+          h.key ===
+          ["stock", "precioCompra", "precioVenta"].find((k) => k === h.key),
+        isDate: h.key === "fechaVencimiento",
+      }));
+      setHeaders(mappedHeaders);
+      setLoading(false);
+    });
   }, [filterByDate, from, limit, order, to, enable]);
 
-  return { salesReport, headers, loading};
+  return { salesReport, headers, loading };
 };

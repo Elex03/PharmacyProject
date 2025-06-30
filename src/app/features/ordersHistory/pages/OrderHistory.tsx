@@ -18,7 +18,7 @@ const OrderHistory = () => {
   const [sortOrder, setSortOrder] = useState("");
 
   const { id } = useParams();
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
 
   const { data, loading, headers, error } = useFetchOrderDetailsHistory(
     Number(id)

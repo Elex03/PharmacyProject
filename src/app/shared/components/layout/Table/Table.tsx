@@ -93,7 +93,7 @@ const SetLabelTruncate = ({
 export function Table<T extends Record<string, unknown>>({
   columns,
   data,
-  itemsPerPage = 5,
+  itemsPerPage = 20,
   linkColumn,
   onOpenModal,
   fileName = "Archivo",
@@ -139,7 +139,7 @@ export function Table<T extends Record<string, unknown>>({
     setImagenSeleccionada,
   ]);
 
-  const maxHeight = itemsPerPage === 10 ? "17rem" : "30rem";
+  const maxHeight = itemsPerPage <= 10 ? "17rem" : "30rem";
 
   return (
     <div className="table-container">

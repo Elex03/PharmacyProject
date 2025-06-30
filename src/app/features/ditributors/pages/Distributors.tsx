@@ -9,7 +9,7 @@ import { useFetchDistributors } from "../hooks/useFetchDistributors";
 import { ToggleSection } from "../../../shared/components/exportDocuments/TongleSelection";
 import CreateDistributorModal from "../components/CreateDistributorModal";
 import { ToastContainer } from "react-toastify";
-import { useFetchMedicineStock } from "../../../shared/hooks/useFetchGeneral";
+import { useFetchdistributorQuantity } from "../../../shared/hooks/useFetchGeneral";
 
 const Distributors = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -41,8 +41,7 @@ const Distributors = () => {
     sortOrder
   );
 
-  const { medicineStock } = useFetchMedicineStock();
-
+  const { distributorQuantity } = useFetchdistributorQuantity();
   return (
     <Layout title="Distribuidores" headerButton={true}>
       <ToggleSection title="Información">
@@ -54,7 +53,7 @@ const Distributors = () => {
           su actividad dentro del sistema.
         </p>
         <div className="chart-container">
-          <ApexChart data={medicineStock} horizontal={true} />
+          <ApexChart data={distributorQuantity} horizontal={true} />
         </div>
       </ToggleSection>
 
