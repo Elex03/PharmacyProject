@@ -1,0 +1,110 @@
+.login-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.login-page body {
+  border: 2px solid red;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-page .container {
+  border: 2px solid black;
+  width: 1000px;
+  height: 500px;
+  display: flex;
+}
+
+.login-page .container-form.one {
+  background-color: #d9d9d9;
+}
+.login-page .container-form {
+  width: 100%;
+}
+.login-page .container-form.one {
+  width: 60%;
+}
+.login-page .circle-logo {
+  width: 200px;
+  height: 200px;
+  background-color: #6f6f6f; /* o el color que desees */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 52%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100; /* para estar sobre los bordes */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen dentro del círculo */
+.login-page .circle-logo img {
+  width: 60%;
+  height: auto;
+}
+
+.login-page .container-form form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login-page .container-form h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+.login-page .container span {
+  font-size: 12px;
+  margin-bottom: 0px;
+}
+.login-page .container-input {
+  /* border: 2px solid red; */
+  width: 300px;
+  height: 40px;
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* gap: 8px;  no lo nenesito porque no hay iconos*/
+  padding: 0 15px;
+  background-color: #d9d9d9;
+}
+.login-page .container-input input {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+}
+.login-page .container-form .container-a {
+  width: 300px;
+  height: 16px;
+  display: flex;
+  justify-content: end;
+}
+.login-page .container-form .container-a a {
+  /* border: 2px solid red; */
+  color: black;
+  font-size: 12px;
+  margin-bottom: 20px;
+  margin-top: 0px;
+  text-decoration: none;
+}
+.login-page .container-form button {
+  width: 300px;
+  height: 40px;
+  font-size: 15px;
+  border: none;
+  /* border-radius: 5px; */
+  cursor: pointer;
+  margin-top: 5px;
+  background-color: #888888;
+  color: white;
+}
