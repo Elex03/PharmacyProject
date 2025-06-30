@@ -1,0 +1,14 @@
+[
+  {
+    "email": "admin@local.com",
+    "password": "admin123",
+    "role": "admin",
+    "token": "admin-token"
+  },
+  {
+    "email": "vendedor@local.com",
+    "password": "vendedor123",
+    "role": "vendedor",
+    "token": "vendedor-token"
+  }
+]
