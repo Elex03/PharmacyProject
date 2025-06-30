@@ -8,7 +8,8 @@ import "./shared/styles/shared.css";
 import CircularIndeterminate from "./shared/components/progress/CircularIndeterminate";
 
 import PrivateRoute from "./auth/PrivateRoute";
-import { useAuth } from "./auth/UseAuth.ts";
+import { useAuth } from "./auth/useAuth.ts";
+
 
 const Report = lazy(() => import("./features/reports/pages/Report.tsx"));
 const Login = lazy(() => import("./features/login/pages/login.tsx"));
@@ -56,8 +57,7 @@ const AppRouter = () => {
         <Routes>
           <Route path="/login" element={<Navigate to="/dashboard" replace />} />
 
-          {/* Rutas solo para admin */}
-          <Route element={<PrivateRoute allowedRoles={["administrador"]} />}>
+          <Route element={<PrivateRoute allowedRoles={["ADMINISTRADOR"]} />}>
             <Route
               path="/inventario"
               element={
@@ -109,7 +109,7 @@ const AppRouter = () => {
           {/* Rutas para admin y vendedor */}
           <Route
             element={
-              <PrivateRoute allowedRoles={["administrador", "vendedor"]} />
+              <PrivateRoute allowedRoles={["ADMINISTRADOR", "EMPLEADO"]} />
             }
           >
             <Route

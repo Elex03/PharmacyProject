@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/login.css";
-import { useAuth } from "../../../auth/UseAuth";
+import { useAuth } from "../../../auth/useAuth";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -17,11 +17,10 @@ const LoginForm: React.FC = () => {
     try {
       await login(email, password);
 
-      // Si todo sale bien, redirigimos
       const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-      if (storedUser.role === "administrador") {
+      if (storedUser.role === "ADMINISTRADOR") {
         navigate("/dashboard");
-      } else if (storedUser.role === "vendedor") {
+      } else if (storedUser.role === "EMPLEADO") {
         navigate("/dashboard");
       }
     } catch (error) {

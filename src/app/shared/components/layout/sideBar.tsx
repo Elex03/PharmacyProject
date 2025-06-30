@@ -8,7 +8,6 @@ import {
   LuFileText,
   LuLogOut,
   LuSettings,
-  // LuInfo,
 } from "react-icons/lu";
 
 import "./SideBar.css";

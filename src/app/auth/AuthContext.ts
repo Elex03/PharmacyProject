@@ -1,7 +1,7 @@
 // src/app/auth/AuthContext.ts
 import { createContext } from "react";
 
-export type Role = "administrador" | "vendedor";
+export type Role = "ADMINISTRADOR" | "EMPLEADO";
 
 export interface AuthContextType {
   user: { email: string; role: Role } | null;

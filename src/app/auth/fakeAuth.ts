@@ -1,5 +1,5 @@
 // src/app/auth/fakeAuth.ts
-export type Role = "administrador" | "vendedor";
+export type Role = "ADMINISTRADOR" | "EMPLEADO";
 
 export interface User {
   email: string;
@@ -10,15 +10,15 @@ export interface User {
 
 const users: User[] = [
   {
-    email: "admin@farma.com",
+    email: "example@gmail.com",
     password: "admin123",
-    role: "administrador",
+    role: "ADMINISTRADOR",
     token: "admin-token",
   },
   {
-    email: "vendedor@farma.com",
-    password: "vendedor123",
-    role: "vendedor",
+    email: "ven@gmail.com",
+    password: "ven123",
+    role: "EMPLEADO",
     token: "vendedor-token",
   },
 ];
