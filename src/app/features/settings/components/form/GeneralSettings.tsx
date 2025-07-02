@@ -6,6 +6,8 @@ import {
   updateUser,
   changePassword,
 } from "../../../../shared/api/services/General";
+import { LuTrash2, LuPencil, LuKeyRound } from "react-icons/lu";
+import "./GeneralSettings.css";
 
 interface User {
   id: number;
@@ -33,14 +35,14 @@ export default function GeneralSettings() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("¿Estás seguro de que deseas eliminar este usuario?")) return;
+    if (!confirm("¿Eliminar este usuario?")) return;
     try {
       await deleteUser(id);
       alert("Usuario eliminado correctamente.");
       fetchUsers();
     } catch (error) {
-      alert("Error al eliminar el usuario.");
-      console.error(error);
+      console.error("Error al eliminar usuario:", error);
+      alert("Error al eliminar usuario.");
     }
   };
 
@@ -53,9 +55,8 @@ export default function GeneralSettings() {
       await updateUser(id, { email, role });
       alert("Usuario actualizado.");
       fetchUsers();
-    } catch (error) {
-      alert("Error al actualizar el usuario.");
-      console.error(error);
+    } catch {
+      alert("Error al actualizar usuario.");
     }
   };
 
@@ -66,9 +67,8 @@ export default function GeneralSettings() {
     try {
       await changePassword(id, newPassword);
       alert("Contraseña cambiada.");
-    } catch (error) {
-      alert("Error al cambiar la contraseña.");
-      console.error(error);
+    } catch {
+      alert("Error al cambiar contraseña.");
     }
   };
 
@@ -76,9 +76,9 @@ export default function GeneralSettings() {
   if (!users.length) return <p>No hay usuarios para mostrar.</p>;
 
   return (
-    <div>
+    <div className="user-table-container">
       <h2>Lista de Usuarios</h2>
-      <table>
+      <table className="user-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -94,10 +94,23 @@ export default function GeneralSettings() {
               <td>{email}</td>
               <td>{role}</td>
               <td>
-                <button onClick={() => handleUpdate(id)}>Editar</button>{" "}
-                <button onClick={() => handleDelete(id)}>Eliminar</button>{" "}
-                <button onClick={() => handleChangePassword(id)}>
-                  Contraseña
+                <button
+                  className="icon-btn edit"
+                  onClick={() => handleUpdate(id)}
+                >
+                  <LuPencil />
+                </button>
+                <button
+                  className="icon-btn delete"
+                  onClick={() => handleDelete(id)}
+                >
+                  <LuTrash2 />
+                </button>
+                <button
+                  className="icon-btn password"
+                  onClick={() => handleChangePassword(id)}
+                >
+                  <LuKeyRound />
                 </button>
               </td>
             </tr>
