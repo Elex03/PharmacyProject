@@ -33,7 +33,6 @@
   border-radius: 50%;
 }
 
-
 .brand-title {
   font-size: 16px;
   color: #333;
@@ -73,9 +72,8 @@
 
 .menu-item.active .icon-wrapper,
 .menu-item.active .side-label {
-  color: #178BF7;
+  color: #178bf7;
 }
-
 
 .container:hover .menu-title {
   opacity: 1;
@@ -90,6 +88,7 @@
   text-decoration: none;
   border-radius: 6px;
   transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
 .menu-item:hover {
@@ -134,4 +133,15 @@
   gap: 10px;
   margin-top: 10px;
   color: #444;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  padding: 8px 18px;
 }

@@ -48,8 +48,7 @@ const SalesHistory = () => {
   );
   return (
     <div className="container-page">
-      <Layout title="Historial de ventas"
-      headerButton={true}>
+      <Layout title="Historial de ventas" headerButton={true}>
         <ToggleSection
           title="información"
           onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}

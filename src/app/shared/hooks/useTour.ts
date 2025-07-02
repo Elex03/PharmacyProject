@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import type {ReactourStep} from 'reactour'
-
+import type { ReactourStep } from "reactour";
 
 export const useTour = (storageKey: string, steps: ReactourStep[]) => {
   const [isTourOpen, setIsTourOpen] = useState(false);
 
+  // ✅ SIN activar automáticamente
   useEffect(() => {
     const hasVisited = localStorage.getItem(`hasVisitedTour_${storageKey}`);
     if (!hasVisited) {
-      setIsTourOpen(true);
-      localStorage.setItem(`hasVisitedTour_${storageKey}`, "true");
+      localStorage.setItem(`hasVisitedTour_${storageKey}`, "false");
     }
   }, [storageKey]);
 

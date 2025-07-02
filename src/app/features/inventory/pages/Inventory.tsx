@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Table } from "../../../shared/components/layout/Table/Table.tsx";
 import InventoryActions from "../../../shared/components/forms/actions/Actions.tsx";
 import Layout from "../../../shared/components/layout/layout.tsx";
@@ -14,7 +13,6 @@ import EditMedicine from "../components/layout/createMedicine/editMedicine.tsx";
 import { Bounce, ToastContainer } from "react-toastify";
 import ApexChart from "../../../shared/components/charts/apexChart.tsx";
 import { useFetchMedicineStock } from "../../../shared/hooks/useFetchGeneral.ts";
-import Tour from "reactour";
 
 const Inventario = () => {
   const { inventoryData, headers } = useFetchInventory();
@@ -49,29 +47,6 @@ const Inventario = () => {
     sortOrder,
     selectedSymptom ? [selectedSymptom] : []
   );
-
-  const [isTourOpen, setIsTourOpen] = useState(false);
-
-  const closeTour = () => setIsTourOpen(false);
-
-  const tourSteps = [
-    {
-      selector: ".step-chart",
-      content: "Este gráfico muestra un resumen visual del inventario.",
-    },
-    {
-      selector: ".step-actions",
-      content: "Aquí puedes buscar, filtrar o agregar nuevos medicamentos.",
-    },
-    {
-      selector: ".step-table",
-      content: "Esta tabla muestra los productos registrados en el inventario.",
-    },
-    // {
-    //   selector: ".step-syntomps",
-    //   content: "Este filtro te permite filtrar el inventario por el sintoma",
-    // },
-  ];
 
   const { medicineStock } = useFetchMedicineStock();
 
@@ -136,13 +111,6 @@ const Inventario = () => {
       )}
 
       <ToastContainer transition={Bounce} />
-
-      <Tour
-        steps={tourSteps}
-        isOpen={isTourOpen}
-        onRequestClose={closeTour}
-        accentColor="#007bff"
-      />
     </Layout>
   );
 };

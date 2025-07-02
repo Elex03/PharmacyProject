@@ -2,6 +2,7 @@ import { useState } from "react";
 import Layout from "../../../shared/components/layout/layout";
 import "./settings.css";
 import { Backup } from "../components/form/Backup";
+import GeneralSettings from "../components/form/GeneralSettings"; // ✅ IMPORTACIÓN CORRECTA
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("general");
@@ -24,15 +25,9 @@ const Settings = () => {
           </button>
         </aside>
         <main className="settings-content">
-          {activeTab === "general" && (
-            <div>
-              <h2>Configuración General</h2>
-              <p>Aquí puedes gestionar tus ajustes generales.</p>
-            </div>
-          )}
-          {activeTab === "backup" && (
-           <Backup/>
-          )}
+          {activeTab === "general" && <GeneralSettings />}{" "}
+          {/* ✅ MOSTRAR TABLA DE USUARIOS */}
+          {activeTab === "backup" && <Backup />}
         </main>
       </div>
     </Layout>

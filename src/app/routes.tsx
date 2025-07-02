@@ -10,7 +10,6 @@ import CircularIndeterminate from "./shared/components/progress/CircularIndeterm
 import PrivateRoute from "./auth/PrivateRoute";
 import { useAuth } from "./auth/useAuth.ts";
 
-
 const Report = lazy(() => import("./features/reports/pages/Report.tsx"));
 const Login = lazy(() => import("./features/login/pages/login.tsx"));
 const Dashboard = lazy(
@@ -55,7 +54,16 @@ const AppRouter = () => {
     <BrowserRouter>
       <Suspense fallback={<CircularIndeterminate />}>
         <Routes>
-          <Route path="/login" element={<Navigate to="/dashboard" replace />} />
+          <Route
+            path="/login"
+            element={
+              user.role === "ADMINISTRADOR" ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Navigate to="/ventas" replace />
+              )
+            }
+          />
 
           <Route element={<PrivateRoute allowedRoles={["ADMINISTRADOR"]} />}>
             <Route
@@ -103,33 +111,6 @@ const AppRouter = () => {
                 </div>
               }
             />
-            {/* Agregá más rutas de admin si las hay */}
-          </Route>
-
-          {/* Rutas para admin y vendedor */}
-          <Route
-            element={
-              <PrivateRoute allowedRoles={["ADMINISTRADOR", "EMPLEADO"]} />
-            }
-          >
-            <Route
-              path="/dashboard"
-              element={
-                <div style={{ display: "flex" }}>
-                  <Sidebar />
-                  <Dashboard />
-                </div>
-              }
-            />
-            <Route
-              path="/ventas"
-              element={
-                <div className="page-container-root">
-                  <Sidebar />
-                  <CashRegister />
-                </div>
-              }
-            />
             <Route
               path="/clientes"
               element={
@@ -140,11 +121,38 @@ const AppRouter = () => {
               }
             />
             <Route
+              path="/dashboard"
+              element={
+                <div style={{ display: "flex" }}>
+                  <Sidebar />
+                  <Dashboard />
+                </div>
+              }
+            />
+            <Route
               path="/historial/:id"
               element={
                 <div className="page-cotainer-root">
                   <Sidebar />
                   <OrderHistory />
+                </div>
+              }
+            />
+            {/* Agregá más rutas de admin si las hay */}
+          </Route>
+
+          {/* Rutas para admin y vendedor */}
+          <Route
+            element={
+              <PrivateRoute allowedRoles={["ADMINISTRADOR", "EMPLEADO"]} />
+            }
+          >
+            <Route
+              path="/ventas"
+              element={
+                <div className="page-container-root">
+                  <Sidebar />
+                  <CashRegister />
                 </div>
               }
             />

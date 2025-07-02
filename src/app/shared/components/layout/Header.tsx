@@ -86,7 +86,7 @@ export const Header: React.FC<HeaderProps> = ({
               {cantidadNoLeidas > 0 && (
                 <span
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     top: 0,
                     left: 0,
                     width: "10px",
