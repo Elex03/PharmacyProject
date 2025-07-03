@@ -30,7 +30,7 @@ const SalesHistory = lazy(
 const OrderHistory = lazy(
   () => import("./features/ordersHistory/pages/OrderHistory")
 );
-const UnderConstruction = lazy(() => import("./shared/pages/Defualt"));
+// const UnderConstruction = lazy(() => import("./shared/pages/Defualt"));
 
 const AppRouter = () => {
   const { user } = useAuth();
@@ -159,7 +159,7 @@ const AppRouter = () => {
           </Route>
 
           {/* Si alguna ruta no existe o no tiene permiso, fallback */}
-          <Route
+          {/* <Route
             path="*"
             element={
               <div className="page-cotainer-root">
@@ -167,7 +167,7 @@ const AppRouter = () => {
                 <UnderConstruction />
               </div>
             }
-          />
+          /> */}
         </Routes>
       </Suspense>
     </BrowserRouter>
