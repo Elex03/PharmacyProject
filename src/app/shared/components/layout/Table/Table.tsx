@@ -317,17 +317,21 @@ useEffect(() => {
                                 <FontAwesomeIcon icon={faTrash} />
                               </button>
 
-                              {row.estado === "Completado" && (
-                                <button
-                                  onClick={() =>
-                                    linkColumn.onMarkAsReady &&
-                                    linkColumn.onMarkAsReady(Number(row[linkColumn.idKey!]))
-                                  }
-                                  className="link-button ready-btn"
-                                >
-                                  <FontAwesomeIcon icon={faCheck} />
-                                </button>
-                              )}
+                              <button
+                                onClick={() =>
+                                  linkColumn.onMarkAsReady &&
+                                  linkColumn.onMarkAsReady(Number(row[linkColumn.idKey!]))
+                                }
+                                disabled={row.estado !== "Completado"}
+                                className="link-button ready-btn"
+                              >
+                                <FontAwesomeIcon
+                                  icon={faCheck}
+                                  style={{
+                                    color: row.estado === "Completado" ? "#02f12a" : "gray"
+                                  }}
+                                />
+                              </button>
                             </>
                           ) : linkColumn.type === "modal" ? (
                             <button

@@ -3,7 +3,7 @@ export const ordersData = [
     id: 1,
     nombre: "Pedido de medicamentos",
     fechaProgramada: "2025-05-10",    
-    estado: "Completado",
+    estado: "Pendiente",
     total: "$ 12,500.00",
   },
   {

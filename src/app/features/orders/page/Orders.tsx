@@ -59,7 +59,7 @@ const Orders = () => {
     });
 
   return (
-    <Layout title="Lista de Pedidos">
+    <Layout title="Listado de Pedidos">
       <div className="Table">
         <InventoryActions
           linkButton={{ ButtonLabel: "Registrar nuevo", type: "link", to: `subpedido` }}
@@ -72,7 +72,7 @@ const Orders = () => {
         <Table
           columns={headers}
           data={filteredData}
-          itemsPerPage={10}
+          itemsPerPage={15}
           linkColumn={{
             label: "acciones",
             idKey: "id",

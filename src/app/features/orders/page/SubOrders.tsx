@@ -7,13 +7,13 @@ import Layout from "../../../shared/components/layout/layout";
 import InventoryActions from "../../../shared/components/forms/actions/Actions";
 import "../styles/subOrders.css";
 
-// ✅ Interfaz del tipo de subpedido
 interface Suborder {
   id: number;
   nombre: string;
   distribuidor: string;
   subtotal: string;
   telefono: string;
+  [key: string]: unknown;
 }
 
 const Suborders = () => {
