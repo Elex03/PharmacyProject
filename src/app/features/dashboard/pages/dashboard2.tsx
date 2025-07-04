@@ -23,6 +23,8 @@ import {
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import classNames from "classnames";
+import { useGetMedicinesNearExpiration, useGetMedicinesRunningOut } from "./hooks/useMedicines";
+import { API_URL } from "../../../shared/components/config";
 
 const originalData = [
   { date: "2025-01-05", value: 120 },
@@ -57,90 +59,6 @@ const originalData = [
   { date: "2025-06-30", value: 890 },
 ];
 
-const productsData = {
-  cercaDeVencer: [
-    {
-      name: "Paracetamol 500mg",
-      img: "/1.png",
-      totalSales: "C$ 1,206",
-      precio: "C$ 120.43",
-      stock: 120,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-    {
-      name: "Ibuprofeno 200mg",
-      img: "/1.png",
-      totalSales: "C$ 980",
-      precio: "C$ 95.00",
-      stock: 80,
-    },
-  ],
-  pocoStock: [
-    {
-      name: "Vitamina C",
-      img: "/1.png",
-      totalSales: "C$ 2,000",
-      precio: "C$ 150.00",
-      stock: 5,
-    },
-    {
-      name: "Antigripal",
-      img: "/1.png",
-      totalSales: "C$ 850",
-      precio: "C$ 80.00",
-      stock: 7,
-    },
-    {
-      name: "Antigripal",
-      img: "/1.png",
-      totalSales: "C$ 850",
-      precio: "C$ 80.00",
-      stock: 7,
-    },
-    {
-      name: "Antigripal",
-      img: "/1.png",
-      totalSales: "C$ 850",
-      precio: "C$ 80.00",
-      stock: 7,
-    },
-    {
-      name: "Antigripal",
-      img: "/1.png",
-      totalSales: "C$ 850",
-      precio: "C$ 80.00",
-      stock: 7,
-    },
-  ],
-};
-
 function Dashboard2() {
   const [state, setState] = useState([
     {
@@ -152,7 +70,7 @@ function Dashboard2() {
   const [filteredData, setFilteredData] = useState(originalData);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const dateRangeRef = useRef<HTMLDivElement>(null);
-
+  const { medicinesNearToExpire } = useGetMedicinesNearExpiration();
   const handleChange = (rangesByKey: RangeKeyDict) => {
     const selection = rangesByKey.selection;
     if (selection?.startDate && selection?.endDate) {
@@ -234,6 +152,8 @@ function Dashboard2() {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(totalFiltered);
+
+    const {medicinesRunningOut} = useGetMedicinesRunningOut();
 
   return (
     <Layout title="Dashboard">
@@ -361,10 +281,10 @@ function Dashboard2() {
                 </div>
               </div>
               <div className="table-botton">
-                {productsData.cercaDeVencer.map((product, index) => (
+                {medicinesNearToExpire.map((product, index) => (
                   <div className="product" key={index}>
                     <div className="foto">
-                      <img src={product.img} alt={product.name} />
+                      <img src={`${API_URL}${product.img}`} alt={product.name} />
                     </div>
                     <div className="name">{product.name}</div>
                     <div className="total">
@@ -390,10 +310,10 @@ function Dashboard2() {
                 </div>
               </div>
               <div className="table-botton">
-                {productsData.pocoStock.map((product, index) => (
+                {medicinesRunningOut.map((product, index) => (
                   <div className="product" key={index}>
                     <div className="foto">
-                      <img src={product.img} alt={product.name} />
+                      <img src={`${API_URL}${product.img}`} alt={product.name} />
                     </div>
                     <div className="name">{product.name}</div>
                     <div className="total">

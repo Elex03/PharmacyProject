@@ -95,7 +95,7 @@ export const ResumeSaleLayout: React.FC<resumeSaleLayoutProps> = ({
         <input
           type="number"
           {...register("pagaCon", { required: true, min: 0 })}
-          style={{ width: "100%", padding: "5px", marginTop: "5px" }}
+          style={{ width: "96%", padding: "5px", marginTop: "5px" }}
         />
       </div>
 

@@ -42,7 +42,7 @@ export const useStateResumeLayout = (
   const { items: cartItems, deleteItem, empty, add } = useCart();
 
   useEffect(() => {
-    const socket = new WebSocket("ws://10.17.82.184:3000");
+    const socket = new WebSocket("ws://10.17.82.184:4000");
 
     const handleSearchItem = (code: string) => {
       if (code) {

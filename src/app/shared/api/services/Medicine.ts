@@ -153,4 +153,26 @@ export const getMedicineSales = async (
     return [];
   }
 };
+export const getMedicineNearestExpiration = async () => {
+  try {
+    const response = await ApiFarmanovaApi.get(
+      "medicines/getMedicineNeartoExpire"
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching medicine nearest expiration:", error);
+    throw error;
+  }
+}
 
+export const closeToRunningOutMedicines = async () => {
+  try {
+    const response = await ApiFarmanovaApi.get(
+      `medicines/closeToRunningOut`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching medicines close to expire:", error);
+    throw error;
+  }
+}
