@@ -31,44 +31,56 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className="login-page">
-      <div className="container">
-        <div className="container-form one"></div>
-
-        <div className="circle-logo">
+      <div className="body">
+        <div className="container">
+          {/* <div className="circle-logo">
           <img src="/path-to-your-icon.png" alt="Icono local" />
-        </div>
+        </div> */}
+          <div className="container-form">
+            <form className="sign-in" onSubmit={handleSubmit}>
+              <h2>Farma Nova</h2>
+              <span>Use su correo y contraseña</span>
 
-        <div className="container-form">
-          <form className="sign-in" onSubmit={handleSubmit}>
-            <h2>Farma Nova</h2>
-            <span>Use su correo y contraseña</span>
+              <div className="container-input">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
 
-            <div className="container-input">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              <div className="container-input">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="container-a">
+                <a href="#">¿Has olvidado la contraseña?</a>
+              </div>
+
+              <button type="submit">INICIAR SESIÓN</button>
+            </form>
+          </div>
+
+          <div className="container-form"></div>
+
+          <div className="container-welcome">
+            <div className="welcome-sign-up welcome">
+              <h3>¡Bienvenido!</h3>
+              <p>Ingrese sus Credenciales para acceder al sistema</p>
             </div>
-
-            <div className="container-input">
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+            <div className="welcome-sign-in welcome">
+              <h3>¡Bienvenido!</h3>
+              <p>Ingrese sus Credenciales para acceder al sistema</p>
             </div>
-
-            <div className="container-a">
-              <a href="#">¿Has olvidado la contraseña?</a>
-            </div>
-
-            <button type="submit">INICIAR SESIÓN</button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
