@@ -296,44 +296,48 @@ useEffect(() => {
                           }}
                         >
                           {linkColumn.type === "buttons" ? (
-                            <>
-                              <button
-                                onClick={() =>
-                                  linkColumn.onEdit &&
-                                  linkColumn.onEdit(Number(row[linkColumn.idKey!]))
-                                }
-                                className="link-button edit-btn"
-                              >
-                                <FontAwesomeIcon icon={faPen} />
-                              </button>
+  <>
+    {linkColumn.onEdit && (
+      <button
+        onClick={() =>
+          linkColumn.onEdit!(Number(row[linkColumn.idKey!]))
+        }
+        className="link-button edit-btn"
+      >
+        <FontAwesomeIcon icon={faPen} />
+      </button>
+    )}
 
-                              <button
-                                onClick={() =>
-                                  linkColumn.onDelete &&
-                                  linkColumn.onDelete(Number(row[linkColumn.idKey!]))
-                                }
-                                className="link-button delete-btn"
-                              >
-                                <FontAwesomeIcon icon={faTrash} />
-                              </button>
+    {linkColumn.onDelete && (
+      <button
+        onClick={() =>
+          linkColumn.onDelete!(Number(row[linkColumn.idKey!]))
+        }
+        className="link-button delete-btn"
+      >
+        <FontAwesomeIcon icon={faTrash} />
+      </button>
+    )}
 
-                              <button
-                                onClick={() =>
-                                  linkColumn.onMarkAsReady &&
-                                  linkColumn.onMarkAsReady(Number(row[linkColumn.idKey!]))
-                                }
-                                disabled={row.estado !== "Completado"}
-                                className="link-button ready-btn"
-                              >
-                                <FontAwesomeIcon
-                                  icon={faCheck}
-                                  style={{
-                                    color: row.estado === "Completado" ? "#02f12a" : "gray"
-                                  }}
-                                />
-                              </button>
-                            </>
-                          ) : linkColumn.type === "modal" ? (
+    {linkColumn.onMarkAsReady && (
+      <button
+        onClick={() =>
+          linkColumn.onMarkAsReady!(Number(row[linkColumn.idKey!]))
+        }
+        className="link-button ready-btn"
+        title="Cambiar estado del pedido"
+      >
+        <FontAwesomeIcon
+          icon={faCheck}
+          style={{
+            color: row.estado === "Completado" ? "#02f12a" : "gray",
+            cursor: "pointer",
+          }}
+        />
+      </button>
+    )}
+  </>
+) : linkColumn.type === "modal" ? (
                             <button
                               onClick={() =>
                                 onOpenModal &&

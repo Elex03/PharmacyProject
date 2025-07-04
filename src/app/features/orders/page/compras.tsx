@@ -2,19 +2,22 @@ import { useState } from "react";
 import Layout from "../../../shared/components/layout/layout";
 import { useFetchMedicineSelect } from "../../../shared/hooks/useFetchGeneral";
 import { useFetchDistributors } from "../../ditributors/hooks/useFetchDistributors";
-import { LuTrash2 } from "react-icons/lu";
-
+/* import { createNewOrder } from "../../../shared/api/services/Orders"; */
+import { Table } from "../../../shared/components/layout/Table/Table"; // Ajusta si tu ruta cambia
 import "../styles/compras.css";
-import { createNewOrder } from "../../../shared/api/services/Orders";
+import { useParams } from "react-router-dom";
 
 interface RegistroTabla {
-  distribuidor: string;
-  nombreMedicamento: string;
+  distribuidorId: number;
+  medicamentoId: number;
   fecha_expiracion: string;
   cantidadDeEmpaque: string;
   cantidadPorEmpaque: string;
   nroLote: string;
   total: number;
+  subtotal: number;
+  pedidoId: number;
+  index?: number; // Para poder usarlo en onDelete
 }
 
 const Compras = () => {
@@ -25,6 +28,19 @@ const Compras = () => {
   const [cantidadPorEmpaque, setUnidadesPorEmpaque] = useState("");
   const [fechaVencimiento, setFechaVencimiento] = useState<Date>();
   const [numeroLote, setNumeroLote] = useState("");
+
+  const [fechaProgramada, setFechaProgramada] = useState<Date>();
+
+  const { distributorData: distributors } = useFetchDistributors();
+
+  const distribuidoresConPrueba =
+    distributors.length > 0
+      ? distributors
+      : [{ id: 1, nombre: "Prueba", empresa: "Temporal S.A." }];
+
+  const { id: pedidoId } = useParams(); // ← así obtenés el ID del pedido
+
+  const { medicineSelect } = useFetchMedicineSelect();
 
   const handleAddToTable = () => {
     if (
@@ -39,12 +55,21 @@ const Compras = () => {
       return;
     }
 
+    const medicamentoSeleccionado = medicineSelect.find(
+      (med) => med.id === Number(medicamento)
+    );
+
+    const precioUnidad = medicamentoSeleccionado?.precio ?? 0;
+    const totalUnidades =
+      parseInt(cantidadDeEmpaque, 10) * parseInt(cantidadPorEmpaque, 10);
+    const subtotal = totalUnidades * precioUnidad;
+
     const total =
       parseInt(cantidadDeEmpaque, 10) * parseInt(cantidadPorEmpaque, 10);
 
     const nuevoRegistro: RegistroTabla = {
-      distribuidor,
-      nombreMedicamento: medicamento,
+      distribuidorId: Number(distribuidor),
+      medicamentoId: Number(medicamento),
       fecha_expiracion:
         fechaVencimiento instanceof Date && !isNaN(fechaVencimiento.getTime())
           ? fechaVencimiento.toISOString().split("T")[0]
@@ -53,6 +78,8 @@ const Compras = () => {
       cantidadPorEmpaque,
       nroLote: numeroLote,
       total,
+      subtotal: parseFloat(subtotal.toFixed(2)), // para claridad
+      pedidoId: Number(pedidoId), // esto es clave para asociarlo
     };
 
     setTablaDatos((prev) => [...prev, nuevoRegistro]);
@@ -69,24 +96,77 @@ const Compras = () => {
     setTablaDatos((prev) => prev.filter((_, index) => index !== indexToDelete));
   };
 
-  const { distributorData: distributors } = useFetchDistributors();
-  const { medicineSelect } = useFetchMedicineSelect();
+  const tablaDatosConNombres = tablaDatos.map((row) => {
+  const nombreMedicamento = medicineSelect.find(
+    (m) => m.id === row.medicamentoId
+  )?.label ?? `Med-${row.medicamentoId}`;
+
+  const nombreDistribuidor = distributors.find(
+    (d) => d.id === row.distribuidorId
+  )?.nombre ?? `Dist-${row.distribuidorId}`;
+
+  return {
+    ...row,
+    nombreMedicamento,
+    nombreDistribuidor,
+  };
+});
+
 
   const handleSaveTable = async () => {
     if (tablaDatos.length === 0) {
       alert("No hay datos para guardar.");
       return;
     }
-
     try {
-      const response = await createNewOrder(tablaDatos);
-      console.log("Respuesta del servidor:", response);
+      /* localStorage.setItem("nuevosPedidos", JSON.stringify(tablaDatos)); */
+      localStorage.setItem(
+  "nuevosPedidos",
+  JSON.stringify({
+    subpedidos: tablaDatosConNombres,
+    fechaProgramada: fechaProgramada?.toISOString().split("T")[0] || "",
+    estado: "Pendiente",
+  })
+);
+
+
+      /* const response = await createNewOrder(tablaDatos);
+      console.log("Respuesta del servidor:", response); */
       alert("Pedido guardado exitosamente.");
     } catch (error) {
       console.error("Error al guardar el pedido:", error);
       alert("Hubo un error al guardar el pedido.");
     }
   };
+
+  // Definir columnas para el componente Table
+  const columns = [
+    { key: "distribuidor", header: "Distribuidor" },
+    { key: "nombreMedicamento", header: "Medicamento" },
+    { key: "fecha_expiracion", header: "Fecha Expiración", isDate: true },
+    { key: "cantidadDeEmpaque", header: "Cant. Empaque" },
+    { key: "cantidadPorEmpaque", header: "Unid. por Empaque" },
+    { key: "nroLote", header: "Nro Lote" },
+    { key: "total", header: "Total", isNumeric: true },
+  ];
+
+  // Agregar índice a los datos
+  const tablaDatosConIndex = tablaDatos.map((row, i) => {
+    const nombreMedicamento =
+      medicineSelect.find((m) => m.id === row.medicamentoId)?.label ??
+      "Desconocido";
+
+    const distribuidorNombre =
+      distributors.find((d) => d.id === row.distribuidorId)?.nombre ??
+      "Desconocido";
+
+    return {
+      ...row,
+      nombreMedicamento,
+      distribuidor: distribuidorNombre,
+      index: i,
+    };
+  });
 
   return (
     <Layout title="Compras">
@@ -99,11 +179,19 @@ const Compras = () => {
             onChange={(e) => setDistribuidor(e.target.value)}
           >
             <option value="">Seleccione un distribuidor</option>
-            {distributors.map((res) => (
-              <option value={res.id}> {res.nombre + res.empresa}</option>
+            {/* {distributors.map((res) => (
+              <option value={res.id} key={res.id}>
+                {res.nombre + " - " + res.empresa}
+              </option>
+            ))} */}
+            {distribuidoresConPrueba.map((res) => (
+              <option value={res.id} key={res.id}>
+                {res.nombre + " - " + res.empresa}
+              </option>
             ))}
           </select>
         </div>
+
         <div className="select-1">
           <label className="customer-name-label-1">Medicamento</label>
           <select
@@ -113,10 +201,13 @@ const Compras = () => {
           >
             <option value="">Seleccione un medicamento</option>
             {medicineSelect.map((res) => (
-              <option value={res.id}>{res.label + res.precio}</option>
+              <option value={res.id} key={res.id}>
+                {res.label + " - $" + res.precio}
+              </option>
             ))}
           </select>
         </div>
+
         <div className="input-1">
           <label className="customer-name-label-1">Cantidad de empaque</label>
           <input
@@ -127,6 +218,7 @@ const Compras = () => {
             onChange={(e) => setCantidadEmpaque(e.target.value)}
           />
         </div>
+
         <div className="input-1">
           <label className="customer-name-label-1">Unidades por empaque</label>
           <input
@@ -137,6 +229,7 @@ const Compras = () => {
             onChange={(e) => setUnidadesPorEmpaque(e.target.value)}
           />
         </div>
+
         <div className="input-1">
           <label className="customer-name-label-1">Fecha de expiración</label>
           <input
@@ -154,16 +247,18 @@ const Compras = () => {
             }
           />
         </div>
+
         <div className="input-1">
           <label className="customer-name-label-1">Número de Lote</label>
           <input
             type="text"
             className="customer-name-input-1"
-            placeholder="Ingresa numero de lote"
+            placeholder="Ingresa número de lote"
             value={numeroLote}
             onChange={(e) => setNumeroLote(e.target.value)}
           />
         </div>
+
         <div className="button-1">
           <button
             className="button-action-1"
@@ -173,6 +268,23 @@ const Compras = () => {
             Añadir a la tabla
           </button>
         </div>
+
+        <div className="input-1">
+          <label className="customer-name-label-1">Fecha Programada</label>
+          <input
+            type="date"
+            className="customer-name-input-1"
+            value={
+              fechaProgramada ? fechaProgramada.toISOString().split("T")[0] : ""
+            }
+            onChange={(e) =>
+              setFechaProgramada(
+                e.target.value ? new Date(e.target.value) : undefined
+              )
+            }
+          />
+        </div>
+
         <div className="button-1">
           <button
             className="button-action-1"
@@ -183,65 +295,19 @@ const Compras = () => {
           </button>
         </div>
 
-        {/* Tabla */}
+        {/* Reemplazo de la tabla */}
         <div className="table">
-          <table className="tabla-pedidos">
-            <thead>
-              <tr>
-                <th>Distribuidor</th>
-                <th>Nombre Medicamento</th>
-                <th>Fecha Vencimiento</th>
-                <th>Cantidad de Empaque</th>
-                <th>Unidades por Empaque</th>
-                <th>Nro Lote</th>
-                <th>Total</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tablaDatos.length > 0 ? (
-                tablaDatos.map((row, index) => (
-                  <tr key={index}>
-                    <td>{row.distribuidor}</td>
-                    <td>{row.nombreMedicamento}</td>
-                    <td>{row.fecha_expiracion}</td>
-                    <td>{row.cantidadDeEmpaque}</td>
-                    <td>{row.cantidadPorEmpaque}</td>
-                    <td>{row.nroLote}</td>
-                    <td>{row.total}</td>
-                    <td
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                    >
-                      <button
-                        onClick={() => handleDeleteRow(index)}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          cursor: "pointer",
-                          fontSize: "18px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          width: "100%",
-                          height: "100%",
-                          color: "red",
-                        }}
-                        title="Eliminar"
-                      >
-                        <LuTrash2 />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={8} style={{ textAlign: "center" }}>
-                    No hay registros aún.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          <Table
+            columns={columns}
+            data={tablaDatosConIndex as Record<string, unknown>[]}
+            itemsPerPage={5}
+            linkColumn={{
+              label: "Acciones",
+              type: "buttons",
+              idKey: "index",
+              onDelete: (index) => handleDeleteRow(index),
+            }}
+          />
         </div>
       </div>
     </Layout>

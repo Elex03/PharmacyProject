@@ -1,15 +1,11 @@
 .actions1 {
   width: 88vw;
-  height: 82vh;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 15% 15% 70%;
-  flex-wrap: wrap;
-  flex: 1;
-  align-items: column;
-  justify-content: space-between;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: auto;
+  gap: 20px;
+  padding-bottom: 40px; /* espacio para los botones */
 }
-
 .select-1 {
   display: grid;
   grid-template-columns: 1fr;

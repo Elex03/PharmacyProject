@@ -21,8 +21,8 @@ export const getOrdersDetailsGraph = async (id: number) => {
 };
 
 interface DetallePedido {
-  distribuidor: string;
-  nombreMedicamento: string;
+  distribuidorId: number;
+  medicamentoId: number;
   fecha_expiracion: string;
   cantidadDeEmpaque: string | number;
   cantidadPorEmpaque: string | number;

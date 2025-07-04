@@ -1,144 +1,95 @@
-/* modal programar pedidos */
-  .modal-overlay-order {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-content-order {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
-  }
-  
-  .modal-content-order h2 {
-    margin-bottom: 1rem;
-  }
-  
-  .modal-content-order label {
-    display: block;
-    margin: 0.5rem 0 0.2rem;
-  }
-  
-  .modal-content-order select,
-  .modal-content-order input {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border-radius: 6px;  
-  }
-  .modal-content-order textarea{
-    width: 494px;    
-    margin-bottom: 1rem;
-  }
-  .modal-buttons-order {
-    display: flex;
-    justify-content: end;
-    gap: 0.5rem;
-  }
-  
-  
-  .btn-whatsapp {
-    background-color: white;
-    color: #08c74e;
-    padding: 0.4rem 1rem;
-    border-radius: 6px;
-    text-decoration: none;
-    border: 1px solid #08c74e;
-    margin-right: 219px;    
-  }
-  
-.btn-order {
-    padding: 0.5rem 0.6rem;    
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;        
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    color: #fff;
-    border: 1px solid #007bff;        
-  }
-    
-  .btn-secondary {
-    background-color: #fff;    
-    border: 1px solid #ccc;
-    
-  }
-
- /* fin modal programar pedidos */
-
- /* fila de medicamento dinámico */
-.medication-row {
+/* Fondo oscuro difuminado */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem; 
+  z-index: 999;
 }
 
-/* inputs de medicamento: nombre y cantidad */
-.medication-row input[type="text"],
-.medication-row input[type="number"] {
-  flex: 1;
-  padding: 0.4rem;
+/* Contenedor del modal */
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  width: 320px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease-in-out;
+  text-align: center;
 }
 
-/* botón para eliminar un medicamento */
-.btn-delete {
-  /* border: none; */
-  padding: 0.4rem 0.7rem;
-  border-radius: 6px;
-  font-weight: bold;
+/* Título del modal */
+.modal-title {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Select del estado */
+.modal-select {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+/* Botones */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.btn-confirm {
+  background-color: #007bff;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  margin-bottom: 1rem;
-  border: 1px solid #be0b0e;
+  transition: background 0.2s ease;
 }
 
-.btn-delete:hover {
-  background-color: #d9363e;
+.btn-confirm:hover {
+  background-color: #086dda;
 }
 
-/* botón agregar medicamento */
-.btn-order.btn-agregar-med {
-  margin-bottom: 1rem;
-  background-color: #fff;    
-  border: 1px solid #ccc;  
-}
-.btn-agregar-med:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-
-/* deshabilitar enlace de whatsapp si no hay datos */
-.btn-whatsapp[disabled] {
-  pointer-events: none;
-  opacity: 0.5;
+.btn-cancel {
+  background-color: white;
+  
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-/* scroll interno al modal si crece demasiado */
-.order-modal {
-  max-height: 80vh;  
-  overflow-y: auto;
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* mejora visual del scrollbar */
-.order-modal::-webkit-scrollbar {
-  width: 8px;
-}
-
-.order-modal::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
+.mensaje-exito {
+  margin-bottom: 16px;
+  color: green;
+  background-color: #e7ffe7;
+  padding: 10px;
   border-radius: 4px;
-}
-
-.Table {
-  margin-top: 10px;
 }
