@@ -74,3 +74,17 @@ export async function changePassword(id: number, newPassword: string) {
   });
   return response.data;
 }
+
+export const registerUser = async (payload: {
+  email: string;
+  password: string;
+  role: string;
+}) => {
+  try {
+    const response = await ApiFarmaNova.post("/auth/register", payload);
+    return response.data;
+  } catch (error) {
+    console.error("Error registrando usuario:", error);
+    throw error;
+  }
+};

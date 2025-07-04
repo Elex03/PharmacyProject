@@ -1,8 +1,23 @@
 /* src/app/settings/components/GeneralSettings.css */
 
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
 .user-table-container {
   padding: 10px;
-  max-width: 800px;
+  max-width: 100%;
 }
 
 .user-table {

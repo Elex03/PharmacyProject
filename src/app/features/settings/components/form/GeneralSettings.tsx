@@ -1,23 +1,27 @@
-// src/app/settings/components/GeneralSettings.tsx
 import { useEffect, useState } from "react";
-import {
-  getUsers,
-  deleteUser,
-  updateUser,
-  changePassword,
-} from "../../../../shared/api/services/General";
-import { LuTrash2, LuPencil, LuKeyRound } from "react-icons/lu";
+import { Table } from "../../../../shared/components/layout/Table/Table";
+import { getUsers } from "../../../../shared/api/services/General";
+import "../../../../shared/components/layout/Table/Table.css";
+import "../../../../shared/styles/shared.css";
+import { useModal } from "../../../inventory/hooks/useInventoryState";
+import EditUserModal from "./EditUserModal";
+import CreateUserModal from "./CreateUserModal";
 import "./GeneralSettings.css";
 
 interface User {
   id: number;
   email: string;
   role: string;
+  createdAt?: string;
 }
 
 export default function GeneralSettings() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+
+  const editModal = useModal();
+  const createModal = useModal();
 
   useEffect(() => {
     fetchUsers();
@@ -34,43 +38,25 @@ export default function GeneralSettings() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!confirm("¿Eliminar este usuario?")) return;
-    try {
-      await deleteUser(id);
-      alert("Usuario eliminado correctamente.");
-      fetchUsers();
-    } catch (error) {
-      console.error("Error al eliminar usuario:", error);
-      alert("Error al eliminar usuario.");
-    }
+  const onOpenEditModal = (id: number) => {
+    setSelectedUserId(id);
+    editModal.onOpen();
   };
 
-  const handleUpdate = async (id: number) => {
-    const email = prompt("Nuevo correo:");
-    const role = prompt("Nuevo rol (ADMINISTRADOR o EMPLEADO):");
-    if (!email || !role) return;
+  const headers = [
+    { header: "ID", key: "id" },
+    { header: "Correo", key: "email" },
+    { header: "Rol", key: "role" },
+  ];
 
-    try {
-      await updateUser(id, { email, role });
-      alert("Usuario actualizado.");
-      fetchUsers();
-    } catch {
-      alert("Error al actualizar usuario.");
-    }
-  };
+  const tableData: Record<string, unknown>[] = users.map((user) => ({
+    id: user.id,
+    email: user.email,
+    role: user.role,
+  }));
 
-  const handleChangePassword = async (id: number) => {
-    const newPassword = prompt("Nueva contraseña:");
-    if (!newPassword) return;
-
-    try {
-      await changePassword(id, newPassword);
-      alert("Contraseña cambiada.");
-    } catch {
-      alert("Error al cambiar contraseña.");
-    }
-  };
+  // Encuentra el usuario seleccionado para pasarlo al modal
+  const selectedUser = users.find((user) => user.id === selectedUserId) || null;
 
   if (loading) return <p>Cargando usuarios...</p>;
   if (!users.length) return <p>No hay usuarios para mostrar.</p>;
@@ -78,45 +64,33 @@ export default function GeneralSettings() {
   return (
     <div className="user-table-container">
       <h2>Lista de Usuarios</h2>
-      <table className="user-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(({ id, email, role }) => (
-            <tr key={id}>
-              <td>{id}</td>
-              <td>{email}</td>
-              <td>{role}</td>
-              <td>
-                <button
-                  className="icon-btn edit"
-                  onClick={() => handleUpdate(id)}
-                >
-                  <LuPencil />
-                </button>
-                <button
-                  className="icon-btn delete"
-                  onClick={() => handleDelete(id)}
-                >
-                  <LuTrash2 />
-                </button>
-                <button
-                  className="icon-btn password"
-                  onClick={() => handleChangePassword(id)}
-                >
-                  <LuKeyRound />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+      <button
+        onClick={createModal.onOpen}
+        className="btn-primary"
+        style={{ marginBottom: "1rem" }}
+      >
+        + Nuevo Usuario
+      </button>
+
+      <Table
+        columns={headers}
+        data={tableData}
+        itemsPerPage={10}
+        linkColumn={{
+          label: "✏️ Editar",
+          path: "/usuario",
+          idKey: "id",
+          type: "modal",
+        }}
+        onOpenModal={onOpenEditModal}
+      />
+
+      {editModal.isOpen && selectedUser && (
+        <EditUserModal user={selectedUser} onClose={editModal.onClose} />
+      )}
+
+      {createModal.isOpen && <CreateUserModal onClose={createModal.onClose} />}
     </div>
   );
 }
