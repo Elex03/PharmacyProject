@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({
           justifyContent: "flex-end",  // corregido
           alignItems: "center",
           width: "100%",
-          backgroundColor: "black",
+          backgroundColor: "#E9E9E9",
           height: "74px",
           margin: 0,
           position: "relative",        // o "sticky" si quieres que se quede al hacer scroll
@@ -73,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                color: "#fff",
+                color: "#545454",
               }}
               onClick={openModal}
               aria-label="Abrir notificaciones"
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                color: "#fff",
+                color: "#545454",
               }}
               onClick={openTour}
               aria-label="Iniciar recorrido"

@@ -1,6 +1,9 @@
 import React from "react";
 import { useFetchSymptoms } from "../../../../features/inventory/hooks/useMedicineForm";
 import DispositivoConBoton from "./DispositivoButton";
+import "./Action.css";
+
+
 
 interface InventoryActionsProps {
   sortOrder: string;
@@ -36,33 +39,11 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
   handleSort,
 }) => {
   const { symptoms } = useFetchSymptoms();
+
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-        marginTop: "20px",
-      }}
-      className="step-actions"
-    >
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            padding: "0 10px",
-          }}
-        >
+    <div className="step-actions">
+      <div className="actions-container">
+        <div className="filters">
           {filterBySymptom ? (
             <select className="filter-dropdown step-syntomps" onChange={handleSymptomChange}>
               <option value="">Filtrar por síntoma</option>
@@ -104,38 +85,31 @@ const LayoutActions: React.FC<InventoryActionsProps> = ({
             onChange={handleSearch}
           />
         </div>
-        <div style={{ padding: "0 10px" }}>
-          <div style={{ gap: 10, display: "flex" }}>
-            {enableSecondButton && (
-              <button
-                className="button-action"
-                style={{ backgroundColor: "white", color: "black" }}
-                onClick={onOpenSecondModal}
-              >
-                Devolver producto
-              </button>
-            )}
 
-            {linkButton?.type === "link" && (
-              <a
-                href={`/${linkButton.to}`}
-                className="link"
-                style={{ textDecoration: "none" }}
-              >
-                <button className="button-action">
-                  {linkButton.ButtonLabel}
-                </button>
-              </a>
-            )}
+        <div className="buttons">
+          {enableSecondButton && (
+            <button
+              className="button-action"
+              style={{ backgroundColor: "white", color: "black" }}
+              onClick={onOpenSecondModal}
+            >
+              Devolver producto
+            </button>
+          )}
 
-            {linkButton?.type === "modal" && (
-              <button className="button-action" onClick={onOpenModal}>
-                {linkButton.ButtonLabel}
-              </button>
-            )}
+          {linkButton?.type === "link" && (
+            <a href={`/${linkButton.to}`} className="link" style={{ textDecoration: "none" }}>
+              <button className="button-action">{linkButton.ButtonLabel}</button>
+            </a>
+          )}
 
-            {linkButton?.type === "scanner" && <DispositivoConBoton />}
-          </div>
+          {linkButton?.type === "modal" && (
+            <button className="button-action" onClick={onOpenModal}>
+              {linkButton.ButtonLabel}
+            </button>
+          )}
+
+          {linkButton?.type === "scanner" && <DispositivoConBoton />}
         </div>
       </div>
     </div>

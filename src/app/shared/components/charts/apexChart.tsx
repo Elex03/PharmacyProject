@@ -1,23 +1,22 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { ResponsiveContainer } from "recharts";
-// import { ResponsiveContainer } from "recharts";
 
-// Tipado para cada barra
 interface DataPoint {
   descripcion: string;
   cantidad: number;
 }
 
-// Props del componente
 interface ApexChartProps {
   data: DataPoint[];
-  horizontal?: boolean; // opcional, por defecto es vertical (false)
+  horizontal?: boolean;
 }
 
 const ApexChart: React.FC<ApexChartProps> = ({ data, horizontal = false }) => {
   const truncateLabel = (val: string) =>
     val.length > 10 ? val.substring(0, 10) + "…" : val;
+
+  const colors = ["#AADAE0", "#26A0FC"];
 
   const chartState = {
     series: [
@@ -47,6 +46,13 @@ const ApexChart: React.FC<ApexChartProps> = ({ data, horizontal = false }) => {
         bar: {
           borderRadius: 4,
           horizontal: horizontal,
+          colors: {
+            ranges: data.map((_, i) => ({
+              from: i,
+              to: i,
+              color: colors[i % colors.length], // asigna colores cíclicos
+            })),
+          },
         },
       },
       dataLabels: {
@@ -54,18 +60,12 @@ const ApexChart: React.FC<ApexChartProps> = ({ data, horizontal = false }) => {
       },
       xaxis: horizontal
         ? {
-            title: {
-              text: "Cantidad",
-            },
+            title: { text: "Cantidad" },
           }
         : {
             categories: data.map((item) => item.descripcion || "Producto"),
-            labels: {
-              formatter: truncateLabel,
-            },
-            title: {
-              text: "Medicamentos",
-            },
+            labels: { formatter: truncateLabel },
+            title: { text: "Medicamentos" },
           },
       yaxis: horizontal
         ? {
@@ -76,17 +76,14 @@ const ApexChart: React.FC<ApexChartProps> = ({ data, horizontal = false }) => {
                 return truncateLabel(label);
               },
             },
-            title: {
-              text: "Medicamentos",
-            },
+            title: { text: "Medicamentos" },
           }
         : {
-            title: {
-              text: "Cantidad",
-            },
+            title: { text: "Cantidad" },
           },
     },
   };
+
   return (
     <ResponsiveContainer>
       <ReactApexChart
