@@ -16,7 +16,10 @@ const Layout: React.FC<LayoutProps> = ({ title, children, headerButton = false }
         <div style={{ alignSelf: "flex-start", width: "100%" }}>
           <Header title={title} size={"38px"} headerButton={headerButton} />
         </div>
+        <div style={{margin: 0, padding: 0, backgroundColor: "#fff", height: "100dvh", width: "100%", borderRadius: 20}}>
         {children}
+
+        </div>
       </div>
     </div>
   );

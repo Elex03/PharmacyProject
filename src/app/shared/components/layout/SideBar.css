@@ -8,7 +8,6 @@
   font-family: 'Inter', sans-serif;
   transition: width 0.3s ease;
   overflow: hidden;
-  
 }
 
 /* HEADER fijo (no se colapsa) */
@@ -70,7 +69,7 @@
   color: #fff;
   font-size: 22px;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 
@@ -141,20 +140,15 @@
   background-color: #2b0000;
 }
 
-
-/* Ajuste del ancho total cuando se colapsa */
 .sidebar.collapsed {
   width: 0px;
 }
 
-
-/* Ocultar textos dentro del body (solo íconos visibles) */
 .sidebar.collapsed .sidebar-menu a span,
 .sidebar.collapsed .sidebar-footer a span {
   display: none;
 }
 
-/* Centrar íconos */
 .sidebar.collapsed .sidebar-menu a,
 .sidebar.collapsed .sidebar-footer a {
   justify-content: center;

@@ -39,7 +39,7 @@ const Distributors = () => {
     <div className="container-makeSale">
       <div className="main-content">
         <Layout title="Realizar venta">
-          <ToggleSection title="información">
+          <ToggleSection title="Realizar venta">
             <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
               Aquí puedes gestionar el inventario de productos farmacéuticos.
               <br />

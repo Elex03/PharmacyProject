@@ -52,12 +52,19 @@ export const Header: React.FC<HeaderProps> = ({
       <header
         style={{
           display: "flex",
-          justifyContent: "end",
+          justifyContent: "flex-end",  // corregido
           alignItems: "center",
           width: "100%",
+          backgroundColor: "black",
+          height: "74px",
+          margin: 0,
+          position: "relative",        // o "sticky" si quieres que se quede al hacer scroll
+          top: 0,                       // no moverlo con top negativo
+          paddingRight: "20px",         // si quieres espacio interno
         }}
+
       >
-       
+
         {headerButton && (
           <div style={{ position: "relative", display: "inline-block" }}>
             <button
@@ -66,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                color: "#000",
+                color: "#fff",
               }}
               onClick={openModal}
               aria-label="Abrir notificaciones"
@@ -93,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                color: "#000",
+                color: "#fff",
               }}
               onClick={openTour}
               aria-label="Iniciar recorrido"

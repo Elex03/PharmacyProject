@@ -62,7 +62,7 @@ const OrderHistory = () => {
       </div>
 
       <ToggleSection
-        title="información"
+        title="Historial de pedidos"
         onToggle={(visible) => setItemsPerPage(visible ? 5 : 10)}
       >
         <p style={{ fontSize: "0.8rem", marginLeft: 30 }}>

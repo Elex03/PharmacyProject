@@ -27,13 +27,14 @@ export function ToggleSection({
        <div
           style={{
             fontWeight: "bolder",
-            fontSize: "24px",
+            fontSize: "30px",
             flex: 1,
             textAlign: "left", 
-            marginTop: "20px"
+            marginTop: "20px",
+            paddingLeft: "10px"
           }}
         >
-          Distribuidores
+          {title}
         </div>
 
       <button

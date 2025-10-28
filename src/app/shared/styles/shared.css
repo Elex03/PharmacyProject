@@ -9,7 +9,7 @@
 }
 
 .container-page{
-  display: flex;
+  display: grid;
   height: 100vh;
   width: 100%;
 }
@@ -51,8 +51,8 @@
 }
 
 .page-container {
-  width: 95%;
-  margin: 20px auto;
+  width: 100%;
+  margin: auto auto;
   display: flex;
   align-items: center;
   flex-direction: column;

@@ -44,7 +44,7 @@ const Distributors = () => {
   const { distributorQuantity } = useFetchdistributorQuantity();
   return (
     <Layout title="Distribuidores" headerButton={true}>
-      <ToggleSection title="Información">
+      <ToggleSection title="Distribuidores">
         <p style={{ fontSize: "0.8rem", padding: "0 10px" }}>
           Administra de forma sencilla a los distribuidores de productos
           farmacéuticos desde esta sección.

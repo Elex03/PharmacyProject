@@ -2,7 +2,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 
-import Sidebar from "./shared/components/layout/sideBar";
+import Sidebar from "./shared/components/layout/sideBar.tsx";
 import "./routes.css";
 import "./shared/styles/shared.css";
 import CircularIndeterminate from "./shared/components/progress/CircularIndeterminate";

@@ -71,7 +71,7 @@ export default function Sidebar() {
         </nav>
 
         {/* FOOTER */}
-        <div className="sidebar-footer">
+        <div className="sidebar-footer sidebar-menu">
           {role === "ADMINISTRADOR" && (
             <SidebarLink
               to="/settings"
@@ -80,9 +80,10 @@ export default function Sidebar() {
             />
           )}
           <SidebarLink
+            to="/"
             icon={<LuLogOut />}
             label="Cerrar sesión"
-            onClick={handleLogout}
+            
             className="logout"
           />
         </div>
