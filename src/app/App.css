@@ -31,3 +31,27 @@ body {
   line-height: 1.5;
   position: fixed;
 }
+
+* {
+  scrollbar-width: thin;                  /* Firefox */
+  scrollbar-color: #b4c1d6 #fff;       /* Firefox: (pulgar, fondo) */
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #1e1e1e;    /* Fondo del track */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #b4c1d6; /* Color del pulgar */
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #b4c1d6; /* Hover */
+}

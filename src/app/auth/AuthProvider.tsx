@@ -11,7 +11,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<{ email: string; role: Role } | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true); // 👈 esto previene el auto-redireccionamiento
+  const [loading, setLoading] = useState(true); 
 
   const login = async (email: string, password: string) => {
     const { token, refreshToken, role } = await loginRequest(email, password);
@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(null);
     setToken(null);
     localStorage.clear();
-    sessionStorage.removeItem("initialized"); // 💥 fuerza que al volver a iniciar dev se limpie
+    sessionStorage.removeItem("initialized");
   };
 
   const refresh = useCallback(async () => {
@@ -78,8 +78,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [refresh]);
 
-  if (loading) return <div>Cargando sesión...</div>; // ⏳ evita mostrar contenido sin saber si hay login
-
+  if (loading) return <div>Cargando sesión...</div>; 
+  
   return (
     <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}

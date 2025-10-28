@@ -13,8 +13,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  title,
-  size = "24px",
+
   headerButton = false,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -53,22 +52,12 @@ export const Header: React.FC<HeaderProps> = ({
       <header
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "end",
           alignItems: "center",
           width: "100%",
         }}
       >
-        <div
-          style={{
-            fontWeight: "bolder",
-            fontSize: size,
-            flex: 1,
-            textAlign: "left",
-          }}
-        >
-          {title}
-        </div>
-
+       
         {headerButton && (
           <div style={{ position: "relative", display: "inline-block" }}>
             <button

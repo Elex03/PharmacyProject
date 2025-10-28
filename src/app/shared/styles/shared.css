@@ -56,6 +56,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .chart-container {

@@ -6,7 +6,6 @@ export interface LoginResponse {
   role: "ADMINISTRADOR" | "EMPLEADO";
 }
 
-// 1. Iniciar sesión
 export const loginRequest = async (
   email: string,
   password: string
@@ -18,7 +17,6 @@ export const loginRequest = async (
   return response.data;
 };
 
-// 2. Refrescar token
 export const refreshTokenRequest = async (refreshToken: string) => {
   try {
     const response = await FarmaNovaApi.post("/auth/refresh-token", {

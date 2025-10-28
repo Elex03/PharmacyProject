@@ -24,6 +24,18 @@ export function ToggleSection({
 
   return (
     <div style={{ width: "100%" }}>
+       <div
+          style={{
+            fontWeight: "bolder",
+            fontSize: "24px",
+            flex: 1,
+            textAlign: "left", 
+            marginTop: "20px"
+          }}
+        >
+          Distribuidores
+        </div>
+
       <button
         onClick={toggle}
         style={{
